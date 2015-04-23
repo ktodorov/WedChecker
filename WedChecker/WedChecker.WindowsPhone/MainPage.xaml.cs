@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using WedChecker.CustomControls;
 using WedChecker.Common;
+using System.Threading.Tasks;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -36,7 +37,7 @@ namespace WedChecker
         /// </summary>
         /// <param name="e">Event data that describes how this page was reached.
         /// This parameter is typically used to configure the page.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (Core.IsFirstLaunch())
             {
@@ -52,17 +53,22 @@ namespace WedChecker
             // this event is handled for you.
         }
 
-        private void GreetUser()
+        private async Task GreetUser()
         {
+            await Core.StartUp();
             LaunchControl ucFirstLaunch = new LaunchControl();
             ucFirstLaunch.SubmitButton.Click += SubmitButton_Click;
+            ucFirstLaunch.HeaderDialogTextBlock.Text = AppData.GetValue("firstLaunchFirstHeader");
+            ucFirstLaunch.TitleDialogTextBlock.Text = AppData.GetValue("firstLaunchFirstTitle");
+            ucFirstLaunch.DialogTextBlock.Text = AppData.GetValue("firstLaunchFirstDialog");
             MainGrid.Visibility = Visibility.Collapsed;
             this.Content = ucFirstLaunch;
         }
 
         void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Content = MainGrid;
+            // sender
+            int a = 0;
         }
     }
 }

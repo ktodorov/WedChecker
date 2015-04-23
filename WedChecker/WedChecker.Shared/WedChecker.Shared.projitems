@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Common\AppData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Core.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\LaunchControl.xaml.cs">
       <DependentUpon>LaunchControl.xaml</DependentUpon>

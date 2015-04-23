@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace WedChecker.Common
 {
     public static class Core
     {
-        public static ApplicationDataContainer Settings
+        public static ApplicationDataContainer LocalSettings
         {
             get
             {
@@ -15,17 +16,31 @@ namespace WedChecker.Common
             }
         }
 
-        public static bool IsFirstLaunch()
+        public static Windows.Storage.StorageFolder LocalFolder
         {
-            return !Settings.Values.ContainsKey("first");
-        }
-
-        public static void StartUp()
-        {
-            if (IsFirstLaunch())
+            get
             {
-                Settings.Values["first"] = true;
+                return Windows.Storage.ApplicationData.Current.LocalFolder;
             }
         }
+
+        public static ApplicationDataContainer RoamingSettings
+        {
+            get
+            {
+                return Windows.Storage.ApplicationData.Current.RoamingSettings;
+            }
+        }
+
+        public static bool IsFirstLaunch()
+        {
+            return !RoamingSettings.Values.ContainsKey("first");
+        }
+
+        public static async Task StartUp()
+        {
+            await AppData.SetDataFile();
+        }
+
     }
 }
