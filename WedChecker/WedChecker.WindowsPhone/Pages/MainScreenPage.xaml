@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="WedChecker.Pages.MainScreen"
+    x:Class="WedChecker.Pages.MainScreenPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:WedChecker.Pages"
@@ -9,7 +9,12 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid x:Name="LayoutRoot">
-
+        <Grid.Transitions>
+            <TransitionCollection>
+                <EdgeUIThemeTransition/>
+            </TransitionCollection>
+        </Grid.Transitions>
+        
         <Grid.ChildrenTransitions>
             <TransitionCollection>
                 <ReorderThemeTransition/>

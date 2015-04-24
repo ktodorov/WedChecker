@@ -38,26 +38,25 @@ namespace WedChecker
         /// </summary>
         /// <param name="e">Event data that describes how this page was reached.
         /// This parameter is typically used to configure the page.</param>
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (Core.IsFirstLaunch())
+            Loaded += async (sender, args) => 
             {
-                await GreetUser();
-            }
-
-            // TODO: Prepare page for display here.
-
-            // TODO: If your application contains multiple pages, ensure that you are
-            // handling the hardware Back button by registering for the
-            // Windows.Phone.UI.Input.HardwareButtons.BackPressed event.
-            // If you are using the NavigationHelper provided by some templates,
-            // this event is handled for you.
+                if (Core.IsFirstLaunch())
+                {
+                    await GreetUser();
+                    Core.RoamingSettings.Values["first"] = true;
+                }
+                else
+                {
+                    Frame.Navigate(typeof(MainScreenPage));
+                }
+            };
         }
 
         private async Task GreetUser()
         {
             await Core.StartUp();
-            spMain.Visibility = Visibility.Visible;
             SubmitButton.Click += SubmitButton_Click;
             HeaderDialogTextBlock.Text = AppData.GetValue("firstLaunchFirstHeader");
             TitleDialogTextBlock.Text = AppData.GetValue("firstLaunchFirstTitle");
@@ -71,15 +70,32 @@ namespace WedChecker
 
         private void CheckForAdvancement()
         {
-            Core.RoamingSettings.Values["Name"] = NameTextBox.Text;
-
             var timesProcessed = Convert.ToInt32(TimesProcessed.Text);
+            
+            
+            if (timesProcessed == 0)
+            {
+                Core.RoamingSettings.Values["Name"] = NameTextBox.Text;
+                NameTextBox.Visibility = Visibility.Collapsed;
+                dpWeddingDate.Visibility = Visibility.Visible;
+                
+                HeaderDialogTextBlock.Visibility = Visibility.Collapsed;
+                TitleDialogTextBlock.Visibility = Visibility.Collapsed;
+                DialogTextBlock.Text = AppData.GetValue("firstLaunchSecondDialog");
+                
+                Frame.Navigate(typeof(MainPage));
+            }
+            else if (timesProcessed == 1)
+            {
+                Core.RoamingSettings.Values["WeddingDate"] = dpWeddingDate.Date;
+            }
+
             timesProcessed++;
             TimesProcessed.Text = timesProcessed.ToString();
 
-            if (timesProcessed == 1)
+            if (timesProcessed >= 2)
             {
-                Frame.Navigate(typeof(MainScreen));
+                Frame.Navigate(typeof(MainScreenPage));
             }
         }
     }

@@ -7,22 +7,36 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-   
-    <StackPanel Name="spMain" Orientation="Vertical" VerticalAlignment="Center" Visibility="Collapsed">
-        <StackPanel.ChildrenTransitions>
-            <TransitionCollection>
-                <EntranceThemeTransition >
-                </EntranceThemeTransition>
-            </TransitionCollection>
-        </StackPanel.ChildrenTransitions>
-        <TextBlock x:Name="HeaderDialogTextBlock" x:FieldModifier="public" FontSize="25" TextWrapping="Wrap" Margin="25, 0, 25, 0"
+
+    <Grid VerticalAlignment="Center" Background="{ThemeResource ContentDialogBackgroundThemeBrush}">
+        <Border BorderBrush="Black" BorderThickness="0, 1, 0, 1">
+            
+        </Border>
+        <StackPanel Name="spMain" Orientation="Vertical" VerticalAlignment="Center" Margin="30, 70, 30, 25">
+            <StackPanel.Transitions>
+                <TransitionCollection>
+                    <EdgeUIThemeTransition/>
+                </TransitionCollection>
+            </StackPanel.Transitions>
+            <StackPanel.ChildrenTransitions>
+                <TransitionCollection>
+                    <EdgeUIThemeTransition >
+                    </EdgeUIThemeTransition>
+                </TransitionCollection>
+            </StackPanel.ChildrenTransitions>
+            <TextBlock x:Name="HeaderDialogTextBlock" FontSize="25" TextWrapping="Wrap" 
                    Text="Header" Style="{StaticResource TextBlockClearStyle}" Foreground="{StaticResource PhoneAccentBrush}"/>
-        <TextBlock x:Name="TitleDialogTextBlock" x:FieldModifier="public" FontSize="27" TextWrapping="Wrap" Margin="25, 0, 25, 25"
+            <TextBlock x:Name="TitleDialogTextBlock" FontSize="27" TextWrapping="Wrap" Margin="0, 0, 0, 25"
                    Text="Title" Style="{StaticResource TextBlockClearStyle}" FontWeight="Bold" Foreground="{StaticResource TextBoxButtonForegroundThemeBrush}"/>
-        <TextBlock x:Name="DialogTextBlock" x:FieldModifier="public" FontSize="18" TextWrapping="Wrap" Margin="25, 0, 25, 50"
+            <TextBlock x:Name="DialogTextBlock" FontSize="18" TextWrapping="Wrap" Margin="0, 0, 0, 50"
                    Text="Text dialog" Style="{StaticResource TextBlockClearStyle}"/>
-        <TextBox x:Name="NameTextBox" x:FieldModifier="public" Margin="50, 0, 50, 0" Height="50" TextWrapping="Wrap" Text="Name" Style="{StaticResource TextBoxClearStyle}"/>
-        <Button x:Name="SubmitButton" x:FieldModifier="public" Content="NEXT" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource ButtonClearStyle}"/>
-        <TextBlock x:Name="TimesProcessed" x:FieldModifier="public" Visibility="Collapsed" Text="0"/>
-    </StackPanel>
+
+            <StackPanel>
+                <TextBox x:Name="NameTextBox" Height="50" TextWrapping="Wrap" Text="Name" Style="{StaticResource TextBoxClearStyle}"/>
+                <DatePicker x:Name="dpWeddingDate" Width="300" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                <Button x:Name="SubmitButton" Content="NEXT" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource ButtonClearStyle}"/>
+            </StackPanel>
+            <TextBlock x:Name="TimesProcessed" Visibility="Collapsed" Text="0"/>
+        </StackPanel>
+    </Grid>
 </Page>

@@ -23,12 +23,12 @@ namespace WedChecker.Pages
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainScreen : Page
+    public sealed partial class MainScreenPage : Page
     {
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
 
-        public MainScreen()
+        public MainScreenPage()
         {
             this.InitializeComponent();
 

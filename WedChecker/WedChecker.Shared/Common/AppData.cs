@@ -22,7 +22,7 @@ namespace WedChecker.Common
             LocalAppData["firstLaunchFirstTitle"] = "WedChecker";
             LocalAppData["firstLaunchFirstDialog"] = "No doubt we will make a wonderful wedding.\nCan I know your name first?\nIt will help me to know you better.";
 
-            LocalAppData["firstLaunchSecondHeader"] = "Great!\n Let's start now...";
+            LocalAppData["firstLaunchSecondDialog"] = "Great!\n Okay, when is your wedding?";
         }
 
         public static string EncodeDataToString()
@@ -66,24 +66,6 @@ namespace WedChecker.Common
             }
 
             return null;
-        }
-
-        public static async Task SetDataFile()
-        {
-
-            StorageFile sampleFile = await Core.LocalFolder.CreateFileAsync("dataFile.txt", CreationCollisionOption.OpenIfExists);
-
-            if ((sampleFile.DateCreated - DateTime.Now).TotalMinutes < 1)
-            {
-                var encodedData = EncodeDataToString();
-
-                await FileIO.WriteTextAsync(sampleFile, encodedData);
-            }
-            else
-            {
-                string dataFile = await Windows.Storage.FileIO.ReadTextAsync(sampleFile);
-                DecodeDataFromString(dataFile);
-            }
         }
 
         public static async Task WriteDataFile()
