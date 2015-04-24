@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using WedChecker.CustomControls;
 using WedChecker.Common;
+using WedChecker.Pages;
 using System.Threading.Tasks;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -41,7 +42,7 @@ namespace WedChecker
         {
             if (Core.IsFirstLaunch())
             {
-                GreetUser();
+                await GreetUser();
             }
 
             // TODO: Prepare page for display here.
@@ -56,19 +57,30 @@ namespace WedChecker
         private async Task GreetUser()
         {
             await Core.StartUp();
-            LaunchControl ucFirstLaunch = new LaunchControl();
-            ucFirstLaunch.SubmitButton.Click += SubmitButton_Click;
-            ucFirstLaunch.HeaderDialogTextBlock.Text = AppData.GetValue("firstLaunchFirstHeader");
-            ucFirstLaunch.TitleDialogTextBlock.Text = AppData.GetValue("firstLaunchFirstTitle");
-            ucFirstLaunch.DialogTextBlock.Text = AppData.GetValue("firstLaunchFirstDialog");
-            MainGrid.Visibility = Visibility.Collapsed;
-            this.Content = ucFirstLaunch;
+            spMain.Visibility = Visibility.Visible;
+            SubmitButton.Click += SubmitButton_Click;
+            HeaderDialogTextBlock.Text = AppData.GetValue("firstLaunchFirstHeader");
+            TitleDialogTextBlock.Text = AppData.GetValue("firstLaunchFirstTitle");
+            DialogTextBlock.Text = AppData.GetValue("firstLaunchFirstDialog");
         }
 
         void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
-            // sender
-            int a = 0;
+            CheckForAdvancement();
+        }
+
+        private void CheckForAdvancement()
+        {
+            Core.RoamingSettings.Values["Name"] = NameTextBox.Text;
+
+            var timesProcessed = Convert.ToInt32(TimesProcessed.Text);
+            timesProcessed++;
+            TimesProcessed.Text = timesProcessed.ToString();
+
+            if (timesProcessed == 1)
+            {
+                Frame.Navigate(typeof(MainScreen));
+            }
         }
     }
 }

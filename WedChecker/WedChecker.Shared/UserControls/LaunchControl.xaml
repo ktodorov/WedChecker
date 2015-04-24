@@ -8,21 +8,4 @@
     mc:Ignorable="d"
     VerticalAlignment="Stretch"
     HorizontalAlignment="Stretch">
-
-    <StackPanel Name="spMain" Orientation="Vertical" VerticalAlignment="Center">
-        <StackPanel.ChildrenTransitions>
-            <TransitionCollection>
-                <EntranceThemeTransition >
-                </EntranceThemeTransition>
-            </TransitionCollection>
-        </StackPanel.ChildrenTransitions>
-        <TextBlock x:Name="HeaderDialogTextBlock" x:FieldModifier="public" FontSize="25" TextWrapping="Wrap" Margin="25, 0, 25, 0"
-                   Text="Header" Style="{StaticResource TextBlockClearStyle}" Foreground="{StaticResource PhoneAccentBrush}"/>
-        <TextBlock x:Name="TitleDialogTextBlock" x:FieldModifier="public" FontSize="27" TextWrapping="Wrap" Margin="25, 0, 25, 25"
-                   Text="Title" Style="{StaticResource TextBlockClearStyle}" FontWeight="Bold" Foreground="{StaticResource TextBoxButtonForegroundThemeBrush}"/>
-        <TextBlock x:Name="DialogTextBlock" x:FieldModifier="public" FontSize="18" TextWrapping="Wrap" Margin="25, 0, 25, 50"
-                   Text="Text dialog" Style="{StaticResource TextBlockClearStyle}"/>
-        <TextBox x:Name="NameTextBox" x:FieldModifier="public" Margin="50, 0, 50, 0" Height="50" TextWrapping="Wrap" Text="Name" Style="{StaticResource TextBoxClearStyle}"/>
-        <Button x:Name="SubmitButton" x:FieldModifier="public" Content="NEXT" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource ButtonClearStyle}"/>
-    </StackPanel>
 </UserControl>

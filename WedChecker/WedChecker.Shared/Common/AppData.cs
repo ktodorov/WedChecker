@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -9,25 +10,37 @@ namespace WedChecker.Common
 {
     public static class AppData
     {
-        private static Dictionary<string, string> appData;
-        private static Dictionary<string, string> localAppData;
+        private static Dictionary<string, string> LocalAppData
+        {
+            get;
+            set;
+        }
 
         public static void PopulateAppData()
         {
-            appData["firstLaunchFirstHeader"] = "Hello,\nwelcome to";
-            appData["firstLaunchFirstTitle"] = "WedChecker";
-            appData["firstLaunchFirstDialog"] = "No doubt we will make a wonderful wedding.\nCan I know your name first?\nIt will help me to know you better.";
+            LocalAppData["firstLaunchFirstHeader"] = "Hello,\nwelcome to";
+            LocalAppData["firstLaunchFirstTitle"] = "WedChecker";
+            LocalAppData["firstLaunchFirstDialog"] = "No doubt we will make a wonderful wedding.\nCan I know your name first?\nIt will help me to know you better.";
 
-            appData["firstLaunchSecondHeader"] = "Great!\n Let's start now...";
+            LocalAppData["firstLaunchSecondHeader"] = "Great!\n Let's start now...";
         }
 
         public static string EncodeDataToString()
         {
+            if (LocalAppData == null)
+            {
+                LocalAppData = new Dictionary<string, string>();
+            }
+
+            if (LocalAppData.Count == 0)
+            {
+                PopulateAppData();
+            }
             var result = string.Empty;
 
-            foreach (var key in appData.Keys)
+            foreach (var key in LocalAppData.Keys)
             {
-                result += string.Format("<<{0}><{1}>>", key, appData[key]);
+                result += string.Format("<<{0}><{1}>>", key, LocalAppData[key]);
             }
 
             return result;
@@ -41,15 +54,15 @@ namespace WedChecker.Common
             {
                 string key = Regex.Match(keyValuePairs[i].Value, @"\<([^)]*)\>").Groups[1].Value;
                 string value = Regex.Match(keyValuePairs[i].Value, @"\<([^)]*)\>").Groups[2].Value;
-                localAppData[key] = value;
+                LocalAppData[key] = value;
             }
         }
 
         public static string GetValue(string key)
         {
-            if (localAppData.ContainsKey(key))
+            if (LocalAppData.ContainsKey(key))
             {
-                return localAppData[key];
+                return LocalAppData[key];
             }
 
             return null;
@@ -58,15 +71,10 @@ namespace WedChecker.Common
         public static async Task SetDataFile()
         {
 
-            StorageFile sampleFile = await Core.LocalFolder.CreateFileAsync("dataFile.txt", CreationCollisionOption.ReplaceExisting);
+            StorageFile sampleFile = await Core.LocalFolder.CreateFileAsync("dataFile.txt", CreationCollisionOption.OpenIfExists);
 
             if ((sampleFile.DateCreated - DateTime.Now).TotalMinutes < 1)
             {
-                if (appData.Count == 0)
-                {
-                    PopulateAppData();
-                }
-
                 var encodedData = EncodeDataToString();
 
                 await FileIO.WriteTextAsync(sampleFile, encodedData);
@@ -76,6 +84,48 @@ namespace WedChecker.Common
                 string dataFile = await Windows.Storage.FileIO.ReadTextAsync(sampleFile);
                 DecodeDataFromString(dataFile);
             }
+        }
+
+        public static async Task WriteDataFile()
+        {
+            var encodedData = EncodeDataToString();
+            var fileName = "dataFile.txt";
+
+            byte[] data = Encoding.UTF8.GetBytes(encodedData);
+
+            StorageFolder folder = ApplicationData.Current.LocalFolder;
+            StorageFile file = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+
+            if ((file.DateCreated - DateTime.Now).TotalMinutes > 1)
+            {
+                return;
+            }
+
+            using (Stream s = await file.OpenStreamForWriteAsync())
+            {
+                await s.WriteAsync(data, 0, data.Length);
+            }
+        }
+
+        public static async Task<string> ReadDataFile()
+        {
+            var fileName = "dataFile.txt";
+
+            byte[] data;
+
+            StorageFolder folder = ApplicationData.Current.LocalFolder;
+
+            await WriteDataFile();
+
+            var file = await folder.GetFileAsync(fileName);
+
+            using (Stream s = await file.OpenStreamForReadAsync())
+            {
+                data = new byte[s.Length];
+                await s.ReadAsync(data, 0, (int)s.Length);
+            }
+
+            return Encoding.UTF8.GetString(data, 0, data.Length);
         }
     }
 }

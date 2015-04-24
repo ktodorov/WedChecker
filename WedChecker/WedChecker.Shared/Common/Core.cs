@@ -39,7 +39,7 @@ namespace WedChecker.Common
 
         public static async Task StartUp()
         {
-            await AppData.SetDataFile();
+            await AppData.ReadDataFile();
         }
 
     }
