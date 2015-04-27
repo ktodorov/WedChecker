@@ -89,15 +89,12 @@ namespace WedChecker
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
 
-            Core.RoamingSettings.Values["first"] = false;
+            Core.RoamingSettings.Values["first"] = false; // debug
             Loaded += async (sender, args) => 
             {
                 if (Core.IsFirstLaunch())
                 {
                     await firstLaunchPopup.GreetUser();
-                    firstLaunchPopup.Height = Window.Current.Bounds.Height;
-                    firstLaunchPopup.Width = Window.Current.Bounds.Width;
-                    firstLaunchPopup.TimesProcessed.SelectionChanged += TimesProcessed_SelectionChanged;
                 }
                 else
                 {
@@ -107,13 +104,6 @@ namespace WedChecker
             };
         }
 
-        void TimesProcessed_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            appBar.Visibility = Visibility.Visible;
-            tbGreetUser.Text = string.Format("Hello, {0}", Core.RoamingSettings.Values["Name"]);
-        }
-
-        
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             this.navigationHelper.OnNavigatedFrom(e);

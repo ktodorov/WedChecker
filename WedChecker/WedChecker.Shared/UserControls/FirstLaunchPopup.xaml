@@ -19,7 +19,7 @@
                 <EdgeUIThemeTransition Edge="Right"/>
             </TransitionCollection>
         </StackPanel.ChildTransitions>-->
-        <StackPanel Name="spMain" Orientation="Vertical" Background="White">
+        <StackPanel Name="spMain" Orientation="Vertical" Background="White" Margin="25, 0, 25, 0">
             <StackPanel.Transitions>
                 <TransitionCollection>
                     <EdgeUIThemeTransition/>
@@ -39,11 +39,11 @@
                    Text="Text dialog" Style="{StaticResource TextBlockClearStyle}"/>
 
             <StackPanel>
-                <TextBox x:Name="NameTextBox" Height="50" TextWrapping="Wrap" Text="Name" Style="{StaticResource TextBoxClearStyle}"/>
+                <TextBox x:Name="NameTextBox" Height="50" Margin="50, 0, 50, 0" TextWrapping="Wrap" Text="Name" Style="{StaticResource TextBoxClearStyle}"/>
                 <DatePicker x:Name="dpWeddingDate" Width="300" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                 <Button x:Name="SubmitButton" Content="NEXT" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource ButtonClearStyle}"/>
             </StackPanel>
-            <TextBlock x:Name="TimesProcessed" x:FieldModifier="Public" Visibility="Collapsed" Text="0"/>
+            <TextBox x:Name="TimesProcessed" x:FieldModifier="Public" Visibility="Collapsed" Text="0"/>
         </StackPanel>
     </StackPanel>
 </UserControl>

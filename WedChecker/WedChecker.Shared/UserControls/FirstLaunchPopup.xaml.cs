@@ -31,7 +31,6 @@ namespace WedChecker.CustomControls
             HeaderDialogTextBlock.Text = AppData.GetValue("firstLaunchFirstHeader");
             TitleDialogTextBlock.Text = AppData.GetValue("firstLaunchFirstTitle");
             DialogTextBlock.Text = AppData.GetValue("firstLaunchFirstDialog");
-            //popup.IsOpen = true;
             popup.Visibility = Visibility.Visible;
         }
 
@@ -64,7 +63,13 @@ namespace WedChecker.CustomControls
 
             if (timesProcessed >= 2)
             {
-                //popup.IsOpen = false;
+                var grid = this.Parent as Grid;
+                var appBar = grid.FindName("appBar") as AppBar;
+                appBar.Visibility = Visibility.Visible;
+
+                var tbGreetUser = grid.FindName("tbGreetUser") as TextBlock;
+                tbGreetUser.Text = string.Format("Hello, {0}", Core.RoamingSettings.Values["Name"]);
+
                 popup.Visibility = Visibility.Collapsed;
                 Core.RoamingSettings.Values["first"] = true;
             }
