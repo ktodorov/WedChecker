@@ -1,0 +1,49 @@
+﻿<UserControl
+    x:Class="WedChecker.CustomControls.FirstLaunchPopup"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dc="using:WedChecker"
+    xmlns:local="using:WedChecker.CustomControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel x:Uid="popup" Name="popup" Width="Auto" Height="Auto">
+        <StackPanel.Transitions>
+            <TransitionCollection>
+                <EdgeUIThemeTransition Edge="Right"/>
+            </TransitionCollection>
+        </StackPanel.Transitions>
+        <!--<StackPanel.ChildTransitions>
+            <TransitionCollection>
+                <EdgeUIThemeTransition Edge="Right"/>
+            </TransitionCollection>
+        </StackPanel.ChildTransitions>-->
+        <StackPanel Name="spMain" Orientation="Vertical" Background="White">
+            <StackPanel.Transitions>
+                <TransitionCollection>
+                    <EdgeUIThemeTransition/>
+                </TransitionCollection>
+            </StackPanel.Transitions>
+            <StackPanel.ChildrenTransitions>
+                <TransitionCollection>
+                    <EdgeUIThemeTransition >
+                    </EdgeUIThemeTransition>
+                </TransitionCollection>
+            </StackPanel.ChildrenTransitions>
+            <TextBlock x:Name="HeaderDialogTextBlock" FontSize="25" TextWrapping="Wrap" 
+                   Text="Header" Style="{StaticResource TextBlockClearStyle}" Foreground="DarkRed"/>
+            <TextBlock x:Name="TitleDialogTextBlock" FontSize="27" TextWrapping="Wrap" Margin="0, 0, 0, 25"
+                   Text="Title" Style="{StaticResource TextBlockClearStyle}" FontWeight="Bold" Foreground="{StaticResource TextBoxButtonForegroundThemeBrush}"/>
+            <TextBlock x:Name="DialogTextBlock" FontSize="18" TextWrapping="Wrap" Margin="0, 0, 0, 50"
+                   Text="Text dialog" Style="{StaticResource TextBlockClearStyle}"/>
+
+            <StackPanel>
+                <TextBox x:Name="NameTextBox" Height="50" TextWrapping="Wrap" Text="Name" Style="{StaticResource TextBoxClearStyle}"/>
+                <DatePicker x:Name="dpWeddingDate" Width="300" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                <Button x:Name="SubmitButton" Content="NEXT" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource ButtonClearStyle}"/>
+            </StackPanel>
+            <TextBlock x:Name="TimesProcessed" x:FieldModifier="Public" Visibility="Collapsed" Text="0"/>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

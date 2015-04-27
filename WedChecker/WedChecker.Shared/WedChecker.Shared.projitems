@@ -17,12 +17,12 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Common\AppData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Core.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserControls\LaunchControl.xaml.cs">
-      <DependentUpon>LaunchControl.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\FirstLaunchPopup.xaml.cs">
+      <DependentUpon>FirstLaunchPopup.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)UserControls\LaunchControl.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\FirstLaunchPopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

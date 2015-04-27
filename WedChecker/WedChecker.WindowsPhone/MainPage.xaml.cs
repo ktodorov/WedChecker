@@ -14,10 +14,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using WedChecker.CustomControls;
 using WedChecker.Common;
-using WedChecker.Pages;
 using System.Threading.Tasks;
-
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
+using Windows.Phone.UI.Input;
 
 namespace WedChecker
 {
@@ -26,11 +24,61 @@ namespace WedChecker
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private NavigationHelper navigationHelper;
+        private ObservableDictionary defaultViewModel = new ObservableDictionary();
+
         public MainPage()
         {
             this.InitializeComponent();
 
+            this.navigationHelper = new NavigationHelper(this);
+            this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
+            this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
             this.NavigationCacheMode = NavigationCacheMode.Required;
+        }
+
+        /// <summary>
+        /// Gets the <see cref="NavigationHelper"/> associated with this <see cref="Page"/>.
+        /// </summary>
+        public NavigationHelper NavigationHelper
+        {
+            get { return this.navigationHelper; }
+        }
+
+        /// <summary>
+        /// Gets the view model for this <see cref="Page"/>.
+        /// This can be changed to a strongly typed view model.
+        /// </summary>
+        public ObservableDictionary DefaultViewModel
+        {
+            get { return this.defaultViewModel; }
+        }
+
+        /// <summary>
+        /// Populates the page with content passed during navigation.  Any saved state is also
+        /// provided when recreating a page from a prior session.
+        /// </summary>
+        /// <param name="sender">
+        /// The source of the event; typically <see cref="NavigationHelper"/>
+        /// </param>
+        /// <param name="e">Event data that provides both the navigation parameter passed to
+        /// <see cref="Frame.Navigate(Type, Object)"/> when this page was initially requested and
+        /// a dictionary of state preserved by this page during an earlier
+        /// session.  The state will be null the first time a page is visited.</param>
+        private void NavigationHelper_LoadState(object sender, LoadStateEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// Preserves state associated with this page in case the application is suspended or the
+        /// page is discarded from the navigation cache.  Values must conform to the serialization
+        /// requirements of <see cref="SuspensionManager.SessionState"/>.
+        /// </summary>
+        /// <param name="sender">The source of the event; typically <see cref="NavigationHelper"/></param>
+        /// <param name="e">Event data that provides an empty dictionary to be populated with
+        /// serializable state.</param>
+        private void NavigationHelper_SaveState(object sender, SaveStateEventArgs e)
+        {
         }
 
         /// <summary>
@@ -40,63 +88,40 @@ namespace WedChecker
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+
+            Core.RoamingSettings.Values["first"] = false;
             Loaded += async (sender, args) => 
             {
                 if (Core.IsFirstLaunch())
                 {
-                    await GreetUser();
-                    Core.RoamingSettings.Values["first"] = true;
+                    await firstLaunchPopup.GreetUser();
+                    firstLaunchPopup.Height = Window.Current.Bounds.Height;
+                    firstLaunchPopup.Width = Window.Current.Bounds.Width;
+                    firstLaunchPopup.TimesProcessed.SelectionChanged += TimesProcessed_SelectionChanged;
                 }
                 else
                 {
-                    Frame.Navigate(typeof(MainScreenPage));
+                    appBar.Visibility = Visibility.Visible;
+                    tbGreetUser.Text = string.Format("Hello, {0}", Core.RoamingSettings.Values["Name"]);
                 }
             };
         }
 
-        private async Task GreetUser()
+        void TimesProcessed_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            await Core.StartUp();
-            SubmitButton.Click += SubmitButton_Click;
-            HeaderDialogTextBlock.Text = AppData.GetValue("firstLaunchFirstHeader");
-            TitleDialogTextBlock.Text = AppData.GetValue("firstLaunchFirstTitle");
-            DialogTextBlock.Text = AppData.GetValue("firstLaunchFirstDialog");
+            appBar.Visibility = Visibility.Visible;
+            tbGreetUser.Text = string.Format("Hello, {0}", Core.RoamingSettings.Values["Name"]);
         }
 
-        void SubmitButton_Click(object sender, RoutedEventArgs e)
+        
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            CheckForAdvancement();
+            this.navigationHelper.OnNavigatedFrom(e);
         }
 
-        private void CheckForAdvancement()
+        private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            var timesProcessed = Convert.ToInt32(TimesProcessed.Text);
-            
-            
-            if (timesProcessed == 0)
-            {
-                Core.RoamingSettings.Values["Name"] = NameTextBox.Text;
-                NameTextBox.Visibility = Visibility.Collapsed;
-                dpWeddingDate.Visibility = Visibility.Visible;
-                
-                HeaderDialogTextBlock.Visibility = Visibility.Collapsed;
-                TitleDialogTextBlock.Visibility = Visibility.Collapsed;
-                DialogTextBlock.Text = AppData.GetValue("firstLaunchSecondDialog");
-                
-                Frame.Navigate(typeof(MainPage));
-            }
-            else if (timesProcessed == 1)
-            {
-                Core.RoamingSettings.Values["WeddingDate"] = dpWeddingDate.Date;
-            }
 
-            timesProcessed++;
-            TimesProcessed.Text = timesProcessed.ToString();
-
-            if (timesProcessed >= 2)
-            {
-                Frame.Navigate(typeof(MainScreenPage));
-            }
         }
     }
 }
