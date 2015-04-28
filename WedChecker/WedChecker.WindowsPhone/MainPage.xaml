@@ -36,10 +36,12 @@
     </Grid>
 
     <Page.BottomAppBar>
-        <CommandBar x:Name="appBar" IsOpen="False" Visibility="Collapsed">
+        <CommandBar x:Name="appBar" IsOpen="False" Visibility="Collapsed" 
+                    Background="{StaticResource PhoneAccentBrush}" Foreground="White">
             <CommandBar.SecondaryCommands>
-                <AppBarButton Label="Settings"/>
-                <AppBarButton Label="About"/>
+                <AppBarButton Label="sync"/>
+                <AppBarButton Label="settings"/>
+                <AppBarButton Label="about"/>
             </CommandBar.SecondaryCommands>
             <AppBarButton Icon="Add" IsCompact="False" Label="Add" Click="AppBarButton_Click"/>
         </CommandBar>

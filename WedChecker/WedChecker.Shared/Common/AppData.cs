@@ -18,7 +18,7 @@ namespace WedChecker.Common
 
         public static void PopulateAppData()
         {
-            LocalAppData["firstLaunchFirstHeader"] = "Hello,\nwelcome to";
+            LocalAppData["firstLaunchFirstHeader"] = "Hello and welcome to";
             LocalAppData["firstLaunchFirstTitle"] = "WedChecker";
             LocalAppData["firstLaunchFirstDialog"] = "No doubt we will make a wonderful wedding.\nCan I know your name first?\nIt will help me to know you better.";
 

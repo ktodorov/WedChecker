@@ -76,11 +76,18 @@
             </Setter>
         </Style>
 
+        <Style x:Key="TextBlockHeaderClearStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilyNormal}"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Foreground" Value="{StaticResource PhoneAccentBrush}"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+
         <Style x:Key="TextBlockClearStyle" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilyNormal}"/>
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="Foreground" Value="{ThemeResource TextBoxForegroundThemeBrush}"/>
-            <Setter Property="Padding" Value="2"/>
+            <Setter Property="Padding" Value="3"/>
         </Style>
 
         <Style x:Key="ButtonClearStyle" TargetType="Button">
