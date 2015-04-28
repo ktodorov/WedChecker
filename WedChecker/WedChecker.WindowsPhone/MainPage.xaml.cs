@@ -12,7 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using WedChecker.CustomControls;
+using WedChecker.UserControls;
 using WedChecker.Common;
 using System.Threading.Tasks;
 using Windows.Phone.UI.Input;
@@ -88,7 +88,6 @@ namespace WedChecker
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-
             Core.RoamingSettings.Values["first"] = false; // debug
             Loaded += async (sender, args) => 
             {

@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace WedChecker.CustomControls
+namespace WedChecker.UserControls
 {
     public sealed partial class FirstLaunchPopup : UserControl
     {
@@ -48,6 +48,7 @@ namespace WedChecker.CustomControls
                 Core.RoamingSettings.Values["Name"] = NameTextBox.Text;
                 NameTextBox.Visibility = Visibility.Collapsed;
                 dpWeddingDate.Visibility = Visibility.Visible;
+                tpWeddingDate.Visibility = Visibility.Visible;
 
                 HeaderDialogTextBlock.Visibility = Visibility.Collapsed;
                 TitleDialogTextBlock.Visibility = Visibility.Collapsed;
@@ -55,7 +56,9 @@ namespace WedChecker.CustomControls
             }
             else if (timesProcessed == 1)
             {
-                Core.RoamingSettings.Values["WeddingDate"] = dpWeddingDate.Date;
+                var weddingDate = new DateTime(dpWeddingDate.Date.Year, dpWeddingDate.Date.Month, dpWeddingDate.Date.Day, 
+                                               tpWeddingDate.Time.Hours, tpWeddingDate.Time.Minutes, 0);
+                Core.RoamingSettings.Values["WeddingDate"] = weddingDate.ToString();
             }
 
             timesProcessed++;
@@ -69,6 +72,9 @@ namespace WedChecker.CustomControls
 
                 var tbGreetUser = grid.FindName("tbGreetUser") as TextBlock;
                 tbGreetUser.Text = string.Format("Hello, {0}", Core.RoamingSettings.Values["Name"]);
+
+                var tbCountdownTimer = grid.FindName("tbCountdownTimer") as CountdownTimer;
+                tbCountdownTimer.UpdateTimeLeft();
 
                 popup.Visibility = Visibility.Collapsed;
                 Core.RoamingSettings.Values["first"] = true;

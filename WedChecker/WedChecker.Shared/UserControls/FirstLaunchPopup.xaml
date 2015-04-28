@@ -1,9 +1,9 @@
 ﻿<UserControl
-    x:Class="WedChecker.CustomControls.FirstLaunchPopup"
+    x:Class="WedChecker.UserControls.FirstLaunchPopup"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:dc="using:WedChecker"
-    xmlns:local="using:WedChecker.CustomControls"
+    xmlns:local="using:WedChecker.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -36,6 +36,7 @@
                 <StackPanel>
                     <TextBox x:Name="NameTextBox" Height="50" Margin="25, 0, 25, 0" TextWrapping="Wrap" Text="Name" Style="{StaticResource TextBoxClearStyle}"/>
                     <DatePicker x:Name="dpWeddingDate" Width="300" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+                    <TimePicker x:Name="tpWeddingDate" Width="300" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
                     <Button x:Name="SubmitButton" Content="NEXT" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource ButtonClearStyle}"/>
                 </StackPanel>
                 <TextBox x:Name="TimesProcessed" x:FieldModifier="Public" Visibility="Collapsed" Text="0"/>

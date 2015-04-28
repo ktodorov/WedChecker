@@ -96,6 +96,13 @@
             <Setter Property="Background" Value="{StaticResource PhoneAccentBrush}"/>
             <Setter Property="BorderThickness" Value="0"/>
         </Style>
+        
+        <Style x:Key="CountdownTimerStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontWeight" Value="ExtraBold"/>
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="Foreground" Value="{StaticResource PhoneAccentBrush}"/>
+        </Style>
     </Application.Resources>
 
 </Application>

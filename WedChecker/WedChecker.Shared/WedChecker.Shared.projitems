@@ -17,11 +17,18 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Common\AppData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Core.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\CountdownTimer.xaml.cs">
+      <DependentUpon>CountdownTimer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\FirstLaunchPopup.xaml.cs">
       <DependentUpon>FirstLaunchPopup.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\CountdownTimer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)UserControls\FirstLaunchPopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

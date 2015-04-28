@@ -4,7 +4,7 @@
     xmlns:local="using:WedChecker"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:CustomControls="using:WedChecker.CustomControls"
+    xmlns:UserControls="using:WedChecker.UserControls"
     x:Class="WedChecker.MainPage"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -22,17 +22,15 @@
             </TransitionCollection>
         </Grid.ChildrenTransitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
 
-        <StackPanel>
-            <TextBlock Margin="20,10,0,0" TextWrapping="Wrap" Text="WEDCHECKER" VerticalAlignment="Top" HorizontalAlignment="Left" FontFamily="Segoe UI Light" FontSize="50" FontWeight="Bold"/>
-            <TextBlock x:Name="tbGreetUser" Margin="20,0,0,0" TextWrapping="Wrap" Text="Hello" Style="{StaticResource MessageDialogTitleStyle}" Foreground="{StaticResource PhoneAccentBrush}"/>
+        <StackPanel Grid.Row="0" Margin="20,10,0,0">
+            <TextBlock TextWrapping="Wrap" Text="WEDCHECKER" VerticalAlignment="Top" HorizontalAlignment="Left" FontFamily="Segoe UI Light" FontSize="50" FontWeight="Bold"/>
+            <TextBlock x:Name="tbGreetUser" Margin="10,0,0,0" TextWrapping="Wrap" Text="Hello" Style="{StaticResource MessageDialogTitleStyle}" Foreground="{StaticResource PhoneAccentBrush}"/>
+
+            <UserControls:CountdownTimer Margin="0, 40, 0, 0" x:Name="tbCountdownTimer" />
         </StackPanel>
-        
-        <CustomControls:FirstLaunchPopup x:Name="firstLaunchPopup"/>
+ 
+        <UserControls:FirstLaunchPopup Height="Auto" VerticalAlignment="Stretch" x:Name="firstLaunchPopup"/>
     </Grid>
 
     <Page.BottomAppBar>
