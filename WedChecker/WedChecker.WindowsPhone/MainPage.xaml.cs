@@ -35,6 +35,22 @@ namespace WedChecker
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
             this.NavigationCacheMode = NavigationCacheMode.Required;
+            HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+        }
+
+        void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
+        {
+            if (LbTasks.Visibility == Visibility.Visible)
+            {
+                LbTasks.Visibility = Visibility.Collapsed;
+                appBar.Visibility = Visibility.Visible;
+                e.Handled = true;
+            }
+            else if (Frame.CanGoBack)
+            {
+                e.Handled = true;
+                Frame.GoBack();
+            }
         }
 
         /// <summary>
@@ -88,7 +104,7 @@ namespace WedChecker
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            Core.RoamingSettings.Values["first"] = false; // debug
+            //Core.RoamingSettings.Values["first"] = false; // debug
             Loaded += async (sender, args) => 
             {
                 if (Core.IsFirstLaunch())
@@ -108,9 +124,10 @@ namespace WedChecker
             this.navigationHelper.OnNavigatedFrom(e);
         }
 
-        private void AppBarButton_Click(object sender, RoutedEventArgs e)
+        private void AddTaskButton_Click(object sender, RoutedEventArgs e)
         {
-
+            LbTasks.Visibility = Visibility.Visible;
+            appBar.Visibility = Visibility.Collapsed;
         }
     }
 }

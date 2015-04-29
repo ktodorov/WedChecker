@@ -30,7 +30,66 @@
             <UserControls:CountdownTimer Margin="0, 40, 0, 0" x:Name="tbCountdownTimer" />
         </StackPanel>
  
-        <UserControls:FirstLaunchPopup Height="Auto" VerticalAlignment="Stretch" x:Name="firstLaunchPopup"/>
+        <UserControls:FirstLaunchPopup Height="Auto" VerticalAlignment="Stretch" x:Name="firstLaunchPopup" Visibility="Collapsed"/>
+        
+        <ListBox x:Name="LbTasks" HorizontalAlignment="Center" VerticalAlignment="Stretch" Visibility="Collapsed"
+                 Background="{StaticResource ListBoxFocusBackgroundThemeBrush}">
+            <ListBox.Resources>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Foreground" Value="{StaticResource PhoneAccentBrush}" />
+                    <Setter Property="FontSize" Value="20" />
+                    <Setter Property="Margin" Value="10, 0, 10, 0" />
+                </Style>
+            </ListBox.Resources>
+            <ListBoxItem>Budget for your wedding</ListBoxItem>
+            <ListBoxItem>Wedding style and colors</ListBoxItem>
+            <ListBoxItem>Registry marriage place</ListBoxItem>
+            <ListBoxItem>Religious marriage place</ListBoxItem>
+            <ListBoxItem>Documents required for marriage</ListBoxItem>
+            <ListBoxItem>Restaurant</ListBoxItem>
+            <ListBoxItem>Restaurant food</ListBoxItem>
+            <ListBoxItem>Best man and maid of honor</ListBoxItem>
+            <ListBoxItem>Bridesmaids and groomsmen</ListBoxItem>
+            <ListBoxItem>Decoration</ListBoxItem>
+            <ListBoxItem>Fresh flowers</ListBoxItem>
+            <ListBoxItem>Music layout</ListBoxItem>
+            <ListBoxItem>Photographer</ListBoxItem>
+            <ListBoxItem>Bride accessories</ListBoxItem>
+            <ListBoxItem>Bride clothes</ListBoxItem>
+            <ListBoxItem>Groom accessories</ListBoxItem>
+            <ListBoxItem>Groom clothes</ListBoxItem>
+            <ListBoxItem>Best man and maid of honor accessories</ListBoxItem>
+            <ListBoxItem>Best man and maid of honor clothes</ListBoxItem>
+            <ListBoxItem>Bridesmaids and groomsmen accessories</ListBoxItem>
+            <ListBoxItem>Bridesmaids and groomsmen clothes</ListBoxItem>
+            <ListBoxItem>Honeymoon destination</ListBoxItem>
+            <ListBoxItem>Guests list</ListBoxItem>
+            <ListBoxItem>Foreign guests accomodation</ListBoxItem>
+            <ListBoxItem>Hairdresser and makeup artist</ListBoxItem>
+            <ListBoxItem>Invitations</ListBoxItem>
+            <ListBoxItem>Purchase bride accessories</ListBoxItem>
+            <ListBoxItem>Purchase bride clothes</ListBoxItem>
+            <ListBoxItem>Purchase groom accessories</ListBoxItem>
+            <ListBoxItem>Purchase groom clothes</ListBoxItem>
+            <ListBoxItem>Purchase best man and maid of honor accessories</ListBoxItem>
+            <ListBoxItem>Purchase best man and maid of honor clothes</ListBoxItem>
+            <ListBoxItem>Purchase bridesmaids and groomsmen accessories</ListBoxItem>
+            <ListBoxItem>Purchase restaurant food</ListBoxItem>
+            <ListBoxItem>Purchase fresh flowers</ListBoxItem>
+            <ListBoxItem>Book music layout</ListBoxItem>
+            <ListBoxItem>Book photographer</ListBoxItem>
+            <ListBoxItem>Book honeymoon destination</ListBoxItem>
+            <ListBoxItem>Book guests accomodation</ListBoxItem>
+            <ListBoxItem>Book hairdresser and makeup artist appointments</ListBoxItem>
+            <ListBoxItem>Send invitations</ListBoxItem>
+            <ListBoxItem>Restaurant accomodation plan</ListBoxItem>
+            <ListBoxItem>Purchase rings</ListBoxItem>
+            <ListBoxItem>Purchase cake</ListBoxItem>
+        </ListBox>
+        
+        
+        
+        
     </Grid>
 
     <Page.BottomAppBar>
@@ -41,7 +100,7 @@
                 <AppBarButton Label="settings"/>
                 <AppBarButton Label="about"/>
             </CommandBar.SecondaryCommands>
-            <AppBarButton Icon="Add" IsCompact="False" Label="Add" Click="AppBarButton_Click"/>
+            <AppBarButton Icon="Add" IsCompact="False" Label="Add task" Click="AddTaskButton_Click"/>
         </CommandBar>
     </Page.BottomAppBar>
 </Page>
