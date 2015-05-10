@@ -30,7 +30,7 @@
             <UserControls:CountdownTimer Margin="0, 40, 0, 0" x:Name="tbCountdownTimer" />
         </StackPanel>
  
-        <UserControls:FirstLaunchPopup Height="Auto" VerticalAlignment="Stretch" x:Name="firstLaunchPopup" Visibility="Collapsed"/>
+        <UserControls:FirstLaunchPopup Height="Auto" VerticalAlignment="Stretch" x:Name="firstLaunchPopup"/>
         
         <ListBox x:Name="LbTasks" HorizontalAlignment="Center" VerticalAlignment="Stretch" Visibility="Collapsed"
                  Background="{StaticResource ListBoxFocusBackgroundThemeBrush}">

@@ -34,7 +34,8 @@ namespace WedChecker.Common
 
         public static bool IsFirstLaunch()
         {
-            return !RoamingSettings.Values.ContainsKey("first") || (bool)RoamingSettings.Values["first"] == false;
+            //return !RoamingSettings.Values.ContainsKey("first") || (bool)RoamingSettings.Values["first"] == false;
+            return true;
         }
 
         public static async Task StartUp()

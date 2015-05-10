@@ -42,8 +42,11 @@ namespace WedChecker.UserControls
                 var minutes = Convert.ToInt32((weddingDate - DateTime.Now).Minutes);
                 var minutesString = minutes.ToString();
                 minutesString += minutes != 1 ? " MINUTES" : " MINUTE";
+                var seconds = Convert.ToInt32((weddingDate - DateTime.Now).Seconds);
+                var secondsString = seconds.ToString();
+                secondsString += seconds != 1 ? " SECONDS" : " SECOND";
 
-                tbTimeLeft.Text = string.Format("{0}\n{1}\n{2}", daysString, hoursString, minutesString);
+                tbTimeLeft.Text = string.Format("{0}\n{1}\n{2}\n{3}", daysString, hoursString, minutesString, secondsString);
             }
             else if (Core.RoamingSettings.Values.Keys.Contains("WeddingDate") && Core.RoamingSettings.Values["WeddingDate"] != null)
             {
@@ -57,8 +60,11 @@ namespace WedChecker.UserControls
                 var minutes = Convert.ToInt32((weddingDate - DateTime.Now).Minutes);
                 var minutesString = minutes.ToString();
                 minutesString += minutes != 1 ? " MINUTES" : " MINUTE";
+                var seconds = Convert.ToInt32((weddingDate - DateTime.Now).Seconds);
+                var secondsString = seconds.ToString();
+                secondsString += seconds != 1 ? " SECONDS" : " SECOND";
 
-                tbTimeLeft.Text = string.Format("{0}\n{1}\n{2}", daysString, hoursString, minutesString);
+                tbTimeLeft.Text = string.Format("{0}\n{1}\n{2}\n{3}", daysString, hoursString, minutesString, secondsString);
             }
         }
     }

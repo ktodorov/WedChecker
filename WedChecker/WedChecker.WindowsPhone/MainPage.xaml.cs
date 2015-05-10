@@ -26,6 +26,7 @@ namespace WedChecker
     {
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
+        private DispatcherTimer dispatcherTimer = new DispatcherTimer();
 
         public MainPage()
         {
@@ -36,6 +37,14 @@ namespace WedChecker
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
             this.NavigationCacheMode = NavigationCacheMode.Required;
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+            dispatcherTimer.Tick += dispatcherTimer_Tick;
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+            dispatcherTimer.Start();
+        }
+
+        void dispatcherTimer_Tick(object sender, object e)
+        {
+            tbCountdownTimer.UpdateTimeLeft();
         }
 
         void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
