@@ -16,6 +16,26 @@ namespace WedChecker.Common
             set;
         }
 
+        public static string[] TaskControls =
+        {
+            // Plan
+            "WeddingBudget", "WeddingStyle", "RegistryPlace", "ReligiousPlace",
+            "DocumentsRequired", "Restaurant", "RestaurantFood", "BestMan_MaidOfHonour",
+            "BridesmaidsGroomsmen", "Decoration", "FreshFlowers", "MusicLayout",
+            "Photographer", "BrideAccessories", "BrideClothes", "GroomAccessories",
+            "GroomClothes", "BMMOHAccessories", "BMMOHClothes", "BAGAccessories",
+            "BAGClothes", "HoneymoonDestination", "GuestsList", "ForeignGuestsAccomodation",
+            "HairdresserMakeupArtist", "Invitations",
+            // Purchase
+            "PurchaseBrideAccessories", "PurchaseBrideClothes", "PurchaseGroomAccessories", "PurchaseGroomClothes", 
+            "PurchaseBMMOHAccessories", "PurchaseBMMOHClothes", "PurchaseBAGAccessories", "PurchaseBAGClothes",
+            "PurchaseRestaurantFood", "PurchaseFreshFlowers", "PurchaseRings", "PurchaseCake",
+            // Bookings
+            "BookMusicLayout", "BookPhotographer", "BookHoneymoonDestination", "BookGuestsAccomodation",
+            "BookHairdresserMakeupArtistAppointments",
+            "SendInvitations", "RestaurantAccomodationPlan"
+        };
+
         public static void PopulateAppData()
         {
             LocalAppData["firstLaunchFirstHeader"] = "Hello and welcome to";
@@ -48,13 +68,35 @@ namespace WedChecker.Common
 
         public static void DecodeDataFromString(string dataFile)
         {
-            var keyValuePairs = Regex.Match(dataFile, @"\<([^)]*)\>").Groups;
-
-            for (int i = 0; i < keyValuePairs.Count; i++)
+            if (LocalAppData == null)
             {
-                string key = Regex.Match(keyValuePairs[i].Value, @"\<([^)]*)\>").Groups[1].Value;
-                string value = Regex.Match(keyValuePairs[i].Value, @"\<([^)]*)\>").Groups[2].Value;
-                LocalAppData[key] = value;
+                LocalAppData = new Dictionary<string, string>();
+            }
+
+            var index = 0;
+            string key = "", value = "";
+            for (int i = 0; i < dataFile.Length; i++)
+            {
+                if (dataFile[i] == '<' || dataFile[i] == '>')
+                {
+                    index++;
+                }
+                else if (index < 3) // then it's key
+                {
+                    key += dataFile[i];
+                }
+                else if (index < 6) // then it's value
+                {
+                    value += dataFile[i];
+                }
+                
+                if (index == 6)
+                {
+                    LocalAppData[key] = value;
+                    index = 0;
+                    key = "";
+                    value = "";
+                }
             }
         }
 
@@ -64,8 +106,28 @@ namespace WedChecker.Common
             {
                 return LocalAppData[key];
             }
+            else
+            {
+                if (LocalAppData.ContainsKey(key))
+                {
+                    return LocalAppData[key];
+                }
+            }
 
             return null;
+        }
+
+        public static async Task DecodeFileData(StorageFile file)
+        {
+            byte[] data;
+
+            using (Stream s = await file.OpenStreamForReadAsync())
+            {
+                data = new byte[s.Length];
+                await s.ReadAsync(data, 0, (int)s.Length);
+            }
+
+            DecodeDataFromString(Encoding.UTF8.GetString(data, 0, data.Length));
         }
 
         public static async Task WriteDataFile()
@@ -75,7 +137,64 @@ namespace WedChecker.Common
 
             byte[] data = Encoding.UTF8.GetBytes(encodedData);
 
+            try
+            {
+                StorageFolder folder = ApplicationData.Current.LocalFolder;
+                StorageFile file = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+
+                if ((file.DateCreated - DateTime.Now).TotalMinutes > 1)
+                {
+                    return;
+                }
+
+                using (Stream s = await file.OpenStreamForWriteAsync())
+                {
+                    await s.WriteAsync(data, 0, data.Length);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public static async Task ReadDataFile()
+        {
+            var fileName = "dataFile.txt";
+
+
             StorageFolder folder = ApplicationData.Current.LocalFolder;
+
+            StorageFile file;
+            bool fileAvailable = true;
+
+            try
+            {
+                file = await folder.GetFileAsync(fileName);
+                await DecodeFileData(file);
+            }
+            catch (FileNotFoundException)
+            {
+                // There is no such file..
+                fileAvailable = false;
+            }
+
+            if (!fileAvailable)
+            {
+                await WriteDataFile();
+                file = await folder.GetFileAsync(fileName);
+                await DecodeFileData(file);
+            }
+        }
+
+        public static async Task WriteRoamingDataFile()
+        {
+            var encodedData = EncodeDataToString();
+            var fileName = "dataFile.txt";
+
+            byte[] data = Encoding.UTF8.GetBytes(encodedData);
+
+            StorageFolder folder = ApplicationData.Current.RoamingFolder;
             StorageFile file = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
 
             if ((file.DateCreated - DateTime.Now).TotalMinutes > 1)
@@ -89,25 +208,40 @@ namespace WedChecker.Common
             }
         }
 
-        public static async Task<string> ReadDataFile()
+        public static async void ReadRoamingDataFile()
         {
             var fileName = "dataFile.txt";
 
-            byte[] data;
+            StorageFolder folder = ApplicationData.Current.RoamingFolder;
 
-            StorageFolder folder = ApplicationData.Current.LocalFolder;
+            StorageFile file;
+            bool fileAvailable = true;
 
-            await WriteDataFile();
-
-            var file = await folder.GetFileAsync(fileName);
-
-            using (Stream s = await file.OpenStreamForReadAsync())
+            try
             {
-                data = new byte[s.Length];
-                await s.ReadAsync(data, 0, (int)s.Length);
+                file = await folder.GetFileAsync(fileName);
+                await DecodeFileData(file);
+            }
+            catch (FileNotFoundException)
+            {
+                // There is no such file.. So create one
+                fileAvailable = false;
             }
 
-            return Encoding.UTF8.GetString(data, 0, data.Length);
+            if (!fileAvailable)
+            {
+                await WriteRoamingDataFile();
+                file = await folder.GetFileAsync(fileName);
+                await DecodeFileData(file);
+            }
+        }
+
+
+        public static async Task InsertGlobalValue(string name, string value)
+        {
+            LocalAppData[name] = value;
+            await WriteDataFile();
+            await WriteRoamingDataFile();
         }
     }
 }

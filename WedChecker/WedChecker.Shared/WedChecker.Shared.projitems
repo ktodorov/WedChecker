@@ -23,6 +23,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\FirstLaunchPopup.xaml.cs">
       <DependentUpon>FirstLaunchPopup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\BudgetPicker.xaml.cs">
+      <DependentUpon>BudgetPicker.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="$(MSBuildThisFileDirectory)UserControls\CountdownTimer.xaml">
@@ -30,6 +33,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)UserControls\FirstLaunchPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\BudgetPicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

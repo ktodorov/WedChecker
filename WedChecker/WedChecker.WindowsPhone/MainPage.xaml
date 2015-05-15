@@ -6,34 +6,98 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:UserControls="using:WedChecker.UserControls"
     x:Class="WedChecker.MainPage"
-    mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    
-    <Grid x:Name="LayoutRoot">
-        <Grid.Transitions>
+
+    <Page.Resources>
+        <SolidColorBrush x:Key="PivotBackground" Color="{StaticResource PhoneAccentBrush}"/>
+
+        <Style x:Key="PivotWedCheckerStyle" TargetType="Pivot">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Pivot">
+                        <Grid x:Name="RootElement" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" 
+                              VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <!--Notice that ContentControl is wrapped in a Grid and Background set to resource furtehr up-->
+                            <Grid VerticalAlignment="Center" Background="{StaticResource PivotBackground}">
+                                <ContentControl x:Name="TitleContentControl" ContentTemplate="{TemplateBinding TitleTemplate}" Content="{TemplateBinding Title}" Style="{StaticResource PivotTitleContentControlStyle}"/>
+                            </Grid>
+                            <ScrollViewer x:Name="ScrollViewer" HorizontalSnapPointsAlignment="Center" HorizontalSnapPointsType="MandatorySingle" 
+                                          HorizontalScrollBarVisibility="Hidden" Margin="{TemplateBinding Padding}" Grid.Row="1" 
+                                          Template="{StaticResource ScrollViewerScrollBarlessTemplate}" VerticalSnapPointsType="None" 
+                                          VerticalScrollBarVisibility="Disabled" VerticalScrollMode="Disabled" VerticalContentAlignment="Stretch" 
+                                          ZoomMode="Disabled">
+                                <PivotPanel x:Name="Panel" VerticalAlignment="Stretch">
+                                    <!--Background set to resource further up-->
+                                    <PivotHeaderPanel Background="{StaticResource PivotBackground}" x:Name="Header">
+                                        <PivotHeaderPanel.RenderTransform>
+                                            <CompositeTransform x:Name="HeaderTranslateTransform" TranslateX="0"/>
+                                        </PivotHeaderPanel.RenderTransform>
+                                    </PivotHeaderPanel>
+                                    <ItemsPresenter x:Name="PivotItemPresenter">
+                                        <ItemsPresenter.RenderTransform>
+                                            <TranslateTransform x:Name="ItemsPresenterTranslateTransform" X="0"/>
+                                        </ItemsPresenter.RenderTransform>
+                                    </ItemsPresenter>
+                                </PivotPanel>
+                            </ScrollViewer>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <StackPanel x:Name="LayoutRoot">
+
+        <StackPanel.Transitions>
             <TransitionCollection>
                 <EdgeUIThemeTransition/>
             </TransitionCollection>
-        </Grid.Transitions>
+        </StackPanel.Transitions>
 
-        <Grid.ChildrenTransitions>
+        <StackPanel.ChildrenTransitions>
             <TransitionCollection>
                 <ReorderThemeTransition/>
             </TransitionCollection>
-        </Grid.ChildrenTransitions>
+        </StackPanel.ChildrenTransitions>
 
-
-        <StackPanel Grid.Row="0" Margin="20,10,0,0">
-            <TextBlock TextWrapping="Wrap" Text="WEDCHECKER" VerticalAlignment="Top" HorizontalAlignment="Left" FontFamily="Segoe UI Light" FontSize="50" FontWeight="Bold"/>
-            <TextBlock x:Name="tbGreetUser" Margin="10,0,0,0" TextWrapping="Wrap" Text="Hello" Style="{StaticResource MessageDialogTitleStyle}" Foreground="{StaticResource PhoneAccentBrush}"/>
-
-            <UserControls:CountdownTimer Margin="0, 40, 0, 0" x:Name="tbCountdownTimer" />
-        </StackPanel>
- 
         <UserControls:FirstLaunchPopup Height="Auto" VerticalAlignment="Stretch" x:Name="firstLaunchPopup"/>
         
+        <Pivot x:Name="mainPivot" Title="WEDCHECKER" Visibility="Collapsed">
+            <Pivot.TitleTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <TextBlock Text="{Binding}" Style="{StaticResource HeaderTextBlockStyle}" FontWeight="Bold"/>
+                    </Grid>
+                </DataTemplate>
+            </Pivot.TitleTemplate>
+            <Pivot.HeaderTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <TextBlock Text="{Binding}" FontWeight="Bold" FontSize="40"/>
+                    </Grid>
+                </DataTemplate>
+            </Pivot.HeaderTemplate>
+            <PivotItem Header="ONE">
+                <StackPanel>
+                    <TextBlock x:Name="tbGreetUser" Margin="10,0,0,0" TextWrapping="Wrap" Text="Hello" Style="{StaticResource MessageDialogTitleStyle}" Foreground="{StaticResource PhoneAccentBrush}"/>
+                    <UserControls:CountdownTimer Margin="0, 40, 0, 0" x:Name="tbCountdownTimer" />
+                </StackPanel>
+            </PivotItem>
+            <PivotItem Header="TWO">
+                <StackPanel Name="pivotStackPanel" Orientation="Vertical">
+                    
+                </StackPanel>
+            </PivotItem>
+        </Pivot>
+
+
         <ListBox x:Name="LbTasks" HorizontalAlignment="Center" VerticalAlignment="Stretch" Visibility="Collapsed"
-                 Background="{StaticResource ListBoxFocusBackgroundThemeBrush}">
+            Background="{StaticResource ListBoxFocusBackgroundThemeBrush}">
             <ListBox.Resources>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Foreground" Value="{StaticResource PhoneAccentBrush}" />
@@ -41,7 +105,7 @@
                     <Setter Property="Margin" Value="10, 0, 10, 0" />
                 </Style>
             </ListBox.Resources>
-            <ListBoxItem>Budget for your wedding</ListBoxItem>
+            <ListBoxItem Tapped="ListBoxItem_Tapped">Budget for your wedding</ListBoxItem>
             <ListBoxItem>Wedding style and colors</ListBoxItem>
             <ListBoxItem>Registry marriage place</ListBoxItem>
             <ListBoxItem>Religious marriage place</ListBoxItem>
@@ -86,11 +150,8 @@
             <ListBoxItem>Purchase rings</ListBoxItem>
             <ListBoxItem>Purchase cake</ListBoxItem>
         </ListBox>
-        
-        
-        
-        
-    </Grid>
+
+    </StackPanel>
 
     <Page.BottomAppBar>
         <CommandBar x:Name="appBar" IsOpen="False" Visibility="Collapsed" 
@@ -103,4 +164,5 @@
             <AppBarButton Icon="Add" IsCompact="False" Label="Add task" Click="AddTaskButton_Click"/>
         </CommandBar>
     </Page.BottomAppBar>
+
 </Page>

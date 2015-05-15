@@ -66,17 +66,22 @@ namespace WedChecker.UserControls
 
             if (timesProcessed >= 2)
             {
-                var grid = this.Parent as Grid;
-                var appBar = grid.FindName("appBar") as AppBar;
+                var stackPanel = this.Parent as StackPanel;
+
+                var mainPivot = stackPanel.FindName("mainPivot") as Pivot;
+                mainPivot.Visibility = Visibility.Visible;
+
+                var appBar = stackPanel.FindName("appBar") as AppBar;
                 appBar.Visibility = Visibility.Visible;
 
-                var tbGreetUser = grid.FindName("tbGreetUser") as TextBlock;
+                var tbGreetUser = stackPanel.FindName("tbGreetUser") as TextBlock;
                 tbGreetUser.Text = string.Format("Hello, {0}", Core.RoamingSettings.Values["Name"]);
 
-                var tbCountdownTimer = grid.FindName("tbCountdownTimer") as CountdownTimer;
+                var tbCountdownTimer = stackPanel.FindName("tbCountdownTimer") as CountdownTimer;
                 tbCountdownTimer.UpdateTimeLeft();
 
                 popup.Visibility = Visibility.Collapsed;
+                
                 Core.RoamingSettings.Values["first"] = true;
             }
         }

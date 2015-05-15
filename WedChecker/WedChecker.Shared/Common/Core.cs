@@ -34,8 +34,7 @@ namespace WedChecker.Common
 
         public static bool IsFirstLaunch()
         {
-            //return !RoamingSettings.Values.ContainsKey("first") || (bool)RoamingSettings.Values["first"] == false;
-            return true;
+            return !RoamingSettings.Values.ContainsKey("first") || (bool)RoamingSettings.Values["first"] == false;
         }
 
         public static async Task StartUp()
@@ -43,5 +42,20 @@ namespace WedChecker.Common
             await AppData.ReadDataFile();
         }
 
+        public static Dictionary<string, object> GetPopulatedControls()
+        {
+            var populatedObjects = new Dictionary<string, object>();
+            
+            foreach(var taskControl in AppData.TaskControls)
+            {
+                if (AppData.GetValue(taskControl) != null)
+                {
+                    // Then this task was populated
+                    populatedObjects.Add(taskControl, AppData.GetValue(taskControl));
+                }
+            }
+            
+            return populatedObjects;
+        }
     }
 }

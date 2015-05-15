@@ -1,0 +1,18 @@
+﻿<UserControl
+    x:Class="WedChecker.UserControls.Tasks.BudgetPicker"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WedChecker.UserControls.Tasks"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel VerticalAlignment="Center">
+        <TextBlock Name="tbHeader" Text="What is your budget?&#x0a;You can edit this at any time." TextAlignment="Center"
+                   Style="{StaticResource ControlHeaderTextBlockStyle}" Margin="0, 0, 0, 25"/>
+        <TextBox Name="tbBudget" InputScope="Number" Margin="20,0"/>
+        <Button Name="budgetPickerButton" Content="Submit" HorizontalAlignment="Center" Style="{StaticResource ButtonClearStyle}" Click="budgetPickerButton_Click"/>
+        <TextBlock Name="tbErrorMessage" TextAlignment="Center" Foreground="Red"
+                   Style="{StaticResource ControlHeaderTextBlockStyle}" Margin="0, 10, 0, 0"/>
+    </StackPanel>
+</UserControl>
