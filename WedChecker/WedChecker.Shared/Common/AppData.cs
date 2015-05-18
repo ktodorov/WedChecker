@@ -16,26 +16,6 @@ namespace WedChecker.Common
             set;
         }
 
-        public static string[] TaskControls =
-        {
-            // Plan
-            "WeddingBudget", "WeddingStyle", "RegistryPlace", "ReligiousPlace",
-            "DocumentsRequired", "Restaurant", "RestaurantFood", "BestMan_MaidOfHonour",
-            "BridesmaidsGroomsmen", "Decoration", "FreshFlowers", "MusicLayout",
-            "Photographer", "BrideAccessories", "BrideClothes", "GroomAccessories",
-            "GroomClothes", "BMMOHAccessories", "BMMOHClothes", "BAGAccessories",
-            "BAGClothes", "HoneymoonDestination", "GuestsList", "ForeignGuestsAccomodation",
-            "HairdresserMakeupArtist", "Invitations",
-            // Purchase
-            "PurchaseBrideAccessories", "PurchaseBrideClothes", "PurchaseGroomAccessories", "PurchaseGroomClothes", 
-            "PurchaseBMMOHAccessories", "PurchaseBMMOHClothes", "PurchaseBAGAccessories", "PurchaseBAGClothes",
-            "PurchaseRestaurantFood", "PurchaseFreshFlowers", "PurchaseRings", "PurchaseCake",
-            // Bookings
-            "BookMusicLayout", "BookPhotographer", "BookHoneymoonDestination", "BookGuestsAccomodation",
-            "BookHairdresserMakeupArtistAppointments",
-            "SendInvitations", "RestaurantAccomodationPlan"
-        };
-
         public static void PopulateAppData()
         {
             LocalAppData["firstLaunchFirstHeader"] = "Hello and welcome to";
@@ -105,13 +85,6 @@ namespace WedChecker.Common
             if (LocalAppData.ContainsKey(key))
             {
                 return LocalAppData[key];
-            }
-            else
-            {
-                if (LocalAppData.ContainsKey(key))
-                {
-                    return LocalAppData[key];
-                }
             }
 
             return null;

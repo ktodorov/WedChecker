@@ -67,10 +67,11 @@ namespace WedChecker.UserControls
             if (timesProcessed >= 2)
             {
                 var stackPanel = this.Parent as StackPanel;
-
+#if WINDOWS_PHONE_APP
                 var mainPivot = stackPanel.FindName("mainPivot") as Pivot;
                 mainPivot.Visibility = Visibility.Visible;
-
+#else
+#endif
                 var appBar = stackPanel.FindName("appBar") as AppBar;
                 appBar.Visibility = Visibility.Visible;
 

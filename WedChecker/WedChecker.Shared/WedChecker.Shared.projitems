@@ -17,6 +17,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Common\AppData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Core.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\TaskData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\CountdownTimer.xaml.cs">
       <DependentUpon>CountdownTimer.xaml</DependentUpon>
     </Compile>

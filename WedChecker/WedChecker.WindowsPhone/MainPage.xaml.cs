@@ -152,212 +152,22 @@ namespace WedChecker
 
             foreach (var populatedControl in populatedControls)
             {
-                CreateTaskControl(populatedControl);
+                TaskData.CreateTaskControl(this, populatedControl);
             }
+
+            TaskData.DisableAddedTasks(LbTasks);
         }
 
-        private void CreateTaskControl(KeyValuePair<string, object> populatedControl)
+        private void TaskItem_Clicked(object sender, RoutedEventArgs e)
         {
-            object value = populatedControl.Value;
-            switch (populatedControl.Key)
+            var senderElement = sender as Button;
+            if (senderElement == null)
             {
-                case "WeddingBudget":
-                    CreateWeddingBudgetControl(value);
-                    break;
-
-                case "WeddingStyle":
-
-                    break;
-
-                case "RegistryPlace":
-
-                    break;
-
-                case "ReligiousPlace":
-
-                    break;
-
-                case "DocumentsRequired":
-
-                    break;
-
-                case "Restaurant":
-
-                    break;
-
-                case "RestaurantFood":
-
-                    break;
-
-                case "BestMan_MaidOfHonour":
-
-                    break;
-
-                case "BridesmaidsGroomsmen":
-
-                    break;
-
-                case "Decoration":
-
-                    break;
-
-                case "FreshFlowers":
-
-                    break;
-
-                case "MusicLayout":
-
-                    break;
-
-                case "Photographer":
-
-                    break;
-
-                case "BrideAccessories":
-
-                    break;
-
-                case "BrideClothes":
-
-                    break;
-
-                case "GroomAccessories":
-
-                    break;
-
-                case "GroomClothes":
-
-                    break;
-
-                case "BMMOHAccessories":
-
-                    break;
-
-                case "BMMOHClothes":
-
-                    break;
-
-                case "BAGAccessories":
-
-                    break;
-
-                case "BAGClothes":
-
-                    break;
-
-                case "HoneymoonDestination":
-
-                    break;
-
-                case "GuestsList":
-
-                    break;
-
-                case "ForeignGuestsAccomodation":
-
-                    break;
-
-                case "HairdresserMakeupArtist":
-
-                    break;
-
-                case "Invitations":
-
-                    break;
-
-                case "PurchaseBrideAccessories":
-
-                    break;
-
-                case "PurchaseBrideClothes":
-
-                    break;
-
-                case "PurchaseGroomAccessories":
-
-                    break;
-
-                case "PurchaseGroomClothes":
-
-                    break;
-
-                case "PurchaseBMMOHAccessories":
-
-                    break;
-
-                case "PurchaseBMMOHClothes":
-
-                    break;
-
-                case "PurchaseBAGAccessories":
-
-                    break;
-
-                case "PurchaseBAGClothes":
-
-                    break;
-
-                case "PurchaseRestaurantFood":
-
-                    break;
-
-                case "PurchaseFreshFlowers":
-
-                    break;
-
-                case "PurchaseRings":
-
-                    break;
-
-                case "PurchaseCake":
-
-                    break;
-
-                case "BookMusicLayout":
-
-                    break;
-
-                case "BookPhotographer":
-
-                    break;
-
-                case "BookHoneymoonDestination":
-
-                    break;
-
-                case "BookGuestsAccomodation":
-
-                    break;
-
-                case "BookHairdresserMakeupArtistAppointments":
-
-                    break;
-
-                case "SendInvitations":
-
-                    break;
-
-                case "RestaurantAccomodationPlan":
-
-                    break;
-                    
-                default:
-                    break;
-
+                return;
             }
-        }
 
-        private void CreateWeddingBudgetControl(object value)
-        {
-            var weddingBudget = new BudgetPicker(Convert.ToInt32(value));
-
-            pivotStackPanel.Children.Add(weddingBudget);
-        }
-
-        private void ListBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            BudgetPicker weddingBudget = new BudgetPicker();
-            pivotStackPanel.Children.Add(weddingBudget);
+            var taskClicked = new KeyValuePair<string, object>(senderElement.Name, -1);
+            TaskData.CreateTaskControl(this, taskClicked);
         }
     }
 }

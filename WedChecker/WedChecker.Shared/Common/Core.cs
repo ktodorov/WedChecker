@@ -46,7 +46,7 @@ namespace WedChecker.Common
         {
             var populatedObjects = new Dictionary<string, object>();
             
-            foreach(var taskControl in AppData.TaskControls)
+            foreach(var taskControl in TaskData.TaskControls)
             {
                 if (AppData.GetValue(taskControl) != null)
                 {

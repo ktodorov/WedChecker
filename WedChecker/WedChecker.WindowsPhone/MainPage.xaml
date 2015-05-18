@@ -51,107 +51,121 @@
         </Style>
     </Page.Resources>
 
-    <StackPanel x:Name="LayoutRoot">
+    <ScrollViewer>
 
-        <StackPanel.Transitions>
-            <TransitionCollection>
-                <EdgeUIThemeTransition/>
-            </TransitionCollection>
-        </StackPanel.Transitions>
+        <StackPanel x:Name="LayoutRoot">
 
-        <StackPanel.ChildrenTransitions>
-            <TransitionCollection>
-                <ReorderThemeTransition/>
-            </TransitionCollection>
-        </StackPanel.ChildrenTransitions>
+            <StackPanel.Transitions>
+                <TransitionCollection>
+                    <EdgeUIThemeTransition/>
+                </TransitionCollection>
+            </StackPanel.Transitions>
 
-        <UserControls:FirstLaunchPopup Height="Auto" VerticalAlignment="Stretch" x:Name="firstLaunchPopup"/>
-        
-        <Pivot x:Name="mainPivot" Title="WEDCHECKER" Visibility="Collapsed">
-            <Pivot.TitleTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <TextBlock Text="{Binding}" Style="{StaticResource HeaderTextBlockStyle}" FontWeight="Bold"/>
-                    </Grid>
-                </DataTemplate>
-            </Pivot.TitleTemplate>
-            <Pivot.HeaderTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <TextBlock Text="{Binding}" FontWeight="Bold" FontSize="40"/>
-                    </Grid>
-                </DataTemplate>
-            </Pivot.HeaderTemplate>
-            <PivotItem Header="ONE">
-                <StackPanel>
-                    <TextBlock x:Name="tbGreetUser" Margin="10,0,0,0" TextWrapping="Wrap" Text="Hello" Style="{StaticResource MessageDialogTitleStyle}" Foreground="{StaticResource PhoneAccentBrush}"/>
-                    <UserControls:CountdownTimer Margin="0, 40, 0, 0" x:Name="tbCountdownTimer" />
-                </StackPanel>
-            </PivotItem>
-            <PivotItem Header="TWO">
-                <StackPanel Name="pivotStackPanel" Orientation="Vertical">
-                    
-                </StackPanel>
-            </PivotItem>
-        </Pivot>
+            <StackPanel.ChildrenTransitions>
+                <TransitionCollection>
+                    <ReorderThemeTransition/>
+                </TransitionCollection>
+            </StackPanel.ChildrenTransitions>
+
+            <UserControls:FirstLaunchPopup Height="Auto" VerticalAlignment="Stretch" x:Name="firstLaunchPopup"/>
+            <Pivot x:Name="mainPivot" Title="WEDCHECKER" Visibility="Collapsed">
+                <Pivot.TitleTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <TextBlock Text="{Binding}" Style="{StaticResource HeaderTextBlockStyle}" FontWeight="Bold"/>
+                        </Grid>
+                    </DataTemplate>
+                </Pivot.TitleTemplate>
+                <Pivot.HeaderTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <TextBlock Text="{Binding}" FontWeight="Bold" FontSize="40"/>
+                        </Grid>
+                    </DataTemplate>
+                </Pivot.HeaderTemplate>
+                <PivotItem Header="ONE">
+                    <StackPanel>
+                        <TextBlock x:Name="tbGreetUser" Margin="10,0,0,0" TextWrapping="Wrap" Text="Hello" Style="{StaticResource MessageDialogTitleStyle}" Foreground="{StaticResource PhoneAccentBrush}"/>
+                        <UserControls:CountdownTimer Margin="0, 40, 0, 0" x:Name="tbCountdownTimer" />
+                    </StackPanel>
+                </PivotItem>
+                <PivotItem Header="TWO">
+                    <StackPanel Name="pivotStackPanel" Orientation="Vertical">
+
+                    </StackPanel>
+                </PivotItem>
+            </Pivot>
 
 
-        <ListBox x:Name="LbTasks" HorizontalAlignment="Center" VerticalAlignment="Stretch" Visibility="Collapsed"
+            <ItemsControl x:Name="LbTasks" HorizontalAlignment="Center" VerticalAlignment="Stretch" Visibility="Collapsed"
             Background="{StaticResource ListBoxFocusBackgroundThemeBrush}">
-            <ListBox.Resources>
-                <Style TargetType="ListBoxItem">
-                    <Setter Property="Foreground" Value="{StaticResource PhoneAccentBrush}" />
-                    <Setter Property="FontSize" Value="20" />
-                    <Setter Property="Margin" Value="10, 0, 10, 0" />
-                </Style>
-            </ListBox.Resources>
-            <ListBoxItem Tapped="ListBoxItem_Tapped">Budget for your wedding</ListBoxItem>
-            <ListBoxItem>Wedding style and colors</ListBoxItem>
-            <ListBoxItem>Registry marriage place</ListBoxItem>
-            <ListBoxItem>Religious marriage place</ListBoxItem>
-            <ListBoxItem>Documents required for marriage</ListBoxItem>
-            <ListBoxItem>Restaurant</ListBoxItem>
-            <ListBoxItem>Restaurant food</ListBoxItem>
-            <ListBoxItem>Best man and maid of honor</ListBoxItem>
-            <ListBoxItem>Bridesmaids and groomsmen</ListBoxItem>
-            <ListBoxItem>Decoration</ListBoxItem>
-            <ListBoxItem>Fresh flowers</ListBoxItem>
-            <ListBoxItem>Music layout</ListBoxItem>
-            <ListBoxItem>Photographer</ListBoxItem>
-            <ListBoxItem>Bride accessories</ListBoxItem>
-            <ListBoxItem>Bride clothes</ListBoxItem>
-            <ListBoxItem>Groom accessories</ListBoxItem>
-            <ListBoxItem>Groom clothes</ListBoxItem>
-            <ListBoxItem>Best man and maid of honor accessories</ListBoxItem>
-            <ListBoxItem>Best man and maid of honor clothes</ListBoxItem>
-            <ListBoxItem>Bridesmaids and groomsmen accessories</ListBoxItem>
-            <ListBoxItem>Bridesmaids and groomsmen clothes</ListBoxItem>
-            <ListBoxItem>Honeymoon destination</ListBoxItem>
-            <ListBoxItem>Guests list</ListBoxItem>
-            <ListBoxItem>Foreign guests accomodation</ListBoxItem>
-            <ListBoxItem>Hairdresser and makeup artist</ListBoxItem>
-            <ListBoxItem>Invitations</ListBoxItem>
-            <ListBoxItem>Purchase bride accessories</ListBoxItem>
-            <ListBoxItem>Purchase bride clothes</ListBoxItem>
-            <ListBoxItem>Purchase groom accessories</ListBoxItem>
-            <ListBoxItem>Purchase groom clothes</ListBoxItem>
-            <ListBoxItem>Purchase best man and maid of honor accessories</ListBoxItem>
-            <ListBoxItem>Purchase best man and maid of honor clothes</ListBoxItem>
-            <ListBoxItem>Purchase bridesmaids and groomsmen accessories</ListBoxItem>
-            <ListBoxItem>Purchase restaurant food</ListBoxItem>
-            <ListBoxItem>Purchase fresh flowers</ListBoxItem>
-            <ListBoxItem>Book music layout</ListBoxItem>
-            <ListBoxItem>Book photographer</ListBoxItem>
-            <ListBoxItem>Book honeymoon destination</ListBoxItem>
-            <ListBoxItem>Book guests accomodation</ListBoxItem>
-            <ListBoxItem>Book hairdresser and makeup artist appointments</ListBoxItem>
-            <ListBoxItem>Send invitations</ListBoxItem>
-            <ListBoxItem>Restaurant accomodation plan</ListBoxItem>
-            <ListBoxItem>Purchase rings</ListBoxItem>
-            <ListBoxItem>Purchase cake</ListBoxItem>
-        </ListBox>
+                <ItemsControl.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="FontSize" Value="20" />
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Foreground" Value="{StaticResource PhoneAccentBrush}" />
+                    </Style>
+                </ItemsControl.Resources>
+                <ItemsControl.Template>
+                    <ControlTemplate>
+                        <ScrollViewer>
+                            <ItemsPresenter></ItemsPresenter>
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </ItemsControl.Template>
+                <ItemsControl.Items>
+                    <TextBlock Text="Planning" FontSize="25"/>
+                    <Button Name="WeddingBudget" Click="TaskItem_Clicked">Budget for your wedding</Button>
+                    <Button>Wedding style and colors</Button>
+                    <Button>Registry marriage place</Button>
+                    <Button>Religious marriage place</Button>
+                    <Button>Documents required for marriage</Button>
+                    <Button>Restaurant</Button>
+                    <Button>Restaurant food</Button>
+                    <Button>Best man and maid of honor</Button>
+                    <Button>Bridesmaids and groomsmen</Button>
+                    <Button>Decoration</Button>
+                    <Button>Fresh flowers</Button>
+                    <Button>Music layout</Button>
+                    <Button>Photographer</Button>
+                    <Button>Bride accessories</Button>
+                    <Button>Bride clothes</Button>
+                    <Button>Groom accessories</Button>
+                    <Button>Groom clothes</Button>
+                    <Button>Best man and maid of honor accessories</Button>
+                    <Button>Best man and maid of honor clothes</Button>
+                    <Button>Bridesmaids and groomsmen accessories</Button>
+                    <Button>Bridesmaids and groomsmen clothes</Button>
+                    <Button>Honeymoon destination</Button>
+                    <Button>Guests list</Button>
+                    <Button>Foreign guests accomodation</Button>
+                    <Button>Hairdresser and makeup artist</Button>
+                    <Button>Invitations</Button>
+                    <TextBlock Text="Purchasing" FontSize="25"/>
+                    <Button>Purchase bride accessories</Button>
+                    <Button>Purchase bride clothes</Button>
+                    <Button>Purchase groom accessories</Button>
+                    <Button>Purchase groom clothes</Button>
+                    <Button>Purchase best man and maid of honor accessories</Button>
+                    <Button>Purchase best man and maid of honor clothes</Button>
+                    <Button>Purchase bridesmaids and groomsmen accessories</Button>
+                    <Button>Purchase restaurant food</Button>
+                    <Button>Purchase fresh flowers</Button>
+                    <TextBlock Text="Booking" FontSize="25"/>
+                    <Button>Book music layout</Button>
+                    <Button>Book photographer</Button>
+                    <Button>Book honeymoon destination</Button>
+                    <Button>Book guests accomodation</Button>
+                    <Button>Book hairdresser and makeup artist appointments</Button>
+                    <Button>Send invitations</Button>
+                    <Button>Restaurant accomodation plan</Button>
+                    <Button>Purchase rings</Button>
+                    <Button>Purchase cake</Button>
+                </ItemsControl.Items>
+            </ItemsControl>
 
-    </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
 
     <Page.BottomAppBar>
         <CommandBar x:Name="appBar" IsOpen="False" Visibility="Collapsed" 
