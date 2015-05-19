@@ -17,27 +17,21 @@ using Windows.UI.Xaml.Navigation;
 
 namespace WedChecker.UserControls.Tasks
 {
-    public sealed partial class PopulatedTask : UserControl
+    public abstract partial class BaseTaskControl : UserControl
     {
-        private BaseTaskControl ConnectedTaskControl
-        {
-            get;
-            set;
-        }
-
-        public PopulatedTask()
+        public BaseTaskControl()
         {
             this.InitializeComponent();
         }
-        public PopulatedTask(BaseTaskControl control)
+
+        public virtual void DisplayValues(int value)
         {
-            this.InitializeComponent();
-            ConnectedTaskControl = control;
+
         }
 
-        void editTask_Click(object sender, RoutedEventArgs e)
+        public virtual void EditValues()
         {
-            ConnectedTaskControl.EditValues();
+
         }
     }
 }

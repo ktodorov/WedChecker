@@ -10,16 +10,16 @@
     
     <Grid Height="Auto">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="7*"/>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition MaxWidth="50"/>
         </Grid.ColumnDefinitions>
         
         
         <TextBlock Name="tbTaskName" Text="Budget" VerticalAlignment="Center" FontSize="30"
                    HorizontalAlignment="Left" Grid.Column="0"/>
-        <Button Name="editTask" Content="&#xE115;" FontFamily="Segoe UI Symbol" FontSize="30"
+        <Button Name="editTask" Content="&#xE104;" FontFamily="Segoe UI Symbol" FontSize="30"
                 Height="50" Width="50" BorderThickness="0" Foreground="{StaticResource PhoneAccentBrush}"
-                VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1">
+                VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" Click="editTask_Click">
         </Button>
     </Grid>
 </UserControl>

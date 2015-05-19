@@ -15,7 +15,7 @@ namespace WedChecker.Common
         public static void CreateTaskControl(Page currentPage, KeyValuePair<string, object> populatedControl)
         {
             object value = populatedControl.Value;
-            UIElement taskControl = null;
+            BaseTaskControl taskControl = null;
             switch (populatedControl.Key)
             {
                 case "WeddingBudget":
@@ -205,7 +205,7 @@ namespace WedChecker.Common
 
 #if WINDOWS_PHONE_APP
             var pivotStackPanel = currentPage.FindName("pivotStackPanel") as StackPanel;
-            pivotStackPanel.Children.Add(new PopulatedTask());
+            pivotStackPanel.Children.Add(new PopulatedTask(taskControl));
             pivotStackPanel.Children.Add(taskControl);
 
             var lbTasks = currentPage.FindName("LbTasks") as ItemsControl;
@@ -223,7 +223,7 @@ namespace WedChecker.Common
 #endif
         }
 
-        private static UIElement CreateWeddingBudgetControl(object value)
+        private static BaseTaskControl CreateWeddingBudgetControl(object value)
         {
             var intValue = Convert.ToInt32(value);
             if (intValue == -1)
