@@ -34,37 +34,27 @@ namespace WedChecker.UserControls
             {
                 var weddingDate = Convert.ToDateTime(Core.LocalSettings.Values["WeddingDate"].ToString());
                 var days = Convert.ToInt32((weddingDate - DateTime.Now).TotalDays);
-                var daysString = days.ToString();
-                daysString += days != 1 ? " DAYS" : " DAY";
                 var hours = Convert.ToInt32((weddingDate - DateTime.Now).Hours);
-                var hoursString = hours.ToString();
-                hoursString += hours != 1 ? " HOURS" : " HOUR";
                 var minutes = Convert.ToInt32((weddingDate - DateTime.Now).Minutes);
-                var minutesString = minutes.ToString();
-                minutesString += minutes != 1 ? " MINUTES" : " MINUTE";
                 var seconds = Convert.ToInt32((weddingDate - DateTime.Now).Seconds);
-                var secondsString = seconds.ToString();
-                secondsString += seconds != 1 ? " SECONDS" : " SECOND";
 
-                tbTimeLeft.Text = string.Format("{0}\n{1}\n{2}\n{3}", daysString, hoursString, minutesString, secondsString);
+                tbDaysLeft.Text = days.ToString("00");
+                tbHoursLeft.Text = hours.ToString("00");
+                tbMinutesLeft.Text = minutes.ToString("00");
+                tbSecondsLeft.Text = seconds.ToString("00");
             }
             else if (Core.RoamingSettings.Values.Keys.Contains("WeddingDate") && Core.RoamingSettings.Values["WeddingDate"] != null)
             {
                 var weddingDate = Convert.ToDateTime(Core.RoamingSettings.Values["WeddingDate"].ToString());
                 var days = Convert.ToInt32((weddingDate - DateTime.Now).TotalDays);
-                var daysString = days.ToString();
-                daysString += days != 1 ? " DAYS" : " DAY";
                 var hours = Convert.ToInt32((weddingDate - DateTime.Now).Hours);
-                var hoursString = hours.ToString();
-                hoursString += hours != 1 ? " HOURS" : " HOUR";
                 var minutes = Convert.ToInt32((weddingDate - DateTime.Now).Minutes);
-                var minutesString = minutes.ToString();
-                minutesString += minutes != 1 ? " MINUTES" : " MINUTE";
                 var seconds = Convert.ToInt32((weddingDate - DateTime.Now).Seconds);
-                var secondsString = seconds.ToString();
-                secondsString += seconds != 1 ? " SECONDS" : " SECOND";
 
-                tbTimeLeft.Text = string.Format("{0}\n{1}\n{2}\n{3}", daysString, hoursString, minutesString, secondsString);
+                tbDaysLeft.Text = days.ToString("00");
+                tbHoursLeft.Text = hours.ToString("00");
+                tbMinutesLeft.Text = minutes.ToString("00");
+                tbSecondsLeft.Text = seconds.ToString("00");
             }
         }
     }
