@@ -169,5 +169,17 @@ namespace WedChecker
             var taskClicked = new KeyValuePair<string, object>(senderElement.Name, -1);
             TaskData.CreateTaskControl(this, taskClicked);
         }
+
+        private void GuestsList_Click(object sender, RoutedEventArgs e)
+        {
+            var senderElement = sender as Button;
+            if (senderElement == null)
+            {
+                return;
+            }
+
+            var taskClicked = new KeyValuePair<string, object>(senderElement.Name, -1);
+            TaskData.CreateTaskControl(this, taskClicked);
+        }
     }
 }

@@ -107,7 +107,7 @@ namespace WedChecker.Common
                     break;
 
                 case "GuestsList":
-
+                    taskControl = CreateGuestsListControl(value);
                     break;
 
                 case "ForeignGuestsAccomodation":
@@ -221,6 +221,18 @@ namespace WedChecker.Common
 #else
 
 #endif
+        }
+
+        private static BaseTaskControl CreateGuestsListControl(object value)
+        {
+            var intValue = Convert.ToInt32(value);
+            if (intValue == -1)
+            {
+                return new GuestsList();
+            }
+
+            var guestsList = new GuestsList(intValue);
+            return guestsList;
         }
 
         private static BaseTaskControl CreateWeddingBudgetControl(object value)

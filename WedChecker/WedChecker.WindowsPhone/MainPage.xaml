@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:UserControls="using:WedChecker.UserControls"
+    xmlns:TaskUserControls="using:WedChecker.UserControls.Tasks"
     x:Class="WedChecker.MainPage"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -66,7 +67,7 @@
                     <ReorderThemeTransition/>
                 </TransitionCollection>
             </StackPanel.ChildrenTransitions>
-
+            
             <UserControls:FirstLaunchPopup Height="Auto" VerticalAlignment="Stretch" x:Name="firstLaunchPopup"/>
             <Pivot x:Name="mainPivot" Title="WEDCHECKER" Visibility="Collapsed">
                 <Pivot.TitleTemplate>
@@ -148,7 +149,7 @@
                     <Button>Bridesmaids and groomsmen accessories</Button>
                     <Button>Bridesmaids and groomsmen clothes</Button>
                     <Button>Honeymoon destination</Button>
-                    <Button>Guests list</Button>
+                    <Button Name="GuestsList" Click="GuestsList_Click">Guests list</Button>
                     <Button>Foreign guests accomodation</Button>
                     <Button>Hairdresser and makeup artist</Button>
                     <Button>Invitations</Button>
