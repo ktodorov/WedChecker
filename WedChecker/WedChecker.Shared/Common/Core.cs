@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using WedChecker.UserControls.Tasks;
 using Windows.Storage;
 
 namespace WedChecker.Common
@@ -55,6 +56,22 @@ namespace WedChecker.Common
                 }
             }
             
+            return populatedObjects;
+        }
+
+        public static List<BaseTaskControl> GetPopulatedTaskControls()
+        {
+            var populatedObjects = new List<BaseTaskControl>();
+
+            foreach (var taskControl in TaskData.TaskControls)
+            {
+                if (AppData.GetValue(taskControl) != null)
+                {
+                    // Then this task was populated
+                    populatedObjects.Add(TaskData.GetTaskControlFromString(taskControl));
+                }
+            }
+
             return populatedObjects;
         }
     }

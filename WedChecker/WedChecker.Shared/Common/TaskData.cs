@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 using WedChecker.UserControls.Tasks;
+using Windows.ApplicationModel.Contacts;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 #if WINDOWS_PHONE_APP
 using Windows.Phone.UI.Input;
+using Windows.ApplicationModel.Contacts;
 #endif
 namespace WedChecker.Common
 {
-    public static class TaskData
+    public static partial class TaskData
     {
         public static void CreateTaskControl(Page currentPage, KeyValuePair<string, object> populatedControl)
         {
@@ -223,15 +225,199 @@ namespace WedChecker.Common
 #endif
         }
 
+        public static BaseTaskControl GetTaskControlFromString(string taskControlName)
+        {
+            switch (taskControlName)
+            {
+                case "WeddingBudget":
+                    return new WeddingBudget();
+                case "WeddingStyle":
+
+                    break;
+
+                case "RegistryPlace":
+
+                    break;
+
+                case "ReligiousPlace":
+
+                    break;
+
+                case "DocumentsRequired":
+
+                    break;
+
+                case "Restaurant":
+
+                    break;
+
+                case "RestaurantFood":
+
+                    break;
+
+                case "BestMan_MaidOfHonour":
+
+                    break;
+
+                case "BridesmaidsGroomsmen":
+
+                    break;
+
+                case "Decoration":
+
+                    break;
+
+                case "FreshFlowers":
+
+                    break;
+
+                case "MusicLayout":
+
+                    break;
+
+                case "Photographer":
+
+                    break;
+
+                case "BrideAccessories":
+
+                    break;
+
+                case "BrideClothes":
+
+                    break;
+
+                case "GroomAccessories":
+
+                    break;
+
+                case "GroomClothes":
+
+                    break;
+
+                case "BMMOHAccessories":
+
+                    break;
+
+                case "BMMOHClothes":
+
+                    break;
+
+                case "BAGAccessories":
+
+                    break;
+
+                case "BAGClothes":
+
+                    break;
+
+                case "HoneymoonDestination":
+
+                    break;
+
+                case "GuestsList":
+                    return new GuestsList();
+                case "ForeignGuestsAccomodation":
+
+                    break;
+
+                case "HairdresserMakeupArtist":
+
+                    break;
+
+                case "Invitations":
+
+                    break;
+
+                case "PurchaseBrideAccessories":
+
+                    break;
+
+                case "PurchaseBrideClothes":
+
+                    break;
+
+                case "PurchaseGroomAccessories":
+
+                    break;
+
+                case "PurchaseGroomClothes":
+
+                    break;
+
+                case "PurchaseBMMOHAccessories":
+
+                    break;
+
+                case "PurchaseBMMOHClothes":
+
+                    break;
+
+                case "PurchaseBAGAccessories":
+
+                    break;
+
+                case "PurchaseBAGClothes":
+
+                    break;
+
+                case "PurchaseRestaurantFood":
+
+                    break;
+
+                case "PurchaseFreshFlowers":
+
+                    break;
+
+                case "PurchaseRings":
+
+                    break;
+
+                case "PurchaseCake":
+
+                    break;
+
+                case "BookMusicLayout":
+
+                    break;
+
+                case "BookPhotographer":
+
+                    break;
+
+                case "BookHoneymoonDestination":
+
+                    break;
+
+                case "BookGuestsAccomodation":
+
+                    break;
+
+                case "BookHairdresserMakeupArtistAppointments":
+
+                    break;
+
+                case "SendInvitations":
+
+                    break;
+
+                case "RestaurantAccomodationPlan":
+
+                    break;
+            }
+
+            return null;
+        }
+
         private static BaseTaskControl CreateGuestsListControl(object value)
         {
-            var intValue = Convert.ToInt32(value);
-            if (intValue == -1)
+            var contactsValue = value as List<Contact>;
+            if (contactsValue == null)
             {
                 return new GuestsList();
             }
 
-            var guestsList = new GuestsList(intValue);
+            var guestsList = new GuestsList(contactsValue);
             return guestsList;
         }
 
@@ -240,16 +426,16 @@ namespace WedChecker.Common
             var intValue = Convert.ToInt32(value);
             if (intValue == -1)
             {
-                return new BudgetPicker();
+                return new WeddingBudget();
             }
 
-            var weddingBudget = new BudgetPicker(intValue);
+            var weddingBudget = new WeddingBudget(intValue);
             return weddingBudget;
         }
 
         public static void DisableAddedTasks(ItemsControl itemsControl)
         {
-            foreach(var item in itemsControl.Items)
+            foreach (var item in itemsControl.Items)
             {
                 if (!(item is Button))
                 {

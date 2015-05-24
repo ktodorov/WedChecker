@@ -14,19 +14,25 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using WedChecker.Common;
 using WedChecker.UserControls.Tasks;
-
-// The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
+using System.IO.Compression;
+using System.Text;
 
 namespace WedChecker.UserControls.Tasks
 {
-    public partial class BudgetPicker : BaseTaskControl
+    public partial class WeddingBudget : BaseTaskControl
     {
-        public BudgetPicker()
+        private int Budget
+        {
+            get;
+            set;
+        }
+
+        public WeddingBudget()
         {
             this.InitializeComponent();
         }
 
-        public BudgetPicker(int value)
+        public WeddingBudget(int value)
         {
             this.InitializeComponent();
             DisplayValues(value);
@@ -34,6 +40,7 @@ namespace WedChecker.UserControls.Tasks
 
         public override void DisplayValues(int value)
         {
+            Budget = value;
             tbBudgetDisplay.Text = value.ToString();
             tbBudgetDisplay.Visibility = Visibility.Visible;
             tbHeader.Text = "This is what you have planned";
@@ -50,6 +57,21 @@ namespace WedChecker.UserControls.Tasks
             budgetPickerButton.Visibility = Visibility.Visible;
         }
 
+
+        public override void Serialize(BinaryWriter writer)
+        {
+            writer.Write(TaskData.Tasks.WeddingBudget);
+            writer.Write(Budget);
+        }
+
+        public override BaseTaskControl Deserialize(BinaryReader reader)
+        {
+            //Read in the number of records
+            var budget = reader.ReadInt32();
+
+            return new WeddingBudget(budget);
+        }
+
         private async void budgetPickerButton_Click(object sender, RoutedEventArgs e)
         {
             var weddingBudget = tbBudget.Text;
@@ -59,6 +81,7 @@ namespace WedChecker.UserControls.Tasks
                 return;
             }
 
+            Budget = Convert.ToInt32(weddingBudget);
             await AppData.InsertGlobalValue("WeddingBudget", weddingBudget);
             DisplayValues(Convert.ToInt32(weddingBudget));
         }

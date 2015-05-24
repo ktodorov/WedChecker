@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using WedChecker.UserControls.Tasks;
 using Windows.Storage;
+using Windows.UI.Xaml.Controls;
 
 namespace WedChecker.Common
 {
@@ -69,7 +72,7 @@ namespace WedChecker.Common
                 {
                     value += dataFile[i];
                 }
-                
+
                 if (index == 6)
                 {
                     LocalAppData[key] = value;
@@ -133,30 +136,11 @@ namespace WedChecker.Common
 
         public static async Task ReadDataFile()
         {
-            var fileName = "dataFile.txt";
+            var controls = await DeserializeData();
 
-
-            StorageFolder folder = ApplicationData.Current.LocalFolder;
-
-            StorageFile file;
-            bool fileAvailable = true;
-
-            try
+            foreach (var control in controls)
             {
-                file = await folder.GetFileAsync(fileName);
-                await DecodeFileData(file);
-            }
-            catch (FileNotFoundException)
-            {
-                // There is no such file..
-                fileAvailable = false;
-            }
 
-            if (!fileAvailable)
-            {
-                await WriteDataFile();
-                file = await folder.GetFileAsync(fileName);
-                await DecodeFileData(file);
             }
         }
 
@@ -212,9 +196,85 @@ namespace WedChecker.Common
 
         public static async Task InsertGlobalValue(string name, string value)
         {
+            if (LocalAppData == null)
+            {
+                LocalAppData = new Dictionary<string, string>();
+            }
+
             LocalAppData[name] = value;
             await WriteDataFile();
             await WriteRoamingDataFile();
+        }
+
+        public static async Task SerializeData()
+        {
+            var fileName = "dataFileSerialized.dat";
+
+            StorageFolder folder = ApplicationData.Current.LocalFolder;
+            StorageFile file = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+
+            if ((file.DateCreated - DateTime.Now).TotalMinutes > 1)
+            {
+                return;
+            }
+
+            var populatedControls = Core.GetPopulatedTaskControls();
+
+            using (Stream stream = await file.OpenStreamForWriteAsync())
+            using (GZipStream compressionStream = new GZipStream(stream, CompressionMode.Compress, true))
+            using (BinaryWriter writer = new BinaryWriter(compressionStream, Encoding.Unicode, true))
+            {
+                foreach (var populatedControl in populatedControls)
+                {
+                    populatedControl.Serialize(writer);
+                }
+            }
+        }
+
+        public static async Task<List<BaseTaskControl>> DeserializeData()
+        {
+            var fileName = "dataFileSerialized.dat";
+
+            StorageFolder folder = ApplicationData.Current.LocalFolder;
+            var addedControls = new List<BaseTaskControl>();
+
+            try
+            {
+                StorageFile file = await folder.GetFileAsync(fileName);
+
+                using (Stream stream = await file.OpenStreamForReadAsync())
+                using (GZipStream decompressionStream = new GZipStream(stream, CompressionMode.Decompress, true))
+                using (BinaryReader reader = new BinaryReader(decompressionStream, Encoding.Unicode, true))
+                {
+                    while (true)
+                    {
+                        var control = reader.ReadString();
+
+                        if (control == null)
+                        {
+                            return addedControls;
+                        }
+
+                        foreach (var taskControl in TaskData.TaskControls)
+                        {
+                            if (taskControl == control)
+                            {
+                                var baseTaskControl = TaskData.GetTaskControlFromString(taskControl);
+                                InsertGlobalValue(baseTaskControl.GetType().ToString(), "true");
+                                var controlToAdd = baseTaskControl.Deserialize(reader);
+                                addedControls.Add(controlToAdd);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return addedControls;
         }
     }
 }

@@ -124,12 +124,10 @@ namespace WedChecker
                 }
                 else
                 {
-                    await AppData.ReadDataFile();
-                    firstLaunchPopup.Visibility = Visibility.Collapsed;
-                    appBar.Visibility = Visibility.Visible;
+                    var controls = await AppData.DeserializeData();
+                    AddPopulatedControls(controls);
+
                     tbGreetUser.Text = string.Format("Hello, {0}", Core.RoamingSettings.Values["Name"]);
-                    AddPopulatedControls();
-                    mainPivot.Visibility = Visibility.Visible;
                 }
             };
         }
@@ -158,6 +156,23 @@ namespace WedChecker
             TaskData.DisableAddedTasks(LbTasks);
         }
 
+        private void AddPopulatedControls(List<BaseTaskControl> populatedControls)
+        {
+            foreach (var populatedControl in populatedControls)
+            {
+                spPlanings.Children.Add(new PopulatedTask(populatedControl));
+                spPlanings.Children.Add(populatedControl);
+
+            }
+            firstLaunchPopup.Visibility = Visibility.Collapsed;
+            LbTasks.Visibility = Visibility.Collapsed;
+            appBar.Visibility = Visibility.Visible;
+            mainPivot.Visibility = Visibility.Visible;
+            mainPivot.SelectedIndex = 1;
+
+            TaskData.DisableAddedTasks(LbTasks);
+        }
+
         private void TaskItem_Clicked(object sender, RoutedEventArgs e)
         {
             var senderElement = sender as Button;
@@ -168,6 +183,8 @@ namespace WedChecker
 
             var taskClicked = new KeyValuePair<string, object>(senderElement.Name, -1);
             TaskData.CreateTaskControl(this, taskClicked);
+
+            AppData.SerializeData();
         }
 
         private void GuestsList_Click(object sender, RoutedEventArgs e)
@@ -179,7 +196,8 @@ namespace WedChecker
             }
 
             var taskClicked = new KeyValuePair<string, object>(senderElement.Name, -1);
-            TaskData.CreateTaskControl(this, taskClicked);
+
+            AppData.SerializeData();
         }
     }
 }
