@@ -85,6 +85,12 @@ namespace WedChecker.Common
 
         public static string GetValue(string key)
         {
+            if (LocalAppData == null || LocalAppData.Count == 0)
+            {
+                LocalAppData = new Dictionary<string, string>();
+                PopulateAppData();
+            }
+
             if (LocalAppData.ContainsKey(key))
             {
                 return LocalAppData[key];
@@ -131,16 +137,6 @@ namespace WedChecker.Common
             catch (Exception)
             {
                 throw;
-            }
-        }
-
-        public static async Task ReadDataFile()
-        {
-            var controls = await DeserializeData();
-
-            foreach (var control in controls)
-            {
-
             }
         }
 
@@ -194,7 +190,7 @@ namespace WedChecker.Common
         }
 
 
-        public static async Task InsertGlobalValue(string name, string value)
+        public static async Task InsertGlobalValue(string name, string value, bool serialize = true)
         {
             if (LocalAppData == null)
             {
@@ -202,8 +198,11 @@ namespace WedChecker.Common
             }
 
             LocalAppData[name] = value;
-            await WriteDataFile();
-            await WriteRoamingDataFile();
+
+            if (serialize)
+            {
+                SerializeData();
+            }
         }
 
         public static async Task SerializeData()
@@ -224,6 +223,8 @@ namespace WedChecker.Common
             using (GZipStream compressionStream = new GZipStream(stream, CompressionMode.Compress, true))
             using (BinaryWriter writer = new BinaryWriter(compressionStream, Encoding.Unicode, true))
             {
+                SerializeAppData(writer);
+
                 foreach (var populatedControl in populatedControls)
                 {
                     populatedControl.Serialize(writer);
@@ -238,6 +239,8 @@ namespace WedChecker.Common
             StorageFolder folder = ApplicationData.Current.LocalFolder;
             var addedControls = new List<BaseTaskControl>();
 
+            bool fileAvailable = true;
+
             try
             {
                 StorageFile file = await folder.GetFileAsync(fileName);
@@ -249,10 +252,17 @@ namespace WedChecker.Common
                     while (true)
                     {
                         var control = reader.ReadString();
+                         
 
                         if (control == null)
                         {
                             return addedControls;
+                        }
+
+                        if (control == "AppData")
+                        {
+                            DeserializeAppData(reader);
+                            continue;
                         }
 
                         foreach (var taskControl in TaskData.TaskControls)
@@ -260,7 +270,7 @@ namespace WedChecker.Common
                             if (taskControl == control)
                             {
                                 var baseTaskControl = TaskData.GetTaskControlFromString(taskControl);
-                                InsertGlobalValue(baseTaskControl.GetType().ToString(), "true");
+                                InsertGlobalValue(baseTaskControl.GetType().ToString(), "true", false);
                                 var controlToAdd = baseTaskControl.Deserialize(reader);
                                 addedControls.Add(controlToAdd);
                                 break;
@@ -269,12 +279,47 @@ namespace WedChecker.Common
                     }
                 }
             }
-            catch (Exception ex)
+            catch (FileNotFoundException) // The file is not created
             {
+                fileAvailable = false;
+            }
+            catch (EndOfStreamException)
+            {
+                return addedControls;
+            }
 
+            if (!fileAvailable)
+            {
+                await SerializeData();
+                await DeserializeData();
             }
 
             return addedControls;
+        }
+
+        private static void SerializeAppData(BinaryWriter writer)
+        {
+            writer.Write("AppData");
+            writer.Write(LocalAppData.Keys.Count);
+
+            foreach(var key in LocalAppData.Keys)
+            {
+                writer.Write(key);
+                writer.Write(LocalAppData[key]);
+            }
+        }
+
+        private static void DeserializeAppData(BinaryReader reader)
+        {
+            var appDataSize = reader.ReadInt32();
+            var pos = 0;
+            while (pos < appDataSize)
+            {
+                var key = reader.ReadString();
+                var value = reader.ReadString();
+                InsertGlobalValue(key, value, false);
+                pos++;
+            }
         }
     }
 }

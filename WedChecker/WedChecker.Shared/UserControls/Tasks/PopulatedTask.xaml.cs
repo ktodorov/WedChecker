@@ -33,6 +33,7 @@ namespace WedChecker.UserControls.Tasks
         {
             this.InitializeComponent();
             ConnectedTaskControl = control;
+            tbTaskName.Text = control.TaskName;
         }
 
         void editTask_Click(object sender, RoutedEventArgs e)

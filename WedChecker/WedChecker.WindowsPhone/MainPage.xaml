@@ -149,7 +149,7 @@
                     <Button>Bridesmaids and groomsmen accessories</Button>
                     <Button>Bridesmaids and groomsmen clothes</Button>
                     <Button>Honeymoon destination</Button>
-                    <Button Name="GuestsList" Click="GuestsList_Click">Guests list</Button>
+                    <Button Name="GuestsList" Click="TaskItem_Clicked">Guests list</Button>
                     <Button>Foreign guests accomodation</Button>
                     <Button>Hairdresser and makeup artist</Button>
                     <Button>Invitations</Button>

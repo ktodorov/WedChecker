@@ -27,6 +27,14 @@ namespace WedChecker.UserControls.Tasks
             set;
         }
 
+        public override string TaskName
+        {
+            get
+            {
+                return "Budget";
+            }
+        }
+
         public WeddingBudget()
         {
             this.InitializeComponent();
@@ -61,13 +69,13 @@ namespace WedChecker.UserControls.Tasks
         public override void Serialize(BinaryWriter writer)
         {
             writer.Write(TaskData.Tasks.WeddingBudget);
-            writer.Write(Budget);
+            writer.Write(AppData.GetValue("WeddingBudget"));
         }
 
         public override BaseTaskControl Deserialize(BinaryReader reader)
         {
             //Read in the number of records
-            var budget = reader.ReadInt32();
+            var budget = Convert.ToInt32(reader.ReadString());
 
             return new WeddingBudget(budget);
         }

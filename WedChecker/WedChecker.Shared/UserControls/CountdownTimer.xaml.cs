@@ -30,22 +30,10 @@ namespace WedChecker.UserControls
 
         public void UpdateTimeLeft()
         {
-            if (Core.LocalSettings.Values.Keys.Contains("WeddingDate") && Core.LocalSettings.Values["WeddingDate"] != null)
-            {
-                var weddingDate = Convert.ToDateTime(Core.LocalSettings.Values["WeddingDate"].ToString());
-                var days = Convert.ToInt32((weddingDate - DateTime.Now).TotalDays);
-                var hours = Convert.ToInt32((weddingDate - DateTime.Now).Hours);
-                var minutes = Convert.ToInt32((weddingDate - DateTime.Now).Minutes);
-                var seconds = Convert.ToInt32((weddingDate - DateTime.Now).Seconds);
+            var weddingDate = Convert.ToDateTime(Core.GetSetting("WeddingDate"));
 
-                tbDaysLeft.Text = days.ToString("00");
-                tbHoursLeft.Text = hours.ToString("00");
-                tbMinutesLeft.Text = minutes.ToString("00");
-                tbSecondsLeft.Text = seconds.ToString("00");
-            }
-            else if (Core.RoamingSettings.Values.Keys.Contains("WeddingDate") && Core.RoamingSettings.Values["WeddingDate"] != null)
+            if (weddingDate != null)
             {
-                var weddingDate = Convert.ToDateTime(Core.RoamingSettings.Values["WeddingDate"].ToString());
                 var days = Convert.ToInt32((weddingDate - DateTime.Now).TotalDays);
                 var hours = Convert.ToInt32((weddingDate - DateTime.Now).Hours);
                 var minutes = Convert.ToInt32((weddingDate - DateTime.Now).Minutes);

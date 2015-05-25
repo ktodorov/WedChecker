@@ -127,7 +127,7 @@ namespace WedChecker
                     var controls = await AppData.DeserializeData();
                     AddPopulatedControls(controls);
 
-                    tbGreetUser.Text = string.Format("Hello, {0}", Core.RoamingSettings.Values["Name"]);
+                    tbGreetUser.Text = string.Format("Hello, {0}", Core.GetSetting("Name"));
                 }
             };
         }
@@ -183,21 +183,6 @@ namespace WedChecker
 
             var taskClicked = new KeyValuePair<string, object>(senderElement.Name, -1);
             TaskData.CreateTaskControl(this, taskClicked);
-
-            AppData.SerializeData();
-        }
-
-        private void GuestsList_Click(object sender, RoutedEventArgs e)
-        {
-            var senderElement = sender as Button;
-            if (senderElement == null)
-            {
-                return;
-            }
-
-            var taskClicked = new KeyValuePair<string, object>(senderElement.Name, -1);
-
-            AppData.SerializeData();
         }
     }
 }

@@ -24,6 +24,12 @@ namespace WedChecker.UserControls.Tasks
             this.InitializeComponent();
         }
 
+        public virtual string TaskName
+        {
+            get;
+            set;
+        }
+        
         public virtual void DisplayValues(int value)
         {
 

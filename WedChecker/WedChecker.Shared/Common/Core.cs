@@ -33,14 +33,32 @@ namespace WedChecker.Common
             }
         }
 
-        public static bool IsFirstLaunch()
+        public static void SetSetting(string key, object value)
         {
-            return !RoamingSettings.Values.ContainsKey("first") || (bool)RoamingSettings.Values["first"] == false;
+            LocalSettings.Values[key] = value;
+            RoamingSettings.Values[key] = value;
         }
 
-        public static async Task StartUp()
+        public static object GetSetting(string key)
         {
-            await AppData.ReadDataFile();
+            object result = null;
+
+            if (LocalSettings.Values[key] != null)
+            {
+                result = LocalSettings.Values[key];
+            }
+            else if (RoamingSettings.Values[key] != null)
+            {
+                result = RoamingSettings.Values[key];
+            }
+
+            return result;
+        }
+
+        public static bool IsFirstLaunch()
+        {
+            var firstLaunch = GetSetting("first");
+            return firstLaunch == null || (bool)firstLaunch == false;
         }
 
         public static Dictionary<string, object> GetPopulatedControls()

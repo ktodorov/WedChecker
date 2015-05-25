@@ -26,7 +26,6 @@ namespace WedChecker.UserControls
 
         public async Task GreetUser()
         {
-            await Core.StartUp();
             SubmitButton.Click += SubmitButton_Click;
             HeaderDialogTextBlock.Text = AppData.GetValue("firstLaunchFirstHeader");
             TitleDialogTextBlock.Text = AppData.GetValue("firstLaunchFirstTitle");
@@ -45,7 +44,7 @@ namespace WedChecker.UserControls
 
             if (timesProcessed == 0)
             {
-                Core.RoamingSettings.Values["Name"] = NameTextBox.Text;
+                Core.SetSetting("Name", NameTextBox.Text);
                 NameTextBox.Visibility = Visibility.Collapsed;
                 dpWeddingDate.Visibility = Visibility.Visible;
                 tpWeddingDate.Visibility = Visibility.Visible;
@@ -58,7 +57,7 @@ namespace WedChecker.UserControls
             {
                 var weddingDate = new DateTime(dpWeddingDate.Date.Year, dpWeddingDate.Date.Month, dpWeddingDate.Date.Day, 
                                                tpWeddingDate.Time.Hours, tpWeddingDate.Time.Minutes, 0);
-                Core.RoamingSettings.Values["WeddingDate"] = weddingDate.ToString();
+                Core.SetSetting("WeddingDate", weddingDate.ToString());
             }
 
             timesProcessed++;
@@ -76,14 +75,14 @@ namespace WedChecker.UserControls
                 appBar.Visibility = Visibility.Visible;
 
                 var tbGreetUser = stackPanel.FindName("tbGreetUser") as TextBlock;
-                tbGreetUser.Text = string.Format("Hello, {0}", Core.RoamingSettings.Values["Name"]);
+                tbGreetUser.Text = string.Format("Hello, {0}", Core.GetSetting("Name"));
 
                 var tbCountdownTimer = stackPanel.FindName("tbCountdownTimer") as CountdownTimer;
                 tbCountdownTimer.UpdateTimeLeft();
 
                 popup.Visibility = Visibility.Collapsed;
                 
-                Core.RoamingSettings.Values["first"] = true;
+                Core.SetSetting("first", true);
             }
         }
     }

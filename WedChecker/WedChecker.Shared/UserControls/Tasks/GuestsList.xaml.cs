@@ -29,6 +29,14 @@ namespace WedChecker.UserControls.Tasks
             set;
         }
 
+        public override string TaskName
+        {
+            get
+            {
+                return "Guests list";
+            }
+        }
+
         public GuestsList()
         {
             this.InitializeComponent();
