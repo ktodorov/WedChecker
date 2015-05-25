@@ -52,63 +52,72 @@
         </Style>
     </Page.Resources>
 
-    <ScrollViewer>
 
-        <StackPanel x:Name="LayoutRoot">
+    <Grid x:Name="LayoutRoot" Height="Auto">
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <ReorderThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
 
-            <StackPanel.Transitions>
-                <TransitionCollection>
-                    <EdgeUIThemeTransition/>
-                </TransitionCollection>
-            </StackPanel.Transitions>
+        <UserControls:FirstLaunchPopup Height="Auto" VerticalAlignment="Stretch" x:Name="firstLaunchPopup"/>
 
-            <StackPanel.ChildrenTransitions>
-                <TransitionCollection>
-                    <ReorderThemeTransition/>
-                </TransitionCollection>
-            </StackPanel.ChildrenTransitions>
-            
-            <UserControls:FirstLaunchPopup Height="Auto" VerticalAlignment="Stretch" x:Name="firstLaunchPopup"/>
-            <Pivot x:Name="mainPivot" Title="WEDCHECKER" Visibility="Collapsed">
-                <Pivot.TitleTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <TextBlock Text="{Binding}" Style="{StaticResource HeaderTextBlockStyle}" FontFamily="Segoe UI" FontWeight="Bold" Margin="0, 0, 0, 15"/>
-                        </Grid>
-                    </DataTemplate>
-                </Pivot.TitleTemplate>
-                <Pivot.HeaderTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <TextBlock Text="{Binding}" FontFamily="Segoe UI" FontWeight="Bold" FontSize="25"/>
-                        </Grid>
-                    </DataTemplate>
-                </Pivot.HeaderTemplate>
-                <PivotItem Header="MAIN">
-                    <StackPanel Name="spMain">
-                        <TextBlock x:Name="tbGreetUser" TextWrapping="Wrap" Text="Hello" HorizontalAlignment="Center"
+        <Pivot x:Name="mainPivot" Title="WEDCHECKER" Visibility="Collapsed">
+            <Pivot.TitleTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <TextBlock Text="{Binding}" Style="{StaticResource HeaderTextBlockStyle}" FontFamily="Segoe UI" FontWeight="Bold" Margin="0, 0, 0, 15"/>
+                    </Grid>
+                </DataTemplate>
+            </Pivot.TitleTemplate>
+            <Pivot.HeaderTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <TextBlock Text="{Binding}" FontFamily="Segoe UI" FontWeight="Bold" FontSize="25"/>
+                    </Grid>
+                </DataTemplate>
+            </Pivot.HeaderTemplate>
+            <PivotItem Header="MAIN">
+                <ScrollViewer Height="Auto" VerticalAlignment="Top">
+                    <Grid>
+                        <StackPanel Name="spMain">
+                            <TextBlock x:Name="tbGreetUser" TextWrapping="Wrap" Text="Hello" HorizontalAlignment="Center"
                                    Style="{StaticResource MessageDialogTitleStyle}" Foreground="{StaticResource PhoneAccentBrush}"/>
-                        <UserControls:CountdownTimer Margin="0, 40, 0, 0" x:Name="tbCountdownTimer" />
-                    </StackPanel>
-                </PivotItem>
-                <PivotItem Header="PLANINGS">
-                    <StackPanel Name="spPlanings" Orientation="Vertical">
+                            <UserControls:CountdownTimer Margin="0, 40, 0, 0" x:Name="tbCountdownTimer" />
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </PivotItem>
+            <PivotItem Header="PLANINGS">
+                <ScrollViewer Height="Auto" VerticalAlignment="Top">
+                    <Grid>
+                        <StackPanel Name="spPlanings">
 
-                    </StackPanel>
-                </PivotItem>
-                <PivotItem Header="PURCHASES">
-                    <StackPanel Name="spPurchases" Orientation="Vertical">
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </PivotItem>
+            <PivotItem Header="PURCHASES">
+                <ScrollViewer Height="Auto" VerticalAlignment="Top">
+                    <Grid>
+                        <StackPanel Name="spPurchases">
 
-                    </StackPanel>
-                </PivotItem>
-                <PivotItem Header="BOOKINGS">
-                    <StackPanel Name="spBookings" Orientation="Vertical">
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </PivotItem>
+            <PivotItem Header="BOOKINGS">
+                <ScrollViewer Height="Auto" VerticalAlignment="Top">
+                    <Grid>
+                        <StackPanel Name="spBookings">
 
-                    </StackPanel>
-                </PivotItem>
-            </Pivot>
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </PivotItem>
+        </Pivot>
 
-
+        <ScrollViewer Height="Auto" VerticalAlignment="Top">
             <ItemsControl x:Name="LbTasks" HorizontalAlignment="Center" VerticalAlignment="Stretch" Visibility="Collapsed"
             Background="{StaticResource ListBoxFocusBackgroundThemeBrush}">
                 <ItemsControl.Resources>
@@ -175,9 +184,9 @@
                     <Button>Purchase cake</Button>
                 </ItemsControl.Items>
             </ItemsControl>
+        </ScrollViewer>
 
-        </StackPanel>
-    </ScrollViewer>
+    </Grid>
 
     <Page.BottomAppBar>
         <CommandBar x:Name="appBar" IsOpen="False" Visibility="Collapsed" 

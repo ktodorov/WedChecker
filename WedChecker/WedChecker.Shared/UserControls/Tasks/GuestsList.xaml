@@ -11,5 +11,9 @@
     <Grid>
         <Button Name="selectContacts" Click="selectContacts_Click" Content="Select"
                 VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        
+        <StackPanel Name="spContacts" Visibility="Collapsed">
+            
+        </StackPanel>
     </Grid>
 </we:BaseTaskControl>

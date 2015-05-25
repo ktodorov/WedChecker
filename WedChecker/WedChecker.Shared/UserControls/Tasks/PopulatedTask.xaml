@@ -15,8 +15,8 @@
         </Grid.ColumnDefinitions>
         
         
-        <TextBlock Name="tbTaskName" Text="Budget" VerticalAlignment="Center" FontSize="30"
-                   HorizontalAlignment="Left" Grid.Column="0"/>
+        <Button Name="buttonTaskName" Content="TaskName" VerticalAlignment="Center" FontSize="30"
+                HorizontalAlignment="Stretch" Grid.Column="0" BorderThickness="0" Click="buttonTaskName_Click"/>
         <Button Name="editTask" Content="&#xE104;" FontFamily="Segoe UI Symbol" FontSize="30"
                 Height="50" Width="50" BorderThickness="0" Foreground="{StaticResource PhoneAccentBrush}"
                 VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" Click="editTask_Click">

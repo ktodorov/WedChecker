@@ -107,7 +107,7 @@
         <Style x:Key="CountdownTimerNumbersStyle" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Segoe UI Light"/>
             <Setter Property="FontWeight" Value="ExtraLight"/>
-            <Setter Property="FontSize" Value="50"/>
+            <Setter Property="FontSize" Value="45"/>
             <Setter Property="Foreground" Value="{StaticResource PhoneAccentBrush}"/>
             <Setter Property="Margin" Value="15, 0, 15, 0"/>
         </Style>

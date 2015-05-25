@@ -1,0 +1,23 @@
+﻿<UserControl
+    x:Class="WedChecker.UserControls.ContactControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WedChecker.UserControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" Height="Auto">
+    
+    <Grid Height="50">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Name="tbId" x:FieldModifier="Public" Visibility="Collapsed"/>
+        <TextBlock Name="tbContactName" x:FieldModifier="Public" Grid.Column="0" FontSize="20"
+                   FontFamily="Segoe UI Light" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+        <Button Name="deleteButton" x:FieldModifier="Public" Grid.Column="1" BorderThickness="0"
+                Content="&#xE10A;" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                FontFamily="Segoe UI Symbol" FontSize="20" Foreground="{StaticResource PhoneAccentBrush}"/>
+    </Grid>
+</UserControl>

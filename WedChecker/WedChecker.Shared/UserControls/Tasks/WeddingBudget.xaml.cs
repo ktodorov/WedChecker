@@ -69,13 +69,13 @@ namespace WedChecker.UserControls.Tasks
         public override void Serialize(BinaryWriter writer)
         {
             writer.Write(TaskData.Tasks.WeddingBudget);
-            writer.Write(AppData.GetValue("WeddingBudget"));
+            writer.Write(Budget);
         }
 
         public override BaseTaskControl Deserialize(BinaryReader reader)
         {
             //Read in the number of records
-            var budget = Convert.ToInt32(reader.ReadString());
+            var budget = reader.ReadInt32();
 
             return new WeddingBudget(budget);
         }
@@ -89,8 +89,11 @@ namespace WedChecker.UserControls.Tasks
                 return;
             }
 
-            Budget = Convert.ToInt32(weddingBudget);
-            await AppData.InsertGlobalValue("WeddingBudget", weddingBudget);
+            if (Budget != Convert.ToInt32(weddingBudget))
+            {
+                Budget = Convert.ToInt32(weddingBudget);
+                await AppData.InsertGlobalValue("WeddingBudget", weddingBudget);
+            }
             DisplayValues(Convert.ToInt32(weddingBudget));
         }
 

@@ -28,6 +28,12 @@ namespace WedChecker.Common
             LocalAppData["firstLaunchSecondDialog"] = "Great!\n Okay, when is your wedding?";
         }
 
+        private static List<BaseTaskControl> SerializableTasks
+        {
+            get;
+            set;
+        }
+
         public static string EncodeDataToString()
         {
             if (LocalAppData == null)
@@ -225,9 +231,9 @@ namespace WedChecker.Common
             {
                 SerializeAppData(writer);
 
-                foreach (var populatedControl in populatedControls)
+                foreach (var serializableTask in SerializableTasks)
                 {
-                    populatedControl.Serialize(writer);
+                    serializableTask.Serialize(writer);
                 }
             }
         }
@@ -320,6 +326,16 @@ namespace WedChecker.Common
                 InsertGlobalValue(key, value, false);
                 pos++;
             }
+        }
+
+        public static void InsertSerializableTask(BaseTaskControl baseTaskControl)
+        {
+            if (SerializableTasks == null)
+            {
+                SerializableTasks = new List<BaseTaskControl>();
+            }
+
+            SerializableTasks.Add(baseTaskControl);
         }
     }
 }

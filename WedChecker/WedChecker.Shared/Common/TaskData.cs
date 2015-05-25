@@ -205,6 +205,8 @@ namespace WedChecker.Common
 
             }
 
+            AppData.InsertSerializableTask(taskControl);
+
 #if WINDOWS_PHONE_APP
             var pivotStackPanel = currentPage.FindName("spPlanings") as StackPanel;
             pivotStackPanel.Children.Add(new PopulatedTask(taskControl));

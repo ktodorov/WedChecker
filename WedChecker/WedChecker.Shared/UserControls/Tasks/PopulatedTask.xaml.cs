@@ -33,12 +33,24 @@ namespace WedChecker.UserControls.Tasks
         {
             this.InitializeComponent();
             ConnectedTaskControl = control;
-            tbTaskName.Text = control.TaskName;
+            buttonTaskName.Content = control.TaskName.ToUpper();
         }
 
         void editTask_Click(object sender, RoutedEventArgs e)
         {
             ConnectedTaskControl.EditValues();
+        }
+
+        private void buttonTaskName_Click(object sender, RoutedEventArgs e)
+        {
+            if (ConnectedTaskControl != null && ConnectedTaskControl.Visibility == Visibility.Collapsed)
+            {
+                ConnectedTaskControl.Visibility = Visibility.Visible;
+            }
+            else if (ConnectedTaskControl != null && ConnectedTaskControl.Visibility == Visibility.Visible)
+            {
+                ConnectedTaskControl.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }

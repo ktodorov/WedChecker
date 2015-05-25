@@ -46,16 +46,27 @@ namespace WedChecker.UserControls.Tasks
         {
             this.InitializeComponent();
             Guests = contacts;
+            foreach (var guest in Guests)
+            {
+                var contactControl = new ContactControl(guest.Id, guest.FirstName + " " + guest.LastName);
+                contactControl.deleteButton.Click += deleteButton_Click;
+
+                spContacts.Children.Add(contactControl);
+            }
+
+            DisplayValues(-1);
         }
 
         public override void DisplayValues(int value)
         {
-
+            spContacts.Visibility = Visibility.Visible;
+            selectContacts.Visibility = Visibility.Collapsed;
         }
 
         public override void EditValues()
         {
-
+            spContacts.Visibility = Visibility.Collapsed;
+            selectContacts.Visibility = Visibility.Visible;
         }
 
         public override void Serialize(BinaryWriter writer)
@@ -79,7 +90,6 @@ namespace WedChecker.UserControls.Tasks
 
             for (long i = 0; i < records; i++)
             {
-                //Read in the number of samples
                 var guestId = reader.ReadString();
 
                 var guestFirstName = reader.ReadString();
@@ -118,9 +128,38 @@ namespace WedChecker.UserControls.Tasks
                 {
                     Guests.Add(contact);
                 }
+
+                var contactControl = new ContactControl(contact.Id, contact.FirstName + " " + contact.LastName);
+                contactControl.deleteButton.Click += deleteButton_Click;
+
+                spContacts.Children.Add(contactControl);
             }
+
+            DisplayValues(-1);
+            AppData.InsertGlobalValue(TaskData.Tasks.GuestsList, "true");
         }
 
+        void deleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            var contactControl = ((sender as Button).Parent as Grid).Parent as ContactControl;
+            DeleteGuest(contactControl.tbId.Text);
+        }
+
+        private void DeleteGuest(string id)
+        {
+            var guestToRemove = Guests.FirstOrDefault(g => g.Id == id);
+
+            if (guestToRemove != null)
+            {
+                Guests.Remove(guestToRemove);
+            }
+
+            var controlToRemove = spContacts.Children.FirstOrDefault(c => c is ContactControl && ((ContactControl)c).tbId.Text == guestToRemove.Id);
+            if (controlToRemove != null)
+            {
+                spContacts.Children.Remove(controlToRemove);
+            }
+        }
 
     }
 }
