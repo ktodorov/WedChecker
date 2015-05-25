@@ -25,7 +25,7 @@ namespace WedChecker.Common
                     break;
 
                 case "WeddingStyle":
-
+                    taskControl = CreateWeddingStyleControl(value);
                     break;
 
                 case "RegistryPlace":
@@ -227,6 +227,7 @@ namespace WedChecker.Common
 #endif
         }
 
+
         public static BaseTaskControl GetTaskControlFromString(string taskControlName)
         {
             switch (taskControlName)
@@ -234,9 +235,7 @@ namespace WedChecker.Common
                 case "WeddingBudget":
                     return new WeddingBudget();
                 case "WeddingStyle":
-
-                    break;
-
+                    return new WeddingStyle();
                 case "RegistryPlace":
 
                     break;
@@ -411,18 +410,6 @@ namespace WedChecker.Common
             return null;
         }
 
-        private static BaseTaskControl CreateGuestsListControl(object value)
-        {
-            var contactsValue = value as List<Contact>;
-            if (contactsValue == null)
-            {
-                return new GuestsList();
-            }
-
-            var guestsList = new GuestsList(contactsValue);
-            return guestsList;
-        }
-
         private static BaseTaskControl CreateWeddingBudgetControl(object value)
         {
             var intValue = Convert.ToInt32(value);
@@ -433,6 +420,30 @@ namespace WedChecker.Common
 
             var weddingBudget = new WeddingBudget(intValue);
             return weddingBudget;
+        }
+
+        private static BaseTaskControl CreateWeddingStyleControl(object value)
+        {
+            var stringValue = value.ToString();
+            if (stringValue == "-1")
+            {
+                return new WeddingStyle();
+            }
+
+            var weddingStyle = new WeddingStyle(stringValue);
+            return weddingStyle;
+        }
+
+        private static BaseTaskControl CreateGuestsListControl(object value)
+        {
+            var contactsValue = value as List<Contact>;
+            if (contactsValue == null)
+            {
+                return new GuestsList();
+            }
+
+            var guestsList = new GuestsList(contactsValue);
+            return guestsList;
         }
 
         public static void DisableAddedTasks(ItemsControl itemsControl)

@@ -30,7 +30,7 @@ namespace WedChecker.UserControls.Tasks
             set;
         }
         
-        public virtual void DisplayValues(int value)
+        public virtual void DisplayValues()
         {
 
         }

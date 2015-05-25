@@ -43,13 +43,13 @@ namespace WedChecker.UserControls.Tasks
         public WeddingBudget(int value)
         {
             this.InitializeComponent();
-            DisplayValues(value);
+            Budget = value;
+            DisplayValues();
         }
 
-        public override void DisplayValues(int value)
+        public override void DisplayValues()
         {
-            Budget = value;
-            tbBudgetDisplay.Text = value.ToString();
+            tbBudgetDisplay.Text = Budget.ToString();
             tbBudgetDisplay.Visibility = Visibility.Visible;
             tbHeader.Text = "This is what you have planned";
             budgetPickerButton.Visibility = Visibility.Collapsed;
@@ -74,7 +74,6 @@ namespace WedChecker.UserControls.Tasks
 
         public override BaseTaskControl Deserialize(BinaryReader reader)
         {
-            //Read in the number of records
             var budget = reader.ReadInt32();
 
             return new WeddingBudget(budget);
@@ -92,9 +91,9 @@ namespace WedChecker.UserControls.Tasks
             if (Budget != Convert.ToInt32(weddingBudget))
             {
                 Budget = Convert.ToInt32(weddingBudget);
-                await AppData.InsertGlobalValue("WeddingBudget", weddingBudget);
+                await AppData.InsertGlobalValue(TaskData.Tasks.WeddingBudget, weddingBudget);
             }
-            DisplayValues(Convert.ToInt32(weddingBudget));
+            DisplayValues();
         }
 
         private void tbBudget_TextChanged(object sender, TextChangedEventArgs e)

@@ -54,10 +54,10 @@ namespace WedChecker.UserControls.Tasks
                 spContacts.Children.Add(contactControl);
             }
 
-            DisplayValues(-1);
+            DisplayValues();
         }
 
-        public override void DisplayValues(int value)
+        public override void DisplayValues()
         {
             spContacts.Visibility = Visibility.Visible;
             selectContacts.Visibility = Visibility.Collapsed;
@@ -135,7 +135,7 @@ namespace WedChecker.UserControls.Tasks
                 spContacts.Children.Add(contactControl);
             }
 
-            DisplayValues(-1);
+            DisplayValues();
             AppData.InsertGlobalValue(TaskData.Tasks.GuestsList, "true");
         }
 
