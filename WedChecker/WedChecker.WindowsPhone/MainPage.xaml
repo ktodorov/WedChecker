@@ -138,7 +138,7 @@
                     <TextBlock Text="Planning" FontSize="25"/>
                     <Button Name="WeddingBudget" Click="TaskItem_Clicked">Budget for your wedding</Button>
                     <Button Name="WeddingStyle" Click="TaskItem_Clicked">Wedding style and colors</Button>
-                    <Button>Registry marriage place</Button>
+                    <Button Name="RegistryPlace" Click="TaskItem_Clicked">Registry marriage place</Button>
                     <Button>Religious marriage place</Button>
                     <Button>Documents required for marriage</Button>
                     <Button>Restaurant</Button>

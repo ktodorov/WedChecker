@@ -23,15 +23,12 @@ namespace WedChecker.Common
                 case "WeddingBudget":
                     taskControl = CreateWeddingBudgetControl(value);
                     break;
-
                 case "WeddingStyle":
                     taskControl = CreateWeddingStyleControl(value);
                     break;
-
                 case "RegistryPlace":
-
+                    taskControl = CreateRegistryPlaceControl(value);
                     break;
-
                 case "ReligiousPlace":
 
                     break;
@@ -236,9 +233,7 @@ namespace WedChecker.Common
                 case "WeddingStyle":
                     return new WeddingStyle();
                 case "RegistryPlace":
-
-                    break;
-
+                    return new RegistryPlace();
                 case "ReligiousPlace":
 
                     break;
@@ -431,6 +426,18 @@ namespace WedChecker.Common
 
             var weddingStyle = new WeddingStyle(stringValue);
             return weddingStyle;
+        }
+
+        private static BaseTaskControl CreateRegistryPlaceControl(object value)
+        {
+            var locationValue = value.ToString();
+            if (locationValue == null)
+            {
+                return new RegistryPlace();
+            }
+
+            var registryPlace = new RegistryPlace(locationValue);
+            return registryPlace;
         }
 
         private static BaseTaskControl CreateGuestsListControl(object value)
