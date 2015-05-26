@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using WedChecker.UserControls.Tasks;
 using Windows.Storage;
@@ -19,12 +20,17 @@ namespace WedChecker.Common
             set;
         }
 
+        public static CancellationToken CancelToken
+        {
+            get;
+            set;
+        }
+
         public static void PopulateAppData()
         {
             LocalAppData["firstLaunchFirstHeader"] = "Hello and welcome to";
             LocalAppData["firstLaunchFirstTitle"] = "WedChecker";
             LocalAppData["firstLaunchFirstDialog"] = "No doubt we will make a wonderful wedding.\nCan I know your name first?\nIt will help me to know you better.";
-
             LocalAppData["firstLaunchSecondDialog"] = "Great!\n Okay, when is your wedding?";
         }
 
@@ -105,97 +111,6 @@ namespace WedChecker.Common
             return null;
         }
 
-        public static async Task DecodeFileData(StorageFile file)
-        {
-            byte[] data;
-
-            using (Stream s = await file.OpenStreamForReadAsync())
-            {
-                data = new byte[s.Length];
-                await s.ReadAsync(data, 0, (int)s.Length);
-            }
-
-            DecodeDataFromString(Encoding.UTF8.GetString(data, 0, data.Length));
-        }
-
-        public static async Task WriteDataFile()
-        {
-            var encodedData = EncodeDataToString();
-            var fileName = "dataFile.txt";
-
-            byte[] data = Encoding.UTF8.GetBytes(encodedData);
-
-            try
-            {
-                StorageFolder folder = ApplicationData.Current.LocalFolder;
-                StorageFile file = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
-
-                if ((file.DateCreated - DateTime.Now).TotalMinutes > 1)
-                {
-                    return;
-                }
-
-                using (Stream s = await file.OpenStreamForWriteAsync())
-                {
-                    await s.WriteAsync(data, 0, data.Length);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public static async Task WriteRoamingDataFile()
-        {
-            var encodedData = EncodeDataToString();
-            var fileName = "dataFile.txt";
-
-            byte[] data = Encoding.UTF8.GetBytes(encodedData);
-
-            StorageFolder folder = ApplicationData.Current.RoamingFolder;
-            StorageFile file = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
-
-            if ((file.DateCreated - DateTime.Now).TotalMinutes > 1)
-            {
-                return;
-            }
-
-            using (Stream s = await file.OpenStreamForWriteAsync())
-            {
-                await s.WriteAsync(data, 0, data.Length);
-            }
-        }
-
-        public static async void ReadRoamingDataFile()
-        {
-            var fileName = "dataFile.txt";
-
-            StorageFolder folder = ApplicationData.Current.RoamingFolder;
-
-            StorageFile file;
-            bool fileAvailable = true;
-
-            try
-            {
-                file = await folder.GetFileAsync(fileName);
-                await DecodeFileData(file);
-            }
-            catch (FileNotFoundException)
-            {
-                // There is no such file.. So create one
-                fileAvailable = false;
-            }
-
-            if (!fileAvailable)
-            {
-                await WriteRoamingDataFile();
-                file = await folder.GetFileAsync(fileName);
-                await DecodeFileData(file);
-            }
-        }
-
-
         public static async Task InsertGlobalValue(string name, string value, bool serialize = true)
         {
             if (LocalAppData == null)
@@ -211,12 +126,22 @@ namespace WedChecker.Common
             }
         }
 
-        public static async Task SerializeData()
+        public static async Task SerializeData(CancellationTokenSource ctsToUse = null)
         {
+            CancellationToken ctToUse;
+            if (ctsToUse == null)
+            {
+                ctToUse = CancelToken;
+            }
+            else
+            {
+                ctToUse = ctsToUse.Token;
+            }
+
             var fileName = "dataFileSerialized.dat";
 
             StorageFolder folder = ApplicationData.Current.LocalFolder;
-            StorageFile file = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+            StorageFile file = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting).AsTask(ctToUse);
 
             if ((file.DateCreated - DateTime.Now).TotalMinutes > 1)
             {
@@ -225,16 +150,30 @@ namespace WedChecker.Common
 
             var populatedControls = Core.GetPopulatedTaskControls();
 
-            using (Stream stream = await file.OpenStreamForWriteAsync())
-            using (GZipStream compressionStream = new GZipStream(stream, CompressionMode.Compress, true))
-            using (BinaryWriter writer = new BinaryWriter(compressionStream, Encoding.Unicode, true))
+            try
             {
-                SerializeAppData(writer);
-
-                foreach (var serializableTask in SerializableTasks)
+                using (Stream stream = await file.OpenStreamForWriteAsync())
+                using (GZipStream compressionStream = new GZipStream(stream, CompressionMode.Compress, true))
+                using (BinaryWriter writer = new BinaryWriter(compressionStream, Encoding.Unicode, true))
                 {
-                    serializableTask.Serialize(writer);
+                    ctToUse.ThrowIfCancellationRequested();
+
+                    SerializeAppData(writer);
+
+                    if (SerializableTasks == null)
+                    {
+                        SerializableTasks = new List<BaseTaskControl>();
+                    }
+
+                    foreach (var serializableTask in SerializableTasks)
+                    {
+                        serializableTask.Serialize(writer);
+                    }
                 }
+            }
+            catch (OperationCanceledException)
+            {
+                return;
             }
         }
 
@@ -249,7 +188,7 @@ namespace WedChecker.Common
 
             try
             {
-                StorageFile file = await folder.GetFileAsync(fileName);
+                StorageFile file = await folder.GetFileAsync(fileName).AsTask(CancelToken);
 
                 using (Stream stream = await file.OpenStreamForReadAsync())
                 using (GZipStream decompressionStream = new GZipStream(stream, CompressionMode.Decompress, true))
@@ -257,6 +196,8 @@ namespace WedChecker.Common
                 {
                     while (true)
                     {
+                        CancelToken.ThrowIfCancellationRequested();
+
                         var control = reader.ReadString();
                          
 
@@ -292,6 +233,10 @@ namespace WedChecker.Common
             catch (EndOfStreamException)
             {
                 return addedControls;
+            }
+            catch (OperationCanceledException)
+            {
+                return null;
             }
 
             if (!fileAvailable)

@@ -65,19 +65,19 @@ namespace WedChecker.UserControls
 
             if (timesProcessed >= 2)
             {
-                var stackPanel = this.Parent as StackPanel;
+                var layoutRoot = this.Parent as Grid;
 #if WINDOWS_PHONE_APP
-                var mainPivot = stackPanel.FindName("mainPivot") as Pivot;
+                var mainPivot = layoutRoot.FindName("mainPivot") as Pivot;
                 mainPivot.Visibility = Visibility.Visible;
 #else
 #endif
-                var appBar = stackPanel.FindName("appBar") as AppBar;
+                var appBar = layoutRoot.FindName("appBar") as AppBar;
                 appBar.Visibility = Visibility.Visible;
 
-                var tbGreetUser = stackPanel.FindName("tbGreetUser") as TextBlock;
+                var tbGreetUser = layoutRoot.FindName("tbGreetUser") as TextBlock;
                 tbGreetUser.Text = string.Format("Hello, {0}", Core.GetSetting("Name"));
 
-                var tbCountdownTimer = stackPanel.FindName("tbCountdownTimer") as CountdownTimer;
+                var tbCountdownTimer = layoutRoot.FindName("tbCountdownTimer") as CountdownTimer;
                 tbCountdownTimer.UpdateTimeLeft();
 
                 popup.Visibility = Visibility.Collapsed;

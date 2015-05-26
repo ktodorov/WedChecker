@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
+using WedChecker.Common;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -25,6 +27,12 @@ namespace WedChecker
     /// </summary>
     public sealed partial class App : Application
     {
+        public static CancellationTokenSource ctsToUse
+        {
+            get;
+            set;
+        }
+
 #if WINDOWS_PHONE_APP
         private TransitionCollection transitions;
 #endif
@@ -126,11 +134,12 @@ namespace WedChecker
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-
-            // TODO: Save application state and stop any background activity
+            ctsToUse.Cancel();
+            ctsToUse = new CancellationTokenSource();
+            await AppData.SerializeData(ctsToUse);
             deferral.Complete();
         }
     }

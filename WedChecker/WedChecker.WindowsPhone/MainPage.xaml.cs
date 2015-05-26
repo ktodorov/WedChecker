@@ -17,6 +17,7 @@ using WedChecker.UserControls.Tasks;
 using WedChecker.Common;
 using System.Threading.Tasks;
 using Windows.Phone.UI.Input;
+using System.Threading;
 
 namespace WedChecker
 {
@@ -28,11 +29,11 @@ namespace WedChecker
         private NavigationHelper navigationHelper;
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
         private DispatcherTimer dispatcherTimer = new DispatcherTimer();
+        private CancellationTokenSource cts;
 
         public MainPage()
         {
             this.InitializeComponent();
-
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
             this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
@@ -41,6 +42,10 @@ namespace WedChecker
             dispatcherTimer.Tick += dispatcherTimer_Tick;
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
             dispatcherTimer.Start();
+
+            cts = new CancellationTokenSource();
+            App.ctsToUse = cts;
+            AppData.CancelToken = cts.Token;
         }
 
         void dispatcherTimer_Tick(object sender, object e)
@@ -161,8 +166,7 @@ namespace WedChecker
             foreach (var populatedControl in populatedControls)
             {
                 spPlanings.Children.Add(new PopulatedTask(populatedControl));
-                spPlanings.Children.Add(populatedControl);
-
+                AppData.InsertSerializableTask(populatedControl);
             }
             firstLaunchPopup.Visibility = Visibility.Collapsed;
             LbTasks.Visibility = Visibility.Collapsed;
@@ -183,7 +187,7 @@ namespace WedChecker
 
             var taskClicked = new KeyValuePair<string, object>(senderElement.Name, -1);
             TaskData.CreateTaskControl(this, taskClicked);
+            senderElement.IsEnabled = false;
         }
-
     }
 }

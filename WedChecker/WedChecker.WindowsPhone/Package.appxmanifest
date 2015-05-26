@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
   <Identity Name="741ff2d5-9263-48a8-a9bf-75f8b09605bc" Publisher="CN=Konstantin" Version="1.0.0.0" />
-  <mp:PhoneIdentity PhoneProductId="741ff2d5-9263-48a8-a9bf-75f8b09605bc" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <mp:PhoneIdentity PhoneProductId="8f849272-e314-42ee-81d5-0967f0034456" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>WedChecker.WindowsPhone</DisplayName>
     <PublisherDisplayName>Konstantin</PublisherDisplayName>
@@ -25,5 +25,6 @@
   </Applications>
   <Capabilities>
     <Capability Name="internetClientServer" />
+    <DeviceCapability Name="location" />
   </Capabilities>
 </Package>

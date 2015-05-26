@@ -5,21 +5,30 @@
     xmlns:local="using:WedChecker.UserControls.Tasks"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Height="50">
-    
-    <Grid Height="Auto">
+    mc:Ignorable="d">
+
+    <Grid Height="Auto" Background="GhostWhite" Margin="0, 10, 0, 0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
         <Grid.ColumnDefinitions>
+            <ColumnDefinition MaxWidth="50"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition MaxWidth="50"/>
         </Grid.ColumnDefinitions>
-        
-        
-        <Button Name="buttonTaskName" Content="TaskName" VerticalAlignment="Center" FontSize="30"
-                HorizontalAlignment="Stretch" Grid.Column="0" BorderThickness="0" Click="buttonTaskName_Click"/>
+
+
+        <Button Name="buttonTaskName" VerticalAlignment="Center" FontSize="30"
+                HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" BorderThickness="0" Click="buttonTaskName_Click">
+            <TextBlock Text="Task Name" TextWrapping="WrapWholeWords"/>
+        </Button>
         <Button Name="editTask" Content="&#xE104;" FontFamily="Segoe UI Symbol" FontSize="30"
                 Height="50" Width="50" BorderThickness="0" Foreground="{StaticResource PhoneAccentBrush}"
-                VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" Click="editTask_Click">
+                VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="2" Click="editTask_Click">
         </Button>
+        <StackPanel Name="spConnectedControl" Grid.Row="1" Grid.ColumnSpan="3">
+        </StackPanel>
     </Grid>
 </UserControl>
