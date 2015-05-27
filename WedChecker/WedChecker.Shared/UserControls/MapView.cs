@@ -10,8 +10,12 @@ using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
 using Windows.UI.Xaml;
+using System;
+using System.Threading.Tasks;
 #elif WINDOWS_APP
 using Bing.Maps;
+using System;
+using System.Threading.Tasks;
 #endif
 
 namespace WedChecker.UserControls
@@ -26,6 +30,12 @@ namespace WedChecker.UserControls
         private MapControl _map;
 #endif
 
+        public BasicGeoposition pinnedPlace
+        {
+            get;
+            set;
+        }
+
         public MapView()
         {
 #if WINDOWS_APP
@@ -39,7 +49,12 @@ namespace WedChecker.UserControls
 #elif WINDOWS_PHONE_APP
             _map = new MapControl();
 #endif
-            this.Children.Add(_map);
+
+            Loaded += async (sender, args) =>
+            {
+                await CenterOnCurrentLocation();
+                this.Children.Add(_map);
+            };
         }
 
         public double Zoom
@@ -203,8 +218,22 @@ namespace WedChecker.UserControls
 
             MapControl.SetLocation(pin, new Geopoint(location));
             _map.Children.Add(pin);
+
+#endif
+            //pinnedPlace = pin;
+        }
+
+        public void RemovePinnedLocation()
+        {
+            
+#if WINDOWS_APP
+            // TODO
+#elif WINDOWS_PHONE_APP
+            // TODO
 #endif
         }
+
+
         public void AddPolyline(List<BasicGeoposition> locations, Color strokeColor, double strokeThickness)
         {
 #if WINDOWS_APP
@@ -259,6 +288,17 @@ namespace WedChecker.UserControls
             _map.MapElements.Clear();
             _map.Children.Clear();
 #endif
+        }
+
+        public async Task CenterOnCurrentLocation()
+        {
+            var gl = new Geolocator() { DesiredAccuracy = PositionAccuracy.High };
+            Geoposition location = await gl.GetGeopositionAsync(TimeSpan.FromMinutes(5), TimeSpan.FromSeconds(5));
+
+            var basicGeoposition = new BasicGeoposition() { Latitude = location.Coordinate.Latitude, Longitude = location.Coordinate.Longitude };
+
+            var locationGeopoint = new Geopoint(basicGeoposition);
+            Center = locationGeopoint;
         }
     }
 }

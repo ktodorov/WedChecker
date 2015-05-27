@@ -17,6 +17,8 @@
         <Border BorderBrush="{StaticResource PhoneAccentBrush}" BorderThickness="1" Margin="9, 1"/>
         <UserControls:MapView x:Name="locationMap" Zoom="10" ShowTraffic="True" Height="300"
                               MapServiceToken="tPlo53-BRbJuec2d8hOzgw" Margin="10, 2"/>
+        <Border Name="VerticalMapBorder" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="9, 1" />
+        <Border Name="HorizontalMapBorder" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="9, 1" />
         <Button Name="pinAdressButton" Content="Pin address" Click="pinAdressButton_Click" Style="{StaticResource ButtonClearStyle}"
                 Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" />
     </Grid>
