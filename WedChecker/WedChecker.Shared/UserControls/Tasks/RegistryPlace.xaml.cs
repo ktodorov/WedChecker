@@ -90,5 +90,18 @@ namespace WedChecker.UserControls.Tasks
             var location = new BasicGeoposition() { Latitude = center.Latitude, Longitude = center.Longitude };
             return location;
         }
+
+        private void centerLocationButton_Click(object sender, RoutedEventArgs e)
+        {
+            locationMap.CenterOnCurrentLocation();
+        }
+
+        private void centerPinButton_Click(object sender, RoutedEventArgs e)
+        {
+            var basicGeoposition = new BasicGeoposition() { Latitude = locationMap.pinnedPlace.Latitude, Longitude = locationMap.pinnedPlace.Longitude };
+
+            var locationGeopoint = new Geopoint(basicGeoposition);
+            locationMap.Center = locationGeopoint;
+        }
     }
 }

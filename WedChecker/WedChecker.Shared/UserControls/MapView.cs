@@ -183,6 +183,7 @@ namespace WedChecker.UserControls
         }
         public void AddPushpin(BasicGeoposition location, string text)
         {
+            RemovePinnedLocation();
 #if WINDOWS_APP
             var pin = new Pushpin()
             {
@@ -219,64 +220,17 @@ namespace WedChecker.UserControls
             MapControl.SetLocation(pin, new Geopoint(location));
             _map.Children.Add(pin);
 
+            pinnedPlace = location;
+            AppData.SerializeData();
 #endif
-            //pinnedPlace = pin;
         }
 
         public void RemovePinnedLocation()
         {
-            
 #if WINDOWS_APP
-            // TODO
+            _pinLayer.Children.Clear();
 #elif WINDOWS_PHONE_APP
-            // TODO
-#endif
-        }
-
-
-        public void AddPolyline(List<BasicGeoposition> locations, Color strokeColor, double strokeThickness)
-        {
-#if WINDOWS_APP
-            var line = new MapPolyline()
-            {
-                Locations = locations.ToLocationCollection(),
-                Color = strokeColor,
-                Width = strokeThickness
-            };
-
-            _shapeLayer.Shapes.Add(line);
-#elif WINDOWS_PHONE_APP
-            var line = new MapPolyline()
-            {
-                Path = new Geopath(locations),
-                StrokeColor = strokeColor,
-                StrokeThickness = strokeThickness
-            };
-
-            _map.MapElements.Add(line);
-#endif
-        }
-
-        public void AddPolygon(List<BasicGeoposition> locations, Color fillColor, Color strokeColor, double strokeThickness)
-        {
-#if WINDOWS_APP
-            var line = new MapPolygon()
-            {
-                Locations = locations.ToLocationCollection(),
-                FillColor = fillColor
-            };
-
-            _shapeLayer.Shapes.Add(line);
-#elif WINDOWS_PHONE_APP
-            var line = new MapPolygon()
-            {
-                Path = new Geopath(locations),
-                FillColor = fillColor,
-                StrokeColor = strokeColor,
-                StrokeThickness = strokeThickness
-            };
-
-            _map.MapElements.Add(line);
+            _map.Children.Clear();
 #endif
         }
         public void ClearMap()
