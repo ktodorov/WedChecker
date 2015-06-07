@@ -81,10 +81,8 @@ namespace WedChecker.UserControls.Tasks
             }
         }
 
-        public override BaseTaskControl Deserialize(BinaryReader reader)
+        public override void Deserialize(BinaryReader reader)
         {
-            var contacts = new List<Contact>();
-
             //Read in the number of records
             var records = reader.ReadInt32();
 
@@ -100,10 +98,10 @@ namespace WedChecker.UserControls.Tasks
                 contact.FirstName = guestFirstName;
                 contact.LastName = guestLastName;
 
-                contacts.Add(contact);
+                Guests.Add(contact);
             }
 
-            return new GuestsList(contacts);
+            DisplayValues();
         }
 
         private async void selectContacts_Click(object sender, RoutedEventArgs e)

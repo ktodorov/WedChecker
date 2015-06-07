@@ -218,8 +218,8 @@ namespace WedChecker.Common
                             {
                                 var baseTaskControl = TaskData.GetTaskControlFromString(taskControl);
                                 InsertGlobalValue(baseTaskControl.GetType().ToString(), "true", false);
-                                var controlToAdd = baseTaskControl.Deserialize(reader);
-                                addedControls.Add(controlToAdd);
+                                baseTaskControl.Deserialize(reader);
+                                addedControls.Add(baseTaskControl);
                                 break;
                             }
                         }

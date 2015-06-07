@@ -72,11 +72,11 @@ namespace WedChecker.UserControls.Tasks
             writer.Write(Budget);
         }
 
-        public override BaseTaskControl Deserialize(BinaryReader reader)
+        public override void Deserialize(BinaryReader reader)
         {
-            var budget = reader.ReadInt32();
-
-            return new WeddingBudget(budget);
+            Budget = reader.ReadInt32();
+            
+            DisplayValues();
         }
 
         private async void budgetPickerButton_Click(object sender, RoutedEventArgs e)

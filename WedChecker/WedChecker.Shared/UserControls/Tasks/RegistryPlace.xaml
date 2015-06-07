@@ -11,17 +11,34 @@
     Width="Auto">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Border BorderBrush="{StaticResource PhoneAccentBrush}" BorderThickness="1" Margin="9, 1" />
-        <UserControls:MapView x:Name="locationMap" Zoom="10" ShowTraffic="True" Height="300" 
+        <StackPanel Name="notesPanel" Orientation="Vertical" Grid.Row="0">
+            
+        <TextBlock Name="tbHeader" Text="Here you can add address or notes&#x0a;or whatever you like for your registry place" TextAlignment="Center"
+                   Style="{StaticResource ControlHeaderTextBlockStyle}" Margin="0, 0, 0, 10"/>
+        <TextBox Name="tbRegistryNotes" Margin="20,0" TextChanged="tbRegistryNotes_TextChanged"/>
+            <TextBlock Name="tbRegistryNotesDisplay" Visibility="Collapsed" Margin="20,0" Style="{StaticResource BaseTextBlockStyle}" 
+                   FontSize="35"/>
+            <Button Name="registryPickerButton" Content="Submit" HorizontalAlignment="Center" Style="{StaticResource ButtonClearStyle}" 
+                Click="registryPickerButton_Click"/>
+        
+        </StackPanel>
+        <Button Name="showMapGrid" Click="showMapGrid_Click" Content="Show map" Grid.Row="1" 
+                HorizontalAlignment="Center" Style="{StaticResource ButtonClearStyle}"/>
+        <Grid Name="mapGrid" Grid.Row="2">
+            <Border BorderBrush="{StaticResource PhoneAccentBrush}" BorderThickness="1" Margin="9, 1" Grid.Row="2" />
+            <UserControls:MapView x:Name="locationMap" Zoom="10" ShowTraffic="True" Height="300" Grid.Row="2" 
                               MapServiceToken="tPlo53-BRbJuec2d8hOzgw" Margin="10, 2"/>
-        <Border Name="VerticalMapBorder" BorderBrush="{StaticResource PhoneAccentBrush}" BorderThickness="1" HorizontalAlignment="Center" 
-                VerticalAlignment="Stretch" Margin="9, 1"/>
-        <Border Name="HorizontalMapBorder" BorderBrush="{StaticResource PhoneAccentBrush}" BorderThickness="1" HorizontalAlignment="Stretch" 
-                VerticalAlignment="Center" Margin="9, 1"/>
-        <Grid VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Grid.Row="1" Margin="9, -8, 9, 0" >
+            <Border Name="VerticalMapBorder" BorderBrush="{StaticResource PhoneAccentBrush}" BorderThickness="1" HorizontalAlignment="Center" 
+                VerticalAlignment="Stretch" Margin="9, 1" Grid.Row="2"/>
+            <Border Name="HorizontalMapBorder" BorderBrush="{StaticResource PhoneAccentBrush}" BorderThickness="1" HorizontalAlignment="Stretch" 
+                VerticalAlignment="Center" Margin="9, 1" Grid.Row="2"/>
+        </Grid>
+        <Grid Name="mapControlsGrid" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Grid.Row="3" Margin="9, -8, 9, 0" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
@@ -29,13 +46,13 @@
             </Grid.ColumnDefinitions>
             <Button Name="centerPinButton" Content="&#xE113;" FontFamily="Segoe UI Symbol"
                 Click="centerPinButton_Click" Style="{StaticResource ButtonClearStyle}"
-                    Grid.Column="0" HorizontalAlignment="Left"/>
+                    Grid.Column="0" HorizontalAlignment="Stretch"/>
             <Button Name="pinAdressButton" Content="&#xE141;" FontFamily="Segoe UI Symbol"
                 Click="pinAdressButton_Click" Style="{StaticResource ButtonClearStyle}"
-                    Grid.Column="1" HorizontalAlignment="Center"/>
+                    Grid.Column="1" HorizontalAlignment="Stretch" Margin="1, 0"/>
             <Button Name="centerLocationButton" Content="&#xE10F;" FontFamily="Segoe UI Symbol"
                 Click="centerLocationButton_Click" Style="{StaticResource ButtonClearStyle}"
-                    Grid.Column="2" HorizontalAlignment="Right"/>
+                    Grid.Column="2" HorizontalAlignment="Stretch"/>
         </Grid>
     </Grid>
 </we:BaseTaskControl>

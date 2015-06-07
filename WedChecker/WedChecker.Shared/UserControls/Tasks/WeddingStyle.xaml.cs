@@ -72,11 +72,10 @@ namespace WedChecker.UserControls.Tasks
             writer.Write(Style);
         }
 
-        public override BaseTaskControl Deserialize(BinaryReader reader)
+        public override void Deserialize(BinaryReader reader)
         {
-            var style = reader.ReadString();
-
-            return new WeddingStyle(style);
+            Style = reader.ReadString();
+            DisplayValues();
         }
 
         private async void stylePickerButton_Click(object sender, RoutedEventArgs e)

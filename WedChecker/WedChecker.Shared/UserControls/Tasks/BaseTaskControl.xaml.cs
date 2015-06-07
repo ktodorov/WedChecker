@@ -45,9 +45,8 @@ namespace WedChecker.UserControls.Tasks
 
         }
 
-        public virtual BaseTaskControl Deserialize(BinaryReader reader)
+        public virtual void Deserialize(BinaryReader reader)
         {
-            return this;
         }
     }
 }

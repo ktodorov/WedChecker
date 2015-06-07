@@ -30,7 +30,7 @@ namespace WedChecker.UserControls
         private MapControl _map;
 #endif
 
-        public BasicGeoposition pinnedPlace
+        public BasicGeoposition PinnedPlace
         {
             get;
             set;
@@ -220,7 +220,7 @@ namespace WedChecker.UserControls
             MapControl.SetLocation(pin, new Geopoint(location));
             _map.Children.Add(pin);
 
-            pinnedPlace = location;
+            PinnedPlace = location;
             AppData.SerializeData();
 #endif
         }
