@@ -68,7 +68,7 @@ namespace WedChecker.UserControls.Tasks
 
         public override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskData.Tasks.WeddingStyle);
+            writer.Write(TaskData.Tasks.WeddingStyle.ToString());
             writer.Write(Style);
         }
 
@@ -90,7 +90,7 @@ namespace WedChecker.UserControls.Tasks
             if (Style != weddingStyle)
             {
                 Style = weddingStyle;
-                await AppData.InsertGlobalValue(TaskData.Tasks.WeddingStyle, weddingStyle);
+                await AppData.InsertGlobalValue(TaskData.Tasks.WeddingStyle.ToString(), weddingStyle);
             }
             DisplayValues();
         }

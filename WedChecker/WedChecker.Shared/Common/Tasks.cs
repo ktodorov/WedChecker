@@ -3,61 +3,60 @@ namespace WedChecker.Common
 {
     public static partial class TaskData
     {
-        public static class Tasks
+        public enum Tasks
         {
             // Plans
-
-            public const string WeddingBudget = "WeddingBudget";
-            public const string WeddingStyle = "WeddingStyle";
-            public const string RegistryPlace = "RegistryPlace";
-            public const string ReligiousPlace = "ReligiousPlace";
-            public const string DocumentsRequired = "DocumentsRequired";
-            public const string Restaurant = "Restaurant";
-            public const string RestaurantFood = "RestaurantFood";
-            public const string BestMan_MaidOfHonour = "BestMan_MaidOfHonour";
-            public const string BridesmaidsGroomsmen = "BridesmaidsGroomsmen";
-            public const string Decoration = "Decoration";
-            public const string FreshFlowers = "FreshFlowers";
-            public const string MusicLayout = "MusicLayout";
-            public const string Photographer = "Photographer";
-            public const string BrideAccessories = "BrideAccessories";
-            public const string BrideClothes = "BrideClothes";
-            public const string GroomAccessories = "GroomAccessories";
-            public const string GroomClothes = "GroomClothes";
-            public const string BMMOHAccessories = "BMMOHAccessories";
-            public const string BMMOHClothes = "BMMOHClothes";
-            public const string BAGAccessories = "BAGAccessories";
-            public const string BAGClothes = "BAGClothes";
-            public const string HoneymoonDestination = "HoneymoonDestination";
-            public const string GuestsList = "GuestsList";
-            public const string ForeignGuestsAccomodation = "ForeignGuestsAccomodation";
-            public const string HairdresserMakeupArtist = "HairdresserMakeupArtist";
-            public const string Invitations = "Invitations";
+            WeddingBudget = 0,
+            WeddingStyle = 1,
+            RegistryPlace = 2,
+            ReligiousPlace = 3,
+            DocumentsRequired = 4,
+            Restaurant = 5,
+            RestaurantFood = 6,
+            BestMan_MaidOfHonour = 7,
+            BridesmaidsGroomsmen = 8,
+            Decoration = 9,
+            FreshFlowers = 10,
+            MusicLayout = 11,
+            Photographer = 12,
+            BrideAccessories = 13,
+            BrideClothes = 14,
+            GroomAccessories = 15,
+            GroomClothes = 16,
+            BMMOHAccessories = 17,
+            BMMOHClothes = 18,
+            BAGAccessories = 19,
+            BAGClothes = 20,
+            HoneymoonDestination = 21,
+            GuestsList = 22,
+            ForeignGuestsAccomodation = 23,
+            HairdresserMakeupArtist = 24,
+            Invitations = 25,
 
             // Purchase
 
-            public const string PurchaseBrideAccessories = "PurchaseBrideAccessories";
-            public const string PurchaseBrideClothes = "PurchaseBrideClothes";
-            public const string PurchaseGroomAccessories = "PurchaseGroomAccessories";
-            public const string PurchaseGroomClothes = "PurchaseGroomClothes";
-            public const string PurchaseBMMOHAccessories = "PurchaseBMMOHAccessories";
-            public const string PurchaseBMMOHClothes = "PurchaseBMMOHClothes";
-            public const string PurchaseBAGAccessories = "PurchaseBAGAccessories";
-            public const string PurchaseBAGClothes = "PurchaseBAGClothes";
-            public const string PurchaseRestaurantFood = "PurchaseRestaurantFood";
-            public const string PurchaseFreshFlowers = "PurchaseFreshFlowers";
-            public const string PurchaseRings = "PurchaseRings";
-            public const string PurchaseCake = "PurchaseCake";
+            PurchaseBrideAccessories = 26,
+            PurchaseBrideClothes = 27,
+            PurchaseGroomAccessories = 28,
+            PurchaseGroomClothes = 29,
+            PurchaseBMMOHAccessories = 30,
+            PurchaseBMMOHClothes = 31,
+            PurchaseBAGAccessories = 32,
+            PurchaseBAGClothes = 33,
+            PurchaseRestaurantFood = 33,
+            PurchaseFreshFlowers = 34,
+            PurchaseRings = 35,
+            PurchaseCake = 36,
 
             // Bookings
 
-            public const string BookMusicLayout = "BookMusicLayout";
-            public const string BookPhotographer = "BookPhotographer";
-            public const string BookHoneymoonDestination = "BookHoneymoonDestination";
-            public const string BookGuestsAccomodation = "BookGuestsAccomodation";
-            public const string BookHairdresserMakeupArtistAppointments = "BookHairdresserMakeupArtistAppointments";
-            public const string SendInvitations = "SendInvitations";
-            public const string RestaurantAccomodationPlan = "RestaurantAccomodationPlan";
+            BookMusicLayout = 37,
+            BookPhotographer = 38,
+            BookHoneymoonDestination = 39,
+            BookGuestsAccomodation = 40,
+            BookHairdresserMakeupArtistAppointments = 41,
+            SendInvitations = 42,
+            RestaurantAccomodationPlan = 43
 
         }
     }

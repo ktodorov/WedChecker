@@ -199,7 +199,6 @@ namespace WedChecker.Common
                         CancelToken.ThrowIfCancellationRequested();
 
                         var control = reader.ReadString();
-                         
 
                         if (control == null)
                         {

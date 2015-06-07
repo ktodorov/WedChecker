@@ -71,7 +71,7 @@ namespace WedChecker.UserControls.Tasks
 
         public override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskData.Tasks.GuestsList);
+            writer.Write(TaskData.Tasks.GuestsList.ToString());
             writer.Write(Guests.Count);
             foreach (var guest in Guests)
             {
@@ -134,7 +134,7 @@ namespace WedChecker.UserControls.Tasks
             }
 
             DisplayValues();
-            AppData.InsertGlobalValue(TaskData.Tasks.GuestsList, "true");
+            AppData.InsertGlobalValue(TaskData.Tasks.GuestsList.ToString(), "true");
         }
 
         void deleteButton_Click(object sender, RoutedEventArgs e)

@@ -74,7 +74,7 @@ namespace WedChecker.UserControls.Tasks
 
         public override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskData.Tasks.RegistryPlace);
+            writer.Write(TaskData.Tasks.RegistryPlace.ToString());
 
             var objectsCount = GetObjectsCount();
             writer.Write(objectsCount);
@@ -177,7 +177,7 @@ namespace WedChecker.UserControls.Tasks
             if (RegistryNotes != registryNotes)
             {
                 RegistryNotes = registryNotes;
-                await AppData.InsertGlobalValue(TaskData.Tasks.RegistryPlace, registryNotes);
+                await AppData.InsertGlobalValue(TaskData.Tasks.RegistryPlace.ToString(), registryNotes);
             }
             DisplayValues();
         }

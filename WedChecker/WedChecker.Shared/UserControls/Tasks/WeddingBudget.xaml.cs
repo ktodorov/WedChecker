@@ -68,7 +68,7 @@ namespace WedChecker.UserControls.Tasks
 
         public override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskData.Tasks.WeddingBudget);
+            writer.Write(TaskData.Tasks.WeddingBudget.ToString());
             writer.Write(Budget);
         }
 
@@ -91,7 +91,7 @@ namespace WedChecker.UserControls.Tasks
             if (Budget != Convert.ToInt32(weddingBudget))
             {
                 Budget = Convert.ToInt32(weddingBudget);
-                await AppData.InsertGlobalValue(TaskData.Tasks.WeddingBudget, weddingBudget);
+                await AppData.InsertGlobalValue(TaskData.Tasks.WeddingBudget.ToString(), weddingBudget);
             }
             DisplayValues();
         }
