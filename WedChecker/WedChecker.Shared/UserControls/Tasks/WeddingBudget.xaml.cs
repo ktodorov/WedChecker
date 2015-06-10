@@ -50,7 +50,7 @@ namespace WedChecker.UserControls.Tasks
         public override void DisplayValues()
         {
             tbBudgetDisplay.Text = Budget.ToString();
-            tbBudgetDisplay.Visibility = Visibility.Visible;
+            displayPanel.Visibility = Visibility.Visible;
             tbHeader.Text = "This is what you have planned";
             budgetPickerButton.Visibility = Visibility.Collapsed;
             tbBudget.Visibility = Visibility.Collapsed;
@@ -60,7 +60,7 @@ namespace WedChecker.UserControls.Tasks
         {
             tbBudget.Text = tbBudgetDisplay.Text;
             tbBudget.Visibility = Visibility.Visible;
-            tbBudgetDisplay.Visibility = Visibility.Collapsed;
+            displayPanel.Visibility = Visibility.Collapsed;
             tbHeader.Text = "What is your budget?\nYou can edit this at any time.";
             budgetPickerButton.Visibility = Visibility.Visible;
         }

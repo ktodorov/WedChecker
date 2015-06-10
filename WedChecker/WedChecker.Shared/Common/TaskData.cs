@@ -431,7 +431,7 @@ namespace WedChecker.Common
         private static BaseTaskControl CreateRegistryPlaceControl(object value)
         {
             var locationValue = value.ToString();
-            if (locationValue == null)
+            if (locationValue == "-1")
             {
                 return new RegistryPlace();
             }

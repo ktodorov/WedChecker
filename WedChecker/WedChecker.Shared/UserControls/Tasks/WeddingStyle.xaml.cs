@@ -50,7 +50,7 @@ namespace WedChecker.UserControls.Tasks
         public override void DisplayValues()
         {
             tbStyleDisplay.Text = Style;
-            tbStyleDisplay.Visibility = Visibility.Visible;
+            displayPanel.Visibility = Visibility.Visible;
             tbHeader.Text = "This is what you have planned";
             stylePickerButton.Visibility = Visibility.Collapsed;
             tbStyle.Visibility = Visibility.Collapsed;
@@ -60,7 +60,7 @@ namespace WedChecker.UserControls.Tasks
         {
             tbStyle.Text = tbStyleDisplay.Text;
             tbStyle.Visibility = Visibility.Visible;
-            tbStyleDisplay.Visibility = Visibility.Collapsed;
+            displayPanel.Visibility = Visibility.Collapsed;
             tbHeader.Text = "Here you can save the style,\nplanned for the wedding.";
             stylePickerButton.Visibility = Visibility.Visible;
         }

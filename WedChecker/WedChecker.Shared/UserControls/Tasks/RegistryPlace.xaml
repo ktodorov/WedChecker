@@ -17,18 +17,21 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <StackPanel Name="notesPanel" Orientation="Vertical" Grid.Row="0">
-            
-        <TextBlock Name="tbHeader" Text="Here you can add address or notes&#x0a;or whatever you like for your registry place" TextAlignment="Center"
+            <TextBlock Name="tbHeader" Text="Here you can add address or notes&#x0a;or whatever you like for your registry place" TextAlignment="Center"
                    Style="{StaticResource ControlHeaderTextBlockStyle}" Margin="0, 0, 0, 10"/>
-        <TextBox Name="tbRegistryNotes" Margin="20,0" TextChanged="tbRegistryNotes_TextChanged"/>
-            <TextBlock Name="tbRegistryNotesDisplay" Visibility="Collapsed" Margin="20,0" Style="{StaticResource BaseTextBlockStyle}" 
-                   FontSize="35"/>
+            <TextBox Name="tbRegistryNotes" Margin="20,0" TextChanged="tbRegistryNotes_TextChanged"/>
+            <StackPanel Name="displayPanel" Visibility="Collapsed">
+                <Border Style="{StaticResource DisplayBorderStyle}">
+                    <TextBlock Name="tbRegistryNotesDisplay" Style="{StaticResource DisplayTextBlockStyle}"/>
+                </Border>
+            </StackPanel>
             <Button Name="registryPickerButton" Content="Submit" HorizontalAlignment="Center" Style="{StaticResource ButtonClearStyle}" 
                 Click="registryPickerButton_Click"/>
-        
         </StackPanel>
+        
         <Button Name="showMapGrid" Click="showMapGrid_Click" Content="Show map" Grid.Row="1" 
                 HorizontalAlignment="Center" Style="{StaticResource ButtonClearStyle}"/>
+        
         <Grid Name="mapGrid" Grid.Row="2">
             <Border BorderBrush="{StaticResource PhoneAccentBrush}" BorderThickness="1" Margin="9, 1" Grid.Row="2" />
             <UserControls:MapView x:Name="locationMap" Zoom="10" ShowTraffic="True" Height="300" Grid.Row="2" 

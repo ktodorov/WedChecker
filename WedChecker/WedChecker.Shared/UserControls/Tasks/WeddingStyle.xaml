@@ -10,8 +10,11 @@
         <TextBlock Name="tbHeader" Text="Here you can save the style,&#x0a;planned for the wedding." TextAlignment="Center"
                    Style="{StaticResource ControlHeaderTextBlockStyle}" Margin="0, 0, 0, 10"/>
         <TextBox Name="tbStyle" Height="200" Margin="20,0" TextChanged="tbStyle_TextChanged" TextWrapping="Wrap"/>
-        <TextBlock Name="tbStyleDisplay" Visibility="Collapsed" Margin="20,0" Style="{StaticResource BaseTextBlockStyle}" 
-                   FontSize="35"/>
+        <StackPanel Name="displayPanel" Visibility="Collapsed">
+            <Border Style="{StaticResource DisplayBorderStyle}">
+                <TextBlock Name="tbStyleDisplay" Style="{StaticResource DisplayTextBlockStyle}"/>
+            </Border>
+        </StackPanel>
         <Button Name="stylePickerButton" Content="Submit" HorizontalAlignment="Center" Style="{StaticResource ButtonClearStyle}" 
                 Click="stylePickerButton_Click"/>
         <TextBlock Name="tbErrorMessage" TextAlignment="Center" Foreground="Red"

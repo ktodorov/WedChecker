@@ -10,8 +10,11 @@
         <TextBlock Name="tbHeader" Text="What is your budget?&#x0a;You can edit this at any time." TextAlignment="Center"
                    Style="{StaticResource ControlHeaderTextBlockStyle}" Margin="0, 0, 0, 10"/>
         <TextBox Name="tbBudget" InputScope="CurrencyAmountAndSymbol" Margin="20,0" TextChanged="tbBudget_TextChanged"/>
-        <TextBlock Name="tbBudgetDisplay" Visibility="Collapsed" Margin="20,0" Style="{StaticResource BaseTextBlockStyle}" 
-                   FontSize="35"/>
+        <StackPanel Name="displayPanel" Visibility="Collapsed">
+            <Border Style="{StaticResource DisplayBorderStyle}">
+                <TextBlock Name="tbBudgetDisplay" Style="{StaticResource DisplayTextBlockStyle}"/>
+            </Border>
+        </StackPanel>
         <Button Name="budgetPickerButton" Content="Submit" HorizontalAlignment="Center" Style="{StaticResource ButtonClearStyle}" 
                 Click="budgetPickerButton_Click"/>
         <TextBlock Name="tbErrorMessage" TextAlignment="Center" Foreground="Red"

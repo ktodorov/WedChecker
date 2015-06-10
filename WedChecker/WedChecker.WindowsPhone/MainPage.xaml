@@ -78,7 +78,7 @@
                 </DataTemplate>
             </Pivot.HeaderTemplate>
             <PivotItem Header="MAIN">
-                <ScrollViewer Height="Auto" VerticalAlignment="Top">
+                <ScrollViewer Height="Auto" VerticalAlignment="Top" VerticalScrollBarVisibility="Hidden">
                     <Grid>
                         <StackPanel Name="spMain">
                             <TextBlock x:Name="tbGreetUser" TextWrapping="Wrap" Text="Hello" HorizontalAlignment="Center"
@@ -89,7 +89,7 @@
                 </ScrollViewer>
             </PivotItem>
             <PivotItem Header="PLANINGS">
-                <ScrollViewer Height="Auto" VerticalAlignment="Top">
+                <ScrollViewer Height="Auto" VerticalAlignment="Top" VerticalScrollBarVisibility="Hidden">
                     <Grid>
                         <StackPanel Name="spPlanings">
 
@@ -98,7 +98,7 @@
                 </ScrollViewer>
             </PivotItem>
             <PivotItem Header="PURCHASES">
-                <ScrollViewer Height="Auto" VerticalAlignment="Top">
+                <ScrollViewer Height="Auto" VerticalAlignment="Top" VerticalScrollBarVisibility="Hidden">
                     <Grid>
                         <StackPanel Name="spPurchases">
 
@@ -107,7 +107,7 @@
                 </ScrollViewer>
             </PivotItem>
             <PivotItem Header="BOOKINGS">
-                <ScrollViewer Height="Auto" VerticalAlignment="Top">
+                <ScrollViewer Height="Auto" VerticalAlignment="Top" VerticalScrollBarVisibility="Hidden">
                     <Grid>
                         <StackPanel Name="spBookings">
 

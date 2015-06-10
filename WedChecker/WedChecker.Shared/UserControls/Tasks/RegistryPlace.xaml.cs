@@ -43,6 +43,7 @@ namespace WedChecker.UserControls.Tasks
         public RegistryPlace(string value)
         {
             this.InitializeComponent();
+            RegistryNotes = value;
             DisplayValues();
         }
 
@@ -52,8 +53,8 @@ namespace WedChecker.UserControls.Tasks
             VerticalMapBorder.Visibility = Visibility.Collapsed;
             HorizontalMapBorder.Visibility = Visibility.Collapsed;
 
-            tbRegistryNotesDisplay.Text = RegistryNotes;
-            tbRegistryNotesDisplay.Visibility = Visibility.Visible;
+            tbRegistryNotesDisplay.Text = RegistryNotes ?? string.Empty;
+            displayPanel.Visibility = Visibility.Visible;
             tbHeader.Text = "These are your notes";
             registryPickerButton.Visibility = Visibility.Collapsed;
             tbRegistryNotes.Visibility = Visibility.Collapsed;
@@ -69,7 +70,7 @@ namespace WedChecker.UserControls.Tasks
             tbRegistryNotes.Visibility = Visibility.Visible;
             tbHeader.Text = "Here you can add address or notes\nor whatever you like for your registry place";
             registryPickerButton.Visibility = Visibility.Visible;
-            tbRegistryNotesDisplay.Visibility = Visibility.Collapsed;
+            displayPanel.Visibility = Visibility.Collapsed;
         }
 
         public override void Serialize(BinaryWriter writer)
