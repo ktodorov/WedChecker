@@ -16,6 +16,7 @@ using WedChecker.Common;
 using WedChecker.UserControls.Tasks;
 using System.IO.Compression;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace WedChecker.UserControls.Tasks
 {
@@ -52,7 +53,6 @@ namespace WedChecker.UserControls.Tasks
             tbStyleDisplay.Text = Style;
             displayPanel.Visibility = Visibility.Visible;
             tbHeader.Text = "This is what you have planned";
-            stylePickerButton.Visibility = Visibility.Collapsed;
             tbStyle.Visibility = Visibility.Collapsed;
         }
 
@@ -62,7 +62,6 @@ namespace WedChecker.UserControls.Tasks
             tbStyle.Visibility = Visibility.Visible;
             displayPanel.Visibility = Visibility.Collapsed;
             tbHeader.Text = "Here you can save the style,\nplanned for the wedding.";
-            stylePickerButton.Visibility = Visibility.Visible;
         }
 
 
@@ -78,7 +77,7 @@ namespace WedChecker.UserControls.Tasks
             DisplayValues();
         }
 
-        private async void stylePickerButton_Click(object sender, RoutedEventArgs e)
+        public override async Task SubmitValues()
         {
             var weddingStyle = tbStyle.Text;
             if (string.IsNullOrEmpty(weddingStyle))
@@ -92,7 +91,6 @@ namespace WedChecker.UserControls.Tasks
                 Style = weddingStyle;
                 await AppData.InsertGlobalValue(TaskData.Tasks.WeddingStyle.ToString(), weddingStyle);
             }
-            DisplayValues();
         }
 
         private void tbStyle_TextChanged(object sender, TextChangedEventArgs e)

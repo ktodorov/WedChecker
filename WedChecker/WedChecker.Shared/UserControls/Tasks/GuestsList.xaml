@@ -9,11 +9,18 @@
     mc:Ignorable="d">
     
     <Grid>
-        <Button Name="selectContacts" Click="selectContacts_Click" Content="Select"
-                VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Button Name="selectContacts" Content="Select" Style="{StaticResource ButtonClearStyle}"
+                VerticalAlignment="Center" HorizontalAlignment="Center"
+                Click="selectContacts_Click" Grid.Row="0"/>
+
+        <TextBlock Name="tbGuestsAdded" Grid.Row="1" TextAlignment="Center" Margin="0, 0, 0, 10"
+                   Style="{StaticResource ControlHeaderTextBlockStyle}"/>
         
-        <StackPanel Name="spContacts" Visibility="Collapsed">
-            
+        <StackPanel Name="spContacts" Visibility="Collapsed" Margin="15, 0, 0, 0" Grid.RowSpan="2">
         </StackPanel>
     </Grid>
 </we:BaseTaskControl>

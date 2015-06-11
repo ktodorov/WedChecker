@@ -32,13 +32,18 @@ namespace WedChecker.UserControls.Tasks
             this.InitializeComponent();
             SetBackgroundColor();
         }
-        public PopulatedTask(BaseTaskControl control)
+        public PopulatedTask(BaseTaskControl control, bool isNew)
         {
             this.InitializeComponent();
             ConnectedTaskControl = control;
             spConnectedControl.Children.Add(ConnectedTaskControl);
             buttonTaskName.Content = control.TaskName.ToUpper();
             SetBackgroundColor();
+            
+            if (!isNew)
+            {
+                ConnectedTaskControl.DisplayValues();
+            }
         }
 
         private void SetBackgroundColor()
@@ -64,11 +69,6 @@ namespace WedChecker.UserControls.Tasks
             }
         }
 
-        void editTask_Click(object sender, RoutedEventArgs e)
-        {
-            ConnectedTaskControl.EditValues();
-        }
-
         private void buttonTaskName_Click(object sender, RoutedEventArgs e)
         {
             if (ConnectedTaskControl != null && ConnectedTaskControl.Visibility == Visibility.Collapsed)
@@ -78,6 +78,30 @@ namespace WedChecker.UserControls.Tasks
             else if (ConnectedTaskControl != null && ConnectedTaskControl.Visibility == Visibility.Visible)
             {
                 ConnectedTaskControl.Visibility = Visibility.Collapsed;
+            }
+        }
+        void editTask_Click(object sender, RoutedEventArgs e)
+        {
+            displayTask.Visibility = Visibility.Visible;
+            editTask.Visibility = Visibility.Collapsed;
+            if (ConnectedTaskControl != null)
+            {
+                if (ConnectedTaskControl.Visibility == Visibility.Collapsed)
+                {
+                    ConnectedTaskControl.Visibility = Visibility.Visible;
+                }
+                ConnectedTaskControl.EditValues();
+            }
+        }
+
+        private async void displayTask_Click(object sender, RoutedEventArgs e)
+        {
+            displayTask.Visibility = Visibility.Collapsed;
+            editTask.Visibility = Visibility.Visible;
+            if (ConnectedTaskControl != null)
+            {
+                await ConnectedTaskControl.SubmitValues();
+                ConnectedTaskControl.DisplayValues();
             }
         }
     }

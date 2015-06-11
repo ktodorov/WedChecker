@@ -16,6 +16,7 @@ using Windows.ApplicationModel.Contacts;
 using WedChecker.Common;
 using System.IO.Compression;
 using System.Text;
+using System.Threading.Tasks;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -23,10 +24,22 @@ namespace WedChecker.UserControls.Tasks
 {
     public sealed partial class GuestsList : BaseTaskControl
     {
-        private List<Contact> Guests
+        private List<Contact> _guests;
+
+        public List<Contact> Guests
         {
-            get;
-            set;
+            get
+            {
+                if (_guests == null)
+                {
+                    _guests = new List<Contact>();
+                }
+                return _guests;
+            }
+            set
+            {
+                _guests = value;
+            }
         }
 
         public override string TaskName
@@ -60,12 +73,15 @@ namespace WedChecker.UserControls.Tasks
         public override void DisplayValues()
         {
             spContacts.Visibility = Visibility.Visible;
+            tbGuestsAdded.Visibility = Visibility.Collapsed;
             selectContacts.Visibility = Visibility.Collapsed;
         }
 
         public override void EditValues()
         {
             spContacts.Visibility = Visibility.Collapsed;
+            tbGuestsAdded.Text = string.Empty;
+            tbGuestsAdded.Visibility = Visibility.Visible;
             selectContacts.Visibility = Visibility.Visible;
         }
 
@@ -101,6 +117,14 @@ namespace WedChecker.UserControls.Tasks
                 Guests.Add(contact);
             }
 
+            foreach (var contact in Guests)
+            {
+                var contactControl = new ContactControl(contact.Id, contact.FirstName + " " + contact.LastName);
+                contactControl.deleteButton.Click += deleteButton_Click;
+
+                spContacts.Children.Add(contactControl);
+            }
+
             DisplayValues();
         }
 
@@ -133,8 +157,12 @@ namespace WedChecker.UserControls.Tasks
                 spContacts.Children.Add(contactControl);
             }
 
-            DisplayValues();
-            AppData.InsertGlobalValue(TaskData.Tasks.GuestsList.ToString(), "true");
+            tbGuestsAdded.Text = string.Format("{0} guests added", Guests.Count);
+        }
+
+        public override async Task SubmitValues()
+        {
+            AppData.SerializeData();
         }
 
         void deleteButton_Click(object sender, RoutedEventArgs e)
@@ -157,6 +185,8 @@ namespace WedChecker.UserControls.Tasks
             {
                 spContacts.Children.Remove(controlToRemove);
             }
+
+            AppData.SerializeData();
         }
 
     }

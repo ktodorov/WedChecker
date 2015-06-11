@@ -16,6 +16,7 @@ using WedChecker.Common;
 using WedChecker.UserControls.Tasks;
 using System.IO.Compression;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace WedChecker.UserControls.Tasks
 {
@@ -52,7 +53,6 @@ namespace WedChecker.UserControls.Tasks
             tbBudgetDisplay.Text = Budget.ToString();
             displayPanel.Visibility = Visibility.Visible;
             tbHeader.Text = "This is what you have planned";
-            budgetPickerButton.Visibility = Visibility.Collapsed;
             tbBudget.Visibility = Visibility.Collapsed;
         }
 
@@ -62,7 +62,6 @@ namespace WedChecker.UserControls.Tasks
             tbBudget.Visibility = Visibility.Visible;
             displayPanel.Visibility = Visibility.Collapsed;
             tbHeader.Text = "What is your budget?\nYou can edit this at any time.";
-            budgetPickerButton.Visibility = Visibility.Visible;
         }
 
 
@@ -79,7 +78,7 @@ namespace WedChecker.UserControls.Tasks
             DisplayValues();
         }
 
-        private async void budgetPickerButton_Click(object sender, RoutedEventArgs e)
+        public override async Task SubmitValues()
         {
             var weddingBudget = tbBudget.Text;
             if (string.IsNullOrEmpty(weddingBudget) || Convert.ToInt32(weddingBudget) < 0)
@@ -93,7 +92,6 @@ namespace WedChecker.UserControls.Tasks
                 Budget = Convert.ToInt32(weddingBudget);
                 await AppData.InsertGlobalValue(TaskData.Tasks.WeddingBudget.ToString(), weddingBudget);
             }
-            DisplayValues();
         }
 
         private void tbBudget_TextChanged(object sender, TextChangedEventArgs e)

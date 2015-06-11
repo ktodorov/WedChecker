@@ -206,7 +206,7 @@ namespace WedChecker.Common
 
 #if WINDOWS_PHONE_APP
             var pivotStackPanel = currentPage.FindName("spPlanings") as StackPanel;
-            pivotStackPanel.Children.Add(new PopulatedTask(taskControl));
+            pivotStackPanel.Children.Add(new PopulatedTask(taskControl, true));
 
             var lbTasks = currentPage.FindName("LbTasks") as ItemsControl;
             lbTasks.Visibility = Visibility.Collapsed;

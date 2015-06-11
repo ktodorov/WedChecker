@@ -23,11 +23,9 @@
             <StackPanel Name="displayPanel" Visibility="Collapsed">
                 <TextBlock Name="tbRegistryNotesDisplay" Style="{StaticResource DisplayTextBlockStyle}"/>
             </StackPanel>
-            <Button Name="registryPickerButton" Content="Submit" HorizontalAlignment="Center" Style="{StaticResource ButtonClearStyle}" 
-                Click="registryPickerButton_Click"/>
         </StackPanel>
 
-        <Button Name="showMapGrid" Click="showMapGrid_Click" Content="Show map" Grid.Row="1" 
+        <Button Name="showMapGrid" Click="showMapGrid_Click" Content="Hide map" Grid.Row="1" 
                 HorizontalAlignment="Center" Style="{StaticResource ButtonClearStyle}"/>
 
         <Grid Name="mapGrid" Grid.Row="2">

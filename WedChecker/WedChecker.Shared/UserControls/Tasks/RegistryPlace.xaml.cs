@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using WedChecker.Common;
 using Windows.Devices.Geolocation;
 using Windows.Foundation;
@@ -56,7 +57,6 @@ namespace WedChecker.UserControls.Tasks
             tbRegistryNotesDisplay.Text = RegistryNotes ?? string.Empty;
             displayPanel.Visibility = Visibility.Visible;
             tbHeader.Text = "These are your notes";
-            registryPickerButton.Visibility = Visibility.Collapsed;
             tbRegistryNotes.Visibility = Visibility.Collapsed;
         }
 
@@ -69,7 +69,6 @@ namespace WedChecker.UserControls.Tasks
             tbRegistryNotes.Text = tbRegistryNotesDisplay.Text;
             tbRegistryNotes.Visibility = Visibility.Visible;
             tbHeader.Text = "Here you can add address or notes\nor whatever you like for your registry place";
-            registryPickerButton.Visibility = Visibility.Visible;
             displayPanel.Visibility = Visibility.Collapsed;
         }
 
@@ -171,7 +170,7 @@ namespace WedChecker.UserControls.Tasks
             locationMap.Center = locationGeopoint;
         }
 
-        private async void registryPickerButton_Click(object sender, RoutedEventArgs e)
+        public override async Task SubmitValues()
         {
             var registryNotes = tbRegistryNotes.Text;
 
@@ -180,7 +179,6 @@ namespace WedChecker.UserControls.Tasks
                 RegistryNotes = registryNotes;
                 await AppData.InsertGlobalValue(TaskData.Tasks.RegistryPlace.ToString(), registryNotes);
             }
-            DisplayValues();
         }
 
         private void tbRegistryNotes_TextChanged(object sender, TextChangedEventArgs e)

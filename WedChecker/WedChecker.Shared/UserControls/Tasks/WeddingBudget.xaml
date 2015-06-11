@@ -13,8 +13,6 @@
         <StackPanel Name="displayPanel" Visibility="Collapsed">
             <TextBlock Name="tbBudgetDisplay" Style="{StaticResource DisplayTextBlockStyle}"/>
         </StackPanel>
-        <Button Name="budgetPickerButton" Content="Submit" HorizontalAlignment="Center" Style="{StaticResource ButtonClearStyle}" 
-                Click="budgetPickerButton_Click"/>
         <TextBlock Name="tbErrorMessage" TextAlignment="Center" Foreground="Red"
                    Style="{StaticResource ControlHeaderTextBlockStyle}" Margin="0, 10, 0, 0"/>
     </StackPanel>
