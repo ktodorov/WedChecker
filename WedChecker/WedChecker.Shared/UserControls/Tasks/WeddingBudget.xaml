@@ -11,9 +11,7 @@
                    Style="{StaticResource ControlHeaderTextBlockStyle}" Margin="0, 0, 0, 10"/>
         <TextBox Name="tbBudget" InputScope="CurrencyAmountAndSymbol" Margin="20,0" TextChanged="tbBudget_TextChanged"/>
         <StackPanel Name="displayPanel" Visibility="Collapsed">
-            <Border Style="{StaticResource DisplayBorderStyle}">
-                <TextBlock Name="tbBudgetDisplay" Style="{StaticResource DisplayTextBlockStyle}"/>
-            </Border>
+            <TextBlock Name="tbBudgetDisplay" Style="{StaticResource DisplayTextBlockStyle}"/>
         </StackPanel>
         <Button Name="budgetPickerButton" Content="Submit" HorizontalAlignment="Center" Style="{StaticResource ButtonClearStyle}" 
                 Click="budgetPickerButton_Click"/>

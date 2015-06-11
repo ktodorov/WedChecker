@@ -14,7 +14,20 @@ namespace WedChecker.Common
 {
     public static class AppData
     {
-        private static Dictionary<string, string> LocalAppData
+        private static Dictionary<string, object> _localAppData;
+        public static Dictionary<string, object> LocalAppData
+        {
+            get
+            {
+                if (_localAppData == null)
+                {
+                    _localAppData = new Dictionary<string, object>();
+                }
+                return _localAppData;
+            }
+        }
+
+        private static Dictionary<string, string> GlobalAppData
         {
             get;
             set;
@@ -28,10 +41,10 @@ namespace WedChecker.Common
 
         public static void PopulateAppData()
         {
-            LocalAppData["firstLaunchFirstHeader"] = "Hello and welcome to";
-            LocalAppData["firstLaunchFirstTitle"] = "WedChecker";
-            LocalAppData["firstLaunchFirstDialog"] = "No doubt we will make a wonderful wedding.\nCan I know your name first?\nIt will help me to know you better.";
-            LocalAppData["firstLaunchSecondDialog"] = "Great!\n Okay, when is your wedding?";
+            GlobalAppData["firstLaunchFirstHeader"] = "Hello and welcome to";
+            GlobalAppData["firstLaunchFirstTitle"] = "WedChecker";
+            GlobalAppData["firstLaunchFirstDialog"] = "No doubt we will make a wonderful wedding.\nCan I know your name first?\nIt will help me to know you better.";
+            GlobalAppData["firstLaunchSecondDialog"] = "Great!\n Okay, when is your wedding?";
         }
 
         private static List<BaseTaskControl> SerializableTasks
@@ -42,20 +55,20 @@ namespace WedChecker.Common
 
         public static string EncodeDataToString()
         {
-            if (LocalAppData == null)
+            if (GlobalAppData == null)
             {
-                LocalAppData = new Dictionary<string, string>();
+                GlobalAppData = new Dictionary<string, string>();
             }
 
-            if (LocalAppData.Count == 0)
+            if (GlobalAppData.Count == 0)
             {
                 PopulateAppData();
             }
             var result = string.Empty;
 
-            foreach (var key in LocalAppData.Keys)
+            foreach (var key in GlobalAppData.Keys)
             {
-                result += string.Format("<<{0}><{1}>>", key, LocalAppData[key]);
+                result += string.Format("<<{0}><{1}>>", key, GlobalAppData[key]);
             }
 
             return result;
@@ -63,9 +76,9 @@ namespace WedChecker.Common
 
         public static void DecodeDataFromString(string dataFile)
         {
-            if (LocalAppData == null)
+            if (GlobalAppData == null)
             {
-                LocalAppData = new Dictionary<string, string>();
+                GlobalAppData = new Dictionary<string, string>();
             }
 
             var index = 0;
@@ -87,7 +100,7 @@ namespace WedChecker.Common
 
                 if (index == 6)
                 {
-                    LocalAppData[key] = value;
+                    GlobalAppData[key] = value;
                     index = 0;
                     key = "";
                     value = "";
@@ -97,15 +110,15 @@ namespace WedChecker.Common
 
         public static string GetValue(string key)
         {
-            if (LocalAppData == null || LocalAppData.Count == 0)
+            if (GlobalAppData == null || GlobalAppData.Count == 0)
             {
-                LocalAppData = new Dictionary<string, string>();
+                GlobalAppData = new Dictionary<string, string>();
                 PopulateAppData();
             }
 
-            if (LocalAppData.ContainsKey(key))
+            if (GlobalAppData.ContainsKey(key))
             {
-                return LocalAppData[key];
+                return GlobalAppData[key];
             }
 
             return null;
@@ -113,12 +126,12 @@ namespace WedChecker.Common
 
         public static async Task InsertGlobalValue(string name, string value, bool serialize = true)
         {
-            if (LocalAppData == null)
+            if (GlobalAppData == null)
             {
-                LocalAppData = new Dictionary<string, string>();
+                GlobalAppData = new Dictionary<string, string>();
             }
 
-            LocalAppData[name] = value;
+            GlobalAppData[name] = value;
 
             if (serialize)
             {
@@ -250,12 +263,12 @@ namespace WedChecker.Common
         private static void SerializeAppData(BinaryWriter writer)
         {
             writer.Write("AppData");
-            writer.Write(LocalAppData.Keys.Count);
+            writer.Write(GlobalAppData.Keys.Count);
 
-            foreach(var key in LocalAppData.Keys)
+            foreach(var key in GlobalAppData.Keys)
             {
                 writer.Write(key);
-                writer.Write(LocalAppData[key]);
+                writer.Write(GlobalAppData[key]);
             }
         }
 

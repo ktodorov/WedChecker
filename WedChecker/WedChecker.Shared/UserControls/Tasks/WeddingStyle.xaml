@@ -11,9 +11,7 @@
                    Style="{StaticResource ControlHeaderTextBlockStyle}" Margin="0, 0, 0, 10"/>
         <TextBox Name="tbStyle" Height="200" Margin="20,0" TextChanged="tbStyle_TextChanged" TextWrapping="Wrap"/>
         <StackPanel Name="displayPanel" Visibility="Collapsed">
-            <Border Style="{StaticResource DisplayBorderStyle}">
-                <TextBlock Name="tbStyleDisplay" Style="{StaticResource DisplayTextBlockStyle}"/>
-            </Border>
+            <TextBlock Name="tbStyleDisplay" Style="{StaticResource DisplayTextBlockStyle}"/>
         </StackPanel>
         <Button Name="stylePickerButton" Content="Submit" HorizontalAlignment="Center" Style="{StaticResource ButtonClearStyle}" 
                 Click="stylePickerButton_Click"/>
