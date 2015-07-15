@@ -30,7 +30,7 @@ namespace WedChecker.Common
                     taskControl = CreateRegistryPlaceControl(value);
                     break;
                 case "ReligiousPlace":
-
+                    taskControl = CreateReligiousPlaceControl(value);
                     break;
 
                 case "DocumentsRequired":
@@ -223,7 +223,6 @@ namespace WedChecker.Common
 #endif
         }
 
-
         public static BaseTaskControl GetTaskControlFromString(string taskControlName)
         {
             switch (taskControlName)
@@ -235,9 +234,7 @@ namespace WedChecker.Common
                 case "RegistryPlace":
                     return new RegistryPlace();
                 case "ReligiousPlace":
-
-                    break;
-
+                    return new ReligiousPlace();
                 case "DocumentsRequired":
 
                     break;
@@ -438,6 +435,19 @@ namespace WedChecker.Common
 
             var registryPlace = new RegistryPlace(locationValue);
             return registryPlace;
+        }
+
+
+        private static BaseTaskControl CreateReligiousPlaceControl(object value)
+        {
+            var locationValue = value.ToString();
+            if (locationValue == "-1")
+            {
+                return new ReligiousPlace();
+            }
+
+            var religiousPlace = new ReligiousPlace(locationValue);
+            return religiousPlace;
         }
 
         private static BaseTaskControl CreateGuestsListControl(object value)
