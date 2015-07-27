@@ -1,5 +1,5 @@
 ﻿<we:BaseTaskControl
-    x:Class="WedChecker.UserControls.Tasks.WeddingStyle"
+    x:Class="WedChecker.UserControls.Tasks.Planings.WeddingBudget"
     xmlns:local="using:WedChecker.UserControls.Tasks"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,11 +7,11 @@
     xmlns:we="using:WedChecker.UserControls.Tasks"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
     <StackPanel VerticalAlignment="Center">
-        <TextBlock Name="tbHeader" Text="Here you can save the style,&#x0a;planned for the wedding." TextAlignment="Center"
+        <TextBlock Name="tbHeader" Text="What is your budget?&#x0a;You can edit this at any time." TextAlignment="Center"
                    Style="{StaticResource ControlHeaderTextBlockStyle}" Margin="0, 0, 0, 10"/>
-        <TextBox Name="tbStyle" Height="200" Margin="20,0" TextChanged="tbStyle_TextChanged" TextWrapping="Wrap"/>
+        <TextBox Name="tbBudget" InputScope="CurrencyAmountAndSymbol" Margin="20,0" TextChanged="tbBudget_TextChanged"/>
         <StackPanel Name="displayPanel" Visibility="Collapsed">
-            <TextBlock Name="tbStyleDisplay" Style="{StaticResource DisplayTextBlockStyle}"/>
+            <TextBlock Name="tbBudgetDisplay" Style="{StaticResource DisplayTextBlockStyle}"/>
         </StackPanel>
         <TextBlock Name="tbErrorMessage" TextAlignment="Center" Foreground="Red"
                    Style="{StaticResource ControlHeaderTextBlockStyle}" Margin="0, 10, 0, 0"/>

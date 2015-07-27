@@ -18,11 +18,11 @@ using System.IO.Compression;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WedChecker.UserControls.Tasks
+namespace WedChecker.UserControls.Tasks.Planings
 {
-    public partial class WeddingStyle : BaseTaskControl
+    public partial class WeddingBudget : BaseTaskControl
     {
-        private string Style
+        private int Budget
         {
             get;
             set;
@@ -32,70 +32,71 @@ namespace WedChecker.UserControls.Tasks
         {
             get
             {
-                return "Style";
+                return "Budget";
             }
         }
 
-        public WeddingStyle()
+        public WeddingBudget()
         {
             this.InitializeComponent();
         }
 
-        public WeddingStyle(string value)
+        public WeddingBudget(int value)
         {
             this.InitializeComponent();
-            Style = value;
+            Budget = value;
             DisplayValues();
         }
 
         public override void DisplayValues()
         {
-            tbStyleDisplay.Text = Style;
+            tbBudgetDisplay.Text = Budget.ToString();
             displayPanel.Visibility = Visibility.Visible;
             tbHeader.Text = "This is what you have planned";
-            tbStyle.Visibility = Visibility.Collapsed;
+            tbBudget.Visibility = Visibility.Collapsed;
         }
 
         public override void EditValues()
         {
-            tbStyle.Text = tbStyleDisplay.Text;
-            tbStyle.Visibility = Visibility.Visible;
+            tbBudget.Text = tbBudgetDisplay.Text;
+            tbBudget.Visibility = Visibility.Visible;
             displayPanel.Visibility = Visibility.Collapsed;
-            tbHeader.Text = "Here you can save the style,\nplanned for the wedding.";
+            tbHeader.Text = "What is your budget?\nYou can edit this at any time.";
         }
 
 
         public override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskData.Tasks.WeddingStyle.ToString());
-            writer.Write(Style);
+            writer.Write(TaskData.Tasks.WeddingBudget.ToString());
+            writer.Write(Budget);
         }
 
         public override void Deserialize(BinaryReader reader)
         {
-            Style = reader.ReadString();
+            Budget = reader.ReadInt32();
+            
             DisplayValues();
         }
 
         public override async Task SubmitValues()
         {
-            var weddingStyle = tbStyle.Text;
-            if (string.IsNullOrEmpty(weddingStyle))
+            var weddingBudget = tbBudget.Text;
+            if (string.IsNullOrEmpty(weddingBudget) || Convert.ToInt32(weddingBudget) < 0)
             {
-                tbErrorMessage.Text = "Please, enter not an empty style.";
+                tbErrorMessage.Text = "Please, enter a valid budget!";
                 return;
             }
 
-            if (Style != weddingStyle)
+            if (Budget != Convert.ToInt32(weddingBudget))
             {
-                Style = weddingStyle;
-                await AppData.InsertGlobalValue(TaskData.Tasks.WeddingStyle.ToString(), weddingStyle);
+                Budget = Convert.ToInt32(weddingBudget);
+                await AppData.InsertGlobalValue(TaskData.Tasks.WeddingBudget.ToString(), weddingBudget);
             }
         }
 
-        private void tbStyle_TextChanged(object sender, TextChangedEventArgs e)
+        private void tbBudget_TextChanged(object sender, TextChangedEventArgs e)
         {
-            tbStyleDisplay.Text = tbStyle.Text;
+            tbBudgetDisplay.Text = tbBudget.Text;
         }
     }
 }

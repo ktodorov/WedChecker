@@ -26,6 +26,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\CountdownTimer.xaml.cs">
       <DependentUpon>CountdownTimer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\DocumentControl.xaml.cs">
+      <DependentUpon>DocumentControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\FirstLaunchPopup.xaml.cs">
       <DependentUpon>FirstLaunchPopup.xaml</DependentUpon>
     </Compile>
@@ -33,23 +36,23 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\BaseTaskControl.xaml.cs">
       <DependentUpon>BaseTaskControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\RegistryPlace.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\GuestsList.xaml.cs">
+      <DependentUpon>GuestsList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\RegistryPlace.xaml.cs">
       <DependentUpon>RegistryPlace.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\ReligiousPlace.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\ReligiousPlace.xaml.cs">
       <DependentUpon>ReligiousPlace.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\WeddingBudget.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\WeddingBudget.xaml.cs">
       <DependentUpon>WeddingBudget.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\GuestsList.xaml.cs">
-      <DependentUpon>GuestsList.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\WeddingStyle.xaml.cs">
+      <DependentUpon>WeddingStyle.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\PopulatedTask.xaml.cs">
       <DependentUpon>PopulatedTask.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\WeddingStyle.xaml.cs">
-      <DependentUpon>WeddingStyle.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -69,19 +72,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\RegistryPlace.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\DocumentsRequired.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\ReligiousPlace.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\GuestsList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\WeddingBudget.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\RegistryPlace.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\GuestsList.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\ReligiousPlace.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\WeddingBudget.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\WeddingStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -89,9 +100,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\WeddingStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Bookings\" />
+    <Folder Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Purchases\" />
   </ItemGroup>
 </Project>

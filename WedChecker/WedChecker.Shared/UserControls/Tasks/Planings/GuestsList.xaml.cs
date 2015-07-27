@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace WedChecker.UserControls.Tasks
+namespace WedChecker.UserControls.Tasks.Planings
 {
     public sealed partial class GuestsList : BaseTaskControl
     {

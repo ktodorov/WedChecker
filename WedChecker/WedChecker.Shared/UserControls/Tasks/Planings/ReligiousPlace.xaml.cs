@@ -18,33 +18,33 @@ using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace WedChecker.UserControls.Tasks
+namespace WedChecker.UserControls.Tasks.Planings
 {
-    public sealed partial class RegistryPlace : BaseTaskControl
+    public sealed partial class ReligiousPlace : BaseTaskControl
     {
         public override string TaskName
         {
             get
             {
-                return "Registry place";
+                return "Religious place";
             }
         }
 
-        private string RegistryNotes
+        private string ReligiousNotes
         {
             get;
             set;
         }
 
-        public RegistryPlace()
+        public ReligiousPlace()
         {
             this.InitializeComponent();
         }
 
-        public RegistryPlace(string value)
+        public ReligiousPlace(string value)
         {
             this.InitializeComponent();
-            RegistryNotes = value;
+            ReligiousNotes = value;
             DisplayValues();
         }
 
@@ -54,10 +54,10 @@ namespace WedChecker.UserControls.Tasks
             VerticalMapBorder.Visibility = Visibility.Collapsed;
             HorizontalMapBorder.Visibility = Visibility.Collapsed;
 
-            tbRegistryNotesDisplay.Text = RegistryNotes ?? string.Empty;
+            tbReligiousNotesDisplay.Text = ReligiousNotes ?? string.Empty;
             displayPanel.Visibility = Visibility.Visible;
             tbHeader.Text = "These are your notes";
-            tbRegistryNotes.Visibility = Visibility.Collapsed;
+            tbReligiousNotes.Visibility = Visibility.Collapsed;
         }
 
         public override void EditValues()
@@ -66,22 +66,22 @@ namespace WedChecker.UserControls.Tasks
             VerticalMapBorder.Visibility = Visibility.Visible;
             HorizontalMapBorder.Visibility = Visibility.Visible;
 
-            tbRegistryNotes.Text = tbRegistryNotesDisplay.Text;
-            tbRegistryNotes.Visibility = Visibility.Visible;
-            tbHeader.Text = "Here you can add address or notes\nor whatever you like for your registry place";
+            tbReligiousNotes.Text = tbReligiousNotesDisplay.Text;
+            tbReligiousNotes.Visibility = Visibility.Visible;
+            tbHeader.Text = "Here you can add address or notes\nor whatever you like for your religious place";
             displayPanel.Visibility = Visibility.Collapsed;
         }
 
         public override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskData.Tasks.RegistryPlace.ToString());
+            writer.Write(TaskData.Tasks.ReligiousPlace.ToString());
 
             var objectsCount = GetObjectsCount();
             writer.Write(objectsCount);
 
             if (objectsCount == 1 || objectsCount == 2)
             {
-                writer.Write(RegistryNotes);
+                writer.Write(ReligiousNotes);
             }
             if (objectsCount == -1 || objectsCount == 2)
             {
@@ -96,7 +96,7 @@ namespace WedChecker.UserControls.Tasks
 
             if (objectsCount == 1 || objectsCount == 2)
             {
-                RegistryNotes = reader.ReadString();
+                ReligiousNotes = reader.ReadString();
             }
 
             if (objectsCount == -1 || objectsCount == 2)
@@ -119,7 +119,7 @@ namespace WedChecker.UserControls.Tasks
             //  2 - Both
             var objectsCount = 0;
 
-            if (!string.IsNullOrEmpty(RegistryNotes))
+            if (!string.IsNullOrEmpty(ReligiousNotes))
             {
                 objectsCount = 1;
             }
@@ -129,7 +129,7 @@ namespace WedChecker.UserControls.Tasks
                 objectsCount = -1;
             }
 
-            if (PinnedLocation() && !string.IsNullOrEmpty(RegistryNotes))
+            if (PinnedLocation() && !string.IsNullOrEmpty(ReligiousNotes))
             {
                 objectsCount = 2;
             }
@@ -141,7 +141,7 @@ namespace WedChecker.UserControls.Tasks
         {
             var location = GetCenteredLocation();
 
-            locationMap.AddPushpin(location, "Registry");
+            locationMap.AddPushpin(location, "Religious");
         }
 
         private BasicGeoposition GetCenteredLocation()
@@ -172,18 +172,18 @@ namespace WedChecker.UserControls.Tasks
 
         public override async Task SubmitValues()
         {
-            var registryNotes = tbRegistryNotes.Text;
+            var religiousNotes = tbReligiousNotes.Text;
 
-            if (RegistryNotes != registryNotes)
+            if (ReligiousNotes != religiousNotes)
             {
-                RegistryNotes = registryNotes;
-                await AppData.InsertGlobalValue(TaskData.Tasks.RegistryPlace.ToString(), registryNotes);
+                ReligiousNotes = religiousNotes;
+                await AppData.InsertGlobalValue(TaskData.Tasks.ReligiousPlace.ToString(), religiousNotes);
             }
         }
 
-        private void tbRegistryNotes_TextChanged(object sender, TextChangedEventArgs e)
+        private void tbReligiousNotes_TextChanged(object sender, TextChangedEventArgs e)
         {
-            tbRegistryNotesDisplay.Text = tbRegistryNotes.Text;
+            tbReligiousNotesDisplay.Text = tbReligiousNotes.Text;
         }
 
         private void showMapGrid_Click(object sender, RoutedEventArgs e)

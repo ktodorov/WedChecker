@@ -1,5 +1,5 @@
 ﻿<we:BaseTaskControl
-    x:Class="WedChecker.UserControls.Tasks.GuestsList"
+    x:Class="WedChecker.UserControls.Tasks.Planings.GuestsList"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:WedChecker.UserControls.Tasks"
