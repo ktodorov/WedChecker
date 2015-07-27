@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using WedChecker.UserControls.Tasks;
+using WedChecker.UserControls.Tasks.Planings;
 using Windows.ApplicationModel.Contacts;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -32,11 +33,9 @@ namespace WedChecker.Common
                 case "ReligiousPlace":
                     taskControl = CreateReligiousPlaceControl(value);
                     break;
-
                 case "DocumentsRequired":
-
+                    taskControl = CreateDocumentsRequiredControl(value);
                     break;
-
                 case "Restaurant":
 
                     break;
@@ -236,9 +235,7 @@ namespace WedChecker.Common
                 case "ReligiousPlace":
                     return new ReligiousPlace();
                 case "DocumentsRequired":
-
-                    break;
-
+                    return new DocumentsRequired();
                 case "Restaurant":
 
                     break;
@@ -448,6 +445,18 @@ namespace WedChecker.Common
 
             var religiousPlace = new ReligiousPlace(locationValue);
             return religiousPlace;
+        }
+
+        private static BaseTaskControl CreateDocumentsRequiredControl(object value)
+        {
+            var documentsList = value as Dictionary<int, string>;
+            if (documentsList == null)
+            {
+                return new DocumentsRequired();
+            }
+
+            var documentsRequired = new DocumentsRequired(documentsList);
+            return documentsRequired;
         }
 
         private static BaseTaskControl CreateGuestsListControl(object value)

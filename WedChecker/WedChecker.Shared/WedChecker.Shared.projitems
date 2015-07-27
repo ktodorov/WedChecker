@@ -36,6 +36,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\BaseTaskControl.xaml.cs">
       <DependentUpon>BaseTaskControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\DocumentsRequired.xaml.cs">
+      <DependentUpon>DocumentsRequired.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\GuestsList.xaml.cs">
       <DependentUpon>GuestsList.xaml</DependentUpon>
     </Compile>
@@ -61,6 +64,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)UserControls\CountdownTimer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\DocumentControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
