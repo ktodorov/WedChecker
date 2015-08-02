@@ -45,7 +45,6 @@ namespace WedChecker.UserControls.Tasks.Planings
         {
             this.InitializeComponent();
             Budget = value;
-            DisplayValues();
         }
 
         public override void DisplayValues()

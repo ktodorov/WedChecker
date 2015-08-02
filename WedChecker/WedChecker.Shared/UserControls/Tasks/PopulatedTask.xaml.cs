@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using WedChecker.Common;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -39,10 +40,15 @@ namespace WedChecker.UserControls.Tasks
             spConnectedControl.Children.Add(ConnectedTaskControl);
             buttonTaskName.Content = control.TaskName.ToUpper();
             SetBackgroundColor();
-            
+
             if (!isNew)
             {
                 ConnectedTaskControl.DisplayValues();
+                Task.WaitAll(DisplayConnectedTask(false));
+            }
+            else
+            {
+                EditConnectedTask();
             }
         }
 
@@ -82,6 +88,11 @@ namespace WedChecker.UserControls.Tasks
         }
         void editTask_Click(object sender, RoutedEventArgs e)
         {
+            EditConnectedTask();
+        }
+
+        private void EditConnectedTask()
+        {
             displayTask.Visibility = Visibility.Visible;
             editTask.Visibility = Visibility.Collapsed;
             if (ConnectedTaskControl != null)
@@ -96,11 +107,19 @@ namespace WedChecker.UserControls.Tasks
 
         private async void displayTask_Click(object sender, RoutedEventArgs e)
         {
+            await DisplayConnectedTask();
+        }
+
+        private async Task DisplayConnectedTask(bool shouldSave = true)
+        {
             displayTask.Visibility = Visibility.Collapsed;
             editTask.Visibility = Visibility.Visible;
             if (ConnectedTaskControl != null)
             {
-                await ConnectedTaskControl.SubmitValues();
+                if (shouldSave)
+                {
+                    await ConnectedTaskControl.SubmitValues();
+                }
                 ConnectedTaskControl.DisplayValues();
             }
         }

@@ -66,8 +66,6 @@ namespace WedChecker.UserControls.Tasks.Planings
 
                 spContacts.Children.Add(contactControl);
             }
-
-            DisplayValues();
         }
 
         public override void DisplayValues()

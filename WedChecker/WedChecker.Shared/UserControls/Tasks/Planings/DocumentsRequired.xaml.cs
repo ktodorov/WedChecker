@@ -46,7 +46,6 @@ namespace WedChecker.UserControls.Tasks.Planings
         {
             this.InitializeComponent();
             Documents = values;
-            DisplayValues();
             DocumentsChanged = false;
         }
         public override void DisplayValues()

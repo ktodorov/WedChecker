@@ -45,7 +45,6 @@ namespace WedChecker.UserControls.Tasks.Planings
         {
             this.InitializeComponent();
             ReligiousNotes = value;
-            DisplayValues();
         }
 
         public override void DisplayValues()
