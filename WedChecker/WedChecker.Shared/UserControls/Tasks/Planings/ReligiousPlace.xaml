@@ -19,7 +19,7 @@
         </Grid.RowDefinitions>
         <StackPanel Name="notesPanel" Orientation="Vertical" Grid.Row="0">
             <TextBlock Name="tbHeader" Text="Here you can add address or notes&#x0a;or whatever you like for your religious place" TextAlignment="Center"
-                   Style="{StaticResource ControlHeaderTextBlockStyle}" Margin="0, 0, 0, 10"/>
+                   Style="{StaticResource DisplayTextBlockStyle}" Margin="0, 0, 0, 10"/>
             <TextBox Name="tbReligiousNotes" Margin="20,0" TextChanged="tbReligiousNotes_TextChanged"/>
             <StackPanel Name="displayPanel" Visibility="Collapsed">
                 <TextBlock Name="tbReligiousNotesDisplay" Style="{StaticResource DisplayTextBlockStyle}"/>

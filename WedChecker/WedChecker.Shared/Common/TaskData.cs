@@ -37,7 +37,7 @@ namespace WedChecker.Common
                     taskControl = CreateDocumentsRequiredControl(value);
                     break;
                 case "Restaurant":
-
+                    taskControl = CreateRestaurantControl(value);
                     break;
 
                 case "RestaurantFood":
@@ -237,9 +237,7 @@ namespace WedChecker.Common
                 case "DocumentsRequired":
                     return new DocumentsRequired();
                 case "Restaurant":
-
-                    break;
-
+                    return new Restaurant();
                 case "RestaurantFood":
 
                     break;
@@ -457,6 +455,17 @@ namespace WedChecker.Common
 
             var documentsRequired = new DocumentsRequired(documentsList);
             return documentsRequired;
+        }
+        private static BaseTaskControl CreateRestaurantControl(object value)
+        {
+            var parameters = value as Dictionary<string, string>;
+            if (parameters == null)
+            {
+                return new Restaurant();
+            }
+
+            var restaurant = new Restaurant(parameters);
+            return restaurant;
         }
 
         private static BaseTaskControl CreateGuestsListControl(object value)

@@ -114,7 +114,7 @@
         </Style>
 
         <Style x:Key="DisplayTextBlockStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="25"/>
+            <Setter Property="FontSize" Value="20"/>
             <Setter Property="FontFamily" Value="Segoe UI"/>
             <Setter Property="FontWeight" Value="Light"/>
             <Setter Property="TextWrapping" Value="WrapWholeWords"/>
@@ -125,6 +125,34 @@
 
         <Style x:Key="DisplayBorderStyle" TargetType="Border">
             <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style x:Key="WedCheckerFormTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontWeight" Value="Light"/>
+            <Setter Property="TextWrapping" Value="WrapWholeWords"/>
+            <Setter Property="TextAlignment" Value="Left"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Margin" Value="15, 0"/>
+        </Style>
+
+        <Style x:Key="WedCheckerDisplayTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontWeight" Value="Light"/>
+            <Setter Property="TextWrapping" Value="WrapWholeWords"/>
+            <Setter Property="TextAlignment" Value="Left"/>
+            <Setter Property="Foreground" Value="{StaticResource PhoneAccentBrush}"/>
+            <Setter Property="Margin" Value="15, 0"/>
+        </Style>
+
+        <Style x:Key="WedCheckerFormTextBoxStyle" TargetType="TextBox">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Margin" Value="15, 5, 15, 5"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PhoneAccentBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
         </Style>
     </Application.Resources>
