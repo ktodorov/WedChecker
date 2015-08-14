@@ -150,6 +150,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
             var newDocument = new DocumentControl(number, string.Empty);
             newDocument.saveDocumentButton.Click += saveDocumentButton_Click;
+            newDocument.removeDocumentButton.Click += removeDocumentButton_Click;
             spDocuments.Children.Add(newDocument);
             DocumentsChanged = true;
         }

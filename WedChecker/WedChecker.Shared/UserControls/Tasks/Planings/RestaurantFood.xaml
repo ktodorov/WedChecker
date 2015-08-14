@@ -1,0 +1,30 @@
+﻿<we:BaseTaskControl
+    x:Class="WedChecker.UserControls.Tasks.Planings.RestaurantFood"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WedChecker.UserControls.Tasks.Planings"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:we="using:WedChecker.UserControls.Tasks">
+
+    <Grid Margin="0, 5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="9*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Name="tbHeader" Style="{StaticResource DisplayTextBlockStyle}" Grid.Row="0">
+            You can add your planned foods for the restaurant here
+        </TextBlock>
+
+        <Border Margin="15, 5" Grid.Row="1" Height="1" BorderBrush="{StaticResource PhoneAccentBrush}" BorderThickness="1"/>
+
+        <StackPanel Name="spDishes" Grid.Row="2" Orientation="Vertical" Margin="15, 0">
+        </StackPanel>
+        <Button Name="addDishButton" BorderThickness="0" Content="&#xE109; New food" 
+                VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Symbol" 
+                FontWeight="Light" FontSize="20" Foreground="{StaticResource PhoneAccentBrush}"
+                Click="addDishButton_Click" Grid.Row="3"/>
+    </Grid>
+</we:BaseTaskControl>

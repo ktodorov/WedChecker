@@ -9,7 +9,6 @@ using Windows.UI.Xaml.Controls;
 
 #if WINDOWS_PHONE_APP
 using Windows.Phone.UI.Input;
-using Windows.ApplicationModel.Contacts;
 #endif
 namespace WedChecker.Common
 {
@@ -41,7 +40,7 @@ namespace WedChecker.Common
                     break;
 
                 case "RestaurantFood":
-
+                    taskControl = CreateRestaurantFoodControl(value);
                     break;
 
                 case "BestMan_MaidOfHonour":
@@ -239,9 +238,7 @@ namespace WedChecker.Common
                 case "Restaurant":
                     return new Restaurant();
                 case "RestaurantFood":
-
-                    break;
-
+                    return new RestaurantFood();
                 case "BestMan_MaidOfHonour":
 
                     break;
@@ -456,6 +453,7 @@ namespace WedChecker.Common
             var documentsRequired = new DocumentsRequired(documentsList);
             return documentsRequired;
         }
+
         private static BaseTaskControl CreateRestaurantControl(object value)
         {
             var parameters = value as Dictionary<string, string>;
@@ -466,6 +464,18 @@ namespace WedChecker.Common
 
             var restaurant = new Restaurant(parameters);
             return restaurant;
+        }
+
+        private static BaseTaskControl CreateRestaurantFoodControl(object value)
+        {
+            var dishesList = value as Dictionary<int, string>;
+            if (dishesList == null)
+            {
+                return new RestaurantFood();
+            }
+
+            var restaurantFood = new RestaurantFood(dishesList);
+            return restaurantFood;
         }
 
         private static BaseTaskControl CreateGuestsListControl(object value)

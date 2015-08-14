@@ -13,7 +13,7 @@
             <ColumnDefinition Width="7*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <TextBox Name="tbDocumentName" x:FieldModifier="Public" Text="New document" Grid.Column="0" FontSize="23"
+        <TextBox Name="tbDocumentName" x:FieldModifier="Public" Text="New document" Grid.Column="0" Style="{StaticResource WedCheckerFormTextBoxStyle}" FontSize="23"
                    FontFamily="Segoe UI Light" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0" VerticalContentAlignment="Center"/>
         <TextBlock Name="tbDisplayDocumentName" Text="New document" Grid.Column="0" FontSize="20"
                    FontFamily="Segoe UI Light" VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="Collapsed"/>
