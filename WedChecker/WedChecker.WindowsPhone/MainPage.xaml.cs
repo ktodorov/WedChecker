@@ -185,7 +185,7 @@ namespace WedChecker
                 return;
             }
 
-            var taskClicked = new KeyValuePair<string, object>(senderElement.Name, -1);
+            var taskClicked = new KeyValuePair<string, object>(senderElement.Name, null);
             TaskData.CreateTaskControl(this, taskClicked);
             senderElement.IsEnabled = false;
         }

@@ -213,6 +213,8 @@ namespace WedChecker.UserControls.Tasks.Planings
             Dishes.Add(previousDish.Key, dish.Title);
             AddDish(new DishControl(previousDish.Key, dish.Title));
             AddDish(new DishControl(dishNumber, previousDish.Value));
+
+            DishesChanged = true;
         }
 
         private void downDishButton_Click(object sender, RoutedEventArgs e)
@@ -237,6 +239,8 @@ namespace WedChecker.UserControls.Tasks.Planings
             Dishes.Add(nextDish.Key, dish.Title);
             AddDish(new DishControl(dishNumber, nextDish.Value));
             AddDish(new DishControl(nextDish.Key, dish.Title));
+
+            DishesChanged = true;
         }
     }
 }

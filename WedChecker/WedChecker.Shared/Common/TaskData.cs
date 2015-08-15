@@ -6,6 +6,7 @@ using WedChecker.UserControls.Tasks.Planings;
 using Windows.ApplicationModel.Contacts;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using System.Reflection;
 
 #if WINDOWS_PHONE_APP
 using Windows.Phone.UI.Input;
@@ -17,189 +18,9 @@ namespace WedChecker.Common
         public static void CreateTaskControl(Page currentPage, KeyValuePair<string, object> populatedControl)
         {
             object value = populatedControl.Value;
+            var type = GetTaskType(populatedControl.Key);
             BaseTaskControl taskControl = null;
-            switch (populatedControl.Key)
-            {
-                case "WeddingBudget":
-                    taskControl = CreateWeddingBudgetControl(value);
-                    break;
-                case "WeddingStyle":
-                    taskControl = CreateWeddingStyleControl(value);
-                    break;
-                case "RegistryPlace":
-                    taskControl = CreateRegistryPlaceControl(value);
-                    break;
-                case "ReligiousPlace":
-                    taskControl = CreateReligiousPlaceControl(value);
-                    break;
-                case "DocumentsRequired":
-                    taskControl = CreateDocumentsRequiredControl(value);
-                    break;
-                case "Restaurant":
-                    taskControl = CreateRestaurantControl(value);
-                    break;
-
-                case "RestaurantFood":
-                    taskControl = CreateRestaurantFoodControl(value);
-                    break;
-
-                case "BestMan_MaidOfHonour":
-
-                    break;
-
-                case "BridesmaidsGroomsmen":
-
-                    break;
-
-                case "Decoration":
-
-                    break;
-
-                case "FreshFlowers":
-
-                    break;
-
-                case "MusicLayout":
-
-                    break;
-
-                case "Photographer":
-
-                    break;
-
-                case "BrideAccessories":
-
-                    break;
-
-                case "BrideClothes":
-
-                    break;
-
-                case "GroomAccessories":
-
-                    break;
-
-                case "GroomClothes":
-
-                    break;
-
-                case "BMMOHAccessories":
-
-                    break;
-
-                case "BMMOHClothes":
-
-                    break;
-
-                case "BAGAccessories":
-
-                    break;
-
-                case "BAGClothes":
-
-                    break;
-
-                case "HoneymoonDestination":
-
-                    break;
-
-                case "GuestsList":
-                    taskControl = CreateGuestsListControl(value);
-                    break;
-
-                case "ForeignGuestsAccomodation":
-
-                    break;
-
-                case "HairdresserMakeupArtist":
-
-                    break;
-
-                case "Invitations":
-
-                    break;
-
-                case "PurchaseBrideAccessories":
-
-                    break;
-
-                case "PurchaseBrideClothes":
-
-                    break;
-
-                case "PurchaseGroomAccessories":
-
-                    break;
-
-                case "PurchaseGroomClothes":
-
-                    break;
-
-                case "PurchaseBMMOHAccessories":
-
-                    break;
-
-                case "PurchaseBMMOHClothes":
-
-                    break;
-
-                case "PurchaseBAGAccessories":
-
-                    break;
-
-                case "PurchaseBAGClothes":
-
-                    break;
-
-                case "PurchaseRestaurantFood":
-
-                    break;
-
-                case "PurchaseFreshFlowers":
-
-                    break;
-
-                case "PurchaseRings":
-
-                    break;
-
-                case "PurchaseCake":
-
-                    break;
-
-                case "BookMusicLayout":
-
-                    break;
-
-                case "BookPhotographer":
-
-                    break;
-
-                case "BookHoneymoonDestination":
-
-                    break;
-
-                case "BookGuestsAccomodation":
-
-                    break;
-
-                case "BookHairdresserMakeupArtistAppointments":
-
-                    break;
-
-                case "SendInvitations":
-
-                    break;
-
-                case "RestaurantAccomodationPlan":
-
-                    break;
-
-                default:
-                    break;
-
-            }
-
+            taskControl = CreateTaskControl(type, value);
             AppData.InsertSerializableTask(taskControl);
 
 #if WINDOWS_PHONE_APP
@@ -223,273 +44,43 @@ namespace WedChecker.Common
 
         public static BaseTaskControl GetTaskControlFromString(string taskControlName)
         {
-            switch (taskControlName)
-            {
-                case "WeddingBudget":
-                    return new WeddingBudget();
-                case "WeddingStyle":
-                    return new WeddingStyle();
-                case "RegistryPlace":
-                    return new RegistryPlace();
-                case "ReligiousPlace":
-                    return new ReligiousPlace();
-                case "DocumentsRequired":
-                    return new DocumentsRequired();
-                case "Restaurant":
-                    return new Restaurant();
-                case "RestaurantFood":
-                    return new RestaurantFood();
-                case "BestMan_MaidOfHonour":
-
-                    break;
-
-                case "BridesmaidsGroomsmen":
-
-                    break;
-
-                case "Decoration":
-
-                    break;
-
-                case "FreshFlowers":
-
-                    break;
-
-                case "MusicLayout":
-
-                    break;
-
-                case "Photographer":
-
-                    break;
-
-                case "BrideAccessories":
-
-                    break;
-
-                case "BrideClothes":
-
-                    break;
-
-                case "GroomAccessories":
-
-                    break;
-
-                case "GroomClothes":
-
-                    break;
-
-                case "BMMOHAccessories":
-
-                    break;
-
-                case "BMMOHClothes":
-
-                    break;
-
-                case "BAGAccessories":
-
-                    break;
-
-                case "BAGClothes":
-
-                    break;
-
-                case "HoneymoonDestination":
-
-                    break;
-
-                case "GuestsList":
-                    return new GuestsList();
-                case "ForeignGuestsAccomodation":
-
-                    break;
-
-                case "HairdresserMakeupArtist":
-
-                    break;
-
-                case "Invitations":
-
-                    break;
-
-                case "PurchaseBrideAccessories":
-
-                    break;
-
-                case "PurchaseBrideClothes":
-
-                    break;
-
-                case "PurchaseGroomAccessories":
-
-                    break;
-
-                case "PurchaseGroomClothes":
-
-                    break;
-
-                case "PurchaseBMMOHAccessories":
-
-                    break;
-
-                case "PurchaseBMMOHClothes":
-
-                    break;
-
-                case "PurchaseBAGAccessories":
-
-                    break;
-
-                case "PurchaseBAGClothes":
-
-                    break;
-
-                case "PurchaseRestaurantFood":
-
-                    break;
-
-                case "PurchaseFreshFlowers":
-
-                    break;
-
-                case "PurchaseRings":
-
-                    break;
-
-                case "PurchaseCake":
-
-                    break;
-
-                case "BookMusicLayout":
-
-                    break;
-
-                case "BookPhotographer":
-
-                    break;
-
-                case "BookHoneymoonDestination":
-
-                    break;
-
-                case "BookGuestsAccomodation":
-
-                    break;
-
-                case "BookHairdresserMakeupArtistAppointments":
-
-                    break;
-
-                case "SendInvitations":
-
-                    break;
-
-                case "RestaurantAccomodationPlan":
-
-                    break;
-            }
-
-            return null;
+            var type = GetTaskType(taskControlName);
+            return Activator.CreateInstance(type) as BaseTaskControl;
         }
 
-        private static BaseTaskControl CreateWeddingBudgetControl(object value)
+        public static Type GetTaskType(string taskName)
         {
-            var intValue = Convert.ToInt32(value);
-            if (intValue == -1)
+            Type type;
+
+            type = Type.GetType($"WedChecker.UserControls.Tasks.Bookings.{taskName}");
+            if (type == null)
             {
-                return new WeddingBudget();
+                type = Type.GetType($"WedChecker.UserControls.Tasks.Planings.{taskName}");
             }
 
-            var weddingBudget = new WeddingBudget(intValue);
-            return weddingBudget;
+            if (type == null)
+            {
+                type = Type.GetType($"WedChecker.UserControls.Tasks.Purchases.{taskName}");
+            }
+
+            if (type == null)
+            {
+                throw new Exception("Could not recognize the task type");
+            }
+
+            return type;
         }
 
-        private static BaseTaskControl CreateWeddingStyleControl(object value)
+        private static BaseTaskControl CreateTaskControl(Type taskType, object value)
         {
-            var stringValue = value.ToString();
-            if (stringValue == "-1")
+            if (value == null)
             {
-                return new WeddingStyle();
+                return Activator.CreateInstance(taskType) as BaseTaskControl;
             }
 
-            var weddingStyle = new WeddingStyle(stringValue);
-            return weddingStyle;
+            return Activator.CreateInstance(taskType, value) as BaseTaskControl;
         }
-
-        private static BaseTaskControl CreateRegistryPlaceControl(object value)
-        {
-            var locationValue = value.ToString();
-            if (locationValue == "-1")
-            {
-                return new RegistryPlace();
-            }
-
-            var registryPlace = new RegistryPlace(locationValue);
-            return registryPlace;
-        }
-
-
-        private static BaseTaskControl CreateReligiousPlaceControl(object value)
-        {
-            var locationValue = value.ToString();
-            if (locationValue == "-1")
-            {
-                return new ReligiousPlace();
-            }
-
-            var religiousPlace = new ReligiousPlace(locationValue);
-            return religiousPlace;
-        }
-
-        private static BaseTaskControl CreateDocumentsRequiredControl(object value)
-        {
-            var documentsList = value as Dictionary<int, string>;
-            if (documentsList == null)
-            {
-                return new DocumentsRequired();
-            }
-
-            var documentsRequired = new DocumentsRequired(documentsList);
-            return documentsRequired;
-        }
-
-        private static BaseTaskControl CreateRestaurantControl(object value)
-        {
-            var parameters = value as Dictionary<string, string>;
-            if (parameters == null)
-            {
-                return new Restaurant();
-            }
-
-            var restaurant = new Restaurant(parameters);
-            return restaurant;
-        }
-
-        private static BaseTaskControl CreateRestaurantFoodControl(object value)
-        {
-            var dishesList = value as Dictionary<int, string>;
-            if (dishesList == null)
-            {
-                return new RestaurantFood();
-            }
-
-            var restaurantFood = new RestaurantFood(dishesList);
-            return restaurantFood;
-        }
-
-        private static BaseTaskControl CreateGuestsListControl(object value)
-        {
-            var contactsValue = value as List<Contact>;
-            if (contactsValue == null)
-            {
-                return new GuestsList();
-            }
-
-            var guestsList = new GuestsList(contactsValue);
-            return guestsList;
-        }
-
+        
         public static void DisableAddedTasks(ItemsControl itemsControl)
         {
             foreach (var item in itemsControl.Items)
