@@ -13,7 +13,7 @@ namespace WedChecker.Common
             DocumentsRequired = 4,
             Restaurant = 5,
             RestaurantFood = 6,
-            BestMan_MaidOfHonour = 7,
+            BestManMaidOfHonor = 7,
             BridesmaidsGroomsmen = 8,
             Decoration = 9,
             FreshFlowers = 10,

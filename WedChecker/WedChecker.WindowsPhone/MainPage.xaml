@@ -143,7 +143,7 @@
                     <Button Name="DocumentsRequired" Click="TaskItem_Clicked">Documents required for marriage</Button>
                     <Button Name="Restaurant" Click="TaskItem_Clicked">Restaurant</Button>
                     <Button Name="RestaurantFood" Click="TaskItem_Clicked">Restaurant food</Button>
-                    <Button>Best man and maid of honor</Button>
+                    <Button Name="BestManMaidOfHonor" Click="TaskItem_Clicked">Best man and maid of honor</Button>
                     <Button>Bridesmaids and groomsmen</Button>
                     <Button>Decoration</Button>
                     <Button>Fresh flowers</Button>

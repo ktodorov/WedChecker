@@ -211,6 +211,12 @@ namespace WedChecker.Common
                     {
                         CancelToken.ThrowIfCancellationRequested();
 
+                        if (reader.PeekChar() == -1)
+                        {
+                            // Then the reader is empty
+                            return addedControls;
+                        }
+
                         var control = reader.ReadString();
 
                         if (control == null)
@@ -229,7 +235,7 @@ namespace WedChecker.Common
                             if (taskControl == control)
                             {
                                 var baseTaskControl = TaskData.GetTaskControlFromString(taskControl);
-                                InsertGlobalValue(baseTaskControl.GetType().ToString(), "true", false);
+                                await InsertGlobalValue(baseTaskControl.GetType().ToString(), "true", false);
                                 baseTaskControl.Deserialize(reader);
                                 addedControls.Add(baseTaskControl);
                                 break;

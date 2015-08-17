@@ -14,8 +14,8 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Name="tbId" x:FieldModifier="Public" Visibility="Collapsed"/>
-        <TextBlock Name="tbContactName" x:FieldModifier="Public" Grid.Column="0" FontSize="20"
-                   FontFamily="Segoe UI Light" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+        <TextBlock Name="tbContactName" x:FieldModifier="Public" Grid.Column="0"
+                   Text="Testing Testing" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"/>
         <Button Name="deleteButton" x:FieldModifier="Public" Grid.Column="1" BorderThickness="0"
                 Content="&#xE10A;" VerticalAlignment="Center" HorizontalAlignment="Center" 
                 FontFamily="Segoe UI Symbol" FontSize="20" Foreground="{StaticResource PhoneAccentBrush}"/>

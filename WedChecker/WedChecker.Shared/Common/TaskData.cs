@@ -101,7 +101,7 @@ namespace WedChecker.Common
         {
             // Plan
             "WeddingBudget", "WeddingStyle", "RegistryPlace", "ReligiousPlace",
-            "DocumentsRequired", "Restaurant", "RestaurantFood", "BestMan_MaidOfHonour",
+            "DocumentsRequired", "Restaurant", "RestaurantFood", "BestManMaidOfHonor",
             "BridesmaidsGroomsmen", "Decoration", "FreshFlowers", "MusicLayout",
             "Photographer", "BrideAccessories", "BrideClothes", "GroomAccessories",
             "GroomClothes", "BMMOHAccessories", "BMMOHClothes", "BAGAccessories",
