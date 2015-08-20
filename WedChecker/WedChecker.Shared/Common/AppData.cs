@@ -14,6 +14,8 @@ namespace WedChecker.Common
 {
     public static class AppData
     {
+        private const string EOS_CONST = "$WedChecker_EndOfStream$";
+
         private static Dictionary<string, object> _localAppData;
         public static Dictionary<string, object> LocalAppData
         {
@@ -182,6 +184,8 @@ namespace WedChecker.Common
                     {
                         serializableTask.Serialize(writer);
                     }
+
+                    writer.Write(EOS_CONST);
                 }
             }
             catch (OperationCanceledException)
@@ -207,40 +211,42 @@ namespace WedChecker.Common
                 using (GZipStream decompressionStream = new GZipStream(stream, CompressionMode.Decompress, true))
                 using (BinaryReader reader = new BinaryReader(decompressionStream, Encoding.Unicode, true))
                 {
-                    while (true)
+                    try
                     {
-                        CancelToken.ThrowIfCancellationRequested();
-
-                        if (reader.PeekChar() == -1)
+                        while (true)
                         {
-                            // Then the reader is empty
-                            return addedControls;
-                        }
+                            CancelToken.ThrowIfCancellationRequested();
 
-                        var control = reader.ReadString();
+                            var control = reader.ReadString();
 
-                        if (control == null)
-                        {
-                            return addedControls;
-                        }
-
-                        if (control == "AppData")
-                        {
-                            DeserializeAppData(reader);
-                            continue;
-                        }
-
-                        foreach (var taskControl in TaskData.TaskControls)
-                        {
-                            if (taskControl == control)
+                            if (control == null || control == EOS_CONST)
                             {
-                                var baseTaskControl = TaskData.GetTaskControlFromString(taskControl);
-                                await InsertGlobalValue(baseTaskControl.GetType().ToString(), "true", false);
-                                baseTaskControl.Deserialize(reader);
-                                addedControls.Add(baseTaskControl);
-                                break;
+                                return addedControls;
+                            }
+
+                            if (control == "AppData")
+                            {
+                                DeserializeAppData(reader);
+                                continue;
+                            }
+
+                            foreach (var taskControl in TaskData.TaskControls)
+                            {
+                                if (taskControl == control)
+                                {
+                                    var baseTaskControl = TaskData.GetTaskControlFromString(taskControl);
+                                    await InsertGlobalValue(baseTaskControl.GetType().ToString(), "true", false);
+                                    baseTaskControl.Deserialize(reader);
+                                    addedControls.Add(baseTaskControl);
+                                    break;
+                                }
                             }
                         }
+                    }
+                    // Then we have reached end of stream and failed to return before that
+                    catch (EndOfStreamException)
+                    {
+                        return addedControls;
                     }
                 }
             }
@@ -271,7 +277,7 @@ namespace WedChecker.Common
             writer.Write("AppData");
             writer.Write(GlobalAppData.Keys.Count);
 
-            foreach(var key in GlobalAppData.Keys)
+            foreach (var key in GlobalAppData.Keys)
             {
                 writer.Write(key);
                 writer.Write(GlobalAppData[key]);

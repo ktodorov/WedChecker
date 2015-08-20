@@ -221,8 +221,6 @@ namespace WedChecker.UserControls.Tasks.Planings
             contactControl.deleteButton.Click += deleteMaidOfHonorButton_Click;
             contactControl.Visibility = Visibility.Visible;
 
-            DeleteMaidOfHonor();
-
             spBestMan.Children.Add(contactControl);
         }
     }
