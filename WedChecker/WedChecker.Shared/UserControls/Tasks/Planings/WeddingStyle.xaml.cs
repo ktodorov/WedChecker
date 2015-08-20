@@ -1,21 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using System.IO;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using WedChecker.Common;
-using WedChecker.UserControls.Tasks;
-using System.IO.Compression;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace WedChecker.UserControls.Tasks.Planings
@@ -51,7 +37,7 @@ namespace WedChecker.UserControls.Tasks.Planings
         {
             tbStyleDisplay.Text = Style;
             displayPanel.Visibility = Visibility.Visible;
-            tbHeader.Text = "This is what you have planned";
+            tbHeader.Text = "This is the wedding style you have planned";
             tbStyle.Visibility = Visibility.Collapsed;
         }
 
@@ -60,7 +46,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             tbStyle.Text = tbStyleDisplay.Text;
             tbStyle.Visibility = Visibility.Visible;
             displayPanel.Visibility = Visibility.Collapsed;
-            tbHeader.Text = "Here you can save the style,\nplanned for the wedding.";
+            tbHeader.Text = "Here you can save the style,\nplanned for the wedding";
         }
 
 
@@ -81,7 +67,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             var weddingStyle = tbStyle.Text;
             if (string.IsNullOrEmpty(weddingStyle))
             {
-                tbErrorMessage.Text = "Please, enter not an empty style.";
+                tbErrorMessage.Text = "Please, do not enter an empty style.";
                 return;
             }
 

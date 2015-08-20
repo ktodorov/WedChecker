@@ -145,7 +145,7 @@
                     <Button Name="RestaurantFood" Click="TaskItem_Clicked">Restaurant food</Button>
                     <Button Name="BestManMaidOfHonor" Click="TaskItem_Clicked">Best man and maid of honor</Button>
                     <Button>Bridesmaids and groomsmen</Button>
-                    <Button>Decoration</Button>
+                    <Button Name="Decoration" Click="TaskItem_Clicked">Decoration</Button>
                     <Button>Fresh flowers</Button>
                     <Button>Music layout</Button>
                     <Button>Photographer</Button>
