@@ -147,7 +147,7 @@
                     <Button>Bridesmaids and groomsmen</Button>
                     <Button Name="Decoration" Click="TaskItem_Clicked">Decoration</Button>
                     <Button>Fresh flowers</Button>
-                    <Button>Music layout</Button>
+                    <Button Name="MusicLayout" Click="TaskItem_Clicked">Music layout</Button>
                     <Button>Photographer</Button>
                     <Button>Bride accessories</Button>
                     <Button>Bride clothes</Button>
