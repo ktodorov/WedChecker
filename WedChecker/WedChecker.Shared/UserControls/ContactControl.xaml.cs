@@ -30,5 +30,14 @@ namespace WedChecker.UserControls
             tbId.Text = id;
             tbContactName.Text = name;
         }
+
+        public void DisplayValues()
+        {
+            deleteButton.Visibility = Visibility.Collapsed;
+        }
+        public void EditValues()
+        {
+            deleteButton.Visibility = Visibility.Visible;
+        }
     }
 }

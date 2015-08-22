@@ -11,15 +11,16 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Button Name="selectContacts" Content="Select" Style="{StaticResource ButtonClearStyle}"
+        <Button Name="selectContacts" Content="Select guests" Style="{StaticResource ButtonClearStyle}"
                 VerticalAlignment="Center" HorizontalAlignment="Center"
-                Click="selectContacts_Click" Grid.Row="0"/>
+                Click="selectContacts_Click" Grid.Row="0" Width="200"/>
 
         <TextBlock Name="tbGuestsAdded" Grid.Row="1" TextAlignment="Center" Margin="0, 0, 0, 10"
                    Style="{StaticResource ControlHeaderTextBlockStyle}"/>
         
-        <StackPanel Name="spContacts" Visibility="Collapsed" Margin="15, 0, 0, 0" Grid.RowSpan="2">
+        <StackPanel Name="spContacts" Margin="15, 0, 0, 0" Grid.Row="2">
         </StackPanel>
     </Grid>
 </we:BaseTaskControl>

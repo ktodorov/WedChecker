@@ -70,17 +70,22 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override void DisplayValues()
         {
-            spContacts.Visibility = Visibility.Visible;
-            tbGuestsAdded.Visibility = Visibility.Collapsed;
             selectContacts.Visibility = Visibility.Collapsed;
+            var guestControls = spContacts.Children.OfType<ContactControl>();
+            foreach (var guestControl in guestControls)
+            {
+                guestControl.DisplayValues();
+            }
         }
 
         public override void EditValues()
         {
-            spContacts.Visibility = Visibility.Collapsed;
-            tbGuestsAdded.Text = string.Empty;
-            tbGuestsAdded.Visibility = Visibility.Visible;
             selectContacts.Visibility = Visibility.Visible;
+            var guestControls = spContacts.Children.OfType<ContactControl>();
+            foreach (var guestControl in guestControls)
+            {
+                guestControl.EditValues();
+            }
         }
 
         public override void Serialize(BinaryWriter writer)
@@ -123,6 +128,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                 spContacts.Children.Add(contactControl);
             }
 
+            tbGuestsAdded.Text = string.Format("{0} guests added", Guests.Count); 
             DisplayValues();
         }
 
@@ -132,7 +138,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             picker.DesiredFieldsWithContactFieldType.Add(Windows.ApplicationModel.Contacts.ContactFieldType.PhoneNumber);
             var contacts = await picker.PickContactsAsync();
 
-            if (!contacts.Any())
+            if (contacts == null || !contacts.Any())
             {
                 return;
             }
@@ -144,7 +150,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
             foreach (var contact in contacts)
             {
-                if (!Guests.Contains(contact))
+                if (!Guests.Any(g => g.Id == contact.Id))
                 {
                     Guests.Add(contact);
                 }
@@ -160,7 +166,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override async Task SubmitValues()
         {
-            AppData.SerializeData();
+            await AppData.SerializeData();
         }
 
         void deleteButton_Click(object sender, RoutedEventArgs e)
@@ -169,7 +175,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             DeleteGuest(contactControl.tbId.Text);
         }
 
-        private void DeleteGuest(string id)
+        private async void DeleteGuest(string id)
         {
             var guestToRemove = Guests.FirstOrDefault(g => g.Id == id);
 
@@ -178,13 +184,13 @@ namespace WedChecker.UserControls.Tasks.Planings
                 Guests.Remove(guestToRemove);
             }
 
-            var controlToRemove = spContacts.Children.FirstOrDefault(c => c is ContactControl && ((ContactControl)c).tbId.Text == guestToRemove.Id);
+            var controlToRemove = spContacts.Children.OfType<ContactControl>().FirstOrDefault(c => c.tbId.Text == guestToRemove.Id);
             if (controlToRemove != null)
             {
                 spContacts.Children.Remove(controlToRemove);
             }
 
-            AppData.SerializeData();
+            await AppData.SerializeData();
         }
 
     }
