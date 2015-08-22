@@ -1,0 +1,29 @@
+﻿<we:BaseTaskControl
+    x:Class="WedChecker.UserControls.Tasks.Planings.BridesmaidsGroomsmen"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WedChecker.UserControls.Tasks.Planings"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:we="using:WedChecker.UserControls.Tasks">
+    <StackPanel Orientation="Vertical">
+        <TextBlock Name="tbHeader" Text="You can choose as many bridesmaids and groomsmen as you will have" 
+                   TextAlignment="Center" Style="{StaticResource DisplayTextBlockStyle}" Margin="0, 0, 0, 10" Grid.Row="0"/>
+        <Border Style="{StaticResource WedCheckerBorderSplitter}" Margin="15, 0"/>
+        <TextBlock Text="Bridesmaids" Style="{StaticResource WedCheckerFormTextBlockStyle}"/>
+        <Button Name="selectBridesmaids" Content="Select bridesmaids" Style="{StaticResource ButtonClearStyle}"
+                VerticalAlignment="Center" HorizontalAlignment="Center"
+                Click="selectBridesmaids_Click" Width="200"/>
+        <StackPanel Name="spBridesmaids">
+        </StackPanel>
+
+        <Border Style="{StaticResource WedCheckerBorderSplitter}" Margin="15, 0"/>
+
+        <TextBlock Text="Groomsmen" Style="{StaticResource WedCheckerFormTextBlockStyle}"/>
+        <Button Name="selectGroomsmen" Content="Select groomsmen" Style="{StaticResource ButtonClearStyle}"
+                VerticalAlignment="Center" HorizontalAlignment="Center"
+                Click="selectGroomsmen_Click" Width="200"/>
+        <StackPanel Name="spGroomsmen">
+        </StackPanel>
+    </StackPanel>
+</we:BaseTaskControl>
