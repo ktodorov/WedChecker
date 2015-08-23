@@ -166,7 +166,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override async Task SubmitValues()
         {
-            await AppData.SerializeData();
+            await AppData.InsertGlobalValue(TaskData.Tasks.GuestsList.ToString());
         }
 
         void deleteButton_Click(object sender, RoutedEventArgs e)

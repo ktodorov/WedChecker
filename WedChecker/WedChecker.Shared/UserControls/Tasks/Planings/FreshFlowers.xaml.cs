@@ -119,7 +119,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             if (FlowersNotes != decoration)
             {
                 FlowersNotes = decoration;
-                await AppData.InsertGlobalValue(TaskData.Tasks.FreshFlowers.ToString(), decoration);
+                await AppData.InsertGlobalValue(TaskData.Tasks.FreshFlowers.ToString());
             }
         }
 

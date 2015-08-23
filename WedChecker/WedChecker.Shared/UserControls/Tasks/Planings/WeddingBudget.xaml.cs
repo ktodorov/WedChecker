@@ -89,7 +89,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             if (Budget != Convert.ToInt32(weddingBudget))
             {
                 Budget = Convert.ToInt32(weddingBudget);
-                await AppData.InsertGlobalValue(TaskData.Tasks.WeddingBudget.ToString(), weddingBudget);
+                await AppData.InsertGlobalValue(TaskData.Tasks.WeddingBudget.ToString());
             }
         }
 

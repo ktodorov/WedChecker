@@ -9,7 +9,7 @@
     <StackPanel VerticalAlignment="Center">
         <TextBlock Name="tbHeader" Text="Here you can save the decoration, planned for the wedding" TextAlignment="Center"
                    Style="{StaticResource DisplayTextBlockStyle}" Margin="0, 0, 0, 10"/>
-        <TextBox Name="tbDecoration" Height="200" Margin="20,0" TextChanged="tbDecoration_TextChanged" TextWrapping="Wrap"/>
+        <TextBox Name="tbDecoration" TextChanged="tbDecoration_TextChanged" Style="{StaticResource WedCheckerFormTextBoxMultiLinesStyle}"/>
         <StackPanel Name="displayPanel" Visibility="Collapsed">
             <TextBlock Name="tbDecorationDisplay" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" TextAlignment="Center"/>
         </StackPanel>

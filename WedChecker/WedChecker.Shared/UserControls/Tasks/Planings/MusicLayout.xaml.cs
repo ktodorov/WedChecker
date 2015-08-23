@@ -72,7 +72,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             if (PlannedLayout != decoration)
             {
                 PlannedLayout = decoration;
-                await AppData.InsertGlobalValue(TaskData.Tasks.MusicLayout.ToString(), decoration);
+                await AppData.InsertGlobalValue(TaskData.Tasks.MusicLayout.ToString());
             }
         }
 

@@ -74,7 +74,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             if (Style != weddingStyle)
             {
                 Style = weddingStyle;
-                await AppData.InsertGlobalValue(TaskData.Tasks.WeddingStyle.ToString(), weddingStyle);
+                await AppData.InsertGlobalValue(TaskData.Tasks.WeddingStyle.ToString());
             }
         }
 

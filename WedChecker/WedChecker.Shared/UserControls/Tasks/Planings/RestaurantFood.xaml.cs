@@ -106,7 +106,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
             if (DishesChanged)
             {
-                AppData.SerializeData();
+                await AppData.InsertGlobalValue(TaskData.Tasks.RestaurantFood.ToString());
             }
         }
 

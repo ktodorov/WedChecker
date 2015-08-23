@@ -110,7 +110,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
             if (DocumentsChanged)
             {
-                AppData.SerializeData();
+                await AppData.InsertGlobalValue(TaskData.Tasks.DocumentsRequired.ToString());
             }
         }
 

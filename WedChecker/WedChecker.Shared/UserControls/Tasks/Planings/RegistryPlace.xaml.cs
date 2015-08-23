@@ -176,7 +176,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             if (RegistryNotes != registryNotes)
             {
                 RegistryNotes = registryNotes;
-                await AppData.InsertGlobalValue(TaskData.Tasks.RegistryPlace.ToString(), registryNotes);
+                await AppData.InsertGlobalValue(TaskData.Tasks.RegistryPlace.ToString());
             }
         }
 

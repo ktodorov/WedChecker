@@ -143,7 +143,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override async Task SubmitValues()
         {
-            await AppData.SerializeData();
+            await AppData.InsertGlobalValue(TaskData.Tasks.BestManMaidOfHonor.ToString());
         }
 
         async void deleteBestManButton_Click(object sender, RoutedEventArgs e)

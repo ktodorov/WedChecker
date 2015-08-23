@@ -100,7 +100,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             Notes = tbNotes.Text;
             tbNotesDisplay.Text = Notes;
 
-            await AppData.InsertGlobalValue(TaskData.Tasks.Restaurant.ToString(), RestaurantName);
+            await AppData.InsertGlobalValue(TaskData.Tasks.Restaurant.ToString());
         }
 
         private void PopulateParameters(Dictionary<string, string> parameters)

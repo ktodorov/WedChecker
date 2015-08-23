@@ -156,9 +156,9 @@ namespace WedChecker.UserControls.Tasks.Planings
             return locationMap.PinnedPlace.Latitude != 0 || locationMap.PinnedPlace.Longitude != 0;
         }
 
-        private void centerLocationButton_Click(object sender, RoutedEventArgs e)
+        private async void centerLocationButton_Click(object sender, RoutedEventArgs e)
         {
-            locationMap.CenterOnCurrentLocation();
+            await locationMap.CenterOnCurrentLocation();
         }
 
         private void centerPinButton_Click(object sender, RoutedEventArgs e)
@@ -176,7 +176,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             if (ReligiousNotes != religiousNotes)
             {
                 ReligiousNotes = religiousNotes;
-                await AppData.InsertGlobalValue(TaskData.Tasks.ReligiousPlace.ToString(), religiousNotes);
+                await AppData.InsertGlobalValue(TaskData.Tasks.ReligiousPlace.ToString());
             }
         }
 
