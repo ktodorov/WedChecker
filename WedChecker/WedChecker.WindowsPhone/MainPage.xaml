@@ -146,7 +146,7 @@
                     <Button Name="BestManMaidOfHonor" Click="TaskItem_Clicked">Best man and maid of honor</Button>
                     <Button Name="BridesmaidsGroomsmen" Click="TaskItem_Clicked">Bridesmaids and groomsmen</Button>
                     <Button Name="Decoration" Click="TaskItem_Clicked">Decoration</Button>
-                    <Button>Fresh flowers</Button>
+                    <Button Name="FreshFlowers" Click="TaskItem_Clicked">Fresh flowers</Button>
                     <Button Name="MusicLayout" Click="TaskItem_Clicked">Music layout</Button>
                     <Button>Photographer</Button>
                     <Button>Bride accessories</Button>

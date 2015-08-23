@@ -20,31 +20,27 @@ using Windows.UI.Xaml.Navigation;
 
 namespace WedChecker.UserControls.Tasks.Planings
 {
-    public sealed partial class RegistryPlace : BaseTaskControl
+    public sealed partial class FreshFlowers : BaseTaskControl
     {
+        private string FlowersNotes { get; set; } = string.Empty;
+
         public override string TaskName
         {
             get
             {
-                return "Registry place";
+                return "Flowers";
             }
         }
 
-        private string RegistryNotes
-        {
-            get;
-            set;
-        }
-
-        public RegistryPlace()
+        public FreshFlowers()
         {
             this.InitializeComponent();
         }
 
-        public RegistryPlace(string value)
+        public FreshFlowers(string value)
         {
             this.InitializeComponent();
-            RegistryNotes = value;
+            FlowersNotes = value;
         }
 
         public override void DisplayValues()
@@ -53,10 +49,10 @@ namespace WedChecker.UserControls.Tasks.Planings
             VerticalMapBorder.Visibility = Visibility.Collapsed;
             HorizontalMapBorder.Visibility = Visibility.Collapsed;
 
-            tbRegistryNotesDisplay.Text = RegistryNotes ?? string.Empty;
+            tbFreshFlowersDisplay.Text = FlowersNotes;
             displayPanel.Visibility = Visibility.Visible;
-            tbHeader.Text = "These are your notes";
-            tbRegistryNotes.Visibility = Visibility.Collapsed;
+            tbHeader.Text = "This is the flowers info you have noted";
+            tbFreshFlowers.Visibility = Visibility.Collapsed;
         }
 
         public override void EditValues()
@@ -65,22 +61,23 @@ namespace WedChecker.UserControls.Tasks.Planings
             VerticalMapBorder.Visibility = Visibility.Visible;
             HorizontalMapBorder.Visibility = Visibility.Visible;
 
-            tbRegistryNotes.Text = tbRegistryNotesDisplay.Text;
-            tbRegistryNotes.Visibility = Visibility.Visible;
-            tbHeader.Text = "Here you can add address or notes\nor whatever you like for your registry place";
+            tbFreshFlowers.Text = tbFreshFlowersDisplay.Text;
+            tbFreshFlowers.Visibility = Visibility.Visible;
             displayPanel.Visibility = Visibility.Collapsed;
+            tbHeader.Text = "Here you can save any info about the flowers, you have planned for the wedding";
         }
+
 
         public override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskData.Tasks.RegistryPlace.ToString());
+            writer.Write(TaskData.Tasks.FreshFlowers.ToString());
 
             var objectsCount = GetObjectsCount();
             writer.Write(objectsCount);
 
             if (objectsCount == 1 || objectsCount == 2)
             {
-                writer.Write(RegistryNotes);
+                writer.Write(FlowersNotes);
             }
             if (objectsCount == -1 || objectsCount == 2)
             {
@@ -95,7 +92,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
             if (objectsCount == 1 || objectsCount == 2)
             {
-                RegistryNotes = reader.ReadString();
+                FlowersNotes = reader.ReadString();
             }
 
             if (objectsCount == -1 || objectsCount == 2)
@@ -110,37 +107,27 @@ namespace WedChecker.UserControls.Tasks.Planings
             DisplayValues();
         }
 
-        int GetObjectsCount()
+        public override async Task SubmitValues()
         {
-            // ObjectsCount for serializing:
-            // -1 - Only location
-            //  1 - Only notes
-            //  2 - Both
-            var objectsCount = 0;
-
-            if (!string.IsNullOrEmpty(RegistryNotes))
+            var decoration = tbFreshFlowers.Text;
+            if (string.IsNullOrEmpty(decoration))
             {
-                objectsCount = 1;
+                tbErrorMessage.Text = "Please, do not enter an empty flowers information";
+                return;
             }
 
-            if (PinnedLocation())
+            if (FlowersNotes != decoration)
             {
-                objectsCount = -1;
+                FlowersNotes = decoration;
+                await AppData.InsertGlobalValue(TaskData.Tasks.FreshFlowers.ToString(), decoration);
             }
-
-            if (PinnedLocation() && !string.IsNullOrEmpty(RegistryNotes))
-            {
-                objectsCount = 2;
-            }
-
-            return objectsCount;
         }
 
         private void pinAdressButton_Click(object sender, RoutedEventArgs e)
         {
             var location = GetCenteredLocation();
 
-            locationMap.AddPushpin(location, "Registry");
+            locationMap.AddPushpin(location, "Flowers");
         }
 
         private BasicGeoposition GetCenteredLocation()
@@ -149,6 +136,11 @@ namespace WedChecker.UserControls.Tasks.Planings
 
             var location = new BasicGeoposition() { Latitude = center.Latitude, Longitude = center.Longitude };
             return location;
+        }
+
+        private void tbFreshFlowers_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            tbFreshFlowersDisplay.Text = tbFreshFlowers.Text;
         }
 
         private bool PinnedLocation()
@@ -169,20 +161,30 @@ namespace WedChecker.UserControls.Tasks.Planings
             locationMap.Center = locationGeopoint;
         }
 
-        public override async Task SubmitValues()
+        int GetObjectsCount()
         {
-            var registryNotes = tbRegistryNotes.Text;
+            // ObjectsCount for serializing:
+            // -1 - Only location
+            //  1 - Only notes
+            //  2 - Both
+            var objectsCount = 0;
 
-            if (RegistryNotes != registryNotes)
+            if (!string.IsNullOrEmpty(FlowersNotes))
             {
-                RegistryNotes = registryNotes;
-                await AppData.InsertGlobalValue(TaskData.Tasks.RegistryPlace.ToString(), registryNotes);
+                objectsCount = 1;
             }
-        }
 
-        private void tbRegistryNotes_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            tbRegistryNotesDisplay.Text = tbRegistryNotes.Text;
+            if (PinnedLocation())
+            {
+                objectsCount = -1;
+            }
+
+            if (PinnedLocation() && !string.IsNullOrEmpty(FlowersNotes))
+            {
+                objectsCount = 2;
+            }
+
+            return objectsCount;
         }
 
         private void showMapGrid_Click(object sender, RoutedEventArgs e)
