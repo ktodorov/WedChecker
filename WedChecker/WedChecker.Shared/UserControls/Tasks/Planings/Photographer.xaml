@@ -1,0 +1,47 @@
+﻿<we:BaseTaskControl
+    x:Class="WedChecker.UserControls.Tasks.Planings.Photographer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WedChecker.UserControls.Tasks.Planings"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:we="using:WedChecker.UserControls.Tasks">
+    <StackPanel Orientation="Vertical">
+        <TextBlock Name="tbHeader" Text="Select the photographer from your contacts and I'll note everything about him under or you can type it on your own" TextAlignment="Center"
+                   Style="{StaticResource DisplayTextBlockStyle}" Margin="0, 0, 0, 10" Grid.Row="0"/>
+        <Border Style="{StaticResource WedCheckerBorderSplitter}" Margin="15, 0"/>
+        <Button Name="selectPhotographer" Content="Select photographer" Style="{StaticResource ButtonClearStyle}"
+                VerticalAlignment="Center" HorizontalAlignment="Center"
+                Click="selectPhotographer_Click" Width="200"/>
+        
+        <StackPanel Name="spPhotographer">
+            <TextBlock Name="tBlockFirstName" Style="{StaticResource WedCheckerFormTextBlockStyle}" Text="First name"/>
+            <TextBlock Name="tbFirstNameDisplay" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" Visibility="Collapsed"/>
+            <TextBox Name="tbFirstName" Style="{StaticResource WedCheckerFormTextBoxStyle}" TextChanged="tbFirstName_TextChanged"/>
+            
+            <TextBlock  Name="tBlockLastName" Style="{StaticResource WedCheckerFormTextBlockStyle}" Text="Last name"/>
+            <TextBlock Name="tbLastNameDisplay" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" Visibility="Collapsed"/>
+            <TextBox Name="tbLastName" Style="{StaticResource WedCheckerFormTextBoxStyle}" TextChanged="tbLastName_TextChanged"/>
+            
+            <TextBlock  Name="tBlockPhone" Style="{StaticResource WedCheckerFormTextBlockStyle}" Text="Phone"/>
+            <TextBlock Name="tbPhoneDisplay" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" Visibility="Collapsed"/>
+            <TextBox Name="tbPhone" Style="{StaticResource WedCheckerFormTextBoxStyle}" TextChanged="tbPhone_TextChanged"/>
+
+            <TextBlock  Name="tBlockEmail" Style="{StaticResource WedCheckerFormTextBlockStyle}" Text="Email"/>
+            <TextBlock Name="tbEmailDisplay" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" Visibility="Collapsed"/>
+            <TextBox Name="tbEmail" Style="{StaticResource WedCheckerFormTextBoxStyle}" TextChanged="tbEmail_TextChanged"/>
+
+            <TextBlock  Name="tBlockAddress" Style="{StaticResource WedCheckerFormTextBlockStyle}" Text="Address"/>
+            <TextBlock Name="tbAddressDisplay" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" Visibility="Collapsed"/>
+            <TextBox Name="tbAddress" Style="{StaticResource WedCheckerFormTextBoxStyle}" TextChanged="tbAddress_TextChanged"/>
+            
+            <TextBlock  Name="tBlockWebsite" Style="{StaticResource WedCheckerFormTextBlockStyle}" Text="Website"/>
+            <TextBlock Name="tbWebsiteDisplay" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" Visibility="Collapsed"/>
+            <TextBox Name="tbWebsite" Style="{StaticResource WedCheckerFormTextBoxStyle}" TextChanged="tbWebsite_TextChanged"/>
+
+            <TextBlock  Name="tBlockNotes" Style="{StaticResource WedCheckerFormTextBlockStyle}" Text="Notes"/>
+            <TextBlock Name="tbNotesDisplay" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" Visibility="Collapsed"/>
+            <TextBox Name="tbNotes" Style="{StaticResource WedCheckerFormTextBoxMultiLinesStyle}" TextChanged="tbNotes_TextChanged"/>
+        </StackPanel>
+    </StackPanel>
+</we:BaseTaskControl>

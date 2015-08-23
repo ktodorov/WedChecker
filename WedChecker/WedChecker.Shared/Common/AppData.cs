@@ -126,7 +126,7 @@ namespace WedChecker.Common
             return null;
         }
 
-        public static async Task InsertGlobalValue(string name, string value, bool serialize = true)
+        public static async Task InsertGlobalValue(string name, string value = "serialized", bool serialize = true)
         {
             if (GlobalAppData == null)
             {
@@ -137,7 +137,7 @@ namespace WedChecker.Common
 
             if (serialize)
             {
-                SerializeData();
+                await SerializeData();
             }
         }
 

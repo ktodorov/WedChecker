@@ -60,6 +60,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\MusicLayout.xaml.cs">
       <DependentUpon>MusicLayout.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\Photographer.xaml.cs">
+      <DependentUpon>Photographer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\RegistryPlace.xaml.cs">
       <DependentUpon>RegistryPlace.xaml</DependentUpon>
     </Compile>
@@ -132,6 +135,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\MusicLayout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\Photographer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

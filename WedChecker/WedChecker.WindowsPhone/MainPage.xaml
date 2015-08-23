@@ -148,7 +148,7 @@
                     <Button Name="Decoration" Click="TaskItem_Clicked">Decoration</Button>
                     <Button Name="FreshFlowers" Click="TaskItem_Clicked">Fresh flowers</Button>
                     <Button Name="MusicLayout" Click="TaskItem_Clicked">Music layout</Button>
-                    <Button>Photographer</Button>
+                    <Button Name="Photographer" Click="TaskItem_Clicked">Photographer</Button>
                     <Button>Bride accessories</Button>
                     <Button>Bride clothes</Button>
                     <Button>Groom accessories</Button>
