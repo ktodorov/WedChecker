@@ -36,6 +36,22 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string EditHeader
+        {
+            get
+            {
+                return "What is your budget? You can edit this at any time";
+            }
+        }
+
+        public override string DisplayHeader
+        {
+            get
+            {
+                return "This is the wedding budget you have planned";
+            }
+        }
+
         public WeddingBudget()
         {
             this.InitializeComponent();
@@ -51,7 +67,6 @@ namespace WedChecker.UserControls.Tasks.Planings
         {
             tbBudgetDisplay.Text = Budget.ToString();
             displayPanel.Visibility = Visibility.Visible;
-            tbHeader.Text = "This is what you have planned";
             tbBudget.Visibility = Visibility.Collapsed;
         }
 
@@ -60,7 +75,6 @@ namespace WedChecker.UserControls.Tasks.Planings
             tbBudget.Text = tbBudgetDisplay.Text;
             tbBudget.Visibility = Visibility.Visible;
             displayPanel.Visibility = Visibility.Collapsed;
-            tbHeader.Text = "What is your budget?\nYou can edit this at any time.";
         }
 
 

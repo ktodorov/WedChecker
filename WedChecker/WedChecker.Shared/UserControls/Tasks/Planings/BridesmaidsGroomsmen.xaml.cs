@@ -35,6 +35,22 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string EditHeader
+        {
+            get
+            {
+                return "You can choose as many bridesmaids and groomsmen as you will have";
+            }
+        }
+
+        public override string DisplayHeader
+        {
+            get
+            {
+                return "Here are the bridesmaids and groomsmen for your wedding";
+            }
+        }
+
         public BridesmaidsGroomsmen()
         {
             this.InitializeComponent();
@@ -76,7 +92,6 @@ namespace WedChecker.UserControls.Tasks.Planings
             {
                 groomsmenControl.DisplayValues();
             }
-            tbHeader.Text = "Here are the bridesmaids and groomsmen for your wedding";
         }
 
         public override void EditValues()
@@ -93,7 +108,6 @@ namespace WedChecker.UserControls.Tasks.Planings
             {
                 groomsmenControl.EditValues();
             }
-            tbHeader.Text = "You can choose as many bridesmaids and groomsmen as you will have";
         }
 
         public override void Serialize(BinaryWriter writer)

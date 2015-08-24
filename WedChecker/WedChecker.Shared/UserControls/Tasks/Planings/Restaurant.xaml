@@ -7,13 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:we="using:WedChecker.UserControls.Tasks">
 
-    <StackPanel Orientation="Vertical" Margin="0, 5">
-        <TextBlock Name="tbHeader" Style="{StaticResource DisplayTextBlockStyle}">
-            You can add all kind of restaurant information here
-        </TextBlock>
-        
-        <Border Margin="15, 5" BorderBrush="{StaticResource PhoneAccentBrush}" BorderThickness="1"/>
-
+    <StackPanel Orientation="Vertical">
         <TextBlock Name="tbNameHeader" Style="{StaticResource WedCheckerFormTextBlockStyle}">Name</TextBlock>
         <TextBlock Name="tbNameDisplay" Visibility="Collapsed" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"/>
         <TextBox Name="tbName" Style="{StaticResource WedCheckerFormTextBoxStyle}"/>

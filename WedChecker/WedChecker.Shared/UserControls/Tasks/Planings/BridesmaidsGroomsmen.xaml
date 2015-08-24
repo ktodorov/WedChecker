@@ -7,9 +7,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:we="using:WedChecker.UserControls.Tasks">
     <StackPanel Orientation="Vertical">
-        <TextBlock Name="tbHeader" Text="You can choose as many bridesmaids and groomsmen as you will have" 
-                   TextAlignment="Center" Style="{StaticResource DisplayTextBlockStyle}" Margin="0, 0, 0, 10" Grid.Row="0"/>
-        <Border Style="{StaticResource WedCheckerBorderSplitter}" Margin="15, 0"/>
         <TextBlock Text="Bridesmaids" Style="{StaticResource WedCheckerFormTextBlockStyle}"/>
         <Button Name="selectBridesmaids" Content="Select bridesmaids" Style="{StaticResource ButtonClearStyle}"
                 VerticalAlignment="Center" HorizontalAlignment="Center"
@@ -17,7 +14,7 @@
         <StackPanel Name="spBridesmaids">
         </StackPanel>
 
-        <Border Style="{StaticResource WedCheckerBorderSplitter}" Margin="15, 0"/>
+        <!--<Border Style="{StaticResource WedCheckerBorderSplitter}" Margin="15, 0"/>-->
 
         <TextBlock Text="Groomsmen" Style="{StaticResource WedCheckerFormTextBlockStyle}"/>
         <Button Name="selectGroomsmen" Content="Select groomsmen" Style="{StaticResource ButtonClearStyle}"

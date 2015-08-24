@@ -22,6 +22,22 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string EditHeader
+        {
+            get
+            {
+                return "Here you can save the style, planned for the wedding";
+            }
+        }
+
+        public override string DisplayHeader
+        {
+            get
+            {
+                return "This is the wedding style you have planned";
+            }
+        }
+
         public WeddingStyle()
         {
             this.InitializeComponent();
@@ -37,7 +53,6 @@ namespace WedChecker.UserControls.Tasks.Planings
         {
             tbStyleDisplay.Text = Style;
             displayPanel.Visibility = Visibility.Visible;
-            tbHeader.Text = "This is the wedding style you have planned";
             tbStyle.Visibility = Visibility.Collapsed;
         }
 
@@ -46,7 +61,6 @@ namespace WedChecker.UserControls.Tasks.Planings
             tbStyle.Text = tbStyleDisplay.Text;
             tbStyle.Visibility = Visibility.Visible;
             displayPanel.Visibility = Visibility.Collapsed;
-            tbHeader.Text = "Here you can save the style,\nplanned for the wedding";
         }
 
 

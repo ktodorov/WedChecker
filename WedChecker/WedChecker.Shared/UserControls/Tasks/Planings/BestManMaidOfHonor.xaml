@@ -7,10 +7,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:we="using:WedChecker.UserControls.Tasks">
     <StackPanel Orientation="Vertical">
-        <TextBlock Name="tbHeader" Text="How would you like to choose your best man and maid of honor?" TextAlignment="Center"
-                   Style="{StaticResource DisplayTextBlockStyle}" Margin="0, 0, 0, 10" Grid.Row="0"/>
-        <Border Style="{StaticResource WedCheckerBorderSplitter}" Margin="15, 0"/>
-
         <StackPanel Name="spBestMan">
             <Button Name="selectBestMan" Content="Select best man" Style="{StaticResource ButtonClearStyle}"
                 VerticalAlignment="Center" HorizontalAlignment="Center"

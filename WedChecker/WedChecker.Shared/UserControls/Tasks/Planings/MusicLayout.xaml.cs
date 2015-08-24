@@ -20,6 +20,22 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string EditHeader
+        {
+            get
+            {
+                return "Here you can save the notes about music layout, planned for the wedding";
+            }
+        }
+
+        public override string DisplayHeader
+        {
+            get
+            {
+                return "This is the music layout you have planned";
+            }
+        }
+
         public MusicLayout()
         {
             this.InitializeComponent();
@@ -35,7 +51,6 @@ namespace WedChecker.UserControls.Tasks.Planings
         {
             tbMusicLayoutDisplay.Text = PlannedLayout;
             displayPanel.Visibility = Visibility.Visible;
-            tbHeader.Text = "This is the music layout you have planned";
             tbMusicLayout.Visibility = Visibility.Collapsed;
         }
 
@@ -44,7 +59,6 @@ namespace WedChecker.UserControls.Tasks.Planings
             tbMusicLayout.Text = tbMusicLayoutDisplay.Text;
             tbMusicLayout.Visibility = Visibility.Visible;
             displayPanel.Visibility = Visibility.Collapsed;
-            tbHeader.Text = "Here you can save the notes about music layout, planned for the wedding";
         }
 
 

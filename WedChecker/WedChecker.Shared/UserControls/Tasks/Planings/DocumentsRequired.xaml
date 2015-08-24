@@ -12,22 +12,16 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
             <RowDefinition Height="9*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <TextBlock Name="tbHeader" Text="What are your required documents?&#x0a;You can add or remove them at any time" TextAlignment="Center"
-                   Style="{StaticResource DisplayTextBlockStyle}" Margin="0, 0, 0, 10" Grid.Row="0"/>
         
-        <Border Margin="15, 5" Grid.Row="1" Height="1" BorderBrush="{StaticResource PhoneAccentBrush}" BorderThickness="1"/>
-        
-        <StackPanel Name="spDocuments" Grid.Row="2" Orientation="Vertical" Margin="15, 0">
+        <StackPanel Name="spDocuments" Grid.Row="0" Orientation="Vertical" Margin="15, 0">
         </StackPanel>
         <Button Name="addDocumentButton" BorderThickness="0" Content="&#xE109; New document" 
                 VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Symbol" 
                 FontWeight="Light" FontSize="20" Foreground="{StaticResource PhoneAccentBrush}"
-                Click="addDocumentButton_Click" Grid.Row="3"/>
+                Click="addDocumentButton_Click" Grid.Row="1"/>
         <TextBlock Name="tbErrorMessage" TextAlignment="Center" Foreground="Red"
                    Style="{StaticResource ControlHeaderTextBlockStyle}" Margin="0, 10, 0, 0"/>
     </Grid>

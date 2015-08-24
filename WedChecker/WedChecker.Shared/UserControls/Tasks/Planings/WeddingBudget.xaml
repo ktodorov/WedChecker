@@ -7,8 +7,6 @@
     xmlns:we="using:WedChecker.UserControls.Tasks"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
     <StackPanel VerticalAlignment="Center">
-        <TextBlock Name="tbHeader" Text="What is your budget?&#x0a;You can edit this at any time." TextAlignment="Center"
-                   Style="{StaticResource DisplayTextBlockStyle}" Margin="0, 0, 0, 10"/>
         <TextBox Name="tbBudget" InputScope="CurrencyAmountAndSymbol" Margin="20,0" TextChanged="tbBudget_TextChanged"/>
         <StackPanel Name="displayPanel" Visibility="Collapsed">
             <TextBlock Name="tbBudgetDisplay" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" TextAlignment="Center"/>

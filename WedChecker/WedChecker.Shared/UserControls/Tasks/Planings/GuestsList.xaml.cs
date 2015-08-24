@@ -50,6 +50,22 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string EditHeader
+        {
+            get
+            {
+                return "Here you can select the guests from your contact list";
+            }
+        }
+
+        public override string DisplayHeader
+        {
+            get
+            {
+                return "These are the guests you have added so far";
+            }
+        }
+
         public GuestsList()
         {
             this.InitializeComponent();

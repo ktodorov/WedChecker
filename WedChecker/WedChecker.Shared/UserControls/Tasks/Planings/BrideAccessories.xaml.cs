@@ -37,6 +37,22 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string EditHeader
+        {
+            get
+            {
+                return "What are your planned accessories for the bride? You can add or remove them at any time";
+            }
+        }
+
+        public override string DisplayHeader
+        {
+            get
+            {
+                return "These are your bride accessories";
+            }
+        }
+
         public BrideAccessories()
         {
             this.InitializeComponent();
@@ -56,7 +72,6 @@ namespace WedChecker.UserControls.Tasks.Planings
                 accessory.DisplayValues();
             }
             addAccessoryButton.Visibility = Visibility.Collapsed;
-            tbHeader.Text = "These are your bride accessories";
         }
 
         public override void EditValues()
@@ -66,7 +81,6 @@ namespace WedChecker.UserControls.Tasks.Planings
                 accessory.EditValues();
             }
             addAccessoryButton.Visibility = Visibility.Visible;
-            tbHeader.Text = "What are your planned accessories for the bride? You can add or remove them at any time";
         }
 
         public override void Serialize(BinaryWriter writer)

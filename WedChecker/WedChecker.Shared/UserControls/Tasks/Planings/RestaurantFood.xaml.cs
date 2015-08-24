@@ -33,6 +33,22 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string EditHeader
+        {
+            get
+            {
+                return "You can add your planned foods for the restaurant here";
+            }
+        }
+
+        public override string DisplayHeader
+        {
+            get
+            {
+                return "These are your planned dishes so far";
+            }
+        }
+
         public RestaurantFood()
         {
             this.InitializeComponent();
@@ -51,7 +67,6 @@ namespace WedChecker.UserControls.Tasks.Planings
                 dish.DisplayValues();
             }
             addDishButton.Visibility = Visibility.Collapsed;
-            tbHeader.Text = "These are your planned dishes so far";
         }
 
         public override void EditValues()
@@ -61,7 +76,6 @@ namespace WedChecker.UserControls.Tasks.Planings
                 dish.EditValues();
             }
             addDishButton.Visibility = Visibility.Visible;
-            tbHeader.Text = "You can add your planned foods for the restaurant here";
         }
 
         public override void Serialize(BinaryWriter writer)

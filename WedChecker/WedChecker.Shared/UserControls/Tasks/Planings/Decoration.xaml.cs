@@ -31,6 +31,22 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string EditHeader
+        {
+            get
+            {
+                return "Here you can save the decoration, planned for the wedding";
+            }
+        }
+
+        public override string DisplayHeader
+        {
+            get
+            {
+                return "This is the decoration you have planned";
+            }
+        }
+
         public Decoration()
         {
             this.InitializeComponent();
@@ -46,7 +62,6 @@ namespace WedChecker.UserControls.Tasks.Planings
         {
             tbDecorationDisplay.Text = PlannedDecoration;
             displayPanel.Visibility = Visibility.Visible;
-            tbHeader.Text = "This is the decoration you have planned";
             tbDecoration.Visibility = Visibility.Collapsed;
         }
 
@@ -55,7 +70,6 @@ namespace WedChecker.UserControls.Tasks.Planings
             tbDecoration.Text = tbDecorationDisplay.Text;
             tbDecoration.Visibility = Visibility.Visible;
             displayPanel.Visibility = Visibility.Collapsed;
-            tbHeader.Text = "Here you can save the decoration, planned for the wedding";
         }
 
 

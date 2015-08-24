@@ -22,6 +22,12 @@ namespace WedChecker.UserControls.Tasks.Planings
 {
     public sealed partial class RegistryPlace : BaseTaskControl
     {
+        private string RegistryNotes
+        {
+            get;
+            set;
+        }
+
         public override string TaskName
         {
             get
@@ -30,10 +36,20 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
-        private string RegistryNotes
+        public override string EditHeader
         {
-            get;
-            set;
+            get
+            {
+                return "Here you can add address or notes or whatever you like for your registry place";
+            }
+        }
+
+        public override string DisplayHeader
+        {
+            get
+            {
+                return "These are your notes";
+            }
         }
 
         public RegistryPlace()
@@ -55,7 +71,6 @@ namespace WedChecker.UserControls.Tasks.Planings
 
             tbRegistryNotesDisplay.Text = RegistryNotes ?? string.Empty;
             displayPanel.Visibility = Visibility.Visible;
-            tbHeader.Text = "These are your notes";
             tbRegistryNotes.Visibility = Visibility.Collapsed;
         }
 
@@ -67,7 +82,6 @@ namespace WedChecker.UserControls.Tasks.Planings
 
             tbRegistryNotes.Text = tbRegistryNotesDisplay.Text;
             tbRegistryNotes.Visibility = Visibility.Visible;
-            tbHeader.Text = "Here you can add address or notes\nor whatever you like for your registry place";
             displayPanel.Visibility = Visibility.Collapsed;
         }
 

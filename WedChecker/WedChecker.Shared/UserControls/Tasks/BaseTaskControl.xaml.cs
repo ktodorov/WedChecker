@@ -30,7 +30,10 @@ namespace WedChecker.UserControls.Tasks
             get;
             set;
         }
-        
+
+        public virtual string EditHeader { get; }
+        public virtual string DisplayHeader { get; }
+
         public virtual void DisplayValues()
         {
 

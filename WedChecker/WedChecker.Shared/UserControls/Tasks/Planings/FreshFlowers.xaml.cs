@@ -32,6 +32,22 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string EditHeader
+        {
+            get
+            {
+                return "Here you can save any info about the flowers, you have planned for the wedding";
+            }
+        }
+
+        public override string DisplayHeader
+        {
+            get
+            {
+                return "This is the flowers info you have noted";
+            }
+        }
+
         public FreshFlowers()
         {
             this.InitializeComponent();
@@ -51,7 +67,6 @@ namespace WedChecker.UserControls.Tasks.Planings
 
             tbFreshFlowersDisplay.Text = FlowersNotes;
             displayPanel.Visibility = Visibility.Visible;
-            tbHeader.Text = "This is the flowers info you have noted";
             tbFreshFlowers.Visibility = Visibility.Collapsed;
         }
 
@@ -64,7 +79,6 @@ namespace WedChecker.UserControls.Tasks.Planings
             tbFreshFlowers.Text = tbFreshFlowersDisplay.Text;
             tbFreshFlowers.Visibility = Visibility.Visible;
             displayPanel.Visibility = Visibility.Collapsed;
-            tbHeader.Text = "Here you can save any info about the flowers, you have planned for the wedding";
         }
 
 

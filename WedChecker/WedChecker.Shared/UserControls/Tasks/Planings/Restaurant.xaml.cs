@@ -35,6 +35,22 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string EditHeader
+        {
+            get
+            {
+                return "You can add all kind of restaurant information here";
+            }
+        }
+
+        public override string DisplayHeader
+        {
+            get
+            {
+                return "Here is the restaurant info you have saved";
+            }
+        }
+
         public Restaurant()
         {
             this.InitializeComponent();
@@ -50,13 +66,11 @@ namespace WedChecker.UserControls.Tasks.Planings
         public override void DisplayValues()
         {
             DisplayPopulatedFields();
-            tbHeader.Text = "Here is the restaurant info you have saved";
         }
 
         public override void EditValues()
         {
             EditAllFields();
-            tbHeader.Text = "You can add all kind of restaurant information here";
         }
 
 

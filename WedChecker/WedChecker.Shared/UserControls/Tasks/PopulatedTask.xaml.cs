@@ -79,13 +79,23 @@ namespace WedChecker.UserControls.Tasks
         {
             if (ConnectedTaskControl != null && ConnectedTaskControl.Visibility == Visibility.Collapsed)
             {
-                ConnectedTaskControl.Visibility = Visibility.Visible;
+                ChangeMainContentVisibility(Visibility.Visible);
             }
             else if (ConnectedTaskControl != null && ConnectedTaskControl.Visibility == Visibility.Visible)
             {
-                ConnectedTaskControl.Visibility = Visibility.Collapsed;
+                ChangeMainContentVisibility(Visibility.Collapsed);
             }
         }
+
+        private void ChangeMainContentVisibility(Visibility visibility)
+        {
+            ConnectedTaskControl.Visibility = visibility;
+            borderSplitter.Visibility = visibility;
+            tbTaskHeader.Visibility = visibility;
+            editTask.Visibility = visibility;
+            displayTask.Visibility = visibility;
+        }
+
         void editTask_Click(object sender, RoutedEventArgs e)
         {
             EditConnectedTask();
@@ -93,6 +103,7 @@ namespace WedChecker.UserControls.Tasks
 
         private void EditConnectedTask()
         {
+            tbTaskHeader.Text = ConnectedTaskControl.EditHeader ?? string.Empty;
             displayTask.Visibility = Visibility.Visible;
             editTask.Visibility = Visibility.Collapsed;
             if (ConnectedTaskControl != null)
@@ -112,6 +123,7 @@ namespace WedChecker.UserControls.Tasks
 
         private async Task DisplayConnectedTask(bool shouldSave = true)
         {
+            tbTaskHeader.Text = ConnectedTaskControl.DisplayHeader ?? string.Empty;
             displayTask.Visibility = Visibility.Collapsed;
             editTask.Visibility = Visibility.Visible;
             if (ConnectedTaskControl != null)

@@ -22,6 +22,12 @@ namespace WedChecker.UserControls.Tasks.Planings
 {
     public sealed partial class ReligiousPlace : BaseTaskControl
     {
+        private string ReligiousNotes
+        {
+            get;
+            set;
+        }
+
         public override string TaskName
         {
             get
@@ -30,10 +36,20 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
-        private string ReligiousNotes
+        public override string EditHeader
         {
-            get;
-            set;
+            get
+            {
+                return "Here you can add address or notes or whatever you like for your religious place";
+            }
+        }
+
+        public override string DisplayHeader
+        {
+            get
+            {
+                return "These are your notes";
+            }
         }
 
         public ReligiousPlace()
@@ -55,7 +71,6 @@ namespace WedChecker.UserControls.Tasks.Planings
 
             tbReligiousNotesDisplay.Text = ReligiousNotes ?? string.Empty;
             displayPanel.Visibility = Visibility.Visible;
-            tbHeader.Text = "These are your notes";
             tbReligiousNotes.Visibility = Visibility.Collapsed;
         }
 
@@ -67,7 +82,6 @@ namespace WedChecker.UserControls.Tasks.Planings
 
             tbReligiousNotes.Text = tbReligiousNotesDisplay.Text;
             tbReligiousNotes.Visibility = Visibility.Visible;
-            tbHeader.Text = "Here you can add address or notes\nor whatever you like for your religious place";
             displayPanel.Visibility = Visibility.Collapsed;
         }
 

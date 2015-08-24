@@ -7,9 +7,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:we="using:WedChecker.UserControls.Tasks">
     <StackPanel Orientation="Vertical">
-        <TextBlock Name="tbHeader" Text="Select the photographer from your contacts and I'll note everything about him under or you can type it on your own" TextAlignment="Center"
-                   Style="{StaticResource DisplayTextBlockStyle}" Margin="0, 0, 0, 10" Grid.Row="0"/>
-        <Border Style="{StaticResource WedCheckerBorderSplitter}" Margin="15, 0"/>
         <Button Name="selectPhotographer" Content="Select photographer" Style="{StaticResource ButtonClearStyle}"
                 VerticalAlignment="Center" HorizontalAlignment="Center"
                 Click="selectPhotographer_Click" Width="200"/>

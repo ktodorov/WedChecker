@@ -37,6 +37,22 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string EditHeader
+        {
+            get
+            {
+                return "What are your required documents? You can add or remove them at any time";
+            }
+        }
+
+        public override string DisplayHeader
+        {
+            get
+            {
+                return "These are your documents";
+            }
+        }
+
         public DocumentsRequired()
         {
             this.InitializeComponent();
@@ -55,7 +71,6 @@ namespace WedChecker.UserControls.Tasks.Planings
                 document.DisplayValues();
             }
             addDocumentButton.Visibility = Visibility.Collapsed;
-            tbHeader.Text = "These are your documents";
         }
 
         public override void EditValues()
@@ -65,7 +80,6 @@ namespace WedChecker.UserControls.Tasks.Planings
                 document.EditValues();
             }
             addDocumentButton.Visibility = Visibility.Visible;
-            tbHeader.Text = "What are your required documents?\nYou can add or remove them at any time.";
         }
 
         public override void Serialize(BinaryWriter writer)

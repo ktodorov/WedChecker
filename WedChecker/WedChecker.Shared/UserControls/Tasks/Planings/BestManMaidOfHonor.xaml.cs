@@ -26,6 +26,22 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string EditHeader
+        {
+            get
+            {
+                return "You can delete or select your best man and maid of honor again";
+            }
+        }
+
+        public override string DisplayHeader
+        {
+            get
+            {
+                return "Here are your best man and maid of honor";
+            }
+        }
+
         public BestManMaidOfHonor()
         {
             this.InitializeComponent();
@@ -57,14 +73,12 @@ namespace WedChecker.UserControls.Tasks.Planings
         {
             selectBestMan.Visibility = Visibility.Collapsed;
             selectMaidOfHonor.Visibility = Visibility.Collapsed;
-            tbHeader.Text = "Here are your best man and maid of honor";
         }
 
         public override void EditValues()
         {
             selectBestMan.Visibility = Visibility.Visible;
             selectMaidOfHonor.Visibility = Visibility.Visible;
-            tbHeader.Text = "You can delete or select your best man and maid of honor again ";
         }
 
         public override void Serialize(BinaryWriter writer)

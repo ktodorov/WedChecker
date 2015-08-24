@@ -31,6 +31,22 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string EditHeader
+        {
+            get
+            {
+                return "Select the photographer from your contacts and I'll note everything about him under or you can type it on your own";
+            }
+        }
+
+        public override string DisplayHeader
+        {
+            get
+            {
+                return "Here is the photographer info that you have provided";
+            }
+        }
+
         public Photographer()
         {
             this.InitializeComponent();
@@ -78,7 +94,6 @@ namespace WedChecker.UserControls.Tasks.Planings
         public override void DisplayValues()
         {
             selectPhotographer.Visibility = Visibility.Collapsed;
-            tbHeader.Text = "Here is the photographer info that you have provided";
             CopyValues(false);
             ChangeDisplayVisibility(editControlsVisibility: Visibility.Collapsed, displayControlsVisibility: Visibility.Visible);
         }
@@ -86,7 +101,6 @@ namespace WedChecker.UserControls.Tasks.Planings
         public override void EditValues()
         {
             selectPhotographer.Visibility = Visibility.Visible;
-            tbHeader.Text = "Select the photographer from your contacts and I'll note everything about him under or you can type it on your own";
             CopyValues(true);
             ChangeDisplayVisibility(editControlsVisibility: Visibility.Visible, displayControlsVisibility: Visibility.Collapsed);
         }
