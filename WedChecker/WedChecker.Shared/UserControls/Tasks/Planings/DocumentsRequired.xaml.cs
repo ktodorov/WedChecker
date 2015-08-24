@@ -50,7 +50,7 @@ namespace WedChecker.UserControls.Tasks.Planings
         }
         public override void DisplayValues()
         {
-            foreach(var document in spDocuments.Children.OfType<DocumentControl>())
+            foreach(var document in spDocuments.Children.OfType<ElementControl>())
             {
                 document.DisplayValues();
             }
@@ -60,7 +60,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override void EditValues()
         {
-            foreach (var document in spDocuments.Children.OfType<DocumentControl>())
+            foreach (var document in spDocuments.Children.OfType<ElementControl>())
             {
                 document.EditValues();
             }
@@ -92,7 +92,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
             foreach (var document in Documents)
             {
-                spDocuments.Children.Add(new DocumentControl(document.Key, document.Value));
+                spDocuments.Children.Add(new ElementControl(document.Key, document.Value));
             }
 
             DisplayValues();
@@ -100,9 +100,9 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override async Task SubmitValues()
         {
-            foreach (var document in spDocuments.Children.OfType<DocumentControl>())
+            foreach (var document in spDocuments.Children.OfType<ElementControl>())
             {
-                if (document.tbDocumentName.Visibility == Visibility.Visible) // Then its in edit mode
+                if (document.tbElementName.Visibility == Visibility.Visible) // Then its in edit mode
                 {
                     SaveDocument(document);
                 }
@@ -129,7 +129,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             return result;
         }
 
-        private void SaveDocument(DocumentControl document)
+        private void SaveDocument(ElementControl document)
         {
             if (Documents == null)
             {
@@ -137,9 +137,9 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
 
             if (!Documents.ContainsKey(document.Number) ||
-                Documents[document.Number] != document.tbDocumentName.Text)
+                Documents[document.Number] != document.tbElementName.Text)
             {
-                Documents[document.Number] = document.tbDocumentName.Text;
+                Documents[document.Number] = document.tbElementName.Text;
                 DocumentsChanged = true;
             }
         }
@@ -148,24 +148,15 @@ namespace WedChecker.UserControls.Tasks.Planings
         {
             var number = FindFirstFreeNumber();
 
-            var newDocument = new DocumentControl(number, string.Empty);
-            newDocument.saveDocumentButton.Click += saveDocumentButton_Click;
-            newDocument.removeDocumentButton.Click += removeDocumentButton_Click;
+            var newDocument = new ElementControl(number, string.Empty);
+            newDocument.removeElementButton.Click += removeDocumentButton_Click;
             spDocuments.Children.Add(newDocument);
             DocumentsChanged = true;
         }
 
-        private void saveDocumentButton_Click(object sender, RoutedEventArgs e)
-        {
-            var document = ((sender as Button).Parent as Grid).Parent as DocumentControl;
-            SaveDocument(document);
-
-            document.DisplayValues();
-        }
-
         private void removeDocumentButton_Click(object sender, RoutedEventArgs e)
         {
-            var document = ((sender as Button).Parent as Grid).Parent as DocumentControl;
+            var document = ((sender as Button).Parent as Grid).Parent as ElementControl;
             if (Documents != null)
             {
                 Documents.Remove(document.Number);

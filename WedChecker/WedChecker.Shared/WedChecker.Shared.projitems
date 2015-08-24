@@ -29,8 +29,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\DishControl.xaml.cs">
       <DependentUpon>DishControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)UserControls\DocumentControl.xaml.cs">
-      <DependentUpon>DocumentControl.xaml</DependentUpon>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\ElementControl.xaml.cs">
+      <DependentUpon>ElementControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\FirstLaunchPopup.xaml.cs">
       <DependentUpon>FirstLaunchPopup.xaml</DependentUpon>
@@ -41,6 +41,9 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\BestManMaidOfHonor.xaml.cs">
       <DependentUpon>BestManMaidOfHonor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\BrideAccessories.xaml.cs">
+      <DependentUpon>BrideAccessories.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\BridesmaidsGroomsmen.xaml.cs">
       <DependentUpon>BridesmaidsGroomsmen.xaml</DependentUpon>
@@ -98,7 +101,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="$(MSBuildThisFileDirectory)UserControls\DocumentControl.xaml">
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\ElementControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -111,6 +114,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\BestManMaidOfHonor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\BrideAccessories.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
