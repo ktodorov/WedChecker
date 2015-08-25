@@ -37,5 +37,10 @@ namespace WedChecker.UserControls
             tbDisplayElementName.Visibility = Visibility.Collapsed;
             removeElementButton.Visibility = Visibility.Visible;
         }
+
+        public override string ToString()
+        {
+            return $"{Number}.{tbElementName.Text}";
+        }
     }
 }

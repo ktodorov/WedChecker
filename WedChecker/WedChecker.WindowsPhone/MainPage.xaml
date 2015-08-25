@@ -150,7 +150,7 @@
                     <Button Name="MusicLayout" Click="TaskItem_Clicked">Music layout</Button>
                     <Button Name="Photographer" Click="TaskItem_Clicked">Photographer</Button>
                     <Button Name="BrideAccessories" Click="TaskItem_Clicked">Bride accessories</Button>
-                    <Button>Bride clothes</Button>
+                    <Button Name="BrideClothes" Click="TaskItem_Clicked">Bride clothes</Button>
                     <Button>Groom accessories</Button>
                     <Button>Groom clothes</Button>
                     <Button>Best man and maid of honor accessories</Button>

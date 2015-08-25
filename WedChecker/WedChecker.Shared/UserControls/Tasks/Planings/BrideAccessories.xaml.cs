@@ -21,11 +21,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 {
     public partial class BrideAccessories : BaseTaskControl
     {
-        private Dictionary<int, string> Accessories
-        {
-            get;
-            set;
-        }
+        private Dictionary<int, string> Accessories { get; set; } = new Dictionary<int, string>();
 
         private bool AccessoriesChanged = false;
 
@@ -146,11 +142,6 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         private void SaveAccessory(ElementControl accessory)
         {
-            if (Accessories == null)
-            {
-                Accessories = new Dictionary<int, string>();
-            }
-
             if (!Accessories.ContainsKey(accessory.Number) ||
                 Accessories[accessory.Number] != accessory.tbElementName.Text)
             {
@@ -164,6 +155,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             var number = FindFirstFreeNumber();
 
             var newAccessory = new ElementControl(number, string.Empty);
+            Accessories.Add(number, string.Empty);
             newAccessory.removeElementButton.Click += removeAccessoryButton_Click;
             spBrideAccessories.Children.Add(newAccessory);
             AccessoriesChanged = true;
