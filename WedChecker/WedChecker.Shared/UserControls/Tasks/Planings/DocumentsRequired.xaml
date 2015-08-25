@@ -10,19 +10,14 @@
     Height="Auto"
     Width="Auto">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="9*"/>
-            <RowDefinition Height="1*"/>
-        </Grid.RowDefinitions>
-        
-        <StackPanel Name="spDocuments" Grid.Row="0" Orientation="Vertical" Margin="15, 0">
+    <StackPanel Orientation="Vertical">
+        <StackPanel Name="spDocuments" Orientation="Vertical" Margin="15, 0">
         </StackPanel>
         <Button Name="addDocumentButton" BorderThickness="0" Content="&#xE109; New document" 
                 VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Symbol" 
                 FontWeight="Light" FontSize="20" Foreground="{StaticResource PhoneAccentBrush}"
-                Click="addDocumentButton_Click" Grid.Row="1"/>
+                Click="addDocumentButton_Click"/>
         <TextBlock Name="tbErrorMessage" TextAlignment="Center" Foreground="Red"
                    Style="{StaticResource ControlHeaderTextBlockStyle}" Margin="0, 10, 0, 0"/>
-    </Grid>
+    </StackPanel>
 </we:BaseTaskControl>

@@ -21,11 +21,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 {
     public partial class DocumentsRequired : BaseTaskControl
     {
-        private Dictionary<int, string> Documents
-        {
-            get;
-            set;
-        }
+        private Dictionary<int, string> Documents { get; set; } = new Dictionary<int, string>();
 
         private bool DocumentsChanged = false;
 
@@ -145,11 +141,6 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         private void SaveDocument(ElementControl document)
         {
-            if (Documents == null)
-            {
-                Documents = new Dictionary<int, string>();
-            }
-
             if (!Documents.ContainsKey(document.Number) ||
                 Documents[document.Number] != document.tbElementName.Text)
             {
@@ -164,6 +155,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
             var newDocument = new ElementControl(number, string.Empty);
             newDocument.removeElementButton.Click += removeDocumentButton_Click;
+            Documents.Add(number, string.Empty);
             spDocuments.Children.Add(newDocument);
             DocumentsChanged = true;
         }
