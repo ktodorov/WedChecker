@@ -151,7 +151,7 @@
                     <Button Name="Photographer" Click="TaskItem_Clicked">Photographer</Button>
                     <Button Name="BrideAccessories" Click="TaskItem_Clicked">Bride accessories</Button>
                     <Button Name="BrideClothes" Click="TaskItem_Clicked">Bride clothes</Button>
-                    <Button>Groom accessories</Button>
+                    <Button Name="GroomAccessories" Click="TaskItem_Clicked">Groom accessories</Button>
                     <Button>Groom clothes</Button>
                     <Button>Best man and maid of honor accessories</Button>
                     <Button>Best man and maid of honor clothes</Button>
