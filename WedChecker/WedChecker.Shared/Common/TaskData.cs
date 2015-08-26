@@ -104,8 +104,8 @@ namespace WedChecker.Common
             "DocumentsRequired", "Restaurant", "RestaurantFood", "BestManMaidOfHonor",
             "BridesmaidsGroomsmen", "Decoration", "FreshFlowers", "MusicLayout",
             "Photographer", "BrideAccessories", "BrideClothes", "GroomAccessories",
-            "GroomClothes", "BestManMaidOfHonorAccessories", "BestManMaidOfHonorClothes", "BridesmaidsAndGroomsmenAccessories",
-            "BridesmaidsAndGroomsmenClothes", "HoneymoonDestination", "GuestsList", "ForeignGuestsAccomodation",
+            "GroomClothes", "BestManMaidOfHonorAccessories", "BestManMaidOfHonorClothes", "BridesmaidsGroomsmenAccessories",
+            "BridesmaidsGroomsmenClothes", "HoneymoonDestination", "GuestsList", "ForeignGuestsAccomodation",
             "HairdresserMakeupArtist", "Invitations",
             // Purchase
             "PurchaseBrideAccessories", "PurchaseBrideClothes", "PurchaseGroomAccessories", "PurchaseGroomClothes", 

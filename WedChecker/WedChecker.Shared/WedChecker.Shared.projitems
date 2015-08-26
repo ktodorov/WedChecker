@@ -57,6 +57,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\BridesmaidsGroomsmen.xaml.cs">
       <DependentUpon>BridesmaidsGroomsmen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\BridesmaidsGroomsmenAccessories.xaml.cs">
+      <DependentUpon>BridesmaidsGroomsmenAccessories.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\Decoration.xaml.cs">
       <DependentUpon>Decoration.xaml</DependentUpon>
     </Compile>
@@ -149,6 +152,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\BridesmaidsGroomsmen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\BridesmaidsGroomsmenAccessories.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

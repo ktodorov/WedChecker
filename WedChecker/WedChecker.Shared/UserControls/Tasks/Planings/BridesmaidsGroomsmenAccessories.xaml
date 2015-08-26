@@ -1,0 +1,35 @@
+﻿<we:BaseTaskControl
+    x:Class="WedChecker.UserControls.Tasks.Planings.BridesmaidsGroomsmenAccessories"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WedChecker.UserControls.Tasks.Planings"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:we="using:WedChecker.UserControls.Tasks"
+    mc:Ignorable="d"
+    Height="Auto"
+    Width="Auto">
+
+    <StackPanel Orientation="Vertical">
+
+        <StackPanel Name="spBridesmaids" Margin="0, 0, 0, 10">
+            <TextBlock Text="Bridesmaids" Style="{StaticResource WedCheckerFormTextBlockStyle}"/>
+            <StackPanel Name="spBridesmaidsAccessories" Orientation="Vertical" Margin="15, 0">
+            </StackPanel>
+            <Button Name="addBridesmaidsAccessoryButton" BorderThickness="0" Content="&#xE109; New accessory for the bridesmaids" 
+                VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Symbol" 
+                FontWeight="Light" FontSize="20" Foreground="{StaticResource PhoneAccentBrush}"
+                Click="addBridesmaidsAccessoryButton_Click"/>
+        </StackPanel>
+
+        <StackPanel Name="spGroomsmen">
+            <TextBlock Text="Groomsmen" Style="{StaticResource WedCheckerFormTextBlockStyle}"/>
+            <StackPanel Name="spGroomsmenAccessories" Orientation="Vertical" Margin="15, 0">
+            </StackPanel>
+            <Button Name="addGroomsmenAccessoryButton" BorderThickness="0" Content="&#xE109; New accessory for the groomsmen" 
+                VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Symbol" 
+                FontWeight="Light" FontSize="20" Foreground="{StaticResource PhoneAccentBrush}"
+                Click="addGroomsmenAccessoryButton_Click"/>
+        </StackPanel>
+    </StackPanel>
+</we:BaseTaskControl>
