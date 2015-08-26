@@ -154,7 +154,7 @@
                     <Button Name="GroomAccessories" Click="TaskItem_Clicked">Groom accessories</Button>
                     <Button Name="GroomClothes" Click="TaskItem_Clicked">Groom clothes</Button>
                     <Button Name="BestManMaidOfHonorAccessories" Click="TaskItem_Clicked">Best man and maid of honor accessories</Button>
-                    <Button>Best man and maid of honor clothes</Button>
+                    <Button Name="BestManMaidOfHonorClothes" Click="TaskItem_Clicked">Best man and maid of honor clothes</Button>
                     <Button>Bridesmaids and groomsmen accessories</Button>
                     <Button>Bridesmaids and groomsmen clothes</Button>
                     <Button>Honeymoon destination</Button>
