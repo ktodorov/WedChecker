@@ -54,7 +54,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override void DisplayValues()
         {
-            foreach(var accessory in spGroomAccessories.Children.OfType<ElementControl>())
+            foreach (var accessory in spGroomAccessories.Children.OfType<ElementControl>())
             {
                 accessory.DisplayValues();
             }
@@ -104,10 +104,7 @@ namespace WedChecker.UserControls.Tasks.Planings
         {
             foreach (var accessory in spGroomAccessories.Children.OfType<ElementControl>())
             {
-                if (accessory.tbElementName.Visibility == Visibility.Visible) // Then its in edit mode
-                {
-                    SaveAccessory(accessory);
-                }
+                SaveAccessory(accessory);
             }
 
             if (AccessoriesChanged)
@@ -134,9 +131,9 @@ namespace WedChecker.UserControls.Tasks.Planings
         private void SaveAccessory(ElementControl accessory)
         {
             if (!Accessories.ContainsKey(accessory.Number) ||
-                Accessories[accessory.Number] != accessory.tbElementName.Text)
+                Accessories[accessory.Number] != accessory.Title)
             {
-                Accessories[accessory.Number] = accessory.tbElementName.Text;
+                Accessories[accessory.Number] = accessory.Title;
                 AccessoriesChanged = true;
             }
         }

@@ -53,7 +53,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             if (contacts.ContainsKey("BestMan"))
             {
                 BestMan = contacts["BestMan"];
-                var cBestMan = new ContactControl(BestMan.Id, BestMan.FirstName + " " + BestMan.LastName);
+                var cBestMan = new ContactControl(BestMan);
                 cBestMan.deleteButton.Click += deleteBestManButton_Click;
                 cBestMan.Visibility = Visibility.Visible;
                 spMaidOfHonor.Children.Add(cBestMan);
@@ -62,7 +62,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             if (contacts.ContainsKey("MaidOfHonor"))
             {
                 MaidOfHonor = contacts["MaidOfHonor"];
-                var cMaidOfHonor = new ContactControl(MaidOfHonor.Id, MaidOfHonor.FirstName + " " + MaidOfHonor.LastName);
+                var cMaidOfHonor = new ContactControl(MaidOfHonor);
                 cMaidOfHonor.deleteButton.Click += deleteBestManButton_Click;
                 cMaidOfHonor.Visibility = Visibility.Visible;
                 spMaidOfHonor.Children.Add(cMaidOfHonor);
@@ -136,7 +136,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                 {
                     DeleteBestMan();
                     BestMan = contact;
-                    var cBestMan = new ContactControl(contact.Id, contact.FirstName + " " + contact.LastName);
+                    var cBestMan = new ContactControl(contact);
                     cBestMan.deleteButton.Click += deleteBestManButton_Click;
                     cBestMan.Visibility = Visibility.Visible;
                     spBestMan.Children.Add(cBestMan);
@@ -145,7 +145,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                 {
                     DeleteMaidOfHonor();
                     MaidOfHonor = contact;
-                    var cMaidOfHonor = new ContactControl(contact.Id, contact.FirstName + " " + contact.LastName);
+                    var cMaidOfHonor = new ContactControl(contact);
                     cMaidOfHonor.deleteButton.Click += deleteMaidOfHonorButton_Click;
                     cMaidOfHonor.Visibility = Visibility.Visible;
                     spMaidOfHonor.Children.Add(cMaidOfHonor);
@@ -199,7 +199,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
             BestMan = contact;
 
-            var contactControl = new ContactControl(contact.Id, contact.FirstName + " " + contact.LastName);
+            var contactControl = new ContactControl(contact);
             contactControl.deleteButton.Click += deleteBestManButton_Click;
             contactControl.Visibility = Visibility.Visible;
 
@@ -222,7 +222,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
             MaidOfHonor = contact;
 
-            var contactControl = new ContactControl(contact.Id, contact.FirstName + " " + contact.LastName);
+            var contactControl = new ContactControl(contact);
             contactControl.deleteButton.Click += deleteMaidOfHonorButton_Click;
             contactControl.Visibility = Visibility.Visible;
 

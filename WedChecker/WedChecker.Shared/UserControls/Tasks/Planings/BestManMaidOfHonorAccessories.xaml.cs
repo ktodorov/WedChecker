@@ -209,9 +209,9 @@ namespace WedChecker.UserControls.Tasks.Planings
         private void SaveBestManAccessory(ElementControl accessory)
         {
             if (!BestManAccessories.ContainsKey(accessory.Number) ||
-                BestManAccessories[accessory.Number] != accessory.tbElementName.Text)
+                BestManAccessories[accessory.Number] != accessory.Title)
             {
-                BestManAccessories[accessory.Number] = accessory.tbElementName.Text;
+                BestManAccessories[accessory.Number] = accessory.Title;
                 BestManAccessoriesChanged = true;
             }
         }
@@ -219,9 +219,9 @@ namespace WedChecker.UserControls.Tasks.Planings
         private void SaveMaidOfHonorAccessory(ElementControl accessory)
         {
             if (!MaidOfHonorAccessories.ContainsKey(accessory.Number) ||
-                MaidOfHonorAccessories[accessory.Number] != accessory.tbElementName.Text)
+                MaidOfHonorAccessories[accessory.Number] != accessory.Title)
             {
-                MaidOfHonorAccessories[accessory.Number] = accessory.tbElementName.Text;
+                MaidOfHonorAccessories[accessory.Number] = accessory.Title;
                 MaidOfHonorAccessoriesChanged = true;
             }
         }

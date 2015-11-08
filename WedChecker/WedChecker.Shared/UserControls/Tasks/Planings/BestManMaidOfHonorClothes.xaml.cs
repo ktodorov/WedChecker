@@ -209,9 +209,9 @@ namespace WedChecker.UserControls.Tasks.Planings
         private void SaveBestManClothing(ElementControl clothing)
         {
             if (!BestManClothes.ContainsKey(clothing.Number) ||
-                BestManClothes[clothing.Number] != clothing.tbElementName.Text)
+                BestManClothes[clothing.Number] != clothing.Title)
             {
-                BestManClothes[clothing.Number] = clothing.tbElementName.Text;
+                BestManClothes[clothing.Number] = clothing.Title;
                 BestManClothesChanged = true;
             }
         }
@@ -219,9 +219,9 @@ namespace WedChecker.UserControls.Tasks.Planings
         private void SaveMaidOfHonorClothing(ElementControl clothing)
         {
             if (!MaidOfHonorClothes.ContainsKey(clothing.Number) ||
-                MaidOfHonorClothes[clothing.Number] != clothing.tbElementName.Text)
+                MaidOfHonorClothes[clothing.Number] != clothing.Title)
             {
-                MaidOfHonorClothes[clothing.Number] = clothing.tbElementName.Text;
+                MaidOfHonorClothes[clothing.Number] = clothing.Title;
                 MaidOfHonorClothesChanged = true;
             }
         }

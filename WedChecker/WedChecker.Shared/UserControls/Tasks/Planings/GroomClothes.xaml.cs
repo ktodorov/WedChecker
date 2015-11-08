@@ -133,9 +133,9 @@ namespace WedChecker.UserControls.Tasks.Planings
         private void SaveClothing(ElementControl clothing)
         {
             if (!Clothes.ContainsKey(clothing.Number) ||
-                Clothes[clothing.Number] != clothing.tbElementName.Text)
+                Clothes[clothing.Number] != clothing.Title)
             {
-                Clothes[clothing.Number] = clothing.tbElementName.Text;
+                Clothes[clothing.Number] = clothing.Title;
                 ClothesChanged = true;
             }
         }

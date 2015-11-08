@@ -209,9 +209,9 @@ namespace WedChecker.UserControls.Tasks.Planings
         private void SaveBridesmaidsAccessory(ElementControl accessory)
         {
             if (!BridesmaidsAccessories.ContainsKey(accessory.Number) ||
-                BridesmaidsAccessories[accessory.Number] != accessory.tbElementName.Text)
+                BridesmaidsAccessories[accessory.Number] != accessory.Title)
             {
-                BridesmaidsAccessories[accessory.Number] = accessory.tbElementName.Text;
+                BridesmaidsAccessories[accessory.Number] = accessory.Title;
                 BridesmaidsAccessoriesChanged = true;
             }
         }
@@ -219,9 +219,9 @@ namespace WedChecker.UserControls.Tasks.Planings
         private void SaveGroomsmenAccessory(ElementControl accessory)
         {
             if (!GroomsmenAccessories.ContainsKey(accessory.Number) ||
-                GroomsmenAccessories[accessory.Number] != accessory.tbElementName.Text)
+                GroomsmenAccessories[accessory.Number] != accessory.Title)
             {
-                GroomsmenAccessories[accessory.Number] = accessory.tbElementName.Text;
+                GroomsmenAccessories[accessory.Number] = accessory.Title;
                 GroomsmenAccessoriesChanged = true;
             }
         }

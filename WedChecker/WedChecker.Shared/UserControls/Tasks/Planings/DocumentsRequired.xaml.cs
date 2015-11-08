@@ -62,7 +62,7 @@ namespace WedChecker.UserControls.Tasks.Planings
         }
         public override void DisplayValues()
         {
-            foreach(var document in spDocuments.Children.OfType<ElementControl>())
+            foreach (var document in spDocuments.Children.OfType<ElementControl>())
             {
                 document.DisplayValues();
             }
@@ -112,10 +112,7 @@ namespace WedChecker.UserControls.Tasks.Planings
         {
             foreach (var document in spDocuments.Children.OfType<ElementControl>())
             {
-                if (document.tbElementName.Visibility == Visibility.Visible) // Then its in edit mode
-                {
-                    SaveDocument(document);
-                }
+                SaveDocument(document);
             }
 
             if (DocumentsChanged)
@@ -142,9 +139,9 @@ namespace WedChecker.UserControls.Tasks.Planings
         private void SaveDocument(ElementControl document)
         {
             if (!Documents.ContainsKey(document.Number) ||
-                Documents[document.Number] != document.tbElementName.Text)
+                Documents[document.Number] != document.Title)
             {
-                Documents[document.Number] = document.tbElementName.Text;
+                Documents[document.Number] = document.Title;
                 DocumentsChanged = true;
             }
         }
