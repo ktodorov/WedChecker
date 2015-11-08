@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -15,6 +16,8 @@ namespace WedChecker.Common
     public static class AppData
     {
         private const string EOS_CONST = "$WedChecker_EndOfStream$";
+        private const string EOS_SEPARATOR = "$WedChecker_Separator$";
+        public const string GLOBAL_SEPARATOR = "$WedChecker_GlobalAppDataSeparator$";
 
         private static Dictionary<string, object> _localAppData;
         public static Dictionary<string, object> LocalAppData
@@ -29,11 +32,7 @@ namespace WedChecker.Common
             }
         }
 
-        private static Dictionary<string, string> GlobalAppData
-        {
-            get;
-            set;
-        }
+        private static Dictionary<string, string> GlobalAppData { get; set; } = new Dictionary<string, string>();
 
         public static CancellationToken CancelToken
         {
@@ -128,17 +127,37 @@ namespace WedChecker.Common
 
         public static async Task InsertGlobalValue(string name, string value = "serialized", bool serialize = true)
         {
-            if (GlobalAppData == null)
-            {
-                GlobalAppData = new Dictionary<string, string>();
-            }
-
             GlobalAppData[name] = value;
 
             if (serialize)
             {
                 await SerializeData();
             }
+        }
+
+        public static async Task InsertGlobalValues(string name, List<string> values, bool serialize = true)
+        {
+            var key = string.Empty;
+            foreach (var value in values)
+            {
+                key += $"{value}{EOS_SEPARATOR}";
+            }
+
+            GlobalAppData[name] = key;
+
+            if (serialize)
+            {
+                await SerializeData();
+            }
+        }
+
+        public static List<string> GetGlobalValues(string name)
+        {
+            var key = GlobalAppData[name];
+
+            var values = key.Split(new string[] { EOS_SEPARATOR }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+            return values;
         }
 
         public static async Task SerializeData(CancellationTokenSource ctsToUse = null)
