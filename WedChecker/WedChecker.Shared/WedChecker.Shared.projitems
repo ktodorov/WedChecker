@@ -39,6 +39,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\BaseTaskControl.xaml.cs">
       <DependentUpon>BaseTaskControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\AccomodationPlaces.xaml.cs">
+      <DependentUpon>AccomodationPlaces.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\BestManMaidOfHonor.xaml.cs">
       <DependentUpon>BestManMaidOfHonor.xaml</DependentUpon>
     </Compile>
@@ -134,6 +137,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\BaseTaskControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\AccomodationPlaces.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

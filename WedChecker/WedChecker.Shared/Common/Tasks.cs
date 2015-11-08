@@ -32,31 +32,32 @@ namespace WedChecker.Common
             ForeignGuestsAccomodation = 23,
             HairdresserMakeupArtist = 24,
             Invitations = 25,
+            AccomodationPlaces = 26,
 
             // Purchase
 
-            PurchaseBrideAccessories = 26,
-            PurchaseBrideClothes = 27,
-            PurchaseGroomAccessories = 28,
-            PurchaseGroomClothes = 29,
-            PurchaseBMMOHAccessories = 30,
-            PurchaseBMMOHClothes = 31,
-            PurchaseBAGAccessories = 32,
-            PurchaseBAGClothes = 33,
-            PurchaseRestaurantFood = 33,
-            PurchaseFreshFlowers = 34,
-            PurchaseRings = 35,
-            PurchaseCake = 36,
+            PurchaseBrideAccessories = 27,
+            PurchaseBrideClothes = 28,
+            PurchaseGroomAccessories = 29,
+            PurchaseGroomClothes = 30,
+            PurchaseBMMOHAccessories = 31,
+            PurchaseBMMOHClothes = 32,
+            PurchaseBAGAccessories = 33,
+            PurchaseBAGClothes = 34,
+            PurchaseRestaurantFood = 35,
+            PurchaseFreshFlowers = 36,
+            PurchaseRings = 37,
+            PurchaseCake = 38,
 
             // Bookings
 
-            BookMusicLayout = 37,
-            BookPhotographer = 38,
-            BookHoneymoonDestination = 39,
-            BookGuestsAccomodation = 40,
-            BookHairdresserMakeupArtistAppointments = 41,
-            SendInvitations = 42,
-            RestaurantAccomodationPlan = 43
+            BookMusicLayout = 39,
+            BookPhotographer = 40,
+            BookHoneymoonDestination = 41,
+            BookGuestsAccomodation = 42,
+            BookHairdresserMakeupArtistAppointments = 43,
+            SendInvitations = 44,
+            RestaurantAccomodationPlan = 45
 
         }
     }

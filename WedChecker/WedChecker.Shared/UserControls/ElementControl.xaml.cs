@@ -9,9 +9,20 @@ namespace WedChecker.UserControls
     {
         public int Number { get; set; }
 
+        public string Title { get; set; }
+
         public ElementControl()
         {
             this.InitializeComponent();
+        }
+
+        public ElementControl(string name)
+        {
+            this.InitializeComponent();
+            Number = 0;
+            tbElementName.Text = name;
+            tbDisplayElementName.Text = name;
+            Title = name;
         }
 
         public ElementControl(int number, string name)
@@ -20,11 +31,12 @@ namespace WedChecker.UserControls
             Number = number;
             tbElementName.Text = name;
             tbDisplayElementName.Text = name;
+            Title = name;
         }
 
         public void DisplayValues()
         {
-            tbDisplayElementName.Text = tbElementName.Text;
+            tbDisplayElementName.Text = Title;
             tbElementName.Visibility = Visibility.Collapsed;
             tbDisplayElementName.Visibility = Visibility.Visible;
             removeElementButton.Visibility = Visibility.Collapsed;
@@ -32,7 +44,7 @@ namespace WedChecker.UserControls
 
         public void EditValues()
         {
-            tbElementName.Text = tbDisplayElementName.Text;
+            tbElementName.Text = Title;
             tbElementName.Visibility = Visibility.Visible;
             tbDisplayElementName.Visibility = Visibility.Collapsed;
             removeElementButton.Visibility = Visibility.Visible;
@@ -41,6 +53,11 @@ namespace WedChecker.UserControls
         public override string ToString()
         {
             return $"{Number}.{tbElementName.Text}";
+        }
+
+        private void tbElementName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Title = tbElementName.Text;
         }
     }
 }
