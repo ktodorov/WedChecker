@@ -160,6 +160,7 @@
                     <Button Name="HoneymoonDestination" Click="TaskItem_Clicked">Honeymoon destination</Button>
                     <Button Name="GuestsList" Click="TaskItem_Clicked">Guests list</Button>
                     <Button Name="AccomodationPlaces" Click="TaskItem_Clicked">Accomodation places</Button>
+                    <Button Name="ForeignGuestsAccomodation" Click="TaskItem_Clicked">Foreign guests accomodation</Button>
                     <Button>Hairdresser and makeup artist</Button>
                     <Button>Invitations</Button>
                     <TextBlock Text="Purchasing" FontSize="25"/>

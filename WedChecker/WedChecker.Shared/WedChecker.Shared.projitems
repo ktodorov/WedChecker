@@ -72,6 +72,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\DocumentsRequired.xaml.cs">
       <DependentUpon>DocumentsRequired.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\ForeignGuestsAccomodation.xaml.cs">
+      <DependentUpon>ForeignGuestsAccomodation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\FreshFlowers.xaml.cs">
       <DependentUpon>FreshFlowers.xaml</DependentUpon>
     </Compile>
@@ -184,6 +187,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\DocumentsRequired.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\ForeignGuestsAccomodation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
