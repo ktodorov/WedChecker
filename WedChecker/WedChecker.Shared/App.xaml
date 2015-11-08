@@ -98,6 +98,13 @@
             <Setter Property="Padding" Value="0" />
         </Style>
 
+        <Style x:Key="WedCheckerTextButtonStyle" TargetType="Button">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Foreground" Value="{StaticResource PhoneAccentBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0" />
+        </Style>
+
         <Style x:Key="CountdownTimerStyle" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Segoe UI"/>
             <Setter Property="FontSize" Value="20"/>
