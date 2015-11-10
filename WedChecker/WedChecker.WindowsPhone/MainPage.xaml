@@ -161,7 +161,7 @@
                     <Button Name="GuestsList" Click="TaskItem_Clicked">Guests list</Button>
                     <Button Name="AccomodationPlaces" Click="TaskItem_Clicked">Accomodation places</Button>
                     <Button Name="ForeignGuestsAccomodation" Click="TaskItem_Clicked">Foreign guests accomodation</Button>
-                    <Button>Hairdresser and makeup artist</Button>
+                    <Button Name="HairdresserMakeupArtist" Click="TaskItem_Clicked">Hairdresser and makeup artist</Button>
                     <Button>Invitations</Button>
                     <TextBlock Text="Purchasing" FontSize="25"/>
                     <Button>Purchase bride accessories</Button>

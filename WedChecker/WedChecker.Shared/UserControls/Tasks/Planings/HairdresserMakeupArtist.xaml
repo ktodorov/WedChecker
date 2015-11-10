@@ -1,0 +1,30 @@
+﻿<we:BaseTaskControl
+    x:Class="WedChecker.UserControls.Tasks.Planings.HairdresserMakeupArtist"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WedChecker.UserControls.Tasks.Planings"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:we="using:WedChecker.UserControls.Tasks"
+    xmlns:uc="using:WedChecker.UserControls">
+    <StackPanel Orientation="Vertical">
+
+        <StackPanel Name="hairdresserPanel">
+            <TextBlock Text="Hairdresser" Style="{StaticResource WedCheckerFormTextBlockStyle}"/>
+            <Button Name="selectHairdresser" Content="Select hairdresser" Style="{StaticResource ButtonClearStyle}"
+                VerticalAlignment="Center" HorizontalAlignment="Center"
+                Click="selectHairdresser_Click" Width="200"/>
+
+            <uc:ContactControl x:Name="ccHairdresser" />
+        </StackPanel>
+
+        <StackPanel Name="makeupArtistPanel">
+            <TextBlock Text="Makeup artist" Style="{StaticResource WedCheckerFormTextBlockStyle}"/>
+            <Button Name="selectMakeupArtist" Content="Select makeup artist" Style="{StaticResource ButtonClearStyle}"
+                VerticalAlignment="Center" HorizontalAlignment="Center"
+                Click="selectMakeupArtist_Click" Width="200"/>
+
+            <uc:ContactControl x:Name="ccMakeupArtist" />
+        </StackPanel>
+    </StackPanel>
+</we:BaseTaskControl>
