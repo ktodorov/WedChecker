@@ -301,7 +301,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                 GuestsPerPlaces[placeToUse].RemoveAll(g => g.Id == id);
 
                 spMain.Children.OfType<TreeNodeControl>().FirstOrDefault(tn => tn.NodeName == placeToUse)
-                                                         .RemoveChildNode(c => (c is ContactControl) && (c as ContactControl).Id == id);
+                                                         .RemoveChildNode(c => (c is ContactControl) && (c as ContactControl).StoredContact.Id == id);
             }
 
             await AppData.SerializeData();
