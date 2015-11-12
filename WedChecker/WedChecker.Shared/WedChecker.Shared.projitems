@@ -120,6 +120,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\PopulatedTask.xaml.cs">
       <DependentUpon>PopulatedTask.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Purchases\PurchaseBrideAccessories.xaml.cs">
+      <DependentUpon>PurchaseBrideAccessories.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\ToggleControl.xaml.cs">
+      <DependentUpon>ToggleControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\TreeNodeControl.xaml.cs">
       <DependentUpon>TreeNodeControl.xaml</DependentUpon>
     </Compile>
@@ -257,6 +263,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Purchases\PurchaseBrideAccessories.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\ToggleControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)UserControls\TreeNodeControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -264,6 +278,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Bookings\" />
-    <Folder Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Purchases\" />
   </ItemGroup>
 </Project>

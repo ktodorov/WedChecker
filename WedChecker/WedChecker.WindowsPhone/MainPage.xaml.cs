@@ -165,7 +165,9 @@ namespace WedChecker
         {
             foreach (var populatedControl in populatedControls)
             {
-                spPlanings.Children.Add(new PopulatedTask(populatedControl, false));
+                var type = populatedControl.GetType();
+                TaskData.InsertTaskControl(this, type, populatedControl);
+                //spPlanings.Children.Add(new PopulatedTask(populatedControl, false));
                 AppData.InsertSerializableTask(populatedControl);
             }
             firstLaunchPopup.Visibility = Visibility.Collapsed;

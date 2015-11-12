@@ -23,10 +23,12 @@ namespace WedChecker.Common
             taskControl = CreateTaskControl(type, value);
             AppData.InsertSerializableTask(taskControl);
 
-#if WINDOWS_PHONE_APP
-            var pivotStackPanel = currentPage.FindName("spPlanings") as StackPanel;
-            pivotStackPanel.Children.Add(new PopulatedTask(taskControl, true));
+            InsertTaskControl(currentPage, type, taskControl);
+        }
 
+        public static void InsertTaskControl(Page currentPage, Type type, BaseTaskControl taskControl, bool isNew = true)
+        {
+#if WINDOWS_PHONE_APP
             var lbTasks = currentPage.FindName("LbTasks") as ItemsControl;
             lbTasks.Visibility = Visibility.Collapsed;
 
@@ -36,10 +38,49 @@ namespace WedChecker.Common
             var mainPivot = currentPage.FindName("mainPivot") as Pivot;
             mainPivot.Visibility = Visibility.Visible;
 
-            mainPivot.SelectedIndex = 1;
+            var pivotName = GetPivotNameFromType(type, mainPivot);
+            var pivotStackPanel = currentPage.FindName(pivotName) as StackPanel;
+            pivotStackPanel.Children.Add(new PopulatedTask(taskControl, isNew));
+
 #else
 
 #endif
+        }
+
+        private static string GetPivotNameFromType(Type taskType, Pivot mainPivot = null)
+        {
+            var result = string.Empty;
+
+            if (taskType.FullName.StartsWith("WedChecker.UserControls.Tasks.Bookings"))
+            {
+                result = "spBookings";
+                if (mainPivot != null)
+                {
+                    mainPivot.SelectedIndex = 3;
+                }
+            }
+            else if (taskType.FullName.StartsWith("WedChecker.UserControls.Tasks.Planings"))
+            {
+                result = "spPlanings";
+                if (mainPivot != null)
+                {
+                    mainPivot.SelectedIndex = 1;
+                }
+            }
+            else if (taskType.FullName.StartsWith("WedChecker.UserControls.Tasks.Purchases"))
+            {
+                result = "spPurchases";
+                if (mainPivot != null)
+                {
+                    mainPivot.SelectedIndex = 2;
+                }
+            }
+            else
+            {
+                throw new Exception("Could not recognize the task type");
+            }
+
+            return result;
         }
 
         public static BaseTaskControl GetTaskControlFromString(string taskControlName)

@@ -98,12 +98,8 @@ namespace WedChecker.UserControls.Tasks.Planings
             for (int i = 0; i < size; i++)
             {
                 var accessory = reader.ReadString();
-                Accessories.Add(i, accessory);
-            }
-
-            foreach (var accessory in Accessories)
-            {
-                spBrideAccessories.Children.Add(new ElementControl(accessory.Key, accessory.Value));
+                AddAccessory(i, accessory);
+                //spBrideAccessories.Children.Add(new ElementControl(accessory.Key, accessory.Value));
             }
 
             DisplayValues();
@@ -111,14 +107,16 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override async Task SubmitValues()
         {
-            foreach (var accessory in spBrideAccessories.Children.OfType<ElementControl>())
+            var accessories = spBrideAccessories.Children.OfType<ElementControl>();
+            foreach (var accessory in accessories)
             {
                 SaveAccessory(accessory);
             }
 
             if (AccessoriesChanged)
             {
-                await AppData.InsertGlobalValue(TaskData.Tasks.BrideAccessories.ToString());
+                var accessoriesTitles = accessories.Select(a => a.Title).ToList();
+                await AppData.InsertGlobalValues(TaskData.Tasks.BrideAccessories.ToString(), accessoriesTitles);
             }
         }
 
@@ -151,7 +149,17 @@ namespace WedChecker.UserControls.Tasks.Planings
         {
             var number = FindFirstFreeNumber();
 
-            var newAccessory = new ElementControl(number, string.Empty);
+            AddAccessory(number, string.Empty);
+        }
+
+        private void AddAccessory(int number, string title)
+        {
+            var newAccessory = new ElementControl(number, title);
+            if (Accessories.ContainsKey(number))
+            {
+                return;
+            }
+
             Accessories.Add(number, string.Empty);
             newAccessory.removeElementButton.Click += removeAccessoryButton_Click;
             spBrideAccessories.Children.Add(newAccessory);
