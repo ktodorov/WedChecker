@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -257,22 +256,14 @@ namespace WedChecker.UserControls.Tasks.Planings
         {
             var number = FindFirstFreeNumber(BestManAccessories);
 
-            var newAccessory = new ElementControl(number, string.Empty);
-            BestManAccessories.Add(number, string.Empty);
-            newAccessory.removeElementButton.Click += removeBestManAccessoryButton_Click;
-            spBestManAccessories.Children.Add(newAccessory);
-            BestManAccessoriesChanged = true;
+            AddBestManAccessory(number, string.Empty);
         }
 
         private void addMaidOfHonorAccessoryButton_Click(object sender, RoutedEventArgs e)
         {
             var number = FindFirstFreeNumber(MaidOfHonorAccessories);
 
-            var newAccessory = new ElementControl(number, string.Empty);
-            MaidOfHonorAccessories.Add(number, string.Empty);
-            newAccessory.removeElementButton.Click += removeMaidOfHonorAccessoryButton_Click;
-            spMaidOfHonorAccessories.Children.Add(newAccessory);
-            MaidOfHonorAccessoriesChanged = true;
+            AddMaidOfHonorAccessory(number, string.Empty);
         }
 
         private void removeBestManAccessoryButton_Click(object sender, RoutedEventArgs e)

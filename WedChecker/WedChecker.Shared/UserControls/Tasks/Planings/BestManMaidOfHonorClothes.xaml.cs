@@ -144,12 +144,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                     for (int i = 0; i < size; i++)
                     {
                         var clothing = reader.ReadString();
-                        BestManClothes.Add(i, clothing);
-                    }
-
-                    foreach (var clothing in BestManClothes)
-                    {
-                        spBestManClothes.Children.Add(new ElementControl(clothing.Key, clothing.Value));
+                        AddBestManClothing(i, clothing);
                     }
                 }
                 else if (type == "MaidOfHonorClothes")
@@ -157,17 +152,40 @@ namespace WedChecker.UserControls.Tasks.Planings
                     for (int i = 0; i < size; i++)
                     {
                         var clothing = reader.ReadString();
-                        MaidOfHonorClothes.Add(i, clothing);
-                    }
-
-                    foreach (var clothing in MaidOfHonorClothes)
-                    {
-                        spMaidOfHonorClothes.Children.Add(new ElementControl(clothing.Key, clothing.Value));
+                        AddMaidOfHonorClothing(i, clothing);
                     }
                 }
             }
 
             DisplayValues();
+        }
+
+        private void AddMaidOfHonorClothing(int number, string title)
+        {
+            if (!MaidOfHonorClothes.ContainsKey(number) ||
+                MaidOfHonorClothes[number] != title)
+            {
+                MaidOfHonorClothes[number] = title;
+            }
+
+            var newClothing = new ElementControl(number, title);
+            newClothing.removeElementButton.Click += removeMaidOfHonorClothingButton_Click;
+            spMaidOfHonorClothes.Children.Add(newClothing);
+            MaidOfHonorClothesChanged = true;
+        }
+
+        private void AddBestManClothing(int number, string title)
+        {
+            if (!BestManClothes.ContainsKey(number) ||
+                BestManClothes[number] != title)
+            {
+                BestManClothes[number] = title;
+            }
+
+            var newClothing = new ElementControl(number, title);
+            newClothing.removeElementButton.Click += removeBestManClothingButton_Click;
+            spBestManClothes.Children.Add(newClothing);
+            BestManClothesChanged = true;
         }
 
         public override async Task SubmitValues()
@@ -187,7 +205,15 @@ namespace WedChecker.UserControls.Tasks.Planings
 
             if (BestManClothesChanged || MaidOfHonorClothesChanged)
             {
-                await AppData.InsertGlobalValue(TaskData.Tasks.BestManMaidOfHonorClothes.ToString());
+                var allClothes = new List<string>();
+                allClothes.Add($"StartBestManClothes{AppData.GLOBAL_SEPARATOR}");
+                allClothes.AddRange(bestManElementChildren.Select(a => a.Title).ToList());
+                allClothes.Add($"EndBestManClothes{AppData.GLOBAL_SEPARATOR}");
+                allClothes.Add($"StartMaidOfHonorClothes{AppData.GLOBAL_SEPARATOR}");
+                allClothes.AddRange(maidOfHonorElementChildren.Select(a => a.Title).ToList());
+                allClothes.Add($"EndMaidOfHonorClothes{AppData.GLOBAL_SEPARATOR}");
+
+                await AppData.InsertGlobalValues(TaskData.Tasks.BestManMaidOfHonorClothes.ToString(), allClothes);
             }
         }
 
@@ -230,22 +256,14 @@ namespace WedChecker.UserControls.Tasks.Planings
         {
             var number = FindFirstFreeNumber(BestManClothes);
 
-            var newClothing = new ElementControl(number, string.Empty);
-            BestManClothes.Add(number, string.Empty);
-            newClothing.removeElementButton.Click += removeBestManClothingButton_Click;
-            spBestManClothes.Children.Add(newClothing);
-            BestManClothesChanged = true;
+            AddBestManClothing(number, string.Empty);
         }
 
         private void addMaidOfHonorClothingButton_Click(object sender, RoutedEventArgs e)
         {
             var number = FindFirstFreeNumber(MaidOfHonorClothes);
 
-            var newClothing = new ElementControl(number, string.Empty);
-            MaidOfHonorClothes.Add(number, string.Empty);
-            newClothing.removeElementButton.Click += removeMaidOfHonorClothingButton_Click;
-            spMaidOfHonorClothes.Children.Add(newClothing);
-            MaidOfHonorClothesChanged = true;
+            AddMaidOfHonorClothing(number, string.Empty);
         }
 
         private void removeBestManClothingButton_Click(object sender, RoutedEventArgs e)
