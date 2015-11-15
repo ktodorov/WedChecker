@@ -103,15 +103,16 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override async Task SubmitValues()
         {
-            var childrenClothes = spBrideClothes.Children.OfType<ElementControl>();
-            foreach (var clothing in childrenClothes)
+            var clothes = spBrideClothes.Children.OfType<ElementControl>();
+            foreach (var clothing in clothes)
             {
                 SaveClothing(clothing);
             }
 
             if (ClothesChanged)
             {
-                await AppData.InsertGlobalValue(TaskData.Tasks.BrideClothes.ToString());
+                var clothesTitles = clothes.Select(a => a.Title).ToList();
+                await AppData.InsertGlobalValues(TaskData.Tasks.BrideClothes.ToString(), clothesTitles);
             }
         }
 

@@ -165,7 +165,7 @@
                     <Button>Invitations</Button>
                     <TextBlock Text="Purchasing" FontSize="25"/>
                     <Button Name="PurchaseBrideAccessories" Click="TaskItem_Clicked">Purchase bride accessories</Button>
-                    <Button>Purchase bride clothes</Button>
+                    <Button Name="PurchaseBrideClothes" Click="TaskItem_Clicked">Purchase bride clothes</Button>
                     <Button>Purchase groom accessories</Button>
                     <Button>Purchase groom clothes</Button>
                     <Button>Purchase best man and maid of honor accessories</Button>
