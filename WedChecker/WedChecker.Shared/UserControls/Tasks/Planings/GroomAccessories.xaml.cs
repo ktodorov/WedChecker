@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -89,27 +90,39 @@ namespace WedChecker.UserControls.Tasks.Planings
             for (int i = 0; i < size; i++)
             {
                 var accessory = reader.ReadString();
-                Accessories.Add(i, accessory);
-            }
-
-            foreach (var accessory in Accessories)
-            {
-                spGroomAccessories.Children.Add(new ElementControl(accessory.Key, accessory.Value));
+                AddAccessory(i, accessory);
             }
 
             DisplayValues();
         }
 
+        private void AddAccessory(int number, string title)
+        {
+            if (!Accessories.ContainsKey(number) ||
+                Accessories[number] != title)
+            {
+                Accessories[number] = title;
+            }
+
+            var accessoryControl = new ElementControl(number, title);
+            accessoryControl.removeElementButton.Click += removeAccessoryButton_Click;
+            spGroomAccessories.Children.Add(accessoryControl);
+
+            AccessoriesChanged = true;
+        }
+
         public override async Task SubmitValues()
         {
-            foreach (var accessory in spGroomAccessories.Children.OfType<ElementControl>())
+            var accessories = spGroomAccessories.Children.OfType<ElementControl>();
+            foreach (var accessory in accessories)
             {
                 SaveAccessory(accessory);
             }
 
             if (AccessoriesChanged)
             {
-                await AppData.InsertGlobalValue(TaskData.Tasks.GroomAccessories.ToString());
+                var accessoriesTitles = accessories.Select(a => a.Title).ToList();
+                await AppData.InsertGlobalValues(TaskData.Tasks.GroomAccessories.ToString(), accessoriesTitles);
             }
         }
 
@@ -131,7 +144,7 @@ namespace WedChecker.UserControls.Tasks.Planings
         private void SaveAccessory(ElementControl accessory)
         {
             if (!Accessories.ContainsKey(accessory.Number) ||
-                Accessories[accessory.Number] != accessory.Title)
+                   Accessories[accessory.Number] != accessory.Title)
             {
                 Accessories[accessory.Number] = accessory.Title;
                 AccessoriesChanged = true;
@@ -142,11 +155,7 @@ namespace WedChecker.UserControls.Tasks.Planings
         {
             var number = FindFirstFreeNumber();
 
-            var newAccessory = new ElementControl(number, string.Empty);
-            Accessories.Add(number, string.Empty);
-            newAccessory.removeElementButton.Click += removeAccessoryButton_Click;
-            spGroomAccessories.Children.Add(newAccessory);
-            AccessoriesChanged = true;
+            AddAccessory(number, string.Empty);
         }
 
         private void removeAccessoryButton_Click(object sender, RoutedEventArgs e)

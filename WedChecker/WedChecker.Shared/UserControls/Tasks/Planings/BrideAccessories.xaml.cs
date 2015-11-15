@@ -154,13 +154,13 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         private void AddAccessory(int number, string title)
         {
-            var newAccessory = new ElementControl(number, title);
-            if (Accessories.ContainsKey(number))
+            if (!Accessories.ContainsKey(number) ||
+                Accessories[number] != title)
             {
-                return;
+                Accessories[number] = title;
             }
 
-            Accessories.Add(number, string.Empty);
+            var newAccessory = new ElementControl(number, title);
             newAccessory.removeElementButton.Click += removeAccessoryButton_Click;
             spBrideAccessories.Children.Add(newAccessory);
             AccessoriesChanged = true;

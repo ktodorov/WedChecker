@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -90,15 +91,25 @@ namespace WedChecker.UserControls.Tasks.Planings
             for (int i = 0; i < size; i++)
             {
                 var clothing = reader.ReadString();
-                Clothes.Add(i, clothing);
-            }
-
-            foreach (var clothing in Clothes)
-            {
-                spBrideClothes.Children.Add(new ElementControl(clothing.Key, clothing.Value));
+                AddClothing(i, clothing);
             }
 
             DisplayValues();
+        }
+
+        private void AddClothing(int number, string title)
+        {
+            if (!Clothes.ContainsKey(number) ||
+                Clothes[number] != title)
+            {
+                Clothes[number] = title;
+            }
+
+            var newClothing = new ElementControl(number, title);
+            newClothing.removeElementButton.Click += removeClothingButton_Click;
+            spBrideClothes.Children.Add(newClothing);
+
+            ClothesChanged = true;
         }
 
         public override async Task SubmitValues()
@@ -145,11 +156,7 @@ namespace WedChecker.UserControls.Tasks.Planings
         {
             var number = FindFirstFreeNumber();
 
-            var newClothing = new ElementControl(number, string.Empty);
-            Clothes.Add(number, string.Empty);
-            newClothing.removeElementButton.Click += removeClothingButton_Click;
-            spBrideClothes.Children.Add(newClothing);
-            ClothesChanged = true;
+            AddClothing(number, string.Empty);
         }
 
         private void removeClothingButton_Click(object sender, RoutedEventArgs e)
