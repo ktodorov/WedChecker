@@ -167,7 +167,7 @@
                     <Button Name="PurchaseBrideAccessories" Click="TaskItem_Clicked">Purchase bride accessories</Button>
                     <Button Name="PurchaseBrideClothes" Click="TaskItem_Clicked">Purchase bride clothes</Button>
                     <Button Name="PurchaseGroomAccessories" Click="TaskItem_Clicked">Purchase groom accessories</Button>
-                    <Button>Purchase groom clothes</Button>
+                    <Button Name="PurchaseGroomClothes" Click="TaskItem_Clicked">Purchase groom clothes</Button>
                     <Button>Purchase best man and maid of honor accessories</Button>
                     <Button>Purchase best man and maid of honor clothes</Button>
                     <Button>Purchase bridesmaids and groomsmen accessories</Button>
