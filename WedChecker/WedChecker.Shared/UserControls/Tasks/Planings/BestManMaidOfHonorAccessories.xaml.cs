@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -144,12 +145,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                     for (int i = 0; i < size; i++)
                     {
                         var accessory = reader.ReadString();
-                        BestManAccessories.Add(i, accessory);
-                    }
-
-                    foreach (var accessory in BestManAccessories)
-                    {
-                        spBestManAccessories.Children.Add(new ElementControl(accessory.Key, accessory.Value));
+                        AddBestManAccessory(i, accessory);
                     }
                 }
                 else if (type == "MaidOfHonorAcc")
@@ -157,17 +153,40 @@ namespace WedChecker.UserControls.Tasks.Planings
                     for (int i = 0; i < size; i++)
                     {
                         var accessory = reader.ReadString();
-                        MaidOfHonorAccessories.Add(i, accessory);
-                    }
-
-                    foreach (var accessory in MaidOfHonorAccessories)
-                    {
-                        spMaidOfHonorAccessories.Children.Add(new ElementControl(accessory.Key, accessory.Value));
+                        AddMaidOfHonorAccessory(i, accessory);
                     }
                 }
             }
 
             DisplayValues();
+        }
+
+        private void AddMaidOfHonorAccessory(int number, string title)
+        {
+            if (!MaidOfHonorAccessories.ContainsKey(number) ||
+                MaidOfHonorAccessories[number] != title)
+            {
+                MaidOfHonorAccessories[number] = title;
+            }
+
+            var newAccessory = new ElementControl(number, title);
+            newAccessory.removeElementButton.Click += removeMaidOfHonorAccessoryButton_Click;
+            spMaidOfHonorAccessories.Children.Add(newAccessory);
+            MaidOfHonorAccessoriesChanged = true;
+        }
+
+        private void AddBestManAccessory(int number, string title)
+        {
+            if (!BestManAccessories.ContainsKey(number) ||
+                BestManAccessories[number] != title)
+            {
+                BestManAccessories[number] = title;
+            }
+
+            var newAccessory = new ElementControl(number, title);
+            newAccessory.removeElementButton.Click += removeBestManAccessoryButton_Click;
+            spBestManAccessories.Children.Add(newAccessory);
+            BestManAccessoriesChanged = true;
         }
 
         public override async Task SubmitValues()
@@ -187,7 +206,15 @@ namespace WedChecker.UserControls.Tasks.Planings
 
             if (BestManAccessoriesChanged || MaidOfHonorAccessoriesChanged)
             {
-                await AppData.InsertGlobalValue(TaskData.Tasks.BestManMaidOfHonorAccessories.ToString());
+                var allAccessories = new List<string>();
+                allAccessories.Add($"StartBestManAccessories{AppData.GLOBAL_SEPARATOR}");
+                allAccessories.AddRange(bestManElementChildren.Select(a => a.Title).ToList());
+                allAccessories.Add($"EndBestManAccessories{AppData.GLOBAL_SEPARATOR}");
+                allAccessories.Add($"StartMaidOfHonorAccessories{AppData.GLOBAL_SEPARATOR}");
+                allAccessories.AddRange(maidOfHonorElementChildren.Select(a => a.Title).ToList());
+                allAccessories.Add($"EndMaidOfHonorAccessories{AppData.GLOBAL_SEPARATOR}");
+
+                await AppData.InsertGlobalValues(TaskData.Tasks.BestManMaidOfHonorAccessories.ToString(), allAccessories);
             }
         }
 
