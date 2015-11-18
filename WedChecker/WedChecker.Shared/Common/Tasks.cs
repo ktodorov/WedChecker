@@ -31,11 +31,11 @@ namespace WedChecker.Common
             GuestsList = 22,
             ForeignGuestsAccomodation = 23,
             HairdresserMakeupArtist = 24,
-            Invitations = 25,
-            AccomodationPlaces = 26,
+            AccomodationPlaces = 25,
 
             // Purchase
 
+            PurchaseInvitations = 26,
             PurchaseBrideAccessories = 27,
             PurchaseBrideClothes = 28,
             PurchaseGroomAccessories = 29,

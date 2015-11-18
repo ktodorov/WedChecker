@@ -164,6 +164,7 @@
                     <Button Name="HairdresserMakeupArtist" Click="TaskItem_Clicked">Hairdresser and makeup artist</Button>
                     <Button>Invitations</Button>
                     <TextBlock Text="Purchasing" FontSize="25"/>
+                    <Button Name="PurchaseInvitations" Click="TaskItem_Clicked">Purchase invitations</Button>
                     <Button Name="PurchaseBrideAccessories" Click="TaskItem_Clicked">Purchase bride accessories</Button>
                     <Button Name="PurchaseBrideClothes" Click="TaskItem_Clicked">Purchase bride clothes</Button>
                     <Button Name="PurchaseGroomAccessories" Click="TaskItem_Clicked">Purchase groom accessories</Button>

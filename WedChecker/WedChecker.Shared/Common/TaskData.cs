@@ -147,11 +147,11 @@ namespace WedChecker.Common
             "Photographer", "BrideAccessories", "BrideClothes", "GroomAccessories",
             "GroomClothes", "BestManMaidOfHonorAccessories", "BestManMaidOfHonorClothes", "BridesmaidsGroomsmenAccessories",
             "BridesmaidsGroomsmenClothes", "HoneymoonDestination", "GuestsList", "ForeignGuestsAccomodation",
-            "HairdresserMakeupArtist", "Invitations", "AccomodationPlaces",
+            "HairdresserMakeupArtist", "AccomodationPlaces",
             // Purchase
-            "PurchaseBrideAccessories", "PurchaseBrideClothes", "PurchaseGroomAccessories", "PurchaseGroomClothes", 
-            "PurchaseBMMOHAccessories", "PurchaseBMMOHClothes", "PurchaseBAGAccessories", "PurchaseBAGClothes",
-            "PurchaseRestaurantFood", "PurchaseFreshFlowers", "PurchaseRings", "PurchaseCake",
+            "PurchaseInvitations", "PurchaseBrideAccessories", "PurchaseBrideClothes", "PurchaseGroomAccessories",
+            "PurchaseGroomClothes", "PurchaseBMMOHAccessories", "PurchaseBMMOHClothes", "PurchaseBAGAccessories",
+            "PurchaseBAGClothes", "PurchaseRestaurantFood", "PurchaseFreshFlowers", "PurchaseRings", "PurchaseCake",
             // Bookings
             "BookMusicLayout", "BookPhotographer", "BookHoneymoonDestination", "BookGuestsAccomodation",
             "BookHairdresserMakeupArtistAppointments",
