@@ -153,6 +153,11 @@ namespace WedChecker.Common
 
         public static List<string> GetGlobalValues(string name)
         {
+            if (!GlobalAppData.ContainsKey(name))
+            {
+                GlobalAppData[name] = string.Empty;
+            }
+
             var key = GlobalAppData[name];
 
             var values = key.Split(new string[] { EOS_SEPARATOR }, StringSplitOptions.RemoveEmptyEntries).ToList();

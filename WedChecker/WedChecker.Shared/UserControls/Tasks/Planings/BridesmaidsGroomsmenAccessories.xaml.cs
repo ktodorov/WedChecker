@@ -144,12 +144,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                     for (int i = 0; i < size; i++)
                     {
                         var accessory = reader.ReadString();
-                        BridesmaidsAccessories.Add(i, accessory);
-                    }
-
-                    foreach (var accessory in BridesmaidsAccessories)
-                    {
-                        spBridesmaidsAccessories.Children.Add(new ElementControl(accessory.Key, accessory.Value));
+                        AddBridesmaidAccessory(i, accessory);
                     }
                 }
                 else if (type == "GroomsmenAcc")
@@ -157,18 +152,42 @@ namespace WedChecker.UserControls.Tasks.Planings
                     for (int i = 0; i < size; i++)
                     {
                         var accessory = reader.ReadString();
-                        GroomsmenAccessories.Add(i, accessory);
-                    }
-
-                    foreach (var accessory in GroomsmenAccessories)
-                    {
-                        spGroomsmenAccessories.Children.Add(new ElementControl(accessory.Key, accessory.Value));
+                        AddGroomsmanAccessory(i, accessory);
                     }
                 }
             }
 
             DisplayValues();
         }
+
+        private void AddGroomsmanAccessory(int number, string title)
+        {
+            if (!GroomsmenAccessories.ContainsKey(number) ||
+                GroomsmenAccessories[number] != title)
+            {
+                GroomsmenAccessories[number] = title;
+            }
+
+            var newAccessory = new ElementControl(number, title);
+            newAccessory.removeElementButton.Click += removeGroomsmenAccessoryButton_Click;
+            spGroomsmenAccessories.Children.Add(newAccessory);
+            GroomsmenAccessoriesChanged = true;
+        }
+
+        private void AddBridesmaidAccessory(int number, string title)
+        {
+            if (!BridesmaidsAccessories.ContainsKey(number) ||
+                BridesmaidsAccessories[number] != title)
+            {
+                BridesmaidsAccessories[number] = title;
+            }
+
+            var newAccessory = new ElementControl(number, title);
+            newAccessory.removeElementButton.Click += removeBridesmaidsAccessoryButton_Click;
+            spBridesmaidsAccessories.Children.Add(newAccessory);
+            BridesmaidsAccessoriesChanged = true;
+        }
+
 
         public override async Task SubmitValues()
         {
@@ -187,7 +206,15 @@ namespace WedChecker.UserControls.Tasks.Planings
 
             if (BridesmaidsAccessoriesChanged || GroomsmenAccessoriesChanged)
             {
-                await AppData.InsertGlobalValue(TaskData.Tasks.BridesmaidsGroomsmenAccessories.ToString());
+                var allAccessories = new List<string>();
+                allAccessories.Add($"StartBridesmaidsAccessories{AppData.GLOBAL_SEPARATOR}");
+                allAccessories.AddRange(bridesmaidsElementChildren.Select(a => a.Title).ToList());
+                allAccessories.Add($"EndBridesmaidsAccessories{AppData.GLOBAL_SEPARATOR}");
+                allAccessories.Add($"StartGroomsmenAccessories{AppData.GLOBAL_SEPARATOR}");
+                allAccessories.AddRange(groomsmenElementChildren.Select(a => a.Title).ToList());
+                allAccessories.Add($"EndGroomsmenAccessories{AppData.GLOBAL_SEPARATOR}");
+
+                await AppData.InsertGlobalValues(TaskData.Tasks.BridesmaidsGroomsmenAccessories.ToString(), allAccessories);
             }
         }
 
@@ -230,22 +257,14 @@ namespace WedChecker.UserControls.Tasks.Planings
         {
             var number = FindFirstFreeNumber(BridesmaidsAccessories);
 
-            var newAccessory = new ElementControl(number, string.Empty);
-            BridesmaidsAccessories.Add(number, string.Empty);
-            newAccessory.removeElementButton.Click += removeBridesmaidsAccessoryButton_Click;
-            spBridesmaidsAccessories.Children.Add(newAccessory);
-            BridesmaidsAccessoriesChanged = true;
+            AddBridesmaidAccessory(number, string.Empty);
         }
 
         private void addGroomsmenAccessoryButton_Click(object sender, RoutedEventArgs e)
         {
             var number = FindFirstFreeNumber(GroomsmenAccessories);
 
-            var newAccessory = new ElementControl(number, string.Empty);
-            GroomsmenAccessories.Add(number, string.Empty);
-            newAccessory.removeElementButton.Click += removeGroomsmenAccessoryButton_Click;
-            spGroomsmenAccessories.Children.Add(newAccessory);
-            GroomsmenAccessoriesChanged = true;
+            AddGroomsmanAccessory(number, string.Empty);
         }
 
         private void removeBridesmaidsAccessoryButton_Click(object sender, RoutedEventArgs e)
