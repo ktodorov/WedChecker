@@ -144,12 +144,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                     for (int i = 0; i < size; i++)
                     {
                         var clothing = reader.ReadString();
-                        BridesmaidsClothes.Add(i, clothing);
-                    }
-
-                    foreach (var clothing in BridesmaidsClothes)
-                    {
-                        spBridesmaidsClothes.Children.Add(new ElementControl(clothing.Key, clothing.Value));
+                        AddBridesmaidClothing(i, clothing);
                     }
                 }
                 else if (type == "GroomsmenClothes")
@@ -157,17 +152,40 @@ namespace WedChecker.UserControls.Tasks.Planings
                     for (int i = 0; i < size; i++)
                     {
                         var clothing = reader.ReadString();
-                        GroomsmenClothes.Add(i, clothing);
-                    }
-
-                    foreach (var clothing in GroomsmenClothes)
-                    {
-                        spGroomsmenClothes.Children.Add(new ElementControl(clothing.Key, clothing.Value));
+                        AddGroomsmanClothing(i, clothing);
                     }
                 }
             }
 
             DisplayValues();
+        }
+
+        private void AddGroomsmanClothing(int number, string title)
+        {
+            if (!GroomsmenClothes.ContainsKey(number) ||
+                GroomsmenClothes[number] != title)
+            {
+                GroomsmenClothes[number] = title;
+            }
+
+            var newClothing = new ElementControl(number, title);
+            newClothing.removeElementButton.Click += removeGroomsmenClothingButton_Click;
+            spGroomsmenClothes.Children.Add(newClothing);
+            GroomsmenClothesChanged = true;
+        }
+
+        private void AddBridesmaidClothing(int number, string title)
+        {
+            if (!BridesmaidsClothes.ContainsKey(number) ||
+                BridesmaidsClothes[number] != title)
+            {
+                BridesmaidsClothes[number] = title;
+            }
+
+            var newClothing = new ElementControl(number, title);
+            newClothing.removeElementButton.Click += removeBridesmaidsClothingButton_Click;
+            spBridesmaidsClothes.Children.Add(newClothing);
+            BridesmaidsClothesChanged = true;
         }
 
         public override async Task SubmitValues()
@@ -187,7 +205,15 @@ namespace WedChecker.UserControls.Tasks.Planings
 
             if (BridesmaidsClothesChanged || GroomsmenClothesChanged)
             {
-                await AppData.InsertGlobalValue(TaskData.Tasks.BridesmaidsGroomsmenClothes.ToString());
+                var allClothes = new List<string>();
+                allClothes.Add($"StartBridesmaidsClothes{AppData.GLOBAL_SEPARATOR}");
+                allClothes.AddRange(bridesmaidsElementChildren.Select(a => a.Title).ToList());
+                allClothes.Add($"EndBridesmaidsClothes{AppData.GLOBAL_SEPARATOR}");
+                allClothes.Add($"StartGroomsmenClothes{AppData.GLOBAL_SEPARATOR}");
+                allClothes.AddRange(groomsmenElementChildren.Select(a => a.Title).ToList());
+                allClothes.Add($"EndGroomsmenClothes{AppData.GLOBAL_SEPARATOR}");
+
+                await AppData.InsertGlobalValues(TaskData.Tasks.BridesmaidsGroomsmenClothes.ToString(), allClothes);
             }
         }
 
@@ -230,22 +256,14 @@ namespace WedChecker.UserControls.Tasks.Planings
         {
             var number = FindFirstFreeNumber(BridesmaidsClothes);
 
-            var newClothing = new ElementControl(number, string.Empty);
-            BridesmaidsClothes.Add(number, string.Empty);
-            newClothing.removeElementButton.Click += removeBridesmaidsClothingButton_Click;
-            spBridesmaidsClothes.Children.Add(newClothing);
-            BridesmaidsClothesChanged = true;
+            AddBridesmaidClothing(number, string.Empty);
         }
 
         private void addGroomsmenClothingButton_Click(object sender, RoutedEventArgs e)
         {
             var number = FindFirstFreeNumber(GroomsmenClothes);
 
-            var newClothing = new ElementControl(number, string.Empty);
-            GroomsmenClothes.Add(number, string.Empty);
-            newClothing.removeElementButton.Click += removeGroomsmenClothingButton_Click;
-            spGroomsmenClothes.Children.Add(newClothing);
-            GroomsmenClothesChanged = true;
+            AddGroomsmanClothing(number, string.Empty);
         }
 
         private void removeBridesmaidsClothingButton_Click(object sender, RoutedEventArgs e)

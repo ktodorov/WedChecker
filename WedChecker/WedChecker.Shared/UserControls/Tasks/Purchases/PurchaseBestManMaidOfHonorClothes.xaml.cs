@@ -75,7 +75,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
         {
             get
             {
-                return "Best man and maid of honor accessories";
+                return "Best man and maid of honor clothes";
             }
         }
 
