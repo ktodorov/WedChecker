@@ -97,12 +97,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             for (int i = 0; i < size; i++)
             {
                 var dish = reader.ReadString();
-                Dishes.Add(i, dish);
-            }
-
-            foreach (var dish in Dishes)
-            {
-                AddDish(new DishControl(dish.Key, dish.Value));
+                AddDish(i, dish);
             }
 
             DisplayValues();
@@ -110,17 +105,16 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override async Task SubmitValues()
         {
-            foreach (var dish in spDishes.Children.OfType<DishControl>())
+            var dishes = spDishes.Children.OfType<DishControl>();
+            foreach (var dish in dishes)
             {
-                if (dish.tbDishName.Visibility == Visibility.Visible) // Then its in edit mode
-                {
-                    SaveDish(dish);
-                }
+                SaveDish(dish);
             }
 
             if (DishesChanged)
             {
-                await AppData.InsertGlobalValue(TaskData.Tasks.RestaurantFood.ToString());
+                var foodTitles = dishes.Select(a => a.Title).ToList();
+                await AppData.InsertGlobalValues(TaskData.Tasks.RestaurantFood.ToString(), foodTitles);
             }
         }
 
@@ -153,19 +147,24 @@ namespace WedChecker.UserControls.Tasks.Planings
         {
             var number = FindFirstFreeNumber();
 
-            var newDish = new DishControl(number, string.Empty);
-
-            AddDish(newDish);
-            DishesChanged = true;
+            AddDish(number, string.Empty);
         }
 
-        private void AddDish(DishControl newDish)
+        private void AddDish(int number, string title)
         {
+            if (!Dishes.ContainsKey(number) || Dishes[number] != title)
+            {
+                Dishes[number] = title;
+            }
+
+            var newDish = new DishControl(number, title);
             newDish.saveDishButton.Click += saveDishButton_Click;
             newDish.removeDishButton.Click += removeDishButton_Click;
             newDish.upDishButton.Click += upDishButton_Click;
             newDish.downDishButton.Click += downDishButton_Click;
             spDishes.Children.Insert(newDish.Number, newDish);
+
+            DishesChanged = true;
         }
 
         private void saveDishButton_Click(object sender, RoutedEventArgs e)
@@ -223,12 +222,8 @@ namespace WedChecker.UserControls.Tasks.Planings
             spDishes.Children.Remove(spDishes.Children.OfType<DishControl>().FirstOrDefault(d => d.Number == dish.Number));
             spDishes.Children.Remove(spDishes.Children.OfType<DishControl>().FirstOrDefault(d => d.Number == previousDish.Key));
 
-            Dishes.Add(dishNumber, previousDish.Value);
-            Dishes.Add(previousDish.Key, dish.Title);
-            AddDish(new DishControl(previousDish.Key, dish.Title));
-            AddDish(new DishControl(dishNumber, previousDish.Value));
-
-            DishesChanged = true;
+            AddDish(previousDish.Key, dish.Title);
+            AddDish(dishNumber, previousDish.Value);
         }
 
         private void downDishButton_Click(object sender, RoutedEventArgs e)
@@ -249,12 +244,8 @@ namespace WedChecker.UserControls.Tasks.Planings
             spDishes.Children.Remove(spDishes.Children.OfType<DishControl>().FirstOrDefault(d => d.Number == dish.Number));
             spDishes.Children.Remove(spDishes.Children.OfType<DishControl>().FirstOrDefault(d => d.Number == nextDish.Key));
 
-            Dishes.Add(dishNumber, nextDish.Value);
-            Dishes.Add(nextDish.Key, dish.Title);
-            AddDish(new DishControl(dishNumber, nextDish.Value));
-            AddDish(new DishControl(nextDish.Key, dish.Title));
-
-            DishesChanged = true;
+            AddDish(dishNumber, nextDish.Value);
+            AddDish(nextDish.Key, dish.Title);
         }
     }
 }

@@ -26,8 +26,7 @@ namespace WedChecker.UserControls
 
         public void DisplayValues()
         {
-            Title = tbDishName.Text;
-            tbDisplayDishName.Text = tbDishName.Text;
+            tbDisplayDishName.Text = Title;
             tbDishName.Visibility = Visibility.Collapsed;
             tbDisplayDishName.Visibility = Visibility.Visible;
             removeDishButton.Visibility = Visibility.Collapsed;
@@ -38,14 +37,18 @@ namespace WedChecker.UserControls
 
         public void EditValues()
         {
-            Title = tbDisplayDishName.Text;
-            tbDishName.Text = tbDisplayDishName.Text;
+            tbDishName.Text = Title;
             tbDishName.Visibility = Visibility.Visible;
             tbDisplayDishName.Visibility = Visibility.Collapsed;
             removeDishButton.Visibility = Visibility.Visible;
             saveDishButton.Visibility = Visibility.Visible;
             upDishButton.Visibility = Visibility.Visible;
             downDishButton.Visibility = Visibility.Visible;
+        }
+
+        private void tbDishName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Title = tbDishName.Text;
         }
     }
 }

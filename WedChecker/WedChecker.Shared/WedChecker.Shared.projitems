@@ -147,6 +147,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Purchases\PurchaseInvitations.xaml.cs">
       <DependentUpon>PurchaseInvitations.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Purchases\PurchaseRestaurantFood.xaml.cs">
+      <DependentUpon>PurchaseRestaurantFood.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\ToggleControl.xaml.cs">
       <DependentUpon>ToggleControl.xaml</DependentUpon>
     </Compile>
@@ -320,6 +323,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Purchases\PurchaseInvitations.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Purchases\PurchaseRestaurantFood.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
