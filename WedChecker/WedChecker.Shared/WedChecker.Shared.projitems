@@ -138,6 +138,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Purchases\PurchaseBAGAccessories.xaml.cs">
       <DependentUpon>PurchaseBAGAccessories.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Purchases\PurchaseFreshFlowers.xaml.cs">
+      <DependentUpon>PurchaseFreshFlowers.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Purchases\PurchaseGroomAccessories.xaml.cs">
       <DependentUpon>PurchaseGroomAccessories.xaml</DependentUpon>
     </Compile>
@@ -311,6 +314,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Purchases\PurchaseBAGAccessories.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Purchases\PurchaseFreshFlowers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -174,7 +174,7 @@
                     <Button Name="PurchaseBAGAccessories" Click="TaskItem_Clicked">Purchase bridesmaids and groomsmen accessories</Button>
                     <Button Name="PurchaseBAGClothes" Click="TaskItem_Clicked">Purchase bridesmaids and groomsmen clothes</Button>
                     <Button Name="PurchaseRestaurantFood" Click="TaskItem_Clicked">Purchase restaurant food</Button>
-                    <Button>Purchase fresh flowers</Button>
+                    <Button Name="PurchaseFreshFlowers" Click="TaskItem_Clicked">Purchase fresh flowers</Button>
                     <Button>Purchase rings</Button>
                     <Button>Purchase cake</Button>
                     <TextBlock Text="Booking" FontSize="25"/>
