@@ -1,0 +1,15 @@
+﻿<we:BaseTaskControl
+    x:Class="WedChecker.UserControls.Tasks.Purchases.BookMusicLayout"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WedChecker.UserControls.Tasks.Bookings"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:we="using:WedChecker.UserControls.Tasks"
+    xmlns:uc="using:WedChecker.UserControls"
+    mc:Ignorable="d">
+
+    <StackPanel Name="mainPanel" Orientation="Vertical" HorizontalAlignment="Stretch">
+        <uc:ToggleControl x:Name="musicLayoutBookedToggle" Title="Booked"/>
+    </StackPanel>
+</we:BaseTaskControl>
