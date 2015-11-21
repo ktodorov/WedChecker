@@ -182,7 +182,7 @@
                     <Button Name="BookPhotographer" Click="TaskItem_Clicked">Book photographer</Button>
                     <Button Name="BookHoneymoonDestination" Click="TaskItem_Clicked">Book honeymoon destination</Button>
                     <Button>Book guests accomodation</Button>
-                    <Button>Book hairdresser and makeup artist appointments</Button>
+                    <Button Name="BookHairdresserMakeupArtistAppointments" Click="TaskItem_Clicked">Book hairdresser and makeup artist appointments</Button>
                     <Button>Send invitations</Button>
                     <Button>Restaurant accomodation plan</Button>
                 </ItemsControl.Items>
