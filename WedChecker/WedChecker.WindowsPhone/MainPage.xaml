@@ -162,6 +162,7 @@
                     <Button Name="AccomodationPlaces" Click="TaskItem_Clicked">Accomodation places</Button>
                     <Button Name="ForeignGuestsAccomodation" Click="TaskItem_Clicked">Foreign guests accomodation</Button>
                     <Button Name="HairdresserMakeupArtist" Click="TaskItem_Clicked">Hairdresser and makeup artist</Button>
+                    <Button Name="RestaurantAccomodationPlan" Click="TaskItem_Clicked">Restaurant accomodation plan</Button>
                     
                     <TextBlock Text="Purchasing" FontSize="25"/>
                     <Button Name="PurchaseInvitations" Click="TaskItem_Clicked">Purchase invitations</Button>
@@ -185,7 +186,6 @@
                     <Button Name="BookGuestsAccomodation" Click="TaskItem_Clicked">Book guests accomodation</Button>
                     <Button Name="BookHairdresserMakeupArtistAppointments" Click="TaskItem_Clicked">Book hairdresser and makeup artist appointments</Button>
                     <Button Name="SendInvitations" Click="TaskItem_Clicked">Send invitations</Button>
-                    <Button>Restaurant accomodation plan</Button>
                 </ItemsControl.Items>
             </ItemsControl>
         </ScrollViewer>

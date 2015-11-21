@@ -126,6 +126,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\Restaurant.xaml.cs">
       <DependentUpon>Restaurant.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\RestaurantAccomodationPlan.xaml.cs">
+      <DependentUpon>RestaurantAccomodationPlan.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\RestaurantFood.xaml.cs">
       <DependentUpon>RestaurantFood.xaml</DependentUpon>
     </Compile>
@@ -322,6 +325,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\Restaurant.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\RestaurantAccomodationPlan.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

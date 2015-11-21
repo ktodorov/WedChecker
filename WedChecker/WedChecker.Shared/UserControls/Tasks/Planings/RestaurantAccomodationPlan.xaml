@@ -1,0 +1,29 @@
+﻿<we:BaseTaskControl
+    x:Class="WedChecker.UserControls.Tasks.Planings.RestaurantAccomodationPlan"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WedChecker.UserControls.Tasks.Planings"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:we="using:WedChecker.UserControls.Tasks">
+    <StackPanel Name="spMain"  Orientation="Vertical">
+        <StackPanel Name="spTablesCount">
+            <TextBlock Text="How many tables do you want to have?"
+                       Style="{StaticResource WedCheckerDisplayTextBlockStyle}"/>
+            <TextBox Name="tbTablesCount" InputScope="Number" Width="100"
+                 Style="{StaticResource WedCheckerFormTextBoxStyle}" />
+            <Button Name="confirmTablesCountButton" Content="Confirm"
+                Click="confirmTablesCountButton_Click" HorizontalAlignment="Center"
+                Style="{StaticResource ButtonClearStyle}"/>
+        </StackPanel>
+        
+        <StackPanel Name="spTables"  Orientation="Vertical" Visibility="Collapsed">
+            <Button Name="backToTablesCountButton" Content="Back to tables count"
+                    Click="backToTablesCountButton_Click" HorizontalAlignment="Center"
+                    Width="250"
+                    Style="{StaticResource ButtonClearStyle}"/>
+
+            <StackPanel Name="storedGuestsPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed"/>
+        </StackPanel>
+    </StackPanel>
+</we:BaseTaskControl>
