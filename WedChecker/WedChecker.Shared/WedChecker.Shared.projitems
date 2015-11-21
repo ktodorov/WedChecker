@@ -51,6 +51,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Bookings\BookPhotographer.xaml.cs">
       <DependentUpon>BookPhotographer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Bookings\BookGuestsAccomodation.xaml.cs">
+      <DependentUpon>BookGuestsAccomodation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Bookings\SendInvitations.xaml.cs">
       <DependentUpon>SendInvitations.xaml</DependentUpon>
     </Compile>
@@ -219,6 +222,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Bookings\BookPhotographer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Bookings\BookGuestsAccomodation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

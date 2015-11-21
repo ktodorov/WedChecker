@@ -162,7 +162,7 @@
                     <Button Name="AccomodationPlaces" Click="TaskItem_Clicked">Accomodation places</Button>
                     <Button Name="ForeignGuestsAccomodation" Click="TaskItem_Clicked">Foreign guests accomodation</Button>
                     <Button Name="HairdresserMakeupArtist" Click="TaskItem_Clicked">Hairdresser and makeup artist</Button>
-                    <Button>Invitations</Button>
+                    
                     <TextBlock Text="Purchasing" FontSize="25"/>
                     <Button Name="PurchaseInvitations" Click="TaskItem_Clicked">Purchase invitations</Button>
                     <Button Name="PurchaseBrideAccessories" Click="TaskItem_Clicked">Purchase bride accessories</Button>
@@ -177,11 +177,12 @@
                     <Button Name="PurchaseFreshFlowers" Click="TaskItem_Clicked">Purchase fresh flowers</Button>
                     <Button Name="PurchaseRings" Click="TaskItem_Clicked">Purchase rings</Button>
                     <Button Name="PurchaseCake" Click="TaskItem_Clicked">Purchase cake</Button>
+                    
                     <TextBlock Text="Booking" FontSize="25"/>
                     <Button Name="BookMusicLayout" Click="TaskItem_Clicked">Book music layout</Button>
                     <Button Name="BookPhotographer" Click="TaskItem_Clicked">Book photographer</Button>
                     <Button Name="BookHoneymoonDestination" Click="TaskItem_Clicked">Book honeymoon destination</Button>
-                    <Button>Book guests accomodation</Button>
+                    <Button Name="BookGuestsAccomodation" Click="TaskItem_Clicked">Book guests accomodation</Button>
                     <Button Name="BookHairdresserMakeupArtistAppointments" Click="TaskItem_Clicked">Book hairdresser and makeup artist appointments</Button>
                     <Button Name="SendInvitations" Click="TaskItem_Clicked">Send invitations</Button>
                     <Button>Restaurant accomodation plan</Button>
