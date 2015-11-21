@@ -17,16 +17,16 @@ using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace WedChecker.UserControls.Tasks.Purchases
+namespace WedChecker.UserControls.Tasks.Bookings
 {
-    public sealed partial class PurchaseCake : BaseTaskControl
+    public sealed partial class BookPhotographer : BaseTaskControl
     {
 
         public override string TaskName
         {
             get
             {
-                return "Wedding cake";
+                return "Photographer";
             }
         }
 
@@ -34,7 +34,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
         {
             get
             {
-                return "Have you purchased your cake yet?";
+                return "Have you booked the photographer yet?";
             }
         }
 
@@ -42,53 +42,53 @@ namespace WedChecker.UserControls.Tasks.Purchases
         {
             get
             {
-                return "This is what you have saved about the cake so far";
+                return "This is what you have saved about the photographer so far";
             }
         }
 
-        public PurchaseCake()
+        public BookPhotographer()
         {
             this.InitializeComponent();
         }
 
-        public PurchaseCake(bool purchased)
+        public BookPhotographer(bool booked)
         {
             this.InitializeComponent();
 
-            cakePurchasedToggle.Toggled = true;
+            photographerBookedToggle.Toggled = booked;
         }
 
         public override void DisplayValues()
         {
-            cakePurchasedToggle.DisplayValues();
+            photographerBookedToggle.DisplayValues();
         }
 
         public override void EditValues()
         {
-            cakePurchasedToggle.EditValues();
+            photographerBookedToggle.EditValues();
         }
 
         public override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskData.Tasks.PurchaseCake.ToString());
+            writer.Write(TaskData.Tasks.BookPhotographer.ToString());
 
             var toggles = mainPanel.Children.OfType<ToggleControl>();
             writer.Write(toggles.Count());
-            cakePurchasedToggle.Serialize(writer);
+            photographerBookedToggle.Serialize(writer);
         }
 
         public override void Deserialize(BinaryReader reader)
         {
             var count = reader.ReadInt32();
 
-            cakePurchasedToggle.Deserialize(reader);
+            photographerBookedToggle.Deserialize(reader);
 
             DisplayValues();
         }
 
         public override async Task SubmitValues()
         {
-            await AppData.InsertGlobalValue(TaskData.Tasks.PurchaseCake.ToString());
+            await AppData.InsertGlobalValue(TaskData.Tasks.BookPhotographer.ToString());
         }
     }
 }

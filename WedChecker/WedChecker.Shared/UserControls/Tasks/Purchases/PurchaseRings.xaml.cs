@@ -19,14 +19,14 @@ using Windows.UI.Xaml.Navigation;
 
 namespace WedChecker.UserControls.Tasks.Purchases
 {
-    public sealed partial class PurchaseFreshFlowers : BaseTaskControl
+    public sealed partial class PurchaseRings : BaseTaskControl
     {
 
         public override string TaskName
         {
             get
             {
-                return "Fresh flowers";
+                return "Wedding rings";
             }
         }
 
@@ -34,7 +34,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
         {
             get
             {
-                return "Have you purchased your flowers yet?";
+                return "Have you purchased your rings yet?";
             }
         }
 
@@ -42,53 +42,53 @@ namespace WedChecker.UserControls.Tasks.Purchases
         {
             get
             {
-                return "This is what you have saved about the flowers so far";
+                return "This is what you have saved about the rings so far";
             }
         }
 
-        public PurchaseFreshFlowers()
+        public PurchaseRings()
         {
             this.InitializeComponent();
         }
 
-        public PurchaseFreshFlowers(bool purchased)
+        public PurchaseRings(bool purchased)
         {
             this.InitializeComponent();
 
-            flowersPurchasedToggle.Toggled = true;
+            ringsPurchasedToggle.Toggled = true;
         }
 
         public override void DisplayValues()
         {
-            flowersPurchasedToggle.DisplayValues();
+            ringsPurchasedToggle.DisplayValues();
         }
 
         public override void EditValues()
         {
-            flowersPurchasedToggle.EditValues();
+            ringsPurchasedToggle.EditValues();
         }
 
         public override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskData.Tasks.PurchaseFreshFlowers.ToString());
+            writer.Write(TaskData.Tasks.PurchaseRings.ToString());
 
             var toggles = mainPanel.Children.OfType<ToggleControl>();
             writer.Write(toggles.Count());
-            flowersPurchasedToggle.Serialize(writer);
+            ringsPurchasedToggle.Serialize(writer);
         }
 
         public override void Deserialize(BinaryReader reader)
         {
             var count = reader.ReadInt32();
 
-            flowersPurchasedToggle.Deserialize(reader);
+            ringsPurchasedToggle.Deserialize(reader);
 
             DisplayValues();
         }
 
         public override async Task SubmitValues()
         {
-            await AppData.InsertGlobalValue(TaskData.Tasks.PurchaseFreshFlowers.ToString());
+            await AppData.InsertGlobalValue(TaskData.Tasks.PurchaseRings.ToString());
         }
     }
 }

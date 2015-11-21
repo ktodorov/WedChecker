@@ -17,7 +17,7 @@ using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace WedChecker.UserControls.Tasks.Purchases
+namespace WedChecker.UserControls.Tasks.Bookings
 {
     public sealed partial class BookMusicLayout : BaseTaskControl
     {

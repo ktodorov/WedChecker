@@ -39,6 +39,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\BaseTaskControl.xaml.cs">
       <DependentUpon>BaseTaskControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Bookings\BookMusicLayout.xaml.cs">
+      <DependentUpon>BookMusicLayout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Bookings\BookPhotographer.xaml.cs">
+      <DependentUpon>BookPhotographer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Planings\AccomodationPlaces.xaml.cs">
       <DependentUpon>AccomodationPlaces.xaml</DependentUpon>
     </Compile>
@@ -138,6 +144,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Purchases\PurchaseBAGAccessories.xaml.cs">
       <DependentUpon>PurchaseBAGAccessories.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Purchases\PurchaseCake.xaml.cs">
+      <DependentUpon>PurchaseCake.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Purchases\PurchaseFreshFlowers.xaml.cs">
       <DependentUpon>PurchaseFreshFlowers.xaml</DependentUpon>
     </Compile>
@@ -152,6 +161,9 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Purchases\PurchaseRestaurantFood.xaml.cs">
       <DependentUpon>PurchaseRestaurantFood.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Purchases\PurchaseRings.xaml.cs">
+      <DependentUpon>PurchaseRings.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\ToggleControl.xaml.cs">
       <DependentUpon>ToggleControl.xaml</DependentUpon>
@@ -182,6 +194,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\BaseTaskControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Bookings\BookMusicLayout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Bookings\BookPhotographer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -317,6 +337,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Purchases\PurchaseCake.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Purchases\PurchaseFreshFlowers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -337,6 +361,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Purchases\PurchaseRings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)UserControls\ToggleControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -345,8 +373,5 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Bookings\" />
   </ItemGroup>
 </Project>

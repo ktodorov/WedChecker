@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Windows.Devices.Geolocation;
-using System.Collections.Generic;
-
-#if WINDOWS_APP
+﻿#if WINDOWS_APP
 using Bing.Maps;
+using System.Collections.Generic;
+using Windows.Devices.Geolocation;
 #endif
 
 

@@ -1,5 +1,5 @@
 ﻿<we:BaseTaskControl
-    x:Class="WedChecker.UserControls.Tasks.Purchases.PurchaseRings"
+    x:Class="WedChecker.UserControls.Tasks.Purchases.PurchaseCake"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:WedChecker.UserControls.Tasks.Purchases"
@@ -10,6 +10,6 @@
     mc:Ignorable="d">
 
     <StackPanel Name="mainPanel" Orientation="Vertical" HorizontalAlignment="Stretch">
-        <uc:ToggleControl x:Name="ringsPurchasedToggle" Title="Purchased"/>
+        <uc:ToggleControl x:Name="cakePurchasedToggle" Title="Purchased"/>
     </StackPanel>
 </we:BaseTaskControl>

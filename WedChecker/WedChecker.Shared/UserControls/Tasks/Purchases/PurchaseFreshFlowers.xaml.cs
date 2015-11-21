@@ -26,7 +26,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
         {
             get
             {
-                return "Fresh flowers";
+                return "Flowers";
             }
         }
 

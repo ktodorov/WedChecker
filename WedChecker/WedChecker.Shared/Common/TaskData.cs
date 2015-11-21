@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using WedChecker.UserControls.Tasks;
-using WedChecker.UserControls.Tasks.Planings;
 using Windows.ApplicationModel.Contacts;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -47,6 +46,7 @@ namespace WedChecker.Common
 #endif
         }
 
+#if WINDOWS_PHONE_APP
         private static string GetPivotNameFromType(Type taskType, Pivot mainPivot = null)
         {
             var result = string.Empty;
@@ -82,6 +82,8 @@ namespace WedChecker.Common
 
             return result;
         }
+
+#endif
 
         public static BaseTaskControl GetTaskControlFromString(string taskControlName)
         {
