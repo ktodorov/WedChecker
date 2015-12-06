@@ -22,7 +22,7 @@ namespace WedChecker.Common
             taskControl = CreateTaskControl(type, value);
             AppData.InsertSerializableTask(taskControl);
 
-            InsertTaskControl(currentPage, type, taskControl);
+            InsertTaskControl(currentPage, type, taskControl, true);
         }
 
         public static void InsertTaskControl(Page currentPage, Type type, BaseTaskControl taskControl, bool isNew = true)

@@ -166,7 +166,7 @@ namespace WedChecker
             foreach (var populatedControl in populatedControls)
             {
                 var type = populatedControl.GetType();
-                TaskData.InsertTaskControl(this, type, populatedControl);
+                TaskData.InsertTaskControl(this, type, populatedControl, false);
                 //spPlanings.Children.Add(new PopulatedTask(populatedControl, false));
                 AppData.InsertSerializableTask(populatedControl);
             }

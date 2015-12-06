@@ -22,13 +22,14 @@
                 <ColumnDefinition MaxWidth="50"/>
             </Grid.ColumnDefinitions>
 
-            <Button Name="buttonTaskName" VerticalAlignment="Center" FontFamily="Segoe UI" 
-                    FontSize="30" FontWeight="Light"
-                HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-                    BorderThickness="0" Click="buttonTaskName_Click">
-                <TextBlock Text="Task Name" TextWrapping="WrapWholeWords"/>
+            <Button Name="buttonTaskName" VerticalAlignment="Center"
+                HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                    BorderThickness="0" Click="buttonTaskName_Click" Margin="10, 0">
+                <TextBlock Name="tbTaskName" Text="Task name" TextWrapping="WrapWholeWords"
+                            FontFamily="Segoe UI" FontSize="30" FontWeight="Light" TextAlignment="Center"
+                           HorizontalAlignment="Center"/>
             </Button>
-            
+
             <Button Name="editTask" Content="&#xE104;" FontFamily="Segoe UI Symbol" FontSize="30"
                 Height="50" Width="50" BorderThickness="0" Foreground="{StaticResource PhoneAccentBrush}"
                 VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" Click="editTask_Click">
@@ -36,13 +37,13 @@
 
             <TextBlock Name="tbTaskHeader" Style="{StaticResource DisplayTextBlockStyle}" Grid.Row="1" Grid.ColumnSpan="2"
                        TextAlignment="Center" Margin="0"/>
-            
+
             <Border Name="borderSplitter" Style="{StaticResource WedCheckerBorderSplitter}" Grid.Row="2" 
                     Grid.ColumnSpan="2" Margin="15, 5"/>
-            
+
             <StackPanel Name="spConnectedControl" Grid.Row="3" Grid.ColumnSpan="2">
             </StackPanel>
-            
+
             <Button Name="displayTask" Content="SUBMIT" FontFamily="Segoe UI" FontWeight="Light"
                     FontSize="30" Visibility="Collapsed" BorderThickness="0"
                     Foreground="{StaticResource PhoneAccentBrush}" Height="50"

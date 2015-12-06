@@ -38,7 +38,7 @@ namespace WedChecker.UserControls.Tasks
             this.InitializeComponent();
             ConnectedTaskControl = control;
             spConnectedControl.Children.Add(ConnectedTaskControl);
-            buttonTaskName.Content = control.TaskName.ToUpper();
+            tbTaskName.Text = control.TaskName.ToUpper();
             SetBackgroundColor();
 
             if (!isNew)
