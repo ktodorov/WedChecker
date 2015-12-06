@@ -6,21 +6,31 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:we="using:WedChecker.UserControls.Tasks">
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Button Name="selectContacts" Content="Select guests" Style="{StaticResource ButtonClearStyle}"
+        <StackPanel Name="editPanel" Grid.Row="0" Orientation="Vertical">
+            <TextBlock Text="Select guests from your contact list and let us import them here" 
+                   Style="{StaticResource WedCheckerDisplayTextBlockStyle}"/>
+            <Button Name="selectContacts" Content="Select" Style="{StaticResource ButtonClearStyle}"
                 VerticalAlignment="Center" HorizontalAlignment="Center"
-                Click="selectContacts_Click" Grid.Row="0" Width="200"/>
-
+                Click="selectContacts_Click" Width="200"/>
+            <TextBlock Text="Or..." 
+                   Style="{StaticResource WedCheckerDisplayTextBlockStyle}"/>
+            <TextBlock Text="Add new contact manually" 
+                   Style="{StaticResource WedCheckerDisplayTextBlockStyle}"/>
+            <Button Name="addNewContactButton" Content="Add new" Style="{StaticResource ButtonClearStyle}"
+                VerticalAlignment="Center" HorizontalAlignment="Center"
+                Click="addNewContactButton_Click" Width="200"/>
+        </StackPanel>
         <TextBlock Name="tbGuestsAdded" Grid.Row="1" TextAlignment="Center" Margin="0, 0, 0, 10"
                    Style="{StaticResource ControlHeaderTextBlockStyle}"/>
-        
-        <StackPanel Name="spContacts" Margin="15, 0, 0, 0" Grid.Row="2">
+
+        <StackPanel Name="spContacts" Grid.Row="2">
         </StackPanel>
     </Grid>
 </we:BaseTaskControl>

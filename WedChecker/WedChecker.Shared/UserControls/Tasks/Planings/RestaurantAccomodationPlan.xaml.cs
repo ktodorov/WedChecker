@@ -274,7 +274,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                 }
 
                 var guestControl = new ContactControl(guest, alongWith.ToString(), false);
-                guestControl.deleteButton.Click += deleteGuestFromTableButton_Click;
+                guestControl.OnDelete = deleteGuestFromTableButton_Click;
 
                 var tableNode = spTables.Children.OfType<TreeNodeControl>().Where(tn => tn.NodeName == table).FirstOrDefault();
 
@@ -299,7 +299,7 @@ namespace WedChecker.UserControls.Tasks.Planings
         void deleteGuestFromTableButton_Click(object sender, RoutedEventArgs e)
         {
             var contactControl = ((sender as Button).Parent as Grid).Parent as ContactControl;
-            DeleteGuestFromTable(contactControl.tbId.Text);
+            DeleteGuestFromTable(contactControl.StoredContact.Id);
         }
 
         private async void DeleteGuestFromTable(string id)

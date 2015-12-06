@@ -4,6 +4,8 @@ using System.Text;
 using System.Threading.Tasks;
 using WedChecker.UserControls.Tasks;
 using Windows.Storage;
+using Windows.UI;
+using Windows.UI.Xaml.Media;
 
 namespace WedChecker.Common
 {
@@ -91,6 +93,13 @@ namespace WedChecker.Common
             }
 
             return populatedObjects;
+        }
+
+        public static Color GetPhoneAccentBrush()
+        {
+            var phoneAccentBrush = new SolidColorBrush((App.Current.Resources["PhoneAccentBrush"] as SolidColorBrush).Color);
+
+            return phoneAccentBrush.Color;
         }
     }
 }

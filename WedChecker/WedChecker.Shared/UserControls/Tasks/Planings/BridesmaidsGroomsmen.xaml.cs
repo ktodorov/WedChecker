@@ -64,7 +64,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             foreach (var bridesmaid in bridesmaids)
             {
                 var bridesmaidControl = new ContactControl(bridesmaid);
-                bridesmaidControl.deleteButton.Click += deleteBridesmaidButton_Click;
+                bridesmaidControl.OnDelete = deleteBridesmaidButton_Click;
                 bridesmaidControl.Visibility = Visibility.Visible;
                 spBridesmaids.Children.Add(bridesmaidControl);
             }
@@ -72,7 +72,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             foreach (var groomsman in groomsmen)
             {
                 var groomsmanControl = new ContactControl(groomsman);
-                groomsmanControl.deleteButton.Click += deleteGroomsmanButton_Click;
+                groomsmanControl.OnDelete = deleteGroomsmanButton_Click;
                 groomsmanControl.Visibility = Visibility.Visible;
                 spGroomsmen.Children.Add(groomsmanControl);
             }
@@ -145,7 +145,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                 Bridesmaids.Add(contact);
 
                 var contactControl = new ContactControl(contact);
-                contactControl.deleteButton.Click += deleteBridesmaidButton_Click;
+                contactControl.OnDelete = deleteBridesmaidButton_Click;
                 contactControl.Visibility = Visibility.Visible;
                 spBridesmaids.Children.Add(contactControl);
             }
@@ -160,7 +160,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                 Groomsmen.Add(contact);
 
                 var contactControl = new ContactControl(contact);
-                contactControl.deleteButton.Click += deleteGroomsmanButton_Click;
+                contactControl.OnDelete = deleteGroomsmanButton_Click;
                 contactControl.Visibility = Visibility.Visible;
                 spGroomsmen.Children.Add(contactControl);
             }
@@ -176,13 +176,13 @@ namespace WedChecker.UserControls.Tasks.Planings
         void deleteBridesmaidButton_Click(object sender, RoutedEventArgs e)
         {
             var contactControl = ((sender as Button).Parent as Grid).Parent as ContactControl;
-            DeleteBridesmaid(contactControl.tbId.Text);
+            DeleteBridesmaid(contactControl.StoredContact.Id);
         }
 
         void deleteGroomsmanButton_Click(object sender, RoutedEventArgs e)
         {
             var contactControl = ((sender as Button).Parent as Grid).Parent as ContactControl;
-            DeleteGroomsman(contactControl.tbId.Text);
+            DeleteGroomsman(contactControl.StoredContact.Id);
         }
 
         private async void DeleteBridesmaid(string id)
@@ -194,7 +194,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                 Bridesmaids.Remove(bridesmaidToRemove);
             }
 
-            var controlToRemove = spBridesmaids.Children.OfType<ContactControl>().FirstOrDefault(c => c.tbId.Text == bridesmaidToRemove.Id);
+            var controlToRemove = spBridesmaids.Children.OfType<ContactControl>().FirstOrDefault(c => c.StoredContact.Id == bridesmaidToRemove.Id);
             if (controlToRemove != null)
             {
                 spBridesmaids.Children.Remove(controlToRemove);
@@ -212,7 +212,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                 Groomsmen.Remove(groomsmanToRemove);
             }
 
-            var controlToRemove = spGroomsmen.Children.OfType<ContactControl>().FirstOrDefault(c => c.tbId.Text == groomsmanToRemove.Id);
+            var controlToRemove = spGroomsmen.Children.OfType<ContactControl>().FirstOrDefault(c => c.StoredContact.Id == groomsmanToRemove.Id);
             if (controlToRemove != null)
             {
                 spGroomsmen.Children.Remove(controlToRemove);
@@ -238,7 +238,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                 {
                     Bridesmaids.Add(contact);
                     var contactControl = new ContactControl(contact);
-                    contactControl.deleteButton.Click += deleteBridesmaidButton_Click;
+                    contactControl.OnDelete = deleteBridesmaidButton_Click;
 
                     spBridesmaids.Children.Add(contactControl);
                 }
@@ -263,7 +263,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                 {
                     Groomsmen.Add(contact);
                     var contactControl = new ContactControl(contact);
-                    contactControl.deleteButton.Click += deleteGroomsmanButton_Click;
+                    contactControl.OnDelete = deleteGroomsmanButton_Click;
 
                     spGroomsmen.Children.Add(contactControl);
                 }

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using WedChecker.Common;
 using Windows.ApplicationModel.Contacts;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -23,6 +26,15 @@ namespace WedChecker.UserControls
                 return _storedContact;
             }
         }
+
+        public RoutedEventHandler OnDelete
+        {
+            set
+            {
+                deleteButton.Click += value;
+            }
+        }
+
         public bool IsStored
         {
             get
@@ -36,16 +48,36 @@ namespace WedChecker.UserControls
             }
         }
 
+        private bool IsEditable = false;
         private bool EditAlongWith = true;
 
         public ContactControl()
         {
             this.InitializeComponent();
+
+            SetBackground();
         }
 
-        public ContactControl(Contact storedContact, string alongWith = null, bool editAlongWith = true)
+        public ContactControl(bool isEditable)
         {
             this.InitializeComponent();
+
+            IsEditable = isEditable;
+
+            if (IsEditable)
+            {
+                EditValues();
+            }
+
+            SetBackground();
+        }
+
+        public ContactControl(Contact storedContact, string alongWith = null, bool editAlongWith = true, bool isEditable = false)
+        {
+            this.InitializeComponent();
+
+            IsEditable = isEditable;
+            EditAlongWith = editAlongWith;
 
             StoreContact(storedContact);
 
@@ -56,11 +88,16 @@ namespace WedChecker.UserControls
                 StoredContact.Notes = alongWith;
             }
 
-            EditAlongWith = editAlongWith;
+            SetBackground();
         }
 
         public void StoreContact(Contact contact)
         {
+            if (IsEditable && string.IsNullOrEmpty(contact.Id))
+            {
+                contact.Id = Guid.NewGuid().ToString();
+            }
+
             if (string.IsNullOrEmpty(contact.Id))
             {
                 return;
@@ -74,16 +111,18 @@ namespace WedChecker.UserControls
             {
                 tbContactName.Visibility = Visibility.Visible;
                 tbContactName.Text = $"{StoredContact.FirstName} {StoredContact.LastName}";
+                tbEditContactName.Text = $"{StoredContact.FirstName} {StoredContact.LastName}";
             }
             else
             {
                 tbContactName.Visibility = Visibility.Collapsed;
             }
 
-            //if (!string.IsNullOrEmpty(StoredContact.Notes))
-            //{
-            //    tbContactName.Text = $"{StoredContact.FirstName} {StoredContact.LastName}";
-            //}
+            if (!string.IsNullOrEmpty(StoredContact.Notes))
+            {
+                tbAlongWith.Text = StoredContact.Notes;
+                tbCheckboxTextDisplay.Text = StoredContact.Notes;
+            }
 
             if (StoredContact.Emails.Count > 0)
             {
@@ -92,10 +131,11 @@ namespace WedChecker.UserControls
 
                 foreach (var email in StoredContact.Emails)
                 {
-                    emails += $"{email.Address};{Environment.NewLine}";
+                    emails += $"{email.Address}{Environment.NewLine}";
                 }
 
                 tbContactEmails.Text = emails;
+                tbEditContactEmails.Text = emails;
             }
             else
             {
@@ -109,10 +149,11 @@ namespace WedChecker.UserControls
 
                 foreach (var phone in StoredContact.Phones)
                 {
-                    phones += $"{phone.Number};{Environment.NewLine}";
+                    phones += $"{phone.Number}{Environment.NewLine}";
                 }
 
                 tbContactPhones.Text = phones;
+                tbEditContactPhones.Text = phones;
             }
             else
             {
@@ -122,6 +163,16 @@ namespace WedChecker.UserControls
 
         public void DisplayValues()
         {
+            AdjustVisibility();
+
+            tbEditContactEmails.Visibility = Visibility.Collapsed;
+            tbEditContactName.Visibility = Visibility.Collapsed;
+            tbEditContactPhones.Visibility = Visibility.Collapsed;
+
+            tbContactEmails.Visibility = Visibility.Visible;
+            tbContactName.Visibility = Visibility.Visible;
+            tbContactPhones.Visibility = Visibility.Visible;
+
             deleteButton.Visibility = Visibility.Collapsed;
             tbCheckboxText.Visibility = Visibility.Collapsed;
             tbAlongWith.Visibility = Visibility.Collapsed;
@@ -135,6 +186,19 @@ namespace WedChecker.UserControls
         }
         public void EditValues()
         {
+            AdjustVisibility(true);
+
+            if (IsEditable)
+            {
+                tbEditContactEmails.Visibility = Visibility.Visible;
+                tbEditContactName.Visibility = Visibility.Visible;
+                tbEditContactPhones.Visibility = Visibility.Visible;
+
+                tbContactEmails.Visibility = Visibility.Collapsed;
+                tbContactName.Visibility = Visibility.Collapsed;
+                tbContactPhones.Visibility = Visibility.Collapsed;
+            }
+
             deleteButton.Visibility = Visibility.Visible;
 
             if (EditAlongWith)
@@ -145,9 +209,36 @@ namespace WedChecker.UserControls
             }
         }
 
-        private void tbAlongWith_TextChanged(object sender, TextChangedEventArgs e)
+        private void AdjustVisibility(bool setAllVisible = false)
         {
-            StoredContact.Notes = tbAlongWith.Text;
+            if (!string.IsNullOrEmpty(StoredContact.FirstName) ||
+                !string.IsNullOrEmpty(StoredContact.LastName) ||
+                setAllVisible)
+            {
+                tbContactName.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                tbContactName.Visibility = Visibility.Collapsed;
+            }
+
+            if (StoredContact.Emails.Count > 0 || setAllVisible)
+            {
+                emailsPanel.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                emailsPanel.Visibility = Visibility.Collapsed;
+            }
+
+            if (StoredContact.Phones.Count > 0 || setAllVisible)
+            {
+                phonesPanel.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                phonesPanel.Visibility = Visibility.Collapsed;
+            }
         }
 
         private int GetFilledFields()
@@ -171,6 +262,11 @@ namespace WedChecker.UserControls
 
         public void SerializeContact(BinaryWriter writer)
         {
+            if (IsEditable)
+            {
+                SaveFields();
+            }
+
             var filledFields = GetFilledFields();
 
             if (filledFields == 0)
@@ -213,7 +309,7 @@ namespace WedChecker.UserControls
             }
             if (StoredContact.Phones.Count > 0)
             {
-                writer.Write("Phone");
+                writer.Write("Phones");
                 writer.Write(StoredContact.Phones.Count);
                 foreach (var phone in StoredContact.Phones)
                 {
@@ -252,7 +348,7 @@ namespace WedChecker.UserControls
                     case "Notes":
                         contact.Notes = reader.ReadString();
                         break;
-                    case "Email":
+                    case "Emails":
                         var emailsCount = reader.ReadInt32();
                         for (var j = 0; j < emailsCount; j++)
                         {
@@ -261,7 +357,7 @@ namespace WedChecker.UserControls
                             contact.Emails.Add(email);
                         }
                         break;
-                    case "Phone":
+                    case "Phones":
                         var phonesCount = reader.ReadInt32();
                         for (var j = 0; j < phonesCount; j++)
                         {
@@ -274,6 +370,70 @@ namespace WedChecker.UserControls
             }
 
             StoreContact(contact);
+        }
+
+        private void SaveFields()
+        {
+            // Id
+            if (string.IsNullOrEmpty(StoredContact.Id))
+            {
+                StoredContact.Id = Guid.NewGuid().ToString();
+            }
+
+            // Name
+            tbContactName.Text = tbEditContactName.Text;            
+            var names = tbEditContactName.Text.Split(' ');
+            var lastName = names.LastOrDefault();
+            var firstName = string.Empty;
+
+            for (int i = 0; i < names.Length - 1; i++)
+            {
+                firstName += names[i];
+            }
+
+            StoredContact.FirstName = firstName;
+            StoredContact.LastName = lastName;
+
+            // Emails
+            tbContactEmails.Text = tbEditContactEmails.Text;
+            StoredContact.Emails.Clear();
+
+            if (!string.IsNullOrEmpty(tbEditContactEmails.Text))
+            {
+                var email = new ContactEmail();
+                email.Address = tbEditContactEmails.Text;
+
+                StoredContact.Emails.Add(email);
+            }
+
+            // Phones
+            tbContactPhones.Text = tbEditContactPhones.Text;
+            StoredContact.Phones.Clear();
+
+            if (!string.IsNullOrEmpty(tbEditContactPhones.Text))
+            {
+                var phone = new ContactPhone();
+                phone.Number = tbEditContactPhones.Text;
+
+                StoredContact.Phones.Add(phone);
+            }
+            
+            // Notes
+            StoredContact.Notes = tbAlongWith.Text;
+            tbCheckboxTextDisplay.Text = tbAlongWith.Text;
+        }
+
+        private void SetBackground()
+        {
+            var accentBrushColor = Core.GetPhoneAccentBrush();
+
+            accentBrushColor.A = 30;
+            var colorBrush = new SolidColorBrush(accentBrushColor);
+            mainBorder.Background = colorBrush;
+
+            accentBrushColor.A = 70;
+            colorBrush = new SolidColorBrush(accentBrushColor);
+            mainBorder.BorderBrush = colorBrush;
         }
     }
 }

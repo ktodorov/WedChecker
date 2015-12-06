@@ -135,6 +135,11 @@
             <Setter Property="BorderThickness" Value="1"/>
         </Style>
 
+        <Style x:Key="WedCheckerLightBorderStyle" TargetType="Border">
+            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
         <Style x:Key="WedCheckerFormTextBlockStyle" TargetType="TextBlock">
             <Setter Property="FontSize" Value="20"/>
             <Setter Property="FontFamily" Value="Segoe UI"/>
@@ -163,6 +168,7 @@
             <Setter Property="Background" Value="White"/>
             <Setter Property="BorderBrush" Value="{StaticResource PhoneAccentBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
         
         <Style x:Key="WedCheckerFormTextBoxMultiLinesStyle" TargetType="TextBox">

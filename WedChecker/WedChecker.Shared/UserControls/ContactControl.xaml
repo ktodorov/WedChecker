@@ -7,52 +7,67 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Height="Auto">
 
-    <Grid Height="Auto">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="7*"/>
-            <ColumnDefinition Width="1*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+    <Border Name="mainBorder" Margin="6, 3" Padding="0, 10" BorderThickness="1">
+        <Grid Height="Auto">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="7*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-        <TextBlock Name="tbId" x:FieldModifier="Public" Visibility="Collapsed"/>
-        <TextBlock Name="tbContactName" x:FieldModifier="Public" Grid.Column="0"
-                   Text="Testing Testing" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"/>
-        <Button Name="deleteButton" x:FieldModifier="Public" Grid.Column="1" BorderThickness="0"
+            <!-- Id -->
+            <TextBlock Name="tbId" Visibility="Collapsed"/>
+
+            <!-- Name -->
+            <TextBox Name="tbEditContactName" Grid.Column="0" Grid.Row="1"
+                 Visibility="Collapsed"
+                 Style="{StaticResource WedCheckerFormTextBoxStyle}"/>
+            <TextBlock Name="tbContactName" Grid.Column="0" Grid.Row="1"
+                   Text="" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"/>
+            <Button Name="deleteButton" Grid.Column="1" BorderThickness="0" Grid.Row="1"
                 Content="&#xE10A;" VerticalAlignment="Center" HorizontalAlignment="Center" 
                 FontFamily="Segoe UI Symbol" FontSize="20" Foreground="{StaticResource PhoneAccentBrush}"/>
 
-        <StackPanel Name="emailsPanel" Margin="10, 0, 0, 0" Orientation="Vertical"
-                    Grid.Column="0" Grid.Row="1">
-            <TextBlock Text="Emails" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
-                       FontSize="17" Foreground="Black"/>
-            <TextBlock Name="tbContactEmails" x:FieldModifier="Public"
-                       Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="17"/>
-        </StackPanel>
-
-        <StackPanel Name="phonesPanel" Margin="10, 0, 0, 0" Orientation="Vertical"
+            <!-- Emails -->
+            <StackPanel Name="emailsPanel" Margin="10, 0, 0, 0" Orientation="Vertical"
                     Grid.Column="0" Grid.Row="2">
-            <TextBlock Text="Phones" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
+                <TextBlock Text="Emails" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
                        FontSize="17" Foreground="Black"/>
-            <TextBlock Name="tbContactPhones" x:FieldModifier="Public"
+                <TextBlock Name="tbContactEmails" Margin="25, 0, 10, 0"
                        Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="17"/>
+                <TextBox Name="tbEditContactEmails" Visibility="Collapsed"
+                       Style="{StaticResource WedCheckerFormTextBoxStyle}" FontSize="17"/>
+            </StackPanel>
 
-        </StackPanel>
-        
-        <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left">
-            <TextBlock Name="tbCheckboxText" TextAlignment="Right" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
+            <!-- Phones -->
+            <StackPanel Name="phonesPanel" Margin="10, 0, 0, 0" Orientation="Vertical"
+                    Grid.Column="0" Grid.Row="3">
+                <TextBlock Text="Phones" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
+                       FontSize="17" Foreground="Black"/>
+                <TextBlock Name="tbContactPhones" Margin="25, 0, 10, 0"
+                       Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="17"/>
+                <TextBox Name="tbEditContactPhones" Visibility="Collapsed"
+                       Style="{StaticResource WedCheckerFormTextBoxStyle}" FontSize="17"/>
+            </StackPanel>
+
+            <!-- Along with -->
+            <StackPanel Grid.Row="4" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Left">
+                <TextBlock Name="tbCheckboxText" TextAlignment="Right" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
                        Text="Along with" VerticalAlignment="Center" FontSize="15" Margin="25, 0, 0, 0"
                        Foreground="Black"/>
-            <TextBlock Name="tbCheckboxTextDisplay" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
+                <TextBlock Name="tbCheckboxTextDisplay" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
                        Visibility="Collapsed" VerticalAlignment="Center" FontSize="13" Margin="25, 0, 0, 0"
                        Foreground="Black"/>
-            <TextBox Name="tbAlongWith" InputScope="Number" 
-                     TextChanged="tbAlongWith_TextChanged" VerticalAlignment="Center"
+                <TextBox Name="tbAlongWith" InputScope="Number" VerticalAlignment="Center"
                      Style="{StaticResource WedCheckerFormTextBoxStyle}" Margin="10, 0"/>
-        </StackPanel>
-    </Grid>
+            </StackPanel>
+        </Grid>
+    </Border>
 </UserControl>
