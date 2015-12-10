@@ -7,6 +7,12 @@ using Windows.Devices.Geolocation;
 
 namespace WedChecker.Common
 {
+    public class TaskListItem
+    {
+        public string Title;
+        public string TaskName;
+    }
+
     public static class Extensions
     {
 #if WINDOWS_APP

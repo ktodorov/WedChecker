@@ -180,6 +180,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Purchases\PurchaseRings.xaml.cs">
       <DependentUpon>PurchaseRings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\TaskTileControl.xaml.cs">
+      <DependentUpon>TaskTileControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\ToggleControl.xaml.cs">
       <DependentUpon>ToggleControl.xaml</DependentUpon>
     </Compile>
@@ -397,6 +400,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)UserControls\Tasks\Purchases\PurchaseRings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\TaskTileControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

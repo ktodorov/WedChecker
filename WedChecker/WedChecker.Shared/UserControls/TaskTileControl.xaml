@@ -1,0 +1,19 @@
+﻿<UserControl
+    x:Class="WedChecker.UserControls.TaskTileControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WedChecker.UserControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Border BorderThickness="1" BorderBrush="LightGray">
+        <Grid Name="tileGrid" Height="130" Width="180" 
+          Background="White">
+            <TextBlock Name="tbTaskTitle" Text="{Binding TaskTitle}" VerticalAlignment="Center" 
+                   HorizontalAlignment="Center" Margin="10" Padding="5"
+                   FontSize="17" FontWeight="SemiLight" Foreground="{StaticResource PhoneAccentBrush}"
+                   TextWrapping="WrapWholeWords" TextAlignment="Center"/>
+        </Grid>
+    </Border>
+</UserControl>

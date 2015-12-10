@@ -28,6 +28,9 @@ namespace WedChecker.UserControls.Tasks
             set;
         }
 
+        private bool InEditMode = false;
+        private double TaskHeight = 0;
+
         public PopulatedTask()
         {
             this.InitializeComponent();
@@ -38,7 +41,7 @@ namespace WedChecker.UserControls.Tasks
             this.InitializeComponent();
             ConnectedTaskControl = control;
             spConnectedControl.Children.Add(ConnectedTaskControl);
-            tbTaskName.Text = control.TaskName.ToUpper();
+            tbTaskName.Text = control.TaskName;//.ToUpper();
             SetBackgroundColor();
 
             if (!isNew)
@@ -54,34 +57,24 @@ namespace WedChecker.UserControls.Tasks
 
         private void SetBackgroundColor()
         {
-            if (AppData.LocalAppData.Keys.Contains("PopulatedTaskControlColor") &&
-                AppData.LocalAppData.Keys.Contains("PopulatedTaskControlBorderBrush"))
-            {
-                mainGrid.Background = AppData.LocalAppData["PopulatedTaskControlColor"] as SolidColorBrush;
-                mainBorder.BorderBrush = AppData.LocalAppData["PopulatedTaskControlBorderBrush"] as SolidColorBrush;
-            }
-            else
-            {
-                var phoneAccentBrush = new SolidColorBrush((App.Current.Resources["PhoneAccentBrush"] as SolidColorBrush).Color);
-                var color = phoneAccentBrush.Color;
-                color.A = 100;
-                var colorBrush = new SolidColorBrush(color);
-                mainBorder.BorderBrush = colorBrush;
-                AppData.LocalAppData["PopulatedTaskControlBorderBrush"] = colorBrush;
-                color.A = 25;
-                colorBrush = new SolidColorBrush(color);
-                mainGrid.Background = colorBrush;
-                AppData.LocalAppData["PopulatedTaskControlColor"] = colorBrush;
-            }
+            var phoneAccentColor = Core.GetPhoneAccentBrush();
+
+            phoneAccentColor.A = 100;
+            var colorBrush = new SolidColorBrush(phoneAccentColor);
+            mainBorder.BorderBrush = colorBrush;
+
+            phoneAccentColor.A = 25;
+            colorBrush = new SolidColorBrush(phoneAccentColor);
+            mainPanel.Background = colorBrush;
         }
 
         private void buttonTaskName_Click(object sender, RoutedEventArgs e)
         {
-            if (ConnectedTaskControl != null && ConnectedTaskControl.Visibility == Visibility.Collapsed)
+            if (childPanel.Visibility == Visibility.Collapsed)
             {
                 ChangeMainContentVisibility(Visibility.Visible);
             }
-            else if (ConnectedTaskControl != null && ConnectedTaskControl.Visibility == Visibility.Visible)
+            else if (childPanel.Visibility == Visibility.Visible)
             {
                 ChangeMainContentVisibility(Visibility.Collapsed);
             }
@@ -89,12 +82,19 @@ namespace WedChecker.UserControls.Tasks
 
         private void ChangeMainContentVisibility(Visibility visibility)
         {
+            childPanel.Visibility = visibility;
+
             ConnectedTaskControl.Visibility = visibility;
             borderSplitter.Visibility = visibility;
             tbTaskHeader.Visibility = visibility;
             editTask.Visibility = visibility;
-            displayTask.Visibility = visibility;
+
+            if (visibility == Visibility.Collapsed || InEditMode)
+            {
+                displayTask.Visibility = visibility;
+            }
         }
+
 
         void editTask_Click(object sender, RoutedEventArgs e)
         {
@@ -103,6 +103,7 @@ namespace WedChecker.UserControls.Tasks
 
         private void EditConnectedTask()
         {
+            InEditMode = true;
             tbTaskHeader.Text = ConnectedTaskControl.EditHeader ?? string.Empty;
             displayTask.Visibility = Visibility.Visible;
             editTask.Visibility = Visibility.Collapsed;
@@ -123,6 +124,7 @@ namespace WedChecker.UserControls.Tasks
 
         private async Task DisplayConnectedTask(bool shouldSave = true)
         {
+            InEditMode = false;
             tbTaskHeader.Text = ConnectedTaskControl.DisplayHeader ?? string.Empty;
             displayTask.Visibility = Visibility.Collapsed;
             editTask.Visibility = Visibility.Visible;

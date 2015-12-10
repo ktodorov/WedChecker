@@ -7,49 +7,51 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Border Name="mainBorder" Style="{StaticResource DisplayBorderStyle}" Margin="0, 5, 0, 0">
-        <Grid Name="mainGrid" Height="Auto" Background="#DCDCD8">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+    <Border Name="mainBorder" Style="{StaticResource DisplayBorderStyle}" Margin="0, 2.5, 0, 2.5">
+        <StackPanel Name="mainPanel" Height="Auto" Background="#DCDCD8"
+                    Orientation="Vertical">
+            <StackPanel.ChildrenTransitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition />
+                </TransitionCollection>
+            </StackPanel.ChildrenTransitions>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition MaxWidth="50"/>
-            </Grid.ColumnDefinitions>
-
-            <Button Name="buttonTaskName" VerticalAlignment="Center"
-                HorizontalAlignment="Stretch" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-                    BorderThickness="0" Click="buttonTaskName_Click" Margin="10, 0">
+            <Button Name="buttonTaskName" VerticalAlignment="Top"
+                    HorizontalAlignment="Stretch" 
+                    BorderThickness="0" Click="buttonTaskName_Click">
                 <TextBlock Name="tbTaskName" Text="Task name" TextWrapping="WrapWholeWords"
-                            FontFamily="Segoe UI" FontSize="30" FontWeight="Light" TextAlignment="Center"
-                           HorizontalAlignment="Center"/>
+                           FontFamily="Segoe UI" FontSize="30" FontWeight="Bold" TextAlignment="Center"
+                           HorizontalAlignment="Center" Foreground="{StaticResource PhoneAccentBrush}"/>
             </Button>
 
-            <Button Name="editTask" Content="&#xE104;" FontFamily="Segoe UI Symbol" FontSize="30"
-                Height="50" Width="50" BorderThickness="0" Foreground="{StaticResource PhoneAccentBrush}"
-                VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" Click="editTask_Click">
-            </Button>
+            <StackPanel Name="childPanel" Orientation="Vertical">
+                <StackPanel.ChildrenTransitions>
+                    <TransitionCollection>
+                        <EntranceThemeTransition />
+                    </TransitionCollection>
+                </StackPanel.ChildrenTransitions>
 
-            <TextBlock Name="tbTaskHeader" Style="{StaticResource DisplayTextBlockStyle}" Grid.Row="1" Grid.ColumnSpan="2"
+                <Button Name="editTask" Content="&#xE104;" FontFamily="Segoe UI Symbol" FontSize="30"
+                    Height="50" Width="50" BorderThickness="0" Foreground="{StaticResource PhoneAccentBrush}"
+                    VerticalAlignment="Center" HorizontalAlignment="Right" Click="editTask_Click">
+                </Button>
+
+                <TextBlock Name="tbTaskHeader" Style="{StaticResource DisplayTextBlockStyle}"
                        TextAlignment="Center" Margin="0"/>
 
-            <Border Name="borderSplitter" Style="{StaticResource WedCheckerBorderSplitter}" Grid.Row="2" 
-                    Grid.ColumnSpan="2" Margin="15, 5"/>
+                <Border Name="borderSplitter" Style="{StaticResource WedCheckerBorderSplitter}"
+                    Margin="15, 5"/>
 
-            <StackPanel Name="spConnectedControl" Grid.Row="3" Grid.ColumnSpan="2">
-            </StackPanel>
+                <StackPanel Name="spConnectedControl" Grid.Row="3" Grid.ColumnSpan="2">
+                </StackPanel>
 
-            <Button Name="displayTask" Content="SUBMIT" FontFamily="Segoe UI" FontWeight="Light"
+                <Button Name="displayTask" Content="SUBMIT" FontFamily="Segoe UI" FontWeight="Light"
                     FontSize="30" Visibility="Collapsed" BorderThickness="0"
                     Foreground="{StaticResource PhoneAccentBrush}" Height="50"
-                    VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="4" 
-                    Grid.Column="0" Grid.ColumnSpan="2" Click="displayTask_Click">
-            </Button>
-        </Grid>
+                    VerticalAlignment="Center" HorizontalAlignment="Center"
+                    Click="displayTask_Click">
+                </Button>
+            </StackPanel>
+        </StackPanel>
     </Border>
 </UserControl>

@@ -30,6 +30,9 @@ namespace WedChecker
         private ObservableDictionary defaultViewModel = new ObservableDictionary();
         private DispatcherTimer dispatcherTimer = new DispatcherTimer();
         private CancellationTokenSource cts;
+        private List<TaskListItem> PlanningTaskItems;
+        private List<TaskListItem> PurchasingTaskItems;
+        private List<TaskListItem> BookingTaskItems;
 
         public MainPage()
         {
@@ -46,6 +49,44 @@ namespace WedChecker
             cts = new CancellationTokenSource();
             App.ctsToUse = cts;
             AppData.CancelToken = cts.Token;
+
+            LoadAdditionalData();
+        }
+
+        private void LoadAdditionalData()
+        {
+            PlanningTaskItems = TaskData.LoadPlanningTaskItems();
+            foreach (var planItem in PlanningTaskItems)
+            {
+                var taskTile = new TaskTileControl();
+                taskTile.TaskTitle = planItem.Title;
+                taskTile.Name = planItem.TaskName;
+                taskTile.Tapped += TaskTile_Tapped;
+
+                gvPlanningTasks.Items.Add(taskTile);
+            }
+
+            PurchasingTaskItems = TaskData.LoadPurchasingTaskItems();
+            foreach (var purchaseItem in PurchasingTaskItems)
+            {
+                var taskTile = new TaskTileControl();
+                taskTile.TaskTitle = purchaseItem.Title;
+                taskTile.Name = purchaseItem.TaskName;
+                taskTile.Tapped += TaskTile_Tapped;
+
+                gvPurchasingTasks.Items.Add(taskTile);
+            }
+
+            BookingTaskItems = TaskData.LoadBookingTaskItems();
+            foreach (var bookItem in BookingTaskItems)
+            {
+                var taskTile = new TaskTileControl();
+                taskTile.TaskTitle = bookItem.Title;
+                taskTile.Name = bookItem.TaskName;
+                taskTile.Tapped += TaskTile_Tapped;
+
+                gvBookingTasks.Items.Add(taskTile);
+            }
         }
 
         void dispatcherTimer_Tick(object sender, object e)
@@ -55,9 +96,9 @@ namespace WedChecker
 
         void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
         {
-            if (LbTasks.Visibility == Visibility.Visible)
+            if (svMain.Visibility == Visibility.Visible)
             {
-                LbTasks.Visibility = Visibility.Collapsed;
+                svMain.Visibility = Visibility.Collapsed;
                 appBar.Visibility = Visibility.Visible;
                 mainPivot.Visibility = Visibility.Visible;
                 e.Handled = true;
@@ -144,7 +185,7 @@ namespace WedChecker
 
         private void AddTaskButton_Click(object sender, RoutedEventArgs e)
         {
-            LbTasks.Visibility = Visibility.Visible;
+            svMain.Visibility = Visibility.Visible;
             appBar.Visibility = Visibility.Collapsed;
             mainPivot.Visibility = Visibility.Collapsed;
         }
@@ -158,7 +199,9 @@ namespace WedChecker
                 TaskData.CreateTaskControl(this, populatedControl);
             }
 
-            TaskData.DisableAddedTasks(LbTasks);
+            TaskData.DisableAddedTasks(gvPlanningTasks);
+            TaskData.DisableAddedTasks(gvPurchasingTasks);
+            TaskData.DisableAddedTasks(gvBookingTasks);
         }
 
         private void AddPopulatedControls(List<BaseTaskControl> populatedControls)
@@ -171,18 +214,24 @@ namespace WedChecker
                 AppData.InsertSerializableTask(populatedControl);
             }
             firstLaunchPopup.Visibility = Visibility.Collapsed;
-            LbTasks.Visibility = Visibility.Collapsed;
+            svMain.Visibility = Visibility.Collapsed;
             appBar.Visibility = Visibility.Visible;
             mainPivot.Visibility = Visibility.Visible;
             mainPivot.SelectedIndex = 1;
 
-            TaskData.DisableAddedTasks(LbTasks);
+            TaskData.DisableAddedTasks(gvPlanningTasks);
+            TaskData.DisableAddedTasks(gvPurchasingTasks);
+            TaskData.DisableAddedTasks(gvBookingTasks);
         }
 
         private void TaskItem_Clicked(object sender, RoutedEventArgs e)
         {
-            var senderElement = sender as Button;
-            if (senderElement == null)
+            
+        }
+        private void TaskTile_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            var senderElement = sender as TaskTileControl;
+            if (senderElement == null || !senderElement.IsEnabled)
             {
                 return;
             }
