@@ -73,6 +73,10 @@ namespace WedChecker.UserControls
 
         public void DisplayValues(bool applyForChildren = true)
         {
+            if (!Nodes.Any())
+            {
+                tbNodeSymbol.Opacity = 0;
+            }
             addChildButton.Visibility = Visibility.Collapsed;
 
             if (applyForChildren)
@@ -91,6 +95,7 @@ namespace WedChecker.UserControls
 
         public void EditValues(bool applyForChildren = true)
         {
+            tbNodeSymbol.Opacity = 1;
             addChildButton.Visibility = Visibility.Visible;
 
             if (applyForChildren)

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using WedChecker.Common;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -23,10 +25,11 @@ namespace WedChecker.UserControls
         {
             get
             {
-                return tbTitle.Text;
+                return tbCheckboxTitle.Text;
             }
             set
             {
+                tbCheckboxTitle.Text = value;
                 tbTitle.Text = value;
             }
         }
@@ -35,11 +38,11 @@ namespace WedChecker.UserControls
         {
             get
             {
-                return toggleSwitch.IsOn;
+                return toggleSwitch.IsChecked.Value;
             }
             set
             {
-                toggleSwitch.IsOn = value;
+                toggleSwitch.IsChecked = value;
             }
         }
 
@@ -51,29 +54,42 @@ namespace WedChecker.UserControls
         public ToggleControl(string text, bool value = false)
         {
             Title = text;
-            toggleSwitch.IsOn = value;
+            toggleSwitch.IsChecked = value;
         }
 
         public void DisplayValues()
         {
-            toggleSwitch.IsEnabled = false;
+            toggleSwitch.Visibility = Visibility.Collapsed;
+
+            tbTitle.Visibility = Visibility.Visible;
+            if (toggleSwitch.IsChecked.Value)
+            {
+                tbTitle.Foreground = new SolidColorBrush(Windows.UI.Colors.Green);
+                tbTitle.Text = Title;
+            }
+            else
+            {
+                tbTitle.Foreground = new SolidColorBrush(Windows.UI.Colors.Red);
+                tbTitle.Text = $"Not {Title.ToLower()}";
+            }
         }
 
         public void EditValues()
         {
-            toggleSwitch.IsEnabled = true;
+            toggleSwitch.Visibility = Visibility.Visible;
+            tbTitle.Visibility = Visibility.Collapsed;
         }
 
         public void Serialize(BinaryWriter writer)
         {
             writer.Write(Title);
-            writer.Write(toggleSwitch.IsOn);
+            writer.Write(toggleSwitch.IsChecked.Value);
         }
 
         public void Deserialize(BinaryReader reader)
         {
             Title = reader.ReadString();
-            toggleSwitch.IsOn = reader.ReadBoolean();
+            toggleSwitch.IsChecked = reader.ReadBoolean();
         }
     }
 }

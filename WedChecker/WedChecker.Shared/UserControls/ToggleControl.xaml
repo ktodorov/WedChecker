@@ -7,15 +7,16 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="7*"/>
-            <ColumnDefinition Width="3*"/>
-        </Grid.ColumnDefinitions>
+    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                HorizontalAlignment="Center">
         
-        <TextBlock Name="tbTitle" Grid.Column="0" Style="{StaticResource WedCheckerFormTextBlockStyle}" 
-                   FontSize="20"/>
-        
-        <ToggleSwitch Name="toggleSwitch" Grid.Column="1"/>
-    </Grid>
+        <TextBlock Name="tbTitle" Style="{StaticResource WedCheckerFormTextBlockStyle}" 
+                   FontSize="20" TextAlignment="Center" Foreground="{StaticResource PhoneAccentBrush}"
+                   Visibility="Collapsed" FontWeight="Bold" HorizontalAlignment="Center"/>
+
+        <CheckBox Name="toggleSwitch" Foreground="Black" FontSize="20"
+                  HorizontalAlignment="Center">
+            <TextBlock Name="tbCheckboxTitle" FontSize="20" VerticalAlignment="Center"/>
+        </CheckBox>
+    </StackPanel>
 </UserControl>

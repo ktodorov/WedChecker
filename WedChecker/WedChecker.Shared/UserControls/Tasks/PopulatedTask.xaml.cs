@@ -29,7 +29,6 @@ namespace WedChecker.UserControls.Tasks
         }
 
         private bool InEditMode = false;
-        private double TaskHeight = 0;
 
         public PopulatedTask()
         {
@@ -40,8 +39,9 @@ namespace WedChecker.UserControls.Tasks
         {
             this.InitializeComponent();
             ConnectedTaskControl = control;
+            ConnectedTaskControl.Margin = new Thickness(10);
             spConnectedControl.Children.Add(ConnectedTaskControl);
-            tbTaskName.Text = control.TaskName;//.ToUpper();
+            tbTaskName.Text = control.TaskName.ToUpper();
             SetBackgroundColor();
 
             if (!isNew)
@@ -59,13 +59,13 @@ namespace WedChecker.UserControls.Tasks
         {
             var phoneAccentColor = Core.GetPhoneAccentBrush();
 
-            phoneAccentColor.A = 100;
+            phoneAccentColor.A = 10;
             var colorBrush = new SolidColorBrush(phoneAccentColor);
-            mainBorder.BorderBrush = colorBrush;
-
-            phoneAccentColor.A = 25;
-            colorBrush = new SolidColorBrush(phoneAccentColor);
             mainPanel.Background = colorBrush;
+
+            phoneAccentColor.A = 35;
+            colorBrush = new SolidColorBrush(phoneAccentColor);
+            borderSplitter.BorderBrush = colorBrush;
         }
 
         private void buttonTaskName_Click(object sender, RoutedEventArgs e)
@@ -73,10 +73,14 @@ namespace WedChecker.UserControls.Tasks
             if (childPanel.Visibility == Visibility.Collapsed)
             {
                 ChangeMainContentVisibility(Visibility.Visible);
+
+                buttonTaskName.SetValue(Grid.ColumnSpanProperty, 1);
             }
             else if (childPanel.Visibility == Visibility.Visible)
             {
                 ChangeMainContentVisibility(Visibility.Collapsed);
+
+                buttonTaskName.SetValue(Grid.ColumnSpanProperty, 2);
             }
         }
 
