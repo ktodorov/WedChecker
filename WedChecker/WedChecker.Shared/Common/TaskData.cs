@@ -194,7 +194,7 @@ namespace WedChecker.Common
             planItems.Add(new TaskListItem { Title = "Hairdresser and makeup artist", TaskName = Tasks.HairdresserMakeupArtist.ToString() });
             planItems.Add(new TaskListItem { Title = "Restaurant accomodation plan", TaskName = Tasks.RestaurantAccomodationPlan.ToString() });
 
-            planItems.OrderBy(i => i.Title).ToList();
+            planItems = planItems.OrderBy(i => i.Title).ToList();
 
             return planItems;
         }
@@ -218,7 +218,7 @@ namespace WedChecker.Common
             purchaseItems.Add(new TaskListItem { Title = "Rings", TaskName = Tasks.PurchaseRings.ToString() });
             purchaseItems.Add(new TaskListItem { Title = "Cake", TaskName = Tasks.PurchaseCake.ToString() });
 
-            purchaseItems.OrderBy(i => i.Title).ToList();
+            purchaseItems = purchaseItems.OrderBy(i => i.Title).ToList();
 
             return purchaseItems;
         }
@@ -234,7 +234,7 @@ namespace WedChecker.Common
             bookItems.Add(new TaskListItem { Title = "Hairdresser and makeup artist appointments", TaskName = Tasks.BookHairdresserMakeupArtistAppointments.ToString() });
             bookItems.Add(new TaskListItem { Title = "Send invitations", TaskName = Tasks.SendInvitations.ToString() });
 
-            bookItems.OrderBy(i => i.Title).ToList();
+            bookItems = bookItems.OrderBy(i => i.Title).ToList();
 
             return bookItems;
         }

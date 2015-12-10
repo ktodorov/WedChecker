@@ -227,7 +227,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             picker.DesiredFieldsWithContactFieldType.Add(ContactFieldType.PhoneNumber);
             var contacts = await picker.PickContactsAsync();
 
-            if (!contacts.Any())
+            if (contacts == null || !contacts.Any())
             {
                 return;
             }
@@ -252,7 +252,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             picker.DesiredFieldsWithContactFieldType.Add(ContactFieldType.PhoneNumber);
             var contacts = await picker.PickContactsAsync();
 
-            if (!contacts.Any())
+            if (contacts == null || !contacts.Any())
             {
                 return;
             }

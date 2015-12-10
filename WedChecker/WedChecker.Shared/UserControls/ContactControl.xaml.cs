@@ -25,6 +25,11 @@ namespace WedChecker.UserControls
 
                 return _storedContact;
             }
+
+            private set
+            {
+                _storedContact = value;
+            }
         }
 
         public RoutedEventHandler OnDelete
@@ -93,6 +98,8 @@ namespace WedChecker.UserControls
 
         public void StoreContact(Contact contact)
         {
+            ClearAllFields();
+
             if (IsEditable && string.IsNullOrEmpty(contact.Id))
             {
                 contact.Id = Guid.NewGuid().ToString();
@@ -109,7 +116,6 @@ namespace WedChecker.UserControls
 
             if (!string.IsNullOrEmpty(StoredContact.FirstName) || !string.IsNullOrEmpty(StoredContact.LastName))
             {
-                tbContactName.Visibility = Visibility.Visible;
                 tbContactName.Text = $"{StoredContact.FirstName} {StoredContact.LastName}";
                 tbEditContactName.Text = $"{StoredContact.FirstName} {StoredContact.LastName}";
             }
@@ -126,7 +132,6 @@ namespace WedChecker.UserControls
 
             if (StoredContact.Emails.Count > 0)
             {
-                emailsPanel.Visibility = Visibility.Visible;
                 var emails = string.Empty;
 
                 foreach (var email in StoredContact.Emails)
@@ -144,7 +149,6 @@ namespace WedChecker.UserControls
 
             if (StoredContact.Phones.Count > 0)
             {
-                phonesPanel.Visibility = Visibility.Visible;
                 var phones = string.Empty;
 
                 foreach (var phone in StoredContact.Phones)
@@ -161,10 +165,24 @@ namespace WedChecker.UserControls
             }
         }
 
+        private void ClearAllFields()
+        {
+            tbId.Text = string.Empty;
+            tbEditContactName.Text = string.Empty;
+            tbContactName.Text = string.Empty;
+            tbContactEmails.Text = string.Empty;
+            tbEditContactEmails.Text = string.Empty;
+            tbContactPhones.Text = string.Empty;
+            tbEditContactPhones.Text = string.Empty;
+            tbCheckboxTextDisplay.Text = string.Empty;
+            tbAlongWith.Text = string.Empty;
+        }
+
         public void DisplayValues()
         {
             AdjustVisibility();
 
+            tbContactNameDisplay.Visibility = Visibility.Collapsed;
             tbEditContactEmails.Visibility = Visibility.Collapsed;
             tbEditContactName.Visibility = Visibility.Collapsed;
             tbEditContactPhones.Visibility = Visibility.Collapsed;
@@ -176,6 +194,8 @@ namespace WedChecker.UserControls
             deleteButton.Visibility = Visibility.Collapsed;
             tbCheckboxText.Visibility = Visibility.Collapsed;
             tbAlongWith.Visibility = Visibility.Collapsed;
+
+            selectContactButton.Visibility = Visibility.Collapsed;
 
             var alongWith = 0;
             if (int.TryParse(tbAlongWith.Text, out alongWith))
@@ -190,9 +210,12 @@ namespace WedChecker.UserControls
 
             if (IsEditable)
             {
+                tbContactNameDisplay.Visibility = Visibility.Visible;
                 tbEditContactEmails.Visibility = Visibility.Visible;
                 tbEditContactName.Visibility = Visibility.Visible;
                 tbEditContactPhones.Visibility = Visibility.Visible;
+
+                selectContactButton.Visibility = Visibility.Visible;
 
                 tbContactEmails.Visibility = Visibility.Collapsed;
                 tbContactName.Visibility = Visibility.Collapsed;
@@ -434,6 +457,20 @@ namespace WedChecker.UserControls
             accentBrushColor.A = 70;
             colorBrush = new SolidColorBrush(accentBrushColor);
             mainBorder.BorderBrush = colorBrush;
+        }
+
+        private async void selectContactButton_Click(object sender, RoutedEventArgs e)
+        {
+            var picker = new ContactPicker();
+            picker.DesiredFieldsWithContactFieldType.Add(ContactFieldType.PhoneNumber);
+            var contact = await picker.PickContactAsync();
+
+            if (contact == null)
+            {
+                return;
+            }
+
+            StoreContact(contact);
         }
     }
 }
