@@ -20,7 +20,7 @@
         <StackPanel Name="notesPanel" Orientation="Vertical" Grid.Row="0">
             <TextBox Name="tbHoneymoonNotes" Margin="20,0" TextChanged="tbHoneymoonNotes_TextChanged"/>
             <StackPanel Name="displayPanel" Visibility="Collapsed">
-                <TextBlock Name="tbHoneymoonNotesDisplay" Style="{StaticResource DisplayTextBlockStyle}"/>
+                <TextBlock Name="tbHoneymoonNotesDisplay" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"/>
             </StackPanel>
         </StackPanel>
 

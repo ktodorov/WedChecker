@@ -60,7 +60,7 @@
             </TransitionCollection>
         </Grid.ChildrenTransitions>
 
-        <UserControls:FirstLaunchPopup Height="Auto" VerticalAlignment="Stretch" x:Name="firstLaunchPopup"/>
+        <!--<UserControls:FirstLaunchPopup VerticalAlignment="Stretch" x:Name="firstLaunchPopup"/>-->
 
         <Pivot x:Name="mainPivot" Title="WEDCHECKER" Visibility="Collapsed">
             <Pivot.TitleTemplate>

@@ -24,12 +24,9 @@ namespace WedChecker.UserControls
             this.InitializeComponent();
         }
 
-        public async Task GreetUser()
+        public void GreetUser()
         {
             SubmitButton.Click += SubmitButton_Click;
-            HeaderDialogTextBlock.Text = AppData.GetValue("firstLaunchFirstHeader");
-            TitleDialogTextBlock.Text = AppData.GetValue("firstLaunchFirstTitle");
-            DialogTextBlock.Text = AppData.GetValue("firstLaunchFirstDialog");
             popup.Visibility = Visibility.Visible;
         }
 
@@ -44,14 +41,23 @@ namespace WedChecker.UserControls
 
             if (timesProcessed == 0)
             {
+                var writtenName = NameTextBox.Text;
+                if (string.IsNullOrEmpty(writtenName))
+                {
+                    tbError.Text = "Please, enter a valid name.";
+                    return;
+                }
+                else
+                {
+                    tbError.Text = string.Empty;
+                }
+
                 Core.SetSetting("Name", NameTextBox.Text);
-                NameTextBox.Visibility = Visibility.Collapsed;
-                dpWeddingDate.Visibility = Visibility.Visible;
-                tpWeddingDate.Visibility = Visibility.Visible;
+                firstStepPanel.Visibility = Visibility.Collapsed;
+                secondStepPanel.Visibility = Visibility.Visible;
 
                 HeaderDialogTextBlock.Visibility = Visibility.Collapsed;
                 TitleDialogTextBlock.Visibility = Visibility.Collapsed;
-                DialogTextBlock.Text = AppData.GetValue("firstLaunchSecondDialog");
             }
             else if (timesProcessed == 1)
             {

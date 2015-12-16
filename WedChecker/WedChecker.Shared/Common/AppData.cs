@@ -42,10 +42,6 @@ namespace WedChecker.Common
 
         public static void PopulateAppData()
         {
-            GlobalAppData["firstLaunchFirstHeader"] = "Hello and welcome to";
-            GlobalAppData["firstLaunchFirstTitle"] = "WedChecker";
-            GlobalAppData["firstLaunchFirstDialog"] = "No doubt we will make a wonderful wedding.\nCan I know your name first?\nIt will help me to know you better.";
-            GlobalAppData["firstLaunchSecondDialog"] = "Great!\n Okay, when is your wedding?";
         }
 
         private static List<BaseTaskControl> SerializableTasks

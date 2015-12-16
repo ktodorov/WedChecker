@@ -8,39 +8,67 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel x:Uid="popup" Name="popup">
+    <StackPanel x:Uid="popup" Name="popup" Background="White" VerticalAlignment="Center">
         <StackPanel.Transitions>
             <TransitionCollection>
-                <EdgeUIThemeTransition Edge="Right"/>
+                <EntranceThemeTransition />
             </TransitionCollection>
         </StackPanel.Transitions>
-        <StackPanel Background="White">
-            <StackPanel Name="spMain" Orientation="Vertical" Background="White" Margin="30, 50, 30, 0">
-                <StackPanel.Transitions>
-                    <TransitionCollection>
-                        <EdgeUIThemeTransition/>
-                    </TransitionCollection>
-                </StackPanel.Transitions>
-                <StackPanel.ChildrenTransitions>
-                    <TransitionCollection>
-                        <EdgeUIThemeTransition/>
-                    </TransitionCollection>
-                </StackPanel.ChildrenTransitions>
-                <TextBlock x:Name="HeaderDialogTextBlock" FontSize="25" TextWrapping="Wrap" 
-                   Text="Header" Style="{StaticResource TextBlockHeaderClearStyle}"/>
-                <TextBlock x:Name="TitleDialogTextBlock" FontSize="27" TextWrapping="Wrap" Margin="0, 0, 0, 25"
-                   Text="Title" Style="{StaticResource TextBlockClearStyle}" FontWeight="Bold" Foreground="{StaticResource TextBoxButtonForegroundThemeBrush}"/>
-                <TextBlock x:Name="DialogTextBlock" FontSize="18" TextWrapping="Wrap" Margin="0, 0, 0, 50"
-                   Text="Text dialog" Style="{StaticResource TextBlockClearStyle}"/>
+        <StackPanel Name="spMain" Orientation="Vertical" Background="White" Margin="30, 0, 30, 0"
+                    VerticalAlignment="Center" HorizontalAlignment="Stretch">
+            <StackPanel.Transitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition/>
+                </TransitionCollection>
+            </StackPanel.Transitions>
+            
+            <StackPanel.ChildrenTransitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition/>
+                </TransitionCollection>
+            </StackPanel.ChildrenTransitions>
+            
+            <TextBlock Name="HeaderDialogTextBlock" FontSize="26" TextWrapping="WrapWholeWords" 
+                           Style="{StaticResource TextBlockHeaderClearStyle}">
+                    Hello and welcome to
+            </TextBlock>
+            <TextBlock Name="TitleDialogTextBlock" FontSize="30" TextWrapping="WrapWholeWords" Margin="0, 0, 0, 25"
+                           Style="{StaticResource TextBlockClearStyle}" FontWeight="Bold" 
+                           Foreground="{StaticResource TextBoxButtonForegroundThemeBrush}">
+                    WedChecker
+            </TextBlock>
 
-                <StackPanel>
-                    <TextBox x:Name="NameTextBox" Height="50" Margin="25, 0, 25, 0" TextWrapping="Wrap" Text="Name" Style="{StaticResource TextBoxClearStyle}"/>
-                    <DatePicker x:Name="dpWeddingDate" Width="300" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
-                    <TimePicker x:Name="tpWeddingDate" Width="300" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
-                    <Button x:Name="SubmitButton" Content="NEXT" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource ButtonClearStyle}"/>
-                </StackPanel>
-                <TextBox x:Name="TimesProcessed" x:FieldModifier="Public" Visibility="Collapsed" Text="0"/>
+            <StackPanel Name="firstStepPanel">
+                <TextBlock Name="firstDialogTextBlock" FontSize="18" TextWrapping="WrapWholeWords" Margin="0, 0, 0, 30" 
+                           Style="{StaticResource TextBlockClearStyle}">
+                    No doubt we will make a wonderful wedding. <LineBreak />
+                    Can I know your name first? <LineBreak />
+                    It will help me to know you better.
+                </TextBlock>
+
+                <TextBlock Name="tbError" FontSize="16" TextWrapping="WrapWholeWords" Margin="0, 0, 0, 5" 
+                       Foreground="DarkRed" TextAlignment="Center" />
+                <TextBox Name="NameTextBox" Height="30" Margin="0"
+                         Style="{StaticResource WedCheckerFormTextBoxStyle}"/>
             </StackPanel>
+
+            <StackPanel Name="secondStepPanel" Visibility="Collapsed">
+                <TextBlock Name="secondDialogTextBlock" FontSize="18" TextWrapping="WrapWholeWords" Margin="0, 0, 0, 30"
+                           Style="{StaticResource TextBlockClearStyle}">
+                    Great! <LineBreak/>
+                    Okay, when is your wedding?
+                </TextBlock>
+                
+                <DatePicker Name="dpWeddingDate" Width="300" HorizontalAlignment="Center" 
+                                VerticalAlignment="Center"/>
+
+                <TimePicker Name="tpWeddingDate" Width="300" HorizontalAlignment="Center" 
+                                VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <Button Name="SubmitButton" Content="Continue" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                            Style="{StaticResource ButtonClearStyle}" Width="200" Margin="10"/>
+            <TextBox x:Name="TimesProcessed" x:FieldModifier="Public" Visibility="Collapsed" Text="0"/>
         </StackPanel>
     </StackPanel>
 </UserControl>

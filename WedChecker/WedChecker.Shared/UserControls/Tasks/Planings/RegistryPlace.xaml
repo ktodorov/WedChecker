@@ -20,7 +20,7 @@
         <StackPanel Name="notesPanel" Orientation="Vertical" Grid.Row="0">
             <TextBox Name="tbRegistryNotes" Margin="20,0" TextChanged="tbRegistryNotes_TextChanged"/>
             <StackPanel Name="displayPanel" Visibility="Collapsed">
-                <TextBlock Name="tbRegistryNotesDisplay" Style="{StaticResource DisplayTextBlockStyle}"/>
+                <TextBlock Name="tbRegistryNotesDisplay" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"/>
             </StackPanel>
         </StackPanel>
 

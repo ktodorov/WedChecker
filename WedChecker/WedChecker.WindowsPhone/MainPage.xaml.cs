@@ -166,7 +166,9 @@ namespace WedChecker
             {
                 if (Core.IsFirstLaunch())
                 {
-                    await firstLaunchPopup.GreetUser();
+                    var firstLaunchPopup = new FirstLaunchPopup();
+                    firstLaunchPopup.VerticalAlignment = VerticalAlignment.Stretch;
+                    LayoutRoot.Children.Add(firstLaunchPopup);
                 }
                 else
                 {
@@ -213,7 +215,12 @@ namespace WedChecker
                 //spPlanings.Children.Add(new PopulatedTask(populatedControl, false));
                 AppData.InsertSerializableTask(populatedControl);
             }
-            firstLaunchPopup.Visibility = Visibility.Collapsed;
+
+            var firstLaunchPopup = LayoutRoot.Children.OfType<FirstLaunchPopup>().FirstOrDefault();
+            if (firstLaunchPopup != null)
+            {
+                LayoutRoot.Children.Remove(firstLaunchPopup);
+            }
             svMain.Visibility = Visibility.Collapsed;
             appBar.Visibility = Visibility.Visible;
             mainPivot.Visibility = Visibility.Visible;
