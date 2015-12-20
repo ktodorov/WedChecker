@@ -38,16 +38,9 @@
                 Hello, Beautiful <LineBreak />
                 <Span FontSize="15">and welcome to the best wedding planner around here</Span>
             </TextBlock>
-
-            <TextBlock Grid.Column="1" Text="WC" FontSize="50" Foreground="White" FontWeight="Bold"
-                       VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"/>
+         
+            <Image Source="/SharedAssets/WedCheckerIcon.png" Grid.Column="1" Width="55" Height="55"/>
         </Grid>
-
-        <!--<TextBlock Name="TitleDialogTextBlock" FontSize="30" Margin="10, 10, 0, 10"
-                   FontWeight="ExtraBold" FontFamily="Segoe UI" 
-                   Foreground="{StaticResource TextBoxButtonForegroundThemeBrush}">
-                    WedChecker
-        </TextBlock>-->
 
         <Pivot Name="mainPivot" SelectedIndex="0" IsLocked="True">
             <PivotItem Name="firstPivotItem" >
