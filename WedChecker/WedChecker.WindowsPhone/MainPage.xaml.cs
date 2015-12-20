@@ -33,6 +33,7 @@ namespace WedChecker
         private List<TaskListItem> PlanningTaskItems;
         private List<TaskListItem> PurchasingTaskItems;
         private List<TaskListItem> BookingTaskItems;
+        private bool FirstTimeLaunched = true;
 
         public MainPage()
         {
@@ -164,6 +165,11 @@ namespace WedChecker
             //Core.RoamingSettings.Values["first"] = false; // debug
             Loaded += async (sender, args) =>
             {
+                if (!FirstTimeLaunched)
+                {
+                    return;
+                }
+
                 if (Core.IsFirstLaunch())
                 {
                     var firstLaunchPopup = new FirstLaunchPopup();
@@ -177,12 +183,16 @@ namespace WedChecker
 
                     tbGreetUser.Text = string.Format("Hello, {0}", Core.GetSetting("Name"));
                 }
+
+                FirstTimeLaunched = false;
             };
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            this.navigationHelper.OnNavigatedFrom(e);
+            //this.navigationHelper.OnNavigatedFrom(e);
+
+            base.OnNavigatedFrom(e);
         }
 
         private void AddTaskButton_Click(object sender, RoutedEventArgs e)
@@ -246,6 +256,11 @@ namespace WedChecker
             var taskClicked = new KeyValuePair<string, object>(senderElement.Name, null);
             TaskData.CreateTaskControl(this, taskClicked);
             senderElement.IsEnabled = false;
+        }
+
+        private void AboutPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(AboutPage));
         }
     }
 }
