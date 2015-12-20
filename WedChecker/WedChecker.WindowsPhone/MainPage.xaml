@@ -182,7 +182,7 @@
                     Background="{StaticResource PhoneAccentBrush}" Foreground="White">
             <CommandBar.SecondaryCommands>
                 <AppBarButton Label="sync"/>
-                <AppBarButton Label="settings"/>
+                <AppBarButton Label="settings" Click="SettingsPageButton_Click"/>
                 <AppBarButton Label="about" Click="AboutPageButton_Click"/>
             </CommandBar.SecondaryCommands>
             <AppBarButton Icon="Add" IsCompact="False" Label="Add task" Click="AddTaskButton_Click"/>

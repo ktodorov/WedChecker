@@ -18,6 +18,7 @@ using WedChecker.Common;
 using System.Threading.Tasks;
 using Windows.Phone.UI.Input;
 using System.Threading;
+using WedChecker.WindowsPhoneControls;
 
 namespace WedChecker
 {
@@ -261,6 +262,11 @@ namespace WedChecker
         private void AboutPageButton_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(AboutPage));
+        }
+
+        private void SettingsPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(SettingsPage));
         }
     }
 }
