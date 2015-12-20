@@ -37,7 +37,8 @@
                 <TextBlock Text="Emails" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
                        FontSize="17" Foreground="Black"/>
                 <TextBlock Name="tbContactEmails" Margin="25, 0, 10, 0"
-                       Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="17"/>
+                       Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="17">
+                </TextBlock>
                 <TextBox Name="tbEditContactEmails" Visibility="Collapsed"
                        Style="{StaticResource WedCheckerFormTextBoxStyle}" FontSize="17"/>
             </StackPanel>
@@ -47,7 +48,8 @@
                 <TextBlock Text="Phones" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
                        FontSize="17" Foreground="Black"/>
                 <TextBlock Name="tbContactPhones" Margin="25, 0, 10, 0"
-                       Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="17"/>
+                       Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="17">
+                </TextBlock>
                 <TextBox Name="tbEditContactPhones" Visibility="Collapsed"
                        Style="{StaticResource WedCheckerFormTextBoxStyle}" FontSize="17"/>
             </StackPanel>

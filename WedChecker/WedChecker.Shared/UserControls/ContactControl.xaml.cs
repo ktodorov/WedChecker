@@ -3,8 +3,10 @@ using System.IO;
 using System.Linq;
 using WedChecker.Common;
 using Windows.ApplicationModel.Contacts;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
@@ -139,7 +141,9 @@ namespace WedChecker.UserControls
                     emails += $"{email.Address}{Environment.NewLine}";
                 }
 
-                tbContactEmails.Text = emails;
+                var hyperlinkText = CreateNewHyperlink($"mailto:{emails}", emails);
+                tbContactEmails.Inlines.Clear();
+                tbContactEmails.Inlines.Add(hyperlinkText);
                 tbEditContactEmails.Text = emails;
             }
             else
@@ -156,7 +160,9 @@ namespace WedChecker.UserControls
                     phones += $"{phone.Number}{Environment.NewLine}";
                 }
 
-                tbContactPhones.Text = phones;
+                var hyperlinkText = CreateNewHyperlink($"tel:{phones}", phones);
+                tbContactPhones.Inlines.Clear();
+                tbContactPhones.Inlines.Add(hyperlinkText);
                 tbEditContactPhones.Text = phones;
             }
             else
@@ -418,7 +424,10 @@ namespace WedChecker.UserControls
             StoredContact.LastName = lastName;
 
             // Emails
-            tbContactEmails.Text = tbEditContactEmails.Text;
+            var hyperlinkText = CreateNewHyperlink($"mailto:{tbEditContactEmails.Text}", tbEditContactEmails.Text);
+            tbContactEmails.Inlines.Clear();
+            tbContactEmails.Inlines.Add(hyperlinkText);
+
             StoredContact.Emails.Clear();
 
             if (!string.IsNullOrEmpty(tbEditContactEmails.Text))
@@ -430,7 +439,9 @@ namespace WedChecker.UserControls
             }
 
             // Phones
-            tbContactPhones.Text = tbEditContactPhones.Text;
+            hyperlinkText = CreateNewHyperlink($"tel:{tbEditContactPhones.Text}", tbEditContactPhones.Text);
+            tbContactPhones.Inlines.Clear();
+            tbContactPhones.Inlines.Add(hyperlinkText);
             StoredContact.Phones.Clear();
 
             if (!string.IsNullOrEmpty(tbEditContactPhones.Text))
@@ -471,6 +482,26 @@ namespace WedChecker.UserControls
             }
 
             StoreContact(contact);
+        }
+
+        private Hyperlink CreateNewHyperlink(string navigateUri, string text)
+        {
+            var currentAccentColorHex = Core.GetPhoneAccentBrush();
+
+            // Navigate URI
+            var hyperlinkText = new Hyperlink();
+            hyperlinkText.NavigateUri = new Uri(navigateUri);
+
+            // Inline text
+            var line = new Run();
+            line.Text = text;
+            hyperlinkText.Inlines.Add(line);
+
+            // Foreground
+            SolidColorBrush backColor = new SolidColorBrush(currentAccentColorHex);
+            hyperlinkText.Foreground = backColor;
+
+            return hyperlinkText;
         }
     }
 }
