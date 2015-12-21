@@ -22,13 +22,12 @@
                     <ColumnDefinition Width="50" />
                 </Grid.ColumnDefinitions>
                 <Button Name="buttonTaskName" VerticalAlignment="Top"
+                        Style="{StaticResource WedCheckerTextButtonStyle}"
                         HorizontalAlignment="Stretch" 
                         HorizontalContentAlignment="Left"
                         BorderThickness="0" Click="buttonTaskName_Click"
-                        Grid.Column="0">
-                    <TextBlock Name="tbTaskName" Text="Task name" TextWrapping="WrapWholeWords"
-                               FontSize="25" FontWeight="Bold" TextAlignment="Left"
-                               HorizontalAlignment="Left" Foreground="{StaticResource PhoneAccentBrush}"/>
+                        Grid.Column="0"
+                        Content="Task name">
                 </Button>
 
                 <Button Name="editTask" Content="&#xE104;" FontFamily="Segoe UI Symbol" FontSize="30"
