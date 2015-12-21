@@ -75,18 +75,45 @@ namespace UniversalBackgroundTasks
             updater.EnableNotificationQueue(true);
             updater.Clear();
 
-            // Create a tile notification for each feed item.
-            {
-                XmlDocument tileXml = TileUpdateManager.GetTemplateContent(TileTemplateType.TileWide310x150Text04);
+            // Create a live update for a square tile
+            XmlDocument tileXml = TileUpdateManager.GetTemplateContent(TileTemplateType.TileSquare150x150PeekImageAndText03);
 
-                var title = $"{remainingTime.RemainingDays} days and {remainingTime.RemainingHours} hours remaining to the wedding!";
-                tileXml.GetElementsByTagName(textElementName)[0].InnerText = title;
+            XmlNodeList tileTextAttributes = tileXml.GetElementsByTagName("text");
+            tileTextAttributes[0].InnerText = $"{remainingTime.RemainingDays} days";
+            tileTextAttributes[1].InnerText = $"{remainingTime.RemainingHours} hours";
+            tileTextAttributes[2].InnerText = "remaining";
 
-                // Create a new tile notification. 
-                updater.Update(new TileNotification(tileXml));
-            }
+            XmlNodeList tileImageAttributes = tileXml.GetElementsByTagName("image");
+            ((XmlElement)tileImageAttributes[0]).SetAttribute("src", "ms-appx:///Assets/Square71x71Logo.scale-240.png");
+            ((XmlElement)tileImageAttributes[0]).SetAttribute("alt", "Contoso Food & Dining logo");
+
+            var tileBinding = (XmlElement)tileXml.GetElementsByTagName("binding").Item(0);
+            tileBinding.SetAttribute("branding", "nameAndLogo");
+
+            // Create a tile notification for wide tile.
+            XmlDocument wideTileXml = TileUpdateManager.GetTemplateContent(TileTemplateType.TileWide310x150PeekImage04);
+
+            var wideTitle = $"{remainingTime.RemainingDays} days and {remainingTime.RemainingHours} hours remaining to the wedding";
+            wideTileXml.GetElementsByTagName("text")[0].InnerText = wideTitle;
+
+            XmlNodeList wideTileImageAttributes = wideTileXml.GetElementsByTagName("image");
+            ((XmlElement)wideTileImageAttributes[0]).SetAttribute("src", "ms-appx:///Assets/WideLogo.scale-240.png");
+            ((XmlElement)wideTileImageAttributes[0]).SetAttribute("alt", "WedChecker");
+
+            // Create a new tile notification. 
+            updater.Update(new TileNotification(wideTileXml));
+
+            var wideTileBinding = (XmlElement)wideTileXml.GetElementsByTagName("binding").Item(0);
+            wideTileBinding.SetAttribute("branding", "nameAndLogo");
+
+            // Add the wide tile to the square tile's payload, so they are sibling elements under visual 
+            IXmlNode node = tileXml.ImportNode(wideTileXml.GetElementsByTagName("binding").Item(0), true);
+            tileXml.GetElementsByTagName("visual").Item(0).AppendChild(node);
+
+            // Create a tile notification that will expire in 1 day and send the live tile update.  
+            TileNotification tileNotification = new TileNotification(tileXml);
+            tileNotification.ExpirationTime = DateTimeOffset.UtcNow.AddHours(1);
+            TileUpdateManager.CreateTileUpdaterForApplication().Update(tileNotification);
         }
-        static string textElementName = "text";
-
     }
 }

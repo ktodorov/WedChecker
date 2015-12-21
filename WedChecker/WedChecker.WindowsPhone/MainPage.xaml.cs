@@ -208,7 +208,7 @@ namespace WedChecker
             BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder();
             taskBuilder.Name = taskName;
             taskBuilder.TaskEntryPoint = taskEntryPoint;
-            taskBuilder.SetTrigger(new TimeTrigger(15, false));
+            taskBuilder.SetTrigger(new TimeTrigger(30, false));
             var registration = taskBuilder.Register();
         }
 
