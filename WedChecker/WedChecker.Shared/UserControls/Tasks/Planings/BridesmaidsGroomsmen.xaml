@@ -11,6 +11,9 @@
         <Button Name="selectBridesmaids" Content="Select bridesmaids" Style="{StaticResource ButtonClearStyle}"
                 VerticalAlignment="Center" HorizontalAlignment="Center"
                 Click="selectBridesmaids_Click" Width="200"/>
+        <Button Name="addNewBridesmaidButton" Content="Add bridesmaid" Style="{StaticResource ButtonClearStyle}"
+                VerticalAlignment="Center" HorizontalAlignment="Center"
+                Click="addNewBridesmaidButton_Click" Width="200"/>
         <StackPanel Name="spBridesmaids">
         </StackPanel>
 
@@ -20,6 +23,9 @@
         <Button Name="selectGroomsmen" Content="Select groomsmen" Style="{StaticResource ButtonClearStyle}"
                 VerticalAlignment="Center" HorizontalAlignment="Center"
                 Click="selectGroomsmen_Click" Width="200"/>
+        <Button Name="addNewGroomsmanButton" Content="Add groomsman" Style="{StaticResource ButtonClearStyle}"
+                VerticalAlignment="Center" HorizontalAlignment="Center"
+                Click="addNewGroomsmanButton_Click" Width="200"/>
         <StackPanel Name="spGroomsmen">
         </StackPanel>
     </StackPanel>

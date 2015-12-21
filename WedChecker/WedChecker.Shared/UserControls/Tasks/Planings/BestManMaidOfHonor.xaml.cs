@@ -103,10 +103,12 @@ namespace WedChecker.UserControls.Tasks.Planings
 
             if (BestMan != null)
             {
+                writer.Write("BestMan");
                 ccBestMan.SerializeContact(writer);
             }
             if (MaidOfHonor != null)
             {
+                writer.Write("MaidOfHonor");
                 ccMaidOfHonor.SerializeContact(writer);
             }
         }
@@ -119,16 +121,6 @@ namespace WedChecker.UserControls.Tasks.Planings
             for (int i = 0; i < records; i++)
             {
                 var type = reader.ReadString();
-
-                var guestId = reader.ReadString();
-
-                var guestFirstName = reader.ReadString();
-                var guestLastName = reader.ReadString();
-
-                var contact = new Contact();
-                contact.Id = guestId;
-                contact.FirstName = guestFirstName;
-                contact.LastName = guestLastName;
 
                 if (type == "BestMan")
                 {
