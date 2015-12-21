@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WedChecker", "WedChecker", "{7DEA1786-4C40-4531-A64A-8F5C1E31E04D}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WedChecker.Windows", "WedChecker\WedChecker.Windows\WedChecker.Windows.csproj", "{18B0373F-4F45-49F5-AE48-DC06F251E033}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WedChecker.WindowsPhone", "WedChecker\WedChecker.WindowsPhone\WedChecker.WindowsPhone.csproj", "{7063C55F-77EE-4FA6-8D0B-AA7A91F5605A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalBackgroundTasks", "UniversalBackgroundTasks\UniversalBackgroundTasks.csproj", "{8B17C0BD-BC28-4F8A-863D-268FBD24114A}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -72,6 +74,22 @@ Global
 		{7063C55F-77EE-4FA6-8D0B-AA7A91F5605A}.Release|x86.ActiveCfg = Release|x86
 		{7063C55F-77EE-4FA6-8D0B-AA7A91F5605A}.Release|x86.Build.0 = Release|x86
 		{7063C55F-77EE-4FA6-8D0B-AA7A91F5605A}.Release|x86.Deploy.0 = Release|x86
+		{8B17C0BD-BC28-4F8A-863D-268FBD24114A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B17C0BD-BC28-4F8A-863D-268FBD24114A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B17C0BD-BC28-4F8A-863D-268FBD24114A}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{8B17C0BD-BC28-4F8A-863D-268FBD24114A}.Debug|ARM.Build.0 = Debug|Any CPU
+		{8B17C0BD-BC28-4F8A-863D-268FBD24114A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8B17C0BD-BC28-4F8A-863D-268FBD24114A}.Debug|x64.Build.0 = Debug|Any CPU
+		{8B17C0BD-BC28-4F8A-863D-268FBD24114A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8B17C0BD-BC28-4F8A-863D-268FBD24114A}.Debug|x86.Build.0 = Debug|Any CPU
+		{8B17C0BD-BC28-4F8A-863D-268FBD24114A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B17C0BD-BC28-4F8A-863D-268FBD24114A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B17C0BD-BC28-4F8A-863D-268FBD24114A}.Release|ARM.ActiveCfg = Release|Any CPU
+		{8B17C0BD-BC28-4F8A-863D-268FBD24114A}.Release|ARM.Build.0 = Release|Any CPU
+		{8B17C0BD-BC28-4F8A-863D-268FBD24114A}.Release|x64.ActiveCfg = Release|Any CPU
+		{8B17C0BD-BC28-4F8A-863D-268FBD24114A}.Release|x64.Build.0 = Release|Any CPU
+		{8B17C0BD-BC28-4F8A-863D-268FBD24114A}.Release|x86.ActiveCfg = Release|Any CPU
+		{8B17C0BD-BC28-4F8A-863D-268FBD24114A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -45,13 +45,14 @@ namespace WedChecker.Common
         {
             object result = null;
 
-            if (LocalSettings.Values[key] != null)
+            if (LocalSettings.Values.ContainsKey(key))
             {
                 result = LocalSettings.Values[key];
             }
             else if (RoamingSettings.Values[key] != null)
             {
                 result = RoamingSettings.Values[key];
+                LocalSettings.Values.Add(key, result);
             }
 
             return result;

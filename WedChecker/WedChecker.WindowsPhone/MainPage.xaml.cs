@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using Windows.Phone.UI.Input;
 using System.Threading;
 using WedChecker.WindowsPhoneControls;
+using Windows.ApplicationModel.Background;
 
 namespace WedChecker
 {
@@ -163,6 +164,8 @@ namespace WedChecker
         /// This parameter is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            this.RegisterBackgroundTask();
+
             //Core.RoamingSettings.Values["first"] = false; // debug
             Loaded += async (sender, args) =>
             {
@@ -188,6 +191,27 @@ namespace WedChecker
                 FirstTimeLaunched = false;
             };
         }
+
+        private const string taskName = "RemainingTimeBackgroundTask";
+        private const string taskEntryPoint = "UniversalBackgroundTasks.RemainingTimeBackgroundTask";
+
+        private void RegisterBackgroundTask()
+        {
+            foreach (var task in BackgroundTaskRegistration.AllTasks)
+            {
+                if (task.Value.Name == taskName)
+                {
+                    task.Value.Unregister(true);
+                }
+            }
+
+            BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder();
+            taskBuilder.Name = taskName;
+            taskBuilder.TaskEntryPoint = taskEntryPoint;
+            taskBuilder.SetTrigger(new TimeTrigger(15, false));
+            var registration = taskBuilder.Register();
+        }
+
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
@@ -244,7 +268,7 @@ namespace WedChecker
 
         private void TaskItem_Clicked(object sender, RoutedEventArgs e)
         {
-            
+
         }
         private void TaskTile_Tapped(object sender, TappedRoutedEventArgs e)
         {
