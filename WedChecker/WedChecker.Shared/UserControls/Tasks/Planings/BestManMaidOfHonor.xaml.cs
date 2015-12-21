@@ -14,8 +14,20 @@ namespace WedChecker.UserControls.Tasks.Planings
     public sealed partial class BestManMaidOfHonor : BaseTaskControl
     {
 
-        private Contact BestMan;
-        private Contact MaidOfHonor;
+        private Contact BestMan
+        {
+            get
+            {
+                return ccBestMan.StoredContact;
+            }
+        }
+        private Contact MaidOfHonor
+        {
+            get
+            {
+                return ccMaidOfHonor.StoredContact;
+            }
+        }
 
 
         public override string TaskName
@@ -52,33 +64,25 @@ namespace WedChecker.UserControls.Tasks.Planings
             this.InitializeComponent();
             if (contacts.ContainsKey("BestMan"))
             {
-                BestMan = contacts["BestMan"];
-                var cBestMan = new ContactControl(BestMan);
-                cBestMan.OnDelete = deleteBestManButton_Click;
-                cBestMan.Visibility = Visibility.Visible;
-                spMaidOfHonor.Children.Add(cBestMan);
+                ccBestMan.StoreContact(contacts["BestMan"]);
             }
 
             if (contacts.ContainsKey("MaidOfHonor"))
             {
-                MaidOfHonor = contacts["MaidOfHonor"];
-                var cMaidOfHonor = new ContactControl(MaidOfHonor);
-                cMaidOfHonor.OnDelete = deleteBestManButton_Click;
-                cMaidOfHonor.Visibility = Visibility.Visible;
-                spMaidOfHonor.Children.Add(cMaidOfHonor);
+                ccMaidOfHonor.StoreContact(contacts["MaidOfHonor"]);
             }
         }
 
         public override void DisplayValues()
         {
-            selectBestMan.Visibility = Visibility.Collapsed;
-            selectMaidOfHonor.Visibility = Visibility.Collapsed;
+            ccBestMan.DisplayValues();
+            ccMaidOfHonor.DisplayValues();
         }
 
         public override void EditValues()
         {
-            selectBestMan.Visibility = Visibility.Visible;
-            selectMaidOfHonor.Visibility = Visibility.Visible;
+            ccBestMan.EditValues();
+            ccMaidOfHonor.EditValues();
         }
 
         public override void Serialize(BinaryWriter writer)
@@ -99,17 +103,11 @@ namespace WedChecker.UserControls.Tasks.Planings
 
             if (BestMan != null)
             {
-                writer.Write("BestMan");
-                writer.Write(BestMan.Id);
-                writer.Write(BestMan.FirstName);
-                writer.Write(BestMan.LastName);
+                ccBestMan.SerializeContact(writer);
             }
             if (MaidOfHonor != null)
             {
-                writer.Write("MaidOfHonor");
-                writer.Write(MaidOfHonor.Id);
-                writer.Write(MaidOfHonor.FirstName);
-                writer.Write(MaidOfHonor.LastName);
+                ccMaidOfHonor.SerializeContact(writer);
             }
         }
 
@@ -134,21 +132,13 @@ namespace WedChecker.UserControls.Tasks.Planings
 
                 if (type == "BestMan")
                 {
-                    DeleteBestMan();
-                    BestMan = contact;
-                    var cBestMan = new ContactControl(contact);
-                    cBestMan.OnDelete = deleteBestManButton_Click;
-                    cBestMan.Visibility = Visibility.Visible;
-                    spBestMan.Children.Add(cBestMan);
+                    ccBestMan.DeserializeContact(reader);
+                    ccBestMan.OnDelete = deleteBestManButton_Click;
                 }
                 else if (type == "MaidOfHonor")
                 {
-                    DeleteMaidOfHonor();
-                    MaidOfHonor = contact;
-                    var cMaidOfHonor = new ContactControl(contact);
-                    cMaidOfHonor.OnDelete = deleteMaidOfHonorButton_Click;
-                    cMaidOfHonor.Visibility = Visibility.Visible;
-                    spMaidOfHonor.Children.Add(cMaidOfHonor);
+                    ccMaidOfHonor.DeserializeContact(reader);
+                    ccMaidOfHonor.OnDelete = deleteMaidOfHonorButton_Click;
                 }
             }
 
@@ -162,71 +152,14 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         async void deleteBestManButton_Click(object sender, RoutedEventArgs e)
         {
-            DeleteBestMan();
+            ccBestMan.ClearContact();
             await AppData.SerializeData();
         }
 
         async void deleteMaidOfHonorButton_Click(object sender, RoutedEventArgs e)
         {
-            DeleteMaidOfHonor();
+            ccMaidOfHonor.ClearContact();
             await AppData.SerializeData();
-        }
-        private void DeleteBestMan()
-        {
-            BestMan = null;
-            var cBestMan = spBestMan.Children.OfType<ContactControl>().FirstOrDefault();
-            spBestMan.Children.Remove(cBestMan);
-        }
-
-        private void DeleteMaidOfHonor()
-        {
-            MaidOfHonor = null;
-            var cMaidOfHonor = spMaidOfHonor.Children.OfType<ContactControl>().FirstOrDefault();
-            spMaidOfHonor.Children.Remove(cMaidOfHonor);
-        }
-
-        private async void selectBestMan_Click(object sender, RoutedEventArgs e)
-        {
-            var picker = new ContactPicker();
-            picker.DesiredFieldsWithContactFieldType.Add(ContactFieldType.PhoneNumber);
-            var contact = await picker.PickContactAsync();
-
-            if (contact == null)
-            {
-                return;
-            }
-            DeleteBestMan();
-
-            BestMan = contact;
-
-            var contactControl = new ContactControl(contact);
-            contactControl.OnDelete = deleteBestManButton_Click;
-            contactControl.Visibility = Visibility.Visible;
-
-            spBestMan.Children.Add(contactControl);
-        }
-
-
-        private async void selectMaidOfHonor_Click(object sender, RoutedEventArgs e)
-        {
-            var picker = new ContactPicker();
-            picker.DesiredFieldsWithContactFieldType.Add(ContactFieldType.PhoneNumber);
-            var contact = await picker.PickContactAsync();
-
-            if (contact == null)
-            {
-                return;
-            }
-
-            DeleteMaidOfHonor();
-
-            MaidOfHonor = contact;
-
-            var contactControl = new ContactControl(contact);
-            contactControl.OnDelete = deleteMaidOfHonorButton_Click;
-            contactControl.Visibility = Visibility.Visible;
-
-            spBestMan.Children.Add(contactControl);
         }
     }
 }

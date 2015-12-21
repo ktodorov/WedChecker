@@ -55,8 +55,73 @@ namespace WedChecker.UserControls
             }
         }
 
-        private bool IsEditable = false;
-        private bool EditAlongWith = true;
+        private bool _isEditable;
+        public bool IsEditable
+        {
+            get
+            {
+                return _isEditable;
+            }
+            set
+            {
+                _isEditable = value;
+            }
+        }
+
+        private bool _editAlongWith;
+        public bool EditAlongWith
+        {
+            get
+            {
+                return _editAlongWith;
+            }
+            set
+            {
+                _editAlongWith = value;
+            }
+        }
+
+        private bool _showAlongWithPanel;
+        public bool ShowAlongWithPanel
+        {
+            get
+            {
+                return _showAlongWithPanel;
+            }
+            set
+            {
+                _showAlongWithPanel = value;
+            }
+        }
+
+        public string Header
+        {
+            get
+            {
+                return tbHeader.Text;
+            }
+            set
+            {
+                if (tbHeader.Visibility == Visibility.Collapsed)
+                {
+                    tbHeader.Visibility = Visibility.Visible;
+                }
+
+                tbHeader.Text = value;
+            }
+        }
+
+        public string RemoveButtonContent
+        {
+            get
+            {
+                return deleteButton.Content as string;
+            }
+            set
+            {
+                deleteButton.Content = value;
+            }
+        }
 
         public ContactControl()
         {
@@ -184,6 +249,11 @@ namespace WedChecker.UserControls
             tbAlongWith.Text = string.Empty;
         }
 
+        public void ClearContact()
+        {
+            ClearAllFields();
+        }
+
         public void DisplayValues()
         {
             AdjustVisibility();
@@ -268,6 +338,15 @@ namespace WedChecker.UserControls
             {
                 phonesPanel.Visibility = Visibility.Collapsed;
             }
+
+            if (!ShowAlongWithPanel)
+            {
+                alongWithPanel.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                alongWithPanel.Visibility = Visibility.Visible;
+            }
         }
 
         private int GetFilledFields()
@@ -282,7 +361,7 @@ namespace WedChecker.UserControls
             if (StoredContact.Id != null) result++;
             if (StoredContact.FirstName != null) result++;
             if (StoredContact.LastName != null) result++;
-            if (StoredContact.Notes != null) result++;
+            if (StoredContact.Notes != null && ShowAlongWithPanel) result++;
             if (StoredContact.Emails.Count > 0) result++;
             if (StoredContact.Phones.Count > 0) result++;
 
@@ -322,7 +401,7 @@ namespace WedChecker.UserControls
                 writer.Write("LastName");
                 writer.Write(StoredContact.LastName);
             }
-            if (StoredContact.Notes != null)
+            if (StoredContact.Notes != null && ShowAlongWithPanel)
             {
                 writer.Write("Notes");
                 writer.Write(StoredContact.Notes);
@@ -452,6 +531,10 @@ namespace WedChecker.UserControls
                 StoredContact.Phones.Add(phone);
             }
             
+            if (!ShowAlongWithPanel)
+            {
+                return;
+            }
             // Notes
             StoredContact.Notes = tbAlongWith.Text;
             tbCheckboxTextDisplay.Text = tbAlongWith.Text;

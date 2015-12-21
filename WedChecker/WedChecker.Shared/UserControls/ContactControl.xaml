@@ -10,6 +10,10 @@
     <Border Name="mainBorder" Margin="6, 3" Padding="0, 10" BorderThickness="1">
         <StackPanel Height="Auto" Orientation="Vertical">
 
+            <TextBlock Name="tbHeader" Style="{StaticResource WedCheckerFormTextBlockStyle}"
+                       FontSize="20" TextAlignment="Center" HorizontalAlignment="Center"
+                       Visibility="Collapsed"/>
+
             <Button Name="selectContactButton"
                     Style="{StaticResource ButtonClearStyle}" Content="Select"
                     HorizontalAlignment="Center"
@@ -55,7 +59,7 @@
             </StackPanel>
 
             <!-- Along with -->
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+            <StackPanel Name="alongWithPanel" Orientation="Horizontal" HorizontalAlignment="Left">
                 <TextBlock Name="tbCheckboxText" TextAlignment="Right" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
                        Text="Along with" VerticalAlignment="Center" FontSize="15" Margin="25, 0, 0, 0"
                        Foreground="Black"/>
@@ -68,7 +72,7 @@
 
             <!-- Delete contact -->
             <Button Name="deleteButton" BorderThickness="0"
-                    Content="Remove this guest" Style="{StaticResource ButtonClearStyle}"
+                    Content="Remove" Style="{StaticResource ButtonClearStyle}"
                     HorizontalAlignment="Center" Width="200"/>
         </StackPanel>
     </Border>

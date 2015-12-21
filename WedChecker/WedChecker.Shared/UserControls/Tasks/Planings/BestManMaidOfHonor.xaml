@@ -5,20 +5,13 @@
     xmlns:local="using:WedChecker.UserControls.Tasks.Planings"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:we="using:WedChecker.UserControls.Tasks">
+    xmlns:we="using:WedChecker.UserControls.Tasks"
+    xmlns:uc="using:WedChecker.UserControls">
     <StackPanel Orientation="Vertical">
-        <StackPanel Name="spBestMan">
-            <Button Name="selectBestMan" Content="Select best man" Style="{StaticResource ButtonClearStyle}"
-                VerticalAlignment="Center" HorizontalAlignment="Center"
-                Click="selectBestMan_Click" Width="200"/>
-        </StackPanel>
-
-        <Border Style="{StaticResource WedCheckerBorderSplitter}" Margin="15, 0"/>
-
-        <StackPanel Name="spMaidOfHonor">
-            <Button Name="selectMaidOfHonor" Content="Select maid of honor" Style="{StaticResource ButtonClearStyle}"
-                VerticalAlignment="Center" HorizontalAlignment="Center"
-                Click="selectMaidOfHonor_Click" Width="200"/>
-        </StackPanel>
+        <uc:ContactControl x:Name="ccBestMan" Header="Best man" RemoveButtonContent="Clear"
+                           IsEditable="True" ShowAlongWithPanel="False"/>
+        
+        <uc:ContactControl x:Name="ccMaidOfHonor" Header="Maid of honor" RemoveButtonContent="Clear"
+                           IsEditable="True" ShowAlongWithPanel="False"/>
     </StackPanel>
 </we:BaseTaskControl>
