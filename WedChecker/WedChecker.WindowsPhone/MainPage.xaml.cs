@@ -20,6 +20,7 @@ using Windows.Phone.UI.Input;
 using System.Threading;
 using WedChecker.WindowsPhoneControls;
 using Windows.ApplicationModel.Background;
+using Windows.UI.Popups;
 
 namespace WedChecker
 {
@@ -279,8 +280,12 @@ namespace WedChecker
             }
 
             var taskClicked = new KeyValuePair<string, object>(senderElement.Name, null);
-            TaskData.CreateTaskControl(this, taskClicked);
-            senderElement.IsEnabled = false;
+
+            var created = TaskData.CreateTaskControl(this, taskClicked);
+            if (created)
+            {
+                senderElement.IsEnabled = false;
+            }
         }
 
         private void AboutPageButton_Click(object sender, RoutedEventArgs e)

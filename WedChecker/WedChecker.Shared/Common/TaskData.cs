@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Controls;
 using System.Reflection;
 using System.Linq;
 using WedChecker.UserControls;
+using Windows.UI.Popups;
 
 #if WINDOWS_PHONE_APP
 using Windows.Phone.UI.Input;
@@ -16,15 +17,23 @@ namespace WedChecker.Common
 {
     public static partial class TaskData
     {
-        public static void CreateTaskControl(Page currentPage, KeyValuePair<string, object> populatedControl)
+        public static bool CreateTaskControl(Page currentPage, KeyValuePair<string, object> populatedControl)
         {
             object value = populatedControl.Value;
             var type = GetTaskType(populatedControl.Key);
             BaseTaskControl taskControl = null;
             taskControl = CreateTaskControl(type, value);
+
+            if (taskControl == null)
+            {
+                return false;
+            }
+
             AppData.InsertSerializableTask(taskControl);
 
             InsertTaskControl(currentPage, type, taskControl, true);
+
+            return true;
         }
 
         public static void InsertTaskControl(Page currentPage, Type type, BaseTaskControl taskControl, bool isNew = true)
@@ -118,14 +127,27 @@ namespace WedChecker.Common
 
         private static BaseTaskControl CreateTaskControl(Type taskType, object value)
         {
-            if (value == null)
+            try
             {
-                return Activator.CreateInstance(taskType) as BaseTaskControl;
-            }
+                if (value == null)
+                {
+                    return Activator.CreateInstance(taskType) as BaseTaskControl;
+                }
 
-            return Activator.CreateInstance(taskType, value) as BaseTaskControl;
+                return Activator.CreateInstance(taskType, value) as BaseTaskControl;
+            }
+            catch (Exception ex)
+            {
+                var msgDialog = new MessageDialog(ex.InnerException.Message, "Oops");
+
+                UICommand okBtn = new UICommand("OK");
+                msgDialog.Commands.Add(okBtn);
+
+                msgDialog.ShowAsync();
+                return null;
+            }
         }
-        
+
         public static void DisableAddedTasks(GridView itemsControl)
         {
             foreach (var item in itemsControl.Items)

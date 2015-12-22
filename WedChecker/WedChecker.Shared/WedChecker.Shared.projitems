@@ -20,6 +20,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\TaskData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Tasks.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\WedCheckerInvalidDataException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\ContactControl.xaml.cs">
       <DependentUpon>ContactControl.xaml</DependentUpon>
     </Compile>
