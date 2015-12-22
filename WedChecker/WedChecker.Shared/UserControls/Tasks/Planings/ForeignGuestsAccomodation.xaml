@@ -7,8 +7,24 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:we="using:WedChecker.UserControls.Tasks">
     <StackPanel Name="spMain"  Orientation="Vertical">
-    
-        
-        <StackPanel Name="storedGuestsPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed"/>
+        <StackPanel Name="treeViewPanel" Orientation="Vertical" />
+
+        <StackPanel Name="storedGuestsPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+               Visibility="Collapsed" Orientation="Vertical">
+            <StackPanel.ChildrenTransitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition />
+                </TransitionCollection>
+            </StackPanel.ChildrenTransitions>
+
+            <TextBlock Text="Select the guest for this place" Style="{StaticResource WedCheckerFormTextBlockStyle}"
+                       TextAlignment="Center"/>
+
+            <StackPanel Name="spGuests" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Vertical" 
+                        Margin="0, 10"/>
+
+            <Button Name="backButton" Content="Back" Style="{StaticResource ButtonClearStyle}" HorizontalAlignment="Center"
+                    Click="backButton_Click"/>
+        </StackPanel>
     </StackPanel>
 </we:BaseTaskControl>

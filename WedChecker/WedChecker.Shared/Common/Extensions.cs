@@ -5,6 +5,10 @@ using Windows.Devices.Geolocation;
 #endif
 
 
+using System;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+
 namespace WedChecker.Common
 {
     public class TaskListItem
@@ -49,5 +53,17 @@ namespace WedChecker.Common
         //Add any required Windows Phone Extensions
 
 #endif
+
+        public static FrameworkElement FindAncestorByType(this FrameworkElement element, Type elementType)
+        {
+            var parent = element.Parent as FrameworkElement;
+
+            while (parent != null && parent.GetType() != elementType)
+            {
+                parent = parent.Parent as FrameworkElement;
+            }
+
+            return parent;
+        }
     }
 }

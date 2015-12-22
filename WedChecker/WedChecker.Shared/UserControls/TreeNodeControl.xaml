@@ -21,13 +21,16 @@
 
             <Button Name="collapseButton" BorderThickness="0" Grid.Column="0"
                     VerticalAlignment="Center" HorizontalAlignment="Stretch" 
-                    Style="{StaticResource WedCheckerTextButtonStyle}"
-                    Click="collapseButton_Click" HorizontalContentAlignment="Left">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                    Click="collapseButton_Click" HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch">
                     <TextBlock Name="tbNodeSymbol" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
-                               FontFamily="Segoe UI Symbol" Text="&#xE09B;" />
-                    <TextBlock Name="tbNodeName" Text="Node name" 
-                               Style="{StaticResource WedCheckerDisplayTextBlockStyle}"/>
+                               FontFamily="Segoe UI Symbol" Text="&#xE09B;" FontWeight="Bold"
+                               VerticalAlignment="Center" Margin="5, 0"/>
+                    <TextBlock Name="tbNodeName" Text="Node name" FontWeight="Bold"
+                               Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
+                               VerticalAlignment="Center" Margin="0"/>
                 </StackPanel>
             </Button>
 
@@ -37,9 +40,12 @@
                     x:FieldModifier="Public"/>
         </Grid>
 
-        <StackPanel Name="childNodesPanel" Grid.Row="1" Margin="40, 0, 0, 0" 
+        <Border BorderThickness="1, 0, 0, 0" BorderBrush="Gray" Padding="5, 0, 0, 0"
+                Margin="15, 0, 0, 0" Grid.Row="1" >
+            <StackPanel Name="childNodesPanel" 
                     Orientation="Vertical" Visibility="Collapsed">
 
-        </StackPanel>
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>

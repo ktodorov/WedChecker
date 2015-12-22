@@ -45,7 +45,7 @@ namespace WedChecker.UserControls.Tasks.Planings
         public ForeignGuestsAccomodation()
         {
             this.InitializeComponent();
-
+            
             InitializeStoredInfo();
 
             foreach (var place in StoredPlaces)
@@ -54,39 +54,14 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
-        public ForeignGuestsAccomodation(List<KeyValuePair<string, List<Contact>>> guests)
-        {
-            this.InitializeComponent();
-
-            InitializeStoredInfo();
-
-            if (guests != null)
-            {
-                foreach (var place in guests)
-                {
-                    // If the saved place is no longer chosen from AccomodationPlaces task, we don't display it here
-                    if (!StoredPlaces.Any(p => p == place.Key))
-                    {
-                        continue;
-                    }
-                    AddPlace(place.Key);
-
-                    foreach (var guest in place.Value)
-                    {
-                        // If the saved guest is no longer chosen from GuestsList task, we don't display it here
-                        if (!StoredGuests.Any(g => g.Id == guest.Id))
-                        {
-                            continue;
-                        }
-                        AddGuestForPlace(place.Key, guest);
-                    }
-                }
-            }
-        }
-
         private void InitializeStoredInfo()
         {
-            var storedGuestsInfo = AppData.GetValue(TaskData.Tasks.GuestsList.ToString()).Split(new string[] { AppData.GLOBAL_SEPARATOR }, StringSplitOptions.None).ToList();
+            var storedGuests = AppData.GetValue(TaskData.Tasks.GuestsList.ToString());
+            if (storedGuests == null)
+            {
+                throw new WedCheckerInvalidDataException("No guests added. You must first add them from the Guest List planning task.");
+            }
+            var storedGuestsInfo = storedGuests.Split(new string[] { AppData.GLOBAL_SEPARATOR }, StringSplitOptions.None).ToList();
             for (var i = 0; i < storedGuestsInfo.Count / 4; i++)
             {
                 var contact = new Contact();
@@ -109,11 +84,12 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
 
             storedGuestsPanel.Visibility = Visibility.Visible;
+            treeViewPanel.Visibility = Visibility.Collapsed;
         }
 
         private void PopulateStoredGuests(string placeName)
         {
-            storedGuestsPanel.Children.Clear();
+            spGuests.Children.Clear();
 
             // We only take those that weren't already chosen
             var freeGuests = StoredGuests.Where(sg => !GuestsPerPlaces.Any(gp => gp.Value.Any(g => g.Id == sg.Id))).ToList();
@@ -123,6 +99,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                 guestButton.Content = $"{guest.FirstName} {guest.LastName}";
                 guestButton.Tag = $"{placeName}{AppData.GLOBAL_SEPARATOR}{guest.Id}";
                 guestButton.Click += GuestButton_Click;
+                guestButton.HorizontalAlignment = HorizontalAlignment.Stretch;
 
                 object buttonStyle = Application.Current.Resources["WedCheckerTextButtonStyle"];
                 if (buttonStyle != null && buttonStyle.GetType() == typeof(Style))
@@ -130,7 +107,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                     guestButton.Style = (Style)buttonStyle;
                 }
 
-                storedGuestsPanel.Children.Add(guestButton);
+                spGuests.Children.Add(guestButton);
             }
 
             if (freeGuests.Count == 0)
@@ -141,7 +118,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                 tbNoGuests.TextAlignment = TextAlignment.Center;
                 tbNoGuests.FontSize = 15;
 
-                storedGuestsPanel.Children.Add(tbNoGuests);
+                spGuests.Children.Add(tbNoGuests);
             }
         }
 
@@ -154,11 +131,12 @@ namespace WedChecker.UserControls.Tasks.Planings
             AddGuestForPlace(placeName, StoredGuests.FirstOrDefault(g => g.Id == id));
 
             storedGuestsPanel.Visibility = Visibility.Collapsed;
+            treeViewPanel.Visibility = Visibility.Visible;
         }
 
         public override void DisplayValues()
         {
-            var nodeControls = spMain.Children.OfType<TreeNodeControl>();
+            var nodeControls = treeViewPanel.Children.OfType<TreeNodeControl>();
             foreach (var nodeControl in nodeControls)
             {
                 nodeControl.DisplayValues();
@@ -167,7 +145,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override void EditValues()
         {
-            var nodeControls = spMain.Children.OfType<TreeNodeControl>();
+            var nodeControls = treeViewPanel.Children.OfType<TreeNodeControl>();
             foreach (var nodeControl in nodeControls)
             {
                 nodeControl.EditValues();
@@ -225,7 +203,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         private void ActualizeContactInformation()
         {
-            var placeNodes = spMain.Children.OfType<TreeNodeControl>();
+            var placeNodes = treeViewPanel.Children.OfType<TreeNodeControl>();
             foreach (var placeNode in placeNodes)
             {
                 GuestsPerPlaces[placeNode.NodeName] = new List<Contact>();
@@ -245,7 +223,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                 var placeNode = new TreeNodeControl();
                 placeNode.NodeName = name;
                 placeNode.addChildButton.Click += AddChildButton_Click;
-                spMain.Children.Add(placeNode);
+                treeViewPanel.Children.Add(placeNode);
 
                 GuestsPerPlaces.Add(name, new List<Contact>());
             }
@@ -268,10 +246,10 @@ namespace WedChecker.UserControls.Tasks.Planings
                     alongWith = 0;
                 }
 
-                var guestControl = new ContactControl(guest, alongWith.ToString(), false);
+                var guestControl = new ContactControl(guest, alongWith.ToString(), false, false);
                 guestControl.OnDelete = deleteGuestFromPlaceButton_Click;
 
-                var placeNode = spMain.Children.OfType<TreeNodeControl>().Where(tn => tn.NodeName == place).FirstOrDefault();
+                var placeNode = treeViewPanel.Children.OfType<TreeNodeControl>().Where(tn => tn.NodeName == place).FirstOrDefault();
 
                 if (placeNode != null)
                 {
@@ -288,7 +266,12 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         void deleteGuestFromPlaceButton_Click(object sender, RoutedEventArgs e)
         {
-            var contactControl = ((sender as Button).Parent as Grid).Parent as ContactControl;
+            var contactControl = (sender as Button).FindAncestorByType(typeof(ContactControl)) as ContactControl;
+            if (contactControl == null)
+            {
+                return;
+            }
+            //var contactControl = ((sender as Button).Parent as Grid).Parent as ContactControl;
             DeleteGuestFromPlace(contactControl.StoredContact.Id);
         }
 
@@ -300,11 +283,17 @@ namespace WedChecker.UserControls.Tasks.Planings
             {
                 GuestsPerPlaces[placeToUse].RemoveAll(g => g.Id == id);
 
-                spMain.Children.OfType<TreeNodeControl>().FirstOrDefault(tn => tn.NodeName == placeToUse)
+                treeViewPanel.Children.OfType<TreeNodeControl>().FirstOrDefault(tn => tn.NodeName == placeToUse)
                                                          .RemoveChildNode(c => (c is ContactControl) && (c as ContactControl).StoredContact.Id == id);
             }
 
             await AppData.SerializeData();
+        }
+
+        private void backButton_Click(object sender, RoutedEventArgs e)
+        {
+            treeViewPanel.Visibility = Visibility.Visible;
+            storedGuestsPanel.Visibility = Visibility.Collapsed;
         }
     }
 }

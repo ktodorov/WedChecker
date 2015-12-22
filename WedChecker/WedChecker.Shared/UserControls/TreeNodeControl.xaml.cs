@@ -78,6 +78,7 @@ namespace WedChecker.UserControls
                 tbNodeSymbol.Opacity = 0;
             }
             addChildButton.Visibility = Visibility.Collapsed;
+            collapseButton.SetValue(Grid.ColumnSpanProperty, 2);
 
             if (applyForChildren)
             {
@@ -97,6 +98,7 @@ namespace WedChecker.UserControls
         {
             tbNodeSymbol.Opacity = 1;
             addChildButton.Visibility = Visibility.Visible;
+            collapseButton.SetValue(Grid.ColumnSpanProperty, 1);
 
             if (applyForChildren)
             {

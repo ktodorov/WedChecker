@@ -282,7 +282,7 @@ namespace WedChecker.UserControls
         }
         public void EditValues()
         {
-            AdjustVisibility(true);
+            AdjustVisibility(IsEditable);
 
             if (IsEditable)
             {

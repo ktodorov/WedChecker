@@ -30,12 +30,22 @@
                         Content="Task name">
                 </Button>
 
-                <Button Name="editTask" Content="&#xE104;" FontFamily="Segoe UI Symbol" FontSize="30"
-                    Height="50" Width="50" BorderThickness="0" Foreground="{StaticResource PhoneAccentBrush}"
-                    VerticalAlignment="Center" HorizontalAlignment="Center" Click="editTask_Click"
+                <Button Name="editTask" Style="{StaticResource WedCheckerTextButtonStyle}"
+                        Content="&#xE104;" FontFamily="Segoe UI Symbol" FontSize="30"
+                        Height="50" Width="50" BorderThickness="0" Foreground="{StaticResource PhoneAccentBrush}"
+                        VerticalAlignment="Stretch" HorizontalAlignment="Center" Click="editTask_Click"
                         Grid.Column="1">
                 </Button>
             </Grid>
+
+            <StackPanel Name="errorPanel" Orientation="Vertical" Visibility="Collapsed">
+                <TextBlock Name="tbErrorMessage" Style="{StaticResource DisplayTextBlockStyle}"
+                           TextAlignment="Center" Margin="10, 0" TextWrapping="WrapWholeWords" 
+                           HorizontalAlignment="Center"/>
+
+                <Button Name="tryAgainButton" Style="{StaticResource ButtonClearStyle}"
+                        Content="Try again" HorizontalAlignment="Center" Click="tryAgainButton_Click"/>
+            </StackPanel>
 
             <StackPanel Name="childPanel" Orientation="Vertical">
                 <StackPanel.ChildrenTransitions>

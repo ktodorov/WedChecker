@@ -34,6 +34,8 @@ namespace WedChecker.UserControls.Tasks
         public virtual string EditHeader { get; }
         public virtual string DisplayHeader { get; }
 
+        public string ErrorMessage { get; set; }
+
         public virtual void DisplayValues()
         {
 

@@ -38,20 +38,29 @@ namespace WedChecker.UserControls.Tasks
         public PopulatedTask(BaseTaskControl control, bool isNew)
         {
             this.InitializeComponent();
-            ConnectedTaskControl = control;
-            ConnectedTaskControl.Margin = new Thickness(10);
-            spConnectedControl.Children.Add(ConnectedTaskControl);
-            buttonTaskName.Content = control.TaskName.ToUpper();
-            SetBackgroundColor();
 
-            if (!isNew)
+            try
             {
-                ConnectedTaskControl.DisplayValues();
-                Task.WaitAll(DisplayConnectedTask(false));
+                ConnectedTaskControl = control;
+                ConnectedTaskControl.Margin = new Thickness(10);
+                spConnectedControl.Children.Add(ConnectedTaskControl);
+                buttonTaskName.Content = control.TaskName.ToUpper();
+                SetBackgroundColor();
+
+                if (!isNew)
+                {
+                    ConnectedTaskControl.DisplayValues();
+                    Task.WaitAll(DisplayConnectedTask(false));
+                }
+                else
+                {
+                    EditConnectedTask();
+                }
+
             }
-            else
+            catch (Exception ex)
             {
-                EditConnectedTask();
+                var a = ex.Message;
             }
         }
 
@@ -140,6 +149,11 @@ namespace WedChecker.UserControls.Tasks
                 }
                 ConnectedTaskControl.DisplayValues();
             }
+        }
+
+        private void tryAgainButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
