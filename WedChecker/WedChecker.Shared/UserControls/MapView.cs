@@ -192,30 +192,43 @@ namespace WedChecker.UserControls
             MapLayer.SetPosition(pin, location.ToLocation());
             _pinLayer.Children.Add(pin);
 #elif WINDOWS_PHONE_APP
-            var pin = new Grid()
+            var pin = new StackPanel();
+            pin.Orientation = Orientation.Vertical;
+
+            var grid = new Grid()
             {
-                Width = 24,
-                Height = 24,
-                Margin = new Windows.UI.Xaml.Thickness(-12)
+                Margin = new Thickness(-1, -1, 0, 0)
             };
 
-            pin.Children.Add(new Ellipse()
+            var rectangle = new Rectangle()
             {
                 Fill = new SolidColorBrush(Colors.DodgerBlue),
-                Stroke = new SolidColorBrush(Colors.White),
-                StrokeThickness = 3,
-                Width = 24,
-                Height = 24
+            };
+
+            var points = new PointCollection();
+            points.Add(new Windows.Foundation.Point(0, 0));
+            points.Add(new Windows.Foundation.Point(10, 10));
+            points.Add(new Windows.Foundation.Point(0, 10));
+
+            pin.Children.Add(new Polygon()
+            {
+                Points = points,
+                Fill = new SolidColorBrush(Colors.DodgerBlue),
+                Stroke = new SolidColorBrush(Colors.DodgerBlue)
             });
 
-            pin.Children.Add(new TextBlock()
+            grid.Children.Add(rectangle);
+            grid.Children.Add(new TextBlock()
             {
                 Text = text,
                 FontSize = 12,
                 Foreground = new SolidColorBrush(Colors.White),
                 HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Center,
-                VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Center
+                VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Center,
+                Margin = new Thickness(3)
             });
+
+            pin.Children.Add(grid);
 
             MapControl.SetLocation(pin, new Geopoint(location));
             _map.Children.Add(pin);

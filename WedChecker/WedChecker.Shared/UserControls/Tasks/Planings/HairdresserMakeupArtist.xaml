@@ -8,23 +8,12 @@
     xmlns:we="using:WedChecker.UserControls.Tasks"
     xmlns:uc="using:WedChecker.UserControls">
     <StackPanel Orientation="Vertical">
+        <uc:ContactControl x:Name="ccHairdresser" IsEditable="False" EditAlongWith="True"
+                           Header="Hairdresser" ShowAlongWithPanel="True" IsReplaceable="True"
+                           ClearOnRemove="True"/>
 
-        <StackPanel Name="hairdresserPanel">
-            <TextBlock Text="Hairdresser" Style="{StaticResource WedCheckerFormTextBlockStyle}"/>
-            <Button Name="selectHairdresser" Content="Select hairdresser" Style="{StaticResource ButtonClearStyle}"
-                VerticalAlignment="Center" HorizontalAlignment="Center"
-                Click="selectHairdresser_Click" Width="200"/>
-
-            <uc:ContactControl x:Name="ccHairdresser" />
-        </StackPanel>
-
-        <StackPanel Name="makeupArtistPanel">
-            <TextBlock Text="Makeup artist" Style="{StaticResource WedCheckerFormTextBlockStyle}"/>
-            <Button Name="selectMakeupArtist" Content="Select makeup artist" Style="{StaticResource ButtonClearStyle}"
-                VerticalAlignment="Center" HorizontalAlignment="Center"
-                Click="selectMakeupArtist_Click" Width="200"/>
-
-            <uc:ContactControl x:Name="ccMakeupArtist" />
-        </StackPanel>
+        <uc:ContactControl x:Name="ccMakeupArtist" IsEditable="False" EditAlongWith="True"
+                           Header="Makeup artist" ShowAlongWithPanel="True" IsReplaceable="True"
+                           ClearOnRemove="True"/>
     </StackPanel>
 </we:BaseTaskControl>

@@ -68,6 +68,19 @@ namespace WedChecker.UserControls
             }
         }
 
+        private bool _isReplaceable;
+        public bool IsReplaceable
+        {
+            get
+            {
+                return _isReplaceable;
+            }
+            set
+            {
+                _isReplaceable = value;
+            }
+        }
+
         private bool _editAlongWith;
         public bool EditAlongWith
         {
@@ -81,7 +94,7 @@ namespace WedChecker.UserControls
             }
         }
 
-        private bool _showAlongWithPanel;
+        private bool _showAlongWithPanel = true;
         public bool ShowAlongWithPanel
         {
             get
@@ -123,6 +136,30 @@ namespace WedChecker.UserControls
             }
         }
 
+
+        private bool _clearOnRemove;
+        public bool ClearOnRemove
+        {
+            get
+            {
+                return _clearOnRemove;
+            }
+            set
+            {
+                _clearOnRemove = value;
+                if (_clearOnRemove)
+                {
+                    deleteButton.Content = "Clear";
+                    deleteButton.Click += DeleteButton_Click;
+                }
+                else
+                {
+                    deleteButton.Content = "Remove";
+                    deleteButton.Click -= DeleteButton_Click;
+                }
+            }
+        }
+
         public ContactControl()
         {
             this.InitializeComponent();
@@ -144,12 +181,13 @@ namespace WedChecker.UserControls
             SetBackground();
         }
 
-        public ContactControl(Contact storedContact, string alongWith = null, bool editAlongWith = true, bool isEditable = false)
+        public ContactControl(Contact storedContact, string alongWith = null, bool editAlongWith = true, bool isEditable = false, bool isReplaceable = true)
         {
             this.InitializeComponent();
 
             IsEditable = isEditable;
             EditAlongWith = editAlongWith;
+            IsReplaceable = isReplaceable;
 
             StoreContact(storedContact);
 
@@ -160,6 +198,7 @@ namespace WedChecker.UserControls
                 StoredContact.Notes = alongWith;
             }
 
+            AdjustVisibility();
             SetBackground();
         }
 
@@ -186,16 +225,6 @@ namespace WedChecker.UserControls
                 tbContactName.Text = $"{StoredContact.FirstName} {StoredContact.LastName}";
                 tbEditContactName.Text = $"{StoredContact.FirstName} {StoredContact.LastName}";
             }
-            else
-            {
-                tbContactName.Visibility = Visibility.Collapsed;
-            }
-
-            if (!string.IsNullOrEmpty(StoredContact.Notes))
-            {
-                tbAlongWith.Text = StoredContact.Notes;
-                tbCheckboxTextDisplay.Text = StoredContact.Notes;
-            }
 
             if (StoredContact.Emails.Count > 0)
             {
@@ -203,17 +232,13 @@ namespace WedChecker.UserControls
 
                 foreach (var email in StoredContact.Emails)
                 {
-                    emails += $"{email.Address}{Environment.NewLine}";
+                    emails += $"{email.Address}";
                 }
 
                 var hyperlinkText = CreateNewHyperlink($"mailto:{emails}", emails);
                 tbContactEmails.Inlines.Clear();
                 tbContactEmails.Inlines.Add(hyperlinkText);
                 tbEditContactEmails.Text = emails;
-            }
-            else
-            {
-                emailsPanel.Visibility = Visibility.Collapsed;
             }
 
             if (StoredContact.Phones.Count > 0)
@@ -222,7 +247,7 @@ namespace WedChecker.UserControls
 
                 foreach (var phone in StoredContact.Phones)
                 {
-                    phones += $"{phone.Number}{Environment.NewLine}";
+                    phones += $"{phone.Number}";
                 }
 
                 var hyperlinkText = CreateNewHyperlink($"tel:{phones}", phones);
@@ -230,10 +255,8 @@ namespace WedChecker.UserControls
                 tbContactPhones.Inlines.Add(hyperlinkText);
                 tbEditContactPhones.Text = phones;
             }
-            else
-            {
-                phonesPanel.Visibility = Visibility.Collapsed;
-            }
+
+            AdjustVisibility();
         }
 
         private void ClearAllFields()
@@ -247,11 +270,17 @@ namespace WedChecker.UserControls
             tbEditContactPhones.Text = string.Empty;
             tbCheckboxTextDisplay.Text = string.Empty;
             tbAlongWith.Text = string.Empty;
+
         }
 
         public void ClearContact()
         {
+            StoredContact = null;
             ClearAllFields();
+
+            AdjustVisibility();
+
+            EditValues();
         }
 
         public void DisplayValues()
@@ -284,6 +313,11 @@ namespace WedChecker.UserControls
         {
             AdjustVisibility(IsEditable);
 
+            if (IsReplaceable)
+            {
+                selectContactButton.Visibility = Visibility.Visible;
+            }
+
             if (IsEditable)
             {
                 tbContactNameDisplay.Visibility = Visibility.Visible;
@@ -291,14 +325,11 @@ namespace WedChecker.UserControls
                 tbEditContactName.Visibility = Visibility.Visible;
                 tbEditContactPhones.Visibility = Visibility.Visible;
 
-                selectContactButton.Visibility = Visibility.Visible;
 
                 tbContactEmails.Visibility = Visibility.Collapsed;
                 tbContactName.Visibility = Visibility.Collapsed;
                 tbContactPhones.Visibility = Visibility.Collapsed;
             }
-
-            deleteButton.Visibility = Visibility.Visible;
 
             if (EditAlongWith)
             {
@@ -306,12 +337,21 @@ namespace WedChecker.UserControls
                 tbAlongWith.Visibility = Visibility.Visible;
                 tbCheckboxTextDisplay.Visibility = Visibility.Collapsed;
             }
+
+            var namesEntered = (!string.IsNullOrEmpty(StoredContact.FirstName) || !string.IsNullOrEmpty(StoredContact.LastName));
+            if (!namesEntered)
+            {
+                return;
+            }
+
+            deleteButton.Visibility = Visibility.Visible;
         }
 
         private void AdjustVisibility(bool setAllVisible = false)
         {
-            if (!string.IsNullOrEmpty(StoredContact.FirstName) ||
-                !string.IsNullOrEmpty(StoredContact.LastName) ||
+            var namesEntered = (!string.IsNullOrEmpty(StoredContact.FirstName) || !string.IsNullOrEmpty(StoredContact.LastName));
+
+            if (namesEntered ||
                 setAllVisible)
             {
                 tbContactName.Visibility = Visibility.Visible;
@@ -339,11 +379,11 @@ namespace WedChecker.UserControls
                 phonesPanel.Visibility = Visibility.Collapsed;
             }
 
-            if (!ShowAlongWithPanel)
+            if (!ShowAlongWithPanel || (!ShowAlongWithPanel && string.IsNullOrEmpty(StoredContact.Notes)))
             {
                 alongWithPanel.Visibility = Visibility.Collapsed;
             }
-            else
+            else if (namesEntered)
             {
                 alongWithPanel.Visibility = Visibility.Visible;
             }
@@ -565,6 +605,8 @@ namespace WedChecker.UserControls
             }
 
             StoreContact(contact);
+
+            EditValues();
         }
 
         private Hyperlink CreateNewHyperlink(string navigateUri, string text)
@@ -585,6 +627,12 @@ namespace WedChecker.UserControls
             hyperlinkText.Foreground = backColor;
 
             return hyperlinkText;
+        }
+
+        private async void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            ClearContact();
+            await AppData.SerializeData();
         }
     }
 }

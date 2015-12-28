@@ -8,39 +8,14 @@
     xmlns:we="using:WedChecker.UserControls.Tasks"
     xmlns:UserControls="using:WedChecker.UserControls">
     <StackPanel VerticalAlignment="Center">
-        <TextBox Name="tbFreshFlowers" Height="200" Margin="20,0" TextChanged="tbFreshFlowers_TextChanged" TextWrapping="Wrap"/>
+        <TextBox Name="tbFreshFlowers" Height="200" Margin="20,0" TextChanged="tbFreshFlowers_TextChanged" 
+                 TextWrapping="Wrap" Style="{StaticResource WedCheckerFormTextBoxMultiLinesStyle}"/>
         <StackPanel Name="displayPanel" Visibility="Collapsed">
             <TextBlock Name="tbFreshFlowersDisplay" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" TextAlignment="Center"/>
         </StackPanel>
         <TextBlock Name="tbErrorMessage" TextAlignment="Center" Foreground="Red"
                    Style="{StaticResource ControlHeaderTextBlockStyle}" Margin="0, 10, 0, 0"/>
-        <Button Name="showMapGrid" Click="showMapGrid_Click" Content="Hide map" Grid.Row="1" 
-                HorizontalAlignment="Center" Style="{StaticResource ButtonClearStyle}"/>
 
-        <Grid Name="mapGrid" Grid.Row="2">
-            <Border BorderBrush="{StaticResource PhoneAccentBrush}" BorderThickness="1" Margin="9, 1" Grid.Row="2" />
-            <UserControls:MapView x:Name="locationMap" Zoom="10" ShowTraffic="True" Height="300" Grid.Row="2" 
-                              MapServiceToken="tPlo53-BRbJuec2d8hOzgw" Margin="10, 2"/>
-            <Border Name="VerticalMapBorder" BorderBrush="{StaticResource PhoneAccentBrush}" BorderThickness="1" HorizontalAlignment="Center" 
-                VerticalAlignment="Stretch" Margin="9, 1" Grid.Row="2"/>
-            <Border Name="HorizontalMapBorder" BorderBrush="{StaticResource PhoneAccentBrush}" BorderThickness="1" HorizontalAlignment="Stretch" 
-                VerticalAlignment="Center" Margin="9, 1" Grid.Row="2"/>
-        </Grid>
-        <Grid Name="mapControlsGrid" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Grid.Row="3" Margin="9, -8, 9, 0" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
-            </Grid.ColumnDefinitions>
-            <Button Name="centerPinButton" Content="&#xE113;" FontFamily="Segoe UI Symbol"
-                Click="centerPinButton_Click" Style="{StaticResource ButtonClearStyle}"
-                    Grid.Column="0" HorizontalAlignment="Stretch"/>
-            <Button Name="pinAdressButton" Content="&#xE141;" FontFamily="Segoe UI Symbol"
-                Click="pinAdressButton_Click" Style="{StaticResource ButtonClearStyle}"
-                    Grid.Column="1" HorizontalAlignment="Stretch" Margin="1, 0"/>
-            <Button Name="centerLocationButton" Content="&#xE10F;" FontFamily="Segoe UI Symbol"
-                Click="centerLocationButton_Click" Style="{StaticResource ButtonClearStyle}"
-                    Grid.Column="2" HorizontalAlignment="Stretch"/>
-        </Grid>
+        <UserControls:WedCheckerMapControl x:Name="flowersMap" PinName="Flowers"/>
     </StackPanel>
 </we:BaseTaskControl>

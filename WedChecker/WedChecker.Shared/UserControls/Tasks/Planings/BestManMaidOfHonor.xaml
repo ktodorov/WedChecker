@@ -8,10 +8,10 @@
     xmlns:we="using:WedChecker.UserControls.Tasks"
     xmlns:uc="using:WedChecker.UserControls">
     <StackPanel Orientation="Vertical">
-        <uc:ContactControl x:Name="ccBestMan" Header="Best man" RemoveButtonContent="Clear"
+        <uc:ContactControl x:Name="ccBestMan" Header="Best man" ClearOnRemove="True"
                            IsEditable="True" ShowAlongWithPanel="False"/>
         
-        <uc:ContactControl x:Name="ccMaidOfHonor" Header="Maid of honor" RemoveButtonContent="Clear"
+        <uc:ContactControl x:Name="ccMaidOfHonor" Header="Maid of honor" ClearOnRemove="True"
                            IsEditable="True" ShowAlongWithPanel="False"/>
     </StackPanel>
 </we:BaseTaskControl>

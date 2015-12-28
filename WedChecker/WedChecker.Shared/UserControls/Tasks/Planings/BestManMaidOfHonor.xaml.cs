@@ -125,12 +125,10 @@ namespace WedChecker.UserControls.Tasks.Planings
                 if (type == "BestMan")
                 {
                     ccBestMan.DeserializeContact(reader);
-                    ccBestMan.OnDelete = deleteBestManButton_Click;
                 }
                 else if (type == "MaidOfHonor")
                 {
                     ccMaidOfHonor.DeserializeContact(reader);
-                    ccMaidOfHonor.OnDelete = deleteMaidOfHonorButton_Click;
                 }
             }
 
@@ -140,18 +138,6 @@ namespace WedChecker.UserControls.Tasks.Planings
         public override async Task SubmitValues()
         {
             await AppData.InsertGlobalValue(TaskData.Tasks.BestManMaidOfHonor.ToString());
-        }
-
-        async void deleteBestManButton_Click(object sender, RoutedEventArgs e)
-        {
-            ccBestMan.ClearContact();
-            await AppData.SerializeData();
-        }
-
-        async void deleteMaidOfHonorButton_Click(object sender, RoutedEventArgs e)
-        {
-            ccMaidOfHonor.ClearContact();
-            await AppData.SerializeData();
         }
     }
 }

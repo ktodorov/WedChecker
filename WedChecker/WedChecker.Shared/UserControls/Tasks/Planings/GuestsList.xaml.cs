@@ -143,25 +143,6 @@ namespace WedChecker.UserControls.Tasks.Planings
                 contactControl.OnDelete = deleteButton_Click;
 
                 spContacts.Children.Add(contactControl);
-
-                //var guestId = reader.ReadString();
-
-                //var guestFirstName = reader.ReadString();
-                //var guestLastName = reader.ReadString();
-
-                //var alongWith = reader.ReadString();
-
-                //var contact = new Contact();
-                //contact.Id = guestId;
-                //contact.FirstName = guestFirstName;
-                //contact.LastName = guestLastName;
-
-                //Guests.Add(contact);
-
-                //var contactControl = new ContactControl(contact, alongWith);
-                //contactControl.deleteButton.Click += deleteButton_Click;
-
-                //spContacts.Children.Add(contactControl);
             }
 
             tbGuestsAdded.Text = string.Format("{0} guests added", Guests.Count);

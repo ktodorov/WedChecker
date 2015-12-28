@@ -17,7 +17,8 @@
             <Button Name="selectContactButton"
                     Style="{StaticResource ButtonClearStyle}" Content="Select"
                     HorizontalAlignment="Center"
-                    Click="selectContactButton_Click"/>
+                    Click="selectContactButton_Click"
+                    Visibility="Collapsed"/>
 
             <!-- Id -->
             <TextBlock Name="tbId" Visibility="Collapsed"/>

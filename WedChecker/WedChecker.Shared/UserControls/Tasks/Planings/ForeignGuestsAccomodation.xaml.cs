@@ -15,7 +15,7 @@ namespace WedChecker.UserControls.Tasks.Planings
     public sealed partial class ForeignGuestsAccomodation : BaseTaskControl
     {
 
-        private Dictionary<string, List<Contact>> GuestsPerPlaces = new Dictionary<string, List<Contact>>();
+        private Dictionary<string, List<ContactControl>> GuestsPerPlaces = new Dictionary<string, List<ContactControl>>();
         private List<Contact> StoredGuests = new List<Contact>();
         private List<string> StoredPlaces = new List<string>();
         public override string TaskName
@@ -92,7 +92,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             spGuests.Children.Clear();
 
             // We only take those that weren't already chosen
-            var freeGuests = StoredGuests.Where(sg => !GuestsPerPlaces.Any(gp => gp.Value.Any(g => g.Id == sg.Id))).ToList();
+            var freeGuests = StoredGuests.Where(sg => !GuestsPerPlaces.Any(gp => gp.Value.Any(g => g.StoredContact.Id == sg.Id))).ToList();
             foreach (var guest in freeGuests)
             {
                 var guestButton = new Button();
@@ -128,7 +128,10 @@ namespace WedChecker.UserControls.Tasks.Planings
             var placeName = tags[0];
             var id = tags[1];
 
-            AddGuestForPlace(placeName, StoredGuests.FirstOrDefault(g => g.Id == id));
+            var guest = StoredGuests.FirstOrDefault(g => g.Id == id);
+            var contactControl = new ContactControl(guest, guest.Notes, true, false);
+            
+            AddGuestForPlace(placeName, contactControl);
 
             storedGuestsPanel.Visibility = Visibility.Collapsed;
             treeViewPanel.Visibility = Visibility.Visible;
@@ -166,10 +169,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
                 foreach (var guest in place.Value)
                 {
-                    writer.Write(guest.Id);
-                    writer.Write(guest.FirstName);
-                    writer.Write(guest.LastName);
-                    writer.Write(guest.Notes);
+                    guest.SerializeContact(writer);
                 }
             }
         }
@@ -188,11 +188,8 @@ namespace WedChecker.UserControls.Tasks.Planings
 
                 for (int j = 0; j < guestsCount; j++)
                 {
-                    var contact = new Contact();
-                    contact.Id = reader.ReadString();
-                    contact.FirstName = reader.ReadString();
-                    contact.LastName = reader.ReadString();
-                    contact.Notes = reader.ReadString();
+                    var contact = new ContactControl();
+                    contact.DeserializeContact(reader);
 
                     AddGuestForPlace(place, contact);
                 }
@@ -206,12 +203,12 @@ namespace WedChecker.UserControls.Tasks.Planings
             var placeNodes = treeViewPanel.Children.OfType<TreeNodeControl>();
             foreach (var placeNode in placeNodes)
             {
-                GuestsPerPlaces[placeNode.NodeName] = new List<Contact>();
+                GuestsPerPlaces[placeNode.NodeName] = new List<ContactControl>();
 
                 var contacts = placeNode.Nodes.OfType<ContactControl>();
                 foreach (var contactControl in contacts)
                 {
-                    GuestsPerPlaces[placeNode.NodeName].Add(contactControl.StoredContact);
+                    GuestsPerPlaces[placeNode.NodeName].Add(contactControl);
                 }
             }
         }
@@ -225,35 +222,34 @@ namespace WedChecker.UserControls.Tasks.Planings
                 placeNode.addChildButton.Click += AddChildButton_Click;
                 treeViewPanel.Children.Add(placeNode);
 
-                GuestsPerPlaces.Add(name, new List<Contact>());
+                GuestsPerPlaces.Add(name, new List<ContactControl>());
             }
         }
 
-        private void AddGuestForPlace(string place, Contact guest)
+        private void AddGuestForPlace(string place, ContactControl contactControl)
         {
             if (!GuestsPerPlaces.ContainsKey(place))
             {
                 return;
             }
 
-            if (!GuestsPerPlaces[place].Any(g => g.Id == guest.Id))
+            if (!GuestsPerPlaces[place].Any(g => g.StoredContact.Id == contactControl.StoredContact.Id))
             {
-                GuestsPerPlaces[place].Add(guest);
+                GuestsPerPlaces[place].Add(contactControl);
 
                 var alongWith = 0;
-                if (!int.TryParse(guest.Notes, out alongWith))
+                if (!int.TryParse(contactControl.StoredContact.Notes, out alongWith))
                 {
                     alongWith = 0;
                 }
 
-                var guestControl = new ContactControl(guest, alongWith.ToString(), false, false);
-                guestControl.OnDelete = deleteGuestFromPlaceButton_Click;
+                contactControl.OnDelete = deleteGuestFromPlaceButton_Click;
 
                 var placeNode = treeViewPanel.Children.OfType<TreeNodeControl>().Where(tn => tn.NodeName == place).FirstOrDefault();
 
                 if (placeNode != null)
                 {
-                    placeNode.AddChildNode(guestControl);
+                    placeNode.AddChildNode(contactControl);
                 }
             }
         }
@@ -277,11 +273,11 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         private async void DeleteGuestFromPlace(string id)
         {
-            var placeToUse = GuestsPerPlaces.FirstOrDefault(p => p.Value.Any(g => g.Id == id)).Key;
+            var placeToUse = GuestsPerPlaces.FirstOrDefault(p => p.Value.Any(g => g.StoredContact.Id == id)).Key;
 
             if (placeToUse != null)
             {
-                GuestsPerPlaces[placeToUse].RemoveAll(g => g.Id == id);
+                GuestsPerPlaces[placeToUse].RemoveAll(g => g.StoredContact.Id == id);
 
                 treeViewPanel.Children.OfType<TreeNodeControl>().FirstOrDefault(tn => tn.NodeName == placeToUse)
                                                          .RemoveChildNode(c => (c is ContactControl) && (c as ContactControl).StoredContact.Id == id);

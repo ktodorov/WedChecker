@@ -53,34 +53,23 @@ namespace WedChecker.UserControls.Tasks.Planings
             this.InitializeComponent();
         }
 
-        public FreshFlowers(string value)
-        {
-            this.InitializeComponent();
-            FlowersNotes = value;
-        }
-
         public override void DisplayValues()
         {
-            pinAdressButton.Visibility = Visibility.Collapsed;
-            VerticalMapBorder.Visibility = Visibility.Collapsed;
-            HorizontalMapBorder.Visibility = Visibility.Collapsed;
-
             tbFreshFlowersDisplay.Text = FlowersNotes;
             displayPanel.Visibility = Visibility.Visible;
             tbFreshFlowers.Visibility = Visibility.Collapsed;
+
+            flowersMap.DisplayValues();
         }
 
         public override void EditValues()
         {
-            pinAdressButton.Visibility = Visibility.Visible;
-            VerticalMapBorder.Visibility = Visibility.Visible;
-            HorizontalMapBorder.Visibility = Visibility.Visible;
-
             tbFreshFlowers.Text = tbFreshFlowersDisplay.Text;
             tbFreshFlowers.Visibility = Visibility.Visible;
             displayPanel.Visibility = Visibility.Collapsed;
-        }
 
+            flowersMap.EditValues();
+        }
 
         public override void Serialize(BinaryWriter writer)
         {
@@ -89,14 +78,16 @@ namespace WedChecker.UserControls.Tasks.Planings
             var objectsCount = GetObjectsCount();
             writer.Write(objectsCount);
 
-            if (objectsCount == 1 || objectsCount == 2)
+            if (!string.IsNullOrEmpty(FlowersNotes))
             {
+                writer.Write("FlowersNotes");
                 writer.Write(FlowersNotes);
             }
-            if (objectsCount == -1 || objectsCount == 2)
+
+            if (flowersMap.HasPinnedLocation())
             {
-                writer.Write(locationMap.PinnedPlace.Latitude);
-                writer.Write(locationMap.PinnedPlace.Longitude);
+                writer.Write("PinnedLocation");
+                flowersMap.SerializeMapData(writer);
             }
         }
 
@@ -104,18 +95,18 @@ namespace WedChecker.UserControls.Tasks.Planings
         {
             var objectsCount = reader.ReadInt32();
 
-            if (objectsCount == 1 || objectsCount == 2)
+            for (var i = 0; i < objectsCount; i++)
             {
-                FlowersNotes = reader.ReadString();
-            }
+                var type = reader.ReadString();
 
-            if (objectsCount == -1 || objectsCount == 2)
-            {
-                var latitude = reader.ReadDouble();
-                var longitude = reader.ReadDouble();
-                var basicGeoposition = new BasicGeoposition() { Latitude = latitude, Longitude = longitude };
-
-                locationMap.AddPushpin(basicGeoposition, "1");
+                if (type == "FlowersNotes")
+                {
+                    FlowersNotes = reader.ReadString();
+                }
+                else if (type == "PinnedLocation")
+                {
+                    flowersMap.DeserializeMapData(reader);
+                }
             }
 
             DisplayValues();
@@ -137,84 +128,26 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
-        private void pinAdressButton_Click(object sender, RoutedEventArgs e)
-        {
-            var location = GetCenteredLocation();
-
-            locationMap.AddPushpin(location, "Flowers");
-        }
-
-        private BasicGeoposition GetCenteredLocation()
-        {
-            var center = locationMap.Center.Position;
-
-            var location = new BasicGeoposition() { Latitude = center.Latitude, Longitude = center.Longitude };
-            return location;
-        }
-
         private void tbFreshFlowers_TextChanged(object sender, TextChangedEventArgs e)
         {
             tbFreshFlowersDisplay.Text = tbFreshFlowers.Text;
         }
 
-        private bool PinnedLocation()
-        {
-            return locationMap.PinnedPlace.Latitude != 0 || locationMap.PinnedPlace.Longitude != 0;
-        }
-
-        private async void centerLocationButton_Click(object sender, RoutedEventArgs e)
-        {
-            await locationMap.CenterOnCurrentLocation();
-        }
-
-        private void centerPinButton_Click(object sender, RoutedEventArgs e)
-        {
-            var basicGeoposition = new BasicGeoposition() { Latitude = locationMap.PinnedPlace.Latitude, Longitude = locationMap.PinnedPlace.Longitude };
-
-            var locationGeopoint = new Geopoint(basicGeoposition);
-            locationMap.Center = locationGeopoint;
-        }
-
         int GetObjectsCount()
         {
-            // ObjectsCount for serializing:
-            // -1 - Only location
-            //  1 - Only notes
-            //  2 - Both
             var objectsCount = 0;
 
             if (!string.IsNullOrEmpty(FlowersNotes))
             {
-                objectsCount = 1;
+                objectsCount++;
             }
 
-            if (PinnedLocation())
+            if (flowersMap.HasPinnedLocation())
             {
-                objectsCount = -1;
-            }
-
-            if (PinnedLocation() && !string.IsNullOrEmpty(FlowersNotes))
-            {
-                objectsCount = 2;
+                objectsCount++;
             }
 
             return objectsCount;
-        }
-
-        private void showMapGrid_Click(object sender, RoutedEventArgs e)
-        {
-            if (mapGrid.Visibility == Visibility.Visible)
-            {
-                showMapGrid.Content = "Show map";
-                mapGrid.Visibility = Visibility.Collapsed;
-                mapControlsGrid.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                showMapGrid.Content = "Hide map";
-                mapGrid.Visibility = Visibility.Visible;
-                mapControlsGrid.Visibility = Visibility.Visible;
-            }
         }
     }
 }
