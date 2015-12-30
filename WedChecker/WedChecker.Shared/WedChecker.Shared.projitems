@@ -33,6 +33,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\ElementControl.xaml.cs">
       <DependentUpon>ElementControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)UserControls\GuestsAccomodationControl.xaml.cs">
+      <DependentUpon>GuestsAccomodationControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\WedCheckerMapControl.xaml.cs">
       <DependentUpon>WedCheckerMapControl.xaml</DependentUpon>
     </Compile>
@@ -205,6 +208,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)UserControls\ElementControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UserControls\GuestsAccomodationControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,0 +1,31 @@
+﻿<UserControl
+    x:Class="WedChecker.UserControls.GuestsAccomodationControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WedChecker.UserControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel Name="spMain"  Orientation="Vertical">
+        <StackPanel Name="treeViewPanel" Orientation="Vertical" />
+
+        <StackPanel Name="storedGuestsPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+               Visibility="Collapsed" Orientation="Vertical">
+            <StackPanel.ChildrenTransitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition />
+                </TransitionCollection>
+            </StackPanel.ChildrenTransitions>
+
+            <TextBlock Text="Select the guest for this place" Style="{StaticResource WedCheckerFormTextBlockStyle}"
+                       TextAlignment="Center"/>
+
+            <StackPanel Name="spGuests" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Vertical" 
+                        Margin="0, 10"/>
+
+            <Button Name="backButton" Content="Back" Style="{StaticResource ButtonClearStyle}" HorizontalAlignment="Center"
+                    Click="backButton_Click"/>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

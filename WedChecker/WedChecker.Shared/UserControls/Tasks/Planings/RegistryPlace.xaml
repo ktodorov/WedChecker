@@ -10,47 +10,13 @@
     Height="Auto"
     Width="Auto">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="1*"/>
-        </Grid.RowDefinitions>
-        <StackPanel Name="notesPanel" Orientation="Vertical" Grid.Row="0">
-            <TextBox Name="tbRegistryNotes" Margin="20,0" TextChanged="tbRegistryNotes_TextChanged"/>
-            <StackPanel Name="displayPanel" Visibility="Collapsed">
-                <TextBlock Name="tbRegistryNotesDisplay" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"/>
-            </StackPanel>
-        </StackPanel>
+    <StackPanel>
+        <TextBox Name="tbRegistryNotes" Margin="20,0" TextChanged="tbRegistryNotes_TextChanged"
+                     Style="{StaticResource WedCheckerFormTextBoxMultiLinesStyle}" />
+        
+        <TextBlock Name="tbRegistryNotesDisplay" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
+                   Visibility="Collapsed"/>
 
-        <Button Name="showMapGrid" Click="showMapGrid_Click" Content="Hide map" Grid.Row="1" 
-                HorizontalAlignment="Center" Style="{StaticResource ButtonClearStyle}"/>
-
-        <Grid Name="mapGrid" Grid.Row="2">
-            <Border BorderBrush="{StaticResource PhoneAccentBrush}" BorderThickness="1" Margin="9, 1" Grid.Row="2" />
-            <UserControls:MapView x:Name="locationMap" Zoom="10" ShowTraffic="True" Height="300" Grid.Row="2" 
-                              MapServiceToken="tPlo53-BRbJuec2d8hOzgw" Margin="10, 2"/>
-            <Border Name="VerticalMapBorder" BorderBrush="{StaticResource PhoneAccentBrush}" BorderThickness="1" HorizontalAlignment="Center" 
-                VerticalAlignment="Stretch" Margin="9, 1" Grid.Row="2"/>
-            <Border Name="HorizontalMapBorder" BorderBrush="{StaticResource PhoneAccentBrush}" BorderThickness="1" HorizontalAlignment="Stretch" 
-                VerticalAlignment="Center" Margin="9, 1" Grid.Row="2"/>
-        </Grid>
-        <Grid Name="mapControlsGrid" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Grid.Row="3" Margin="9, -8, 9, 0" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
-            </Grid.ColumnDefinitions>
-            <Button Name="centerPinButton" Content="&#xE113;" FontFamily="Segoe UI Symbol"
-                Click="centerPinButton_Click" Style="{StaticResource ButtonClearStyle}"
-                    Grid.Column="0" HorizontalAlignment="Stretch"/>
-            <Button Name="pinAdressButton" Content="&#xE141;" FontFamily="Segoe UI Symbol"
-                Click="pinAdressButton_Click" Style="{StaticResource ButtonClearStyle}"
-                    Grid.Column="1" HorizontalAlignment="Stretch" Margin="1, 0"/>
-            <Button Name="centerLocationButton" Content="&#xE10F;" FontFamily="Segoe UI Symbol"
-                Click="centerLocationButton_Click" Style="{StaticResource ButtonClearStyle}"
-                    Grid.Column="2" HorizontalAlignment="Stretch"/>
-        </Grid>
-    </Grid>
+        <UserControls:WedCheckerMapControl x:Name="registryMap" PinName="Registry" />
+    </StackPanel>
 </we:BaseTaskControl>

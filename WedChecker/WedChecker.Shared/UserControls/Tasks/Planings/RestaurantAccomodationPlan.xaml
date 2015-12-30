@@ -5,7 +5,8 @@
     xmlns:local="using:WedChecker.UserControls.Tasks.Planings"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:we="using:WedChecker.UserControls.Tasks">
+    xmlns:we="using:WedChecker.UserControls.Tasks"
+    xmlns:UserControls="using:WedChecker.UserControls">
     <StackPanel Name="spMain"  Orientation="Vertical">
         <StackPanel Name="spTablesCount">
             <TextBlock Text="How many tables do you want to have?"
@@ -23,7 +24,7 @@
                     Width="250"
                     Style="{StaticResource ButtonClearStyle}"/>
 
-            <StackPanel Name="storedGuestsPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed"/>
+            <UserControls:GuestsAccomodationControl x:Name="guestsPerTable" Visibility="Collapsed" />
         </StackPanel>
     </StackPanel>
 </we:BaseTaskControl>
