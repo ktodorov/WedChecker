@@ -15,10 +15,11 @@
         </Grid.RowDefinitions>
 
         <TextBox Name="tbDishName" x:FieldModifier="Public" Text="New dish" Style="{StaticResource WedCheckerFormTextBoxStyle}" 
-                 FontSize="23" Grid.Row="0" FontFamily="Segoe UI Light" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                 Margin="0" VerticalContentAlignment="Center" BorderThickness="0" TextAlignment="Center" Padding="10" TextChanged="tbDishName_TextChanged"/>
-        <TextBlock Name="tbDisplayDishName" Text="New dish" FontSize="20" Grid.Row="0" TextAlignment="Center" Padding="0, 10"
-                   FontFamily="Segoe UI Light" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                 Grid.Row="0" FontFamily="Segoe UI Light" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                 Margin="0" VerticalContentAlignment="Center" TextAlignment="Center" Padding="10" 
+                 TextChanged="tbDishName_TextChanged"/>
+        <TextBlock Name="tbDisplayDishName" Text="New dish" FontSize="20" Grid.Row="0" 
+                   Style="{StaticResource WedCheckerDisplayTextBlockStyle}" HorizontalAlignment="Center" Visibility="Collapsed"/>
         <Grid Grid.Row="1" HorizontalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>

@@ -123,7 +123,7 @@ namespace WedChecker.UserControls
             var id = tags[1];
 
             var guest = StoredGuests.FirstOrDefault(g => g.Id == id);
-            var contactControl = new ContactControl(guest, guest.Notes, true, false);
+            var contactControl = new ContactControl(guest, guest.Notes, false, false, false);
 
             AddGuestForPlace(placeName, contactControl);
 

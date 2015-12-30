@@ -25,15 +25,15 @@
             <Bold>Konstantin Todorov</Bold> <LineBreak />
             You can email me with feedback and any ideas about the app at <LineBreak />
             <Bold>
-                <Hyperlink NavigateUri="mailto:kztodorov@outlook.com" 
+                <Hyperlink NavigateUri="mailto:wedchecker@outlook.com" 
                            Foreground="{StaticResource PhoneAccentBrush}">
-                    kztodorov@outlook.com
+                    wedchecker@outlook.com
                 </Hyperlink>
             </Bold>
         </TextBlock>
 
         <TextBlock Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="13" HorizontalAlignment="Center" Margin="40, 50, 40, 0">
-            @WedChecker, 2015, All rights reserved
+            ©WedChecker, 2015, All rights reserved
         </TextBlock>
     </StackPanel>
 </Page>

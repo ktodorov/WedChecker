@@ -28,18 +28,8 @@ namespace WedChecker.UserControls.Tasks.Planings
         {
             get
             {
-                //if (_guests == null)
-                //{
-                //    _guests = new List<Contact>();
-                //}
-                //return _guests;
-
                 return spContacts.Children.OfType<ContactControl>().ToList();
             }
-            //set
-            //{
-            //    _guests = value;
-            //}
         }
 
         public override string TaskName
@@ -98,35 +88,6 @@ namespace WedChecker.UserControls.Tasks.Planings
             foreach (var guest in Guests)
             {
                 guest.SerializeContact(writer);
-
-                //writer.Write(guest.Id);
-
-                //if (!string.IsNullOrEmpty(guest.FirstName))
-                //{
-                //    writer.Write(guest.FirstName);
-                //}
-                //else
-                //{
-                //    writer.Write(" ");
-                //}
-
-                //if (!string.IsNullOrEmpty(guest.LastName))
-                //{
-                //    writer.Write(guest.LastName);
-                //}
-                //else
-                //{
-                //    writer.Write(" ");
-                //}
-
-                //if (!string.IsNullOrEmpty(guest.Notes))
-                //{
-                //    writer.Write(guest.Notes);
-                //}
-                //else
-                //{
-                //    writer.Write("0");
-                //}
             }
         }
 
@@ -137,7 +98,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
             for (long i = 0; i < records; i++)
             {
-                var contactControl = new ContactControl(true);
+                var contactControl = new ContactControl(true, true, true);
 
                 contactControl.DeserializeContact(reader);
                 contactControl.OnDelete = deleteButton_Click;
@@ -160,18 +121,11 @@ namespace WedChecker.UserControls.Tasks.Planings
                 return;
             }
 
-            //if (Guests == null)
-            //{
-            //    Guests = new List<Contact>();
-            //}
-
             foreach (var contact in contacts)
             {
                 if (!Guests.Any(g => g.StoredContact.Id == contact.Id))
                 {
-                    //Guests.Add(contact);
-
-                    var contactControl = new ContactControl(contact, isEditable: true);
+                    var contactControl = new ContactControl(contact, null, true, true, true);
                     contactControl.OnDelete = deleteButton_Click;
 
                     spContacts.Children.Add(contactControl);
@@ -215,7 +169,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         private void addNewContactButton_Click(object sender, RoutedEventArgs e)
         {
-            var contactControl = new ContactControl(true);
+            var contactControl = new ContactControl(true, true, true);
             contactControl.OnDelete = deleteButton_Click;
             spContacts.Children.Add(contactControl);
         }
