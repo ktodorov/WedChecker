@@ -39,24 +39,38 @@
 
             <!-- Emails -->
             <StackPanel Name="emailsPanel" Margin="10, 0, 0, 0" Orientation="Vertical">
-                <TextBlock Text="Emails" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
-                       FontSize="17" Foreground="Black"/>
-                <TextBlock Name="tbContactEmails" Margin="25, 0, 10, 0"
-                       Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="17">
-                </TextBlock>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="6*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Email"  Grid.Column="0"
+                               Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
+                               FontSize="17" Foreground="Black"/>
+                    <TextBlock Name="tbContactEmails"  Grid.Column="1" Margin="0"
+                               Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="17">
+                    </TextBlock>
+                </Grid>
                 <TextBox Name="tbEditContactEmails" Visibility="Collapsed"
-                       Style="{StaticResource WedCheckerFormTextBoxStyle}" FontSize="17"/>
+                             Style="{StaticResource WedCheckerFormTextBoxStyle}" FontSize="17"/>
             </StackPanel>
 
             <!-- Phones -->
             <StackPanel Name="phonesPanel" Margin="10, 0, 0, 0" Orientation="Vertical">
-                <TextBlock Text="Phones" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
-                       FontSize="17" Foreground="Black"/>
-                <TextBlock Name="tbContactPhones" Margin="25, 0, 10, 0"
-                       Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="17">
-                </TextBlock>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="6*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Phone"  Grid.Column="0"
+                               Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
+                               FontSize="17" Foreground="Black"/>
+                    <TextBlock Name="tbContactPhones" Grid.Column="1" Margin="0"
+                               Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="17">
+                    </TextBlock>
+                </Grid>
                 <TextBox Name="tbEditContactPhones" Visibility="Collapsed"
-                       Style="{StaticResource WedCheckerFormTextBoxStyle}" FontSize="17"/>
+                         Style="{StaticResource WedCheckerFormTextBoxStyle}" FontSize="17"/>
             </StackPanel>
 
             <!-- Along with -->

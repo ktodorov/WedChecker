@@ -61,23 +61,28 @@ namespace WedChecker.UserControls
         {
             toggleSwitch.Visibility = Visibility.Collapsed;
 
-            tbTitle.Visibility = Visibility.Visible;
+            //tbTitle.Visibility = Visibility.Visible;
+            displayPanel.Visibility = Visibility.Visible;
+            tbTitle.Text = Title;
             if (toggleSwitch.IsChecked.Value)
             {
-                tbTitle.Foreground = new SolidColorBrush(Windows.UI.Colors.Green);
-                tbTitle.Text = Title;
+                //tbTitle.Text = Title;
+                tbTitleSymbol.Text = "\uE10B";
+                tbTitleSymbol.Foreground = new SolidColorBrush(Windows.UI.Colors.Green);
             }
             else
             {
-                tbTitle.Foreground = new SolidColorBrush(Windows.UI.Colors.Red);
-                tbTitle.Text = $"Not {Title.ToLower()}";
+                tbTitleSymbol.Text = "\uE10A";
+                tbTitleSymbol.Foreground = new SolidColorBrush(Windows.UI.Colors.Red);
+                //tbTitle.Text = $"Not {Title.ToLower()}";
             }
         }
 
         public void EditValues()
         {
             toggleSwitch.Visibility = Visibility.Visible;
-            tbTitle.Visibility = Visibility.Collapsed;
+            //tbTitle.Visibility = Visibility.Collapsed;
+            displayPanel.Visibility = Visibility.Collapsed;
         }
 
         public void Serialize(BinaryWriter writer)

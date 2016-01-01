@@ -7,16 +7,25 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
-                HorizontalAlignment="Center">
-        
-        <TextBlock Name="tbTitle" Style="{StaticResource WedCheckerFormTextBlockStyle}" 
+    <StackPanel Orientation="Vertical" VerticalAlignment="Center"
+                HorizontalAlignment="Stretch">
+
+        <StackPanel Name="displayPanel" Orientation="Horizontal"
+                    HorizontalAlignment="Left" Visibility="Collapsed"
+                    Margin="50, 0, 0, 0">
+            <TextBlock Name="tbTitle" Style="{StaticResource WedCheckerFormTextBlockStyle}" 
                    FontSize="20" TextAlignment="Center" Foreground="{StaticResource PhoneAccentBrush}"
-                   Visibility="Collapsed" FontWeight="Bold" HorizontalAlignment="Center"/>
+                   FontWeight="Bold" HorizontalAlignment="Center"/>
+            <TextBlock Name="tbTitleSymbol" FontSize="20" FontWeight="Bold"
+                       Style="{StaticResource WedCheckerFormTextBlockStyle}"
+                       FontFamily="Segoe UI Symbol" />
+        </StackPanel>
 
         <CheckBox Name="toggleSwitch" Foreground="Black" FontSize="20"
-                  HorizontalAlignment="Center">
-            <TextBlock Name="tbCheckboxTitle" FontSize="20" VerticalAlignment="Center"/>
+                  HorizontalAlignment="Left" HorizontalContentAlignment="Left"
+                  Margin="50, 0, 0, 0">
+            <TextBlock Name="tbCheckboxTitle" FontSize="20" VerticalAlignment="Center"
+                       TextAlignment="Center" Foreground="Black" FontWeight="Normal"/>
         </CheckBox>
     </StackPanel>
 </UserControl>

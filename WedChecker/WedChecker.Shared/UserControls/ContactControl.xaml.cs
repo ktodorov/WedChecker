@@ -599,12 +599,16 @@ namespace WedChecker.UserControls
                 StoredContact.Phones.Add(phone);
             }
 
+
+            // Notes
             StoredContact.Notes = string.Empty;
             tbCheckboxTextDisplay.Text = string.Empty;
-            
-            // Notes
-            StoredContact.Notes = tbAlongWith.Text;
-            tbCheckboxTextDisplay.Text = $"Along with {StoredContact.Notes.ToString()} other";
+
+            if (!string.IsNullOrEmpty(tbAlongWith.Text))
+            {
+                StoredContact.Notes = tbAlongWith.Text;
+                tbCheckboxTextDisplay.Text = $"Along with {StoredContact.Notes.ToString()} other";
+            }
         }
 
         private void SetBackground()
