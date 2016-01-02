@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using WedChecker.UserControls.Tasks;
+using Windows.Networking.Connectivity;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Xaml.Media;
@@ -15,15 +13,15 @@ namespace WedChecker.Common
         {
             get
             {
-                return Windows.Storage.ApplicationData.Current.LocalSettings;
+                return ApplicationData.Current.LocalSettings;
             }
         }
 
-        public static Windows.Storage.StorageFolder LocalFolder
+        public static StorageFolder LocalFolder
         {
             get
             {
-                return Windows.Storage.ApplicationData.Current.LocalFolder;
+                return ApplicationData.Current.LocalFolder;
             }
         }
 
@@ -31,7 +29,15 @@ namespace WedChecker.Common
         {
             get
             {
-                return Windows.Storage.ApplicationData.Current.RoamingSettings;
+                return ApplicationData.Current.RoamingSettings;
+            }
+        }
+        
+        public static StorageFolder RoamingFolder
+        {
+            get
+            {
+                return ApplicationData.Current.RoamingFolder;
             }
         }
 
@@ -101,6 +107,18 @@ namespace WedChecker.Common
             var phoneAccentBrush = new SolidColorBrush((App.Current.Resources["PhoneAccentBrush"] as SolidColorBrush).Color);
 
             return phoneAccentBrush.Color;
+        }
+
+        public static bool UserIsOnWiFi()
+        {
+            var connectionProfile = NetworkInformation.GetInternetConnectionProfile();
+
+            if (connectionProfile != null && connectionProfile.IsWlanConnectionProfile)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

@@ -139,7 +139,36 @@ namespace WedChecker
             var deferral = e.SuspendingOperation.GetDeferral();
             ctsToUse.Cancel();
             ctsToUse = new CancellationTokenSource();
-            await AppData.SerializeData(ctsToUse);
+
+            var wiFiOnlyValue = AppData.GetValue("wifiOnlySync");
+            var wiFiOnly = wiFiOnlyValue != null && bool.Parse(wiFiOnlyValue);
+            if ((wiFiOnly && Core.UserIsOnWiFi()) || !wiFiOnly)
+            {
+                if (Core.RoamingSettings.Values.ContainsKey("SerializedOn"))
+                {
+                    var serializedOn = Core.RoamingSettings.Values["SerializedOn"] as string;
+
+                    if (serializedOn != null)
+                    {
+                        var serializedOnDate = DateTime.Parse(serializedOn);
+                        if ((DateTime.Now.ToUniversalTime() - serializedOnDate).Minutes > 5)
+                        {
+                            await AppData.SerializeData(ctsToUse, serializeToRoaming: true);
+                            await AppData.SerializeData(ctsToUse);
+                        }
+                    }
+                }
+                else
+                {
+                    await AppData.SerializeData(ctsToUse, serializeToRoaming: true);
+                    await AppData.SerializeData(ctsToUse);
+                }
+            }
+            else
+            {
+                await AppData.SerializeData(ctsToUse);
+            }
+
             deferral.Complete();
         }
     }

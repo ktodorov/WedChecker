@@ -174,8 +174,15 @@ namespace WedChecker.Common
             return values;
         }
 
-        public static async Task SerializeData(CancellationTokenSource ctsToUse = null)
+        public static async Task SerializeData(CancellationTokenSource ctsToUse = null, bool serializeToRoaming = false)
         {
+            var wiFiOnlyValue = GetValue("wifiOnlySync");
+            var wiFiOnly = wiFiOnlyValue != null && bool.Parse(wiFiOnlyValue);
+            if (wiFiOnly && !Core.UserIsOnWiFi())
+            {
+                serializeToRoaming = false;
+            }
+
             CancellationToken ctToUse;
             if (ctsToUse == null)
             {
@@ -188,12 +195,35 @@ namespace WedChecker.Common
 
             var fileName = "dataFileSerialized.dat";
 
-            StorageFolder folder = ApplicationData.Current.LocalFolder;
+            StorageFolder folder = Core.LocalFolder;
+
+            if (serializeToRoaming)
+            {
+                folder = Core.RoamingFolder;
+            }
+
             StorageFile file = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting).AsTask(ctToUse);
 
             if ((file.DateCreated - DateTime.Now).TotalMinutes > 1)
             {
                 return;
+            }
+
+            if (serializeToRoaming)
+            {
+                Core.RoamingSettings.Values["SerializedOn"] = DateTime.Now.ToUniversalTime().ToString();
+                if (SerializableTasks != null)
+                {
+                    Core.RoamingSettings.Values["TasksCount"] = SerializableTasks.Count;
+                }
+            }
+            else
+            {
+                Core.LocalSettings.Values["SerializedOn"] = DateTime.Now.ToUniversalTime().ToString();
+                if (SerializableTasks != null)
+                {
+                    Core.LocalSettings.Values["TasksCount"] = SerializableTasks.Count;
+                }
             }
 
             var populatedControls = Core.GetPopulatedTaskControls();
@@ -227,11 +257,58 @@ namespace WedChecker.Common
             }
         }
 
-        public static async Task<List<BaseTaskControl>> DeserializeData()
+        public static async Task<List<BaseTaskControl>> DeserializeData(bool deserializeFromRoaming = false)
         {
+            var wiFiOnlyValue = GetValue("wifiOnlySync");
+            var wiFiOnly = wiFiOnlyValue != null && bool.Parse(wiFiOnlyValue);
+            if (wiFiOnly && !Core.UserIsOnWiFi())
+            {
+                deserializeFromRoaming = false;
+            }
+            else
+            {
+                if (!deserializeFromRoaming &&
+                    Core.RoamingSettings.Values.ContainsKey("SerializedOn") &&
+                    Core.RoamingSettings.Values.ContainsKey("TasksCount") &&
+                    Core.LocalSettings.Values.ContainsKey("SerializedOn") &&
+                    Core.LocalSettings.Values.ContainsKey("TasksCount"))
+                {
+                    var roamingSerializedOn = Core.RoamingSettings.Values["SerializedOn"] as string;
+                    var roamingTasksCount = Core.RoamingSettings.Values["TasksCount"] as int?;
+                    var localSerializedOn = Core.LocalSettings.Values["SerializedOn"] as string;
+                    var localTasksCount = Core.LocalSettings.Values["TasksCount"] as int?;
+
+                    if (roamingTasksCount != null && roamingSerializedOn != null &&
+                        localTasksCount != null && localSerializedOn != null)
+                    {
+                        var roamingSerializedOnDate = DateTime.Parse(roamingSerializedOn);
+                        var localSerializedOnDate = DateTime.Parse(localSerializedOn);
+
+                        if ((roamingSerializedOnDate - localSerializedOnDate).Milliseconds > 0 ||
+                            ((roamingSerializedOnDate - localSerializedOnDate).Minutes < 0 &&
+                              roamingTasksCount.Value - localTasksCount.Value > 3))
+                        {
+                            deserializeFromRoaming = true;
+                        }
+                    }
+                }
+                else if (!deserializeFromRoaming &&
+                        Core.RoamingSettings.Values.ContainsKey("SerializedOn") &&
+                        Core.RoamingSettings.Values.ContainsKey("TasksCount"))
+                {
+                    deserializeFromRoaming = true;
+                }
+            }
+
             var fileName = "dataFileSerialized.dat";
 
-            StorageFolder folder = ApplicationData.Current.LocalFolder;
+            StorageFolder folder = Core.LocalFolder;
+
+            if (deserializeFromRoaming)
+            {
+                folder = Core.RoamingFolder;
+            }
+
             var addedControls = new List<BaseTaskControl>();
 
             bool fileAvailable = true;
@@ -298,8 +375,8 @@ namespace WedChecker.Common
 
             if (!fileAvailable)
             {
-                await SerializeData();
-                await DeserializeData();
+                await SerializeData(serializeToRoaming: deserializeFromRoaming);
+                await DeserializeData(deserializeFromRoaming);
             }
 
             return addedControls;
