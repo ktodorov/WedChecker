@@ -7,7 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Border Name="mainBorder" Style="{StaticResource DisplayBorderStyle}" Margin="0, 2.5, 0, 2.5">
+    <Border Name="mainBorder" Style="{StaticResource DisplayBorderStyle}" Margin="0, 2.5, 0, 2.5"
+            BorderBrush="{StaticResource PhoneAccentBrush}">
         <StackPanel Name="mainPanel" Height="Auto" Background="WhiteSmoke"
                     Orientation="Vertical">
             <StackPanel.ChildrenTransitions>
@@ -17,35 +18,78 @@
             </StackPanel.ChildrenTransitions>
 
             <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="50" />
                 </Grid.ColumnDefinitions>
+
                 <Button Name="buttonTaskName" VerticalAlignment="Top"
                         Style="{StaticResource WedCheckerTextButtonStyle}"
                         HorizontalAlignment="Stretch" 
                         HorizontalContentAlignment="Left"
                         BorderThickness="0" Click="buttonTaskName_Click"
-                        Grid.Column="0"
+                        Grid.Column="0" Grid.Row="0" FontSize="25"
                         Content="Task name">
                 </Button>
 
-                <Button Name="editTask" Style="{StaticResource WedCheckerTextButtonStyle}"
-                        Content="&#xE104;" FontFamily="Segoe UI Symbol" FontSize="30"
-                        Height="50" Width="50" BorderThickness="0" Foreground="{StaticResource PhoneAccentBrush}"
-                        VerticalAlignment="Stretch" HorizontalAlignment="Center" Click="editTask_Click"
-                        Grid.Column="1">
-                </Button>
+                <StackPanel Name="showTaskOptionsPanel" Grid.Row="0" Grid.Column="1" 
+                        VerticalAlignment="Stretch" HorizontalAlignment="Center">
+                    <Button Name="showTaskOptions" Style="{StaticResource WedCheckerTextButtonStyle}"
+                            Content="&#xE09A;" FontFamily="Segoe UI Symbol"
+                            BorderThickness="0" FontSize="20"
+                            VerticalAlignment="Stretch" HorizontalAlignment="Center" Click="showTaskOptions_Click" 
+                            VerticalContentAlignment="Center" />
+                </StackPanel>
+
+                <StackPanel Name="taskOptionsPanel" Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="2" 
+                            HorizontalAlignment="Right" Visibility="Collapsed">
+                    <Button Name="collapseTask" 
+                                Margin="0, 0, 15, 0" MinWidth="0" MinHeight="0"
+                                BorderThickness="0" Foreground="Black"
+                                VerticalAlignment="Center" HorizontalAlignment="Left" Click="collapseTask_Click">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
+                            <TextBlock Text="&#xE1D9;" FontFamily="Segoe UI Symbol" FontSize="19" VerticalAlignment="Stretch"/>
+                            <TextBlock Name="tbShowCollapse" Text="Collapse" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="19"
+                                   Margin="5, 0, 0, 0" Foreground="Black" VerticalAlignment="Stretch"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Name="editTask" 
+                                Margin="0, 0, 15, 0" MinWidth="0" MinHeight="0"
+                                BorderThickness="0" Foreground="Black"
+                                VerticalAlignment="Center" HorizontalAlignment="Left" Click="editTask_Click">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
+                            <TextBlock Text="&#xE104;" FontFamily="Segoe UI Symbol" FontSize="19" VerticalAlignment="Stretch"/>
+                            <TextBlock Text="Edit" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="19"
+                                   Margin="5, 0, 0, 0" Foreground="Black" VerticalAlignment="Stretch"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Name="deleteTask" 
+                                BorderThickness="0" Foreground="Black" MinWidth="0" MinHeight="0"
+                                VerticalAlignment="Center" HorizontalAlignment="Left" Click="deleteTask_Click"
+                                Margin="0, 0, 20, 0">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="&#xE107;" FontFamily="Segoe UI Symbol" FontSize="19" VerticalAlignment="Stretch"/>
+                            <TextBlock Text="Delete" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="19"
+                                   Margin="5, 0, 0, 0" Foreground="Black" VerticalAlignment="Stretch"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
             </Grid>
 
-            <StackPanel Name="errorPanel" Orientation="Vertical" Visibility="Collapsed">
+            <!--<StackPanel Name="errorPanel" Orientation="Vertical" Visibility="Collapsed">
                 <TextBlock Name="tbErrorMessage" Style="{StaticResource DisplayTextBlockStyle}"
                            TextAlignment="Center" Margin="10, 0" TextWrapping="WrapWholeWords" 
                            HorizontalAlignment="Center"/>
 
                 <Button Name="tryAgainButton" Style="{StaticResource ButtonClearStyle}"
                         Content="Try again" HorizontalAlignment="Center" Click="tryAgainButton_Click"/>
-            </StackPanel>
+            </StackPanel>-->
 
             <StackPanel Name="childPanel" Orientation="Vertical">
                 <StackPanel.ChildrenTransitions>
@@ -55,11 +99,12 @@
                 </StackPanel.ChildrenTransitions>
 
 
-                <TextBlock Name="tbTaskHeader" Style="{StaticResource DisplayTextBlockStyle}"
-                       TextAlignment="Center" Margin="10, 0" TextWrapping="WrapWholeWords"/>
-
-                <Border Name="borderSplitter" BorderThickness="1"
-                    Margin="15, 5"/>
+                <Border Background="{StaticResource PhoneAccentBrush}">
+                    <TextBlock Name="tbTaskHeader" Style="{StaticResource DisplayTextBlockStyle}"
+                               Margin="0" VerticalAlignment="Stretch" Padding="10"
+                               TextAlignment="Center" TextWrapping="WrapWholeWords"
+                               Foreground="White"/>
+                </Border>
 
                 <StackPanel Name="spConnectedControl" Grid.Row="3" Grid.ColumnSpan="2">
                 </StackPanel>

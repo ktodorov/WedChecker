@@ -11,8 +11,7 @@
                 HorizontalAlignment="Stretch">
 
         <StackPanel Name="displayPanel" Orientation="Horizontal"
-                    HorizontalAlignment="Left" Visibility="Collapsed"
-                    Margin="50, 0, 0, 0">
+                    HorizontalAlignment="Center" Visibility="Collapsed">
             <TextBlock Name="tbTitle" Style="{StaticResource WedCheckerFormTextBlockStyle}" 
                    FontSize="20" TextAlignment="Center" Foreground="{StaticResource PhoneAccentBrush}"
                    FontWeight="Bold" HorizontalAlignment="Center"/>

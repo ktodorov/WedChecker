@@ -189,9 +189,9 @@
                                            TextAlignment="Left"
                                            Text="{TemplateBinding Content}"
                                            TextWrapping="WrapWholeWords"
-                                           FontSize="25" 
+                                           FontSize="{TemplateBinding FontSize}" 
                                            FontWeight="Bold"
-                                           Foreground="{StaticResource PhoneAccentBrush}"/>
+                                           Foreground="{TemplateBinding Foreground}"/>
                             </Border>
                             <Rectangle x:Name="FocusVisualWhite"
                                IsHitTestVisible="False"

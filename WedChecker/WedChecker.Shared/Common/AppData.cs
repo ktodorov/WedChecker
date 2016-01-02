@@ -131,6 +131,19 @@ namespace WedChecker.Common
             }
         }
 
+        public static async Task RemoveGlobalValue(string name, bool serialize = true)
+        {
+            if (GlobalAppData.ContainsKey(name))
+            {
+                GlobalAppData.Remove(name);
+
+                if (serialize)
+                {
+                    await SerializeData();
+                }
+            }
+        }
+
         public static async Task InsertGlobalValues(string name, List<string> values, bool serialize = true)
         {
             var key = string.Empty;
@@ -325,6 +338,19 @@ namespace WedChecker.Common
             }
 
             SerializableTasks.Add(baseTaskControl);
+        }
+
+        public async static Task DeleteSerializableTask(BaseTaskControl baseTaskControl, bool serialize = true)
+        {
+            if (SerializableTasks != null && SerializableTasks.Contains(baseTaskControl))
+            {
+                SerializableTasks.Remove(baseTaskControl);
+            }
+
+            if (serialize)
+            {
+                await SerializeData();
+            }
         }
     }
 }

@@ -62,14 +62,14 @@ namespace WedChecker.UserControls
 
             if (IsEnabled)
             {
-                tileGrid.Background = new SolidColorBrush(Windows.UI.Colors.White); //new SolidColorBrush(phoneBrush);
-                tbTaskTitle.Foreground = new SolidColorBrush(phoneBrush); // new SolidColorBrush(Windows.UI.Colors.White);    
+                tileGrid.Background = new SolidColorBrush(Windows.UI.Colors.White);
+                tbTaskTitle.Foreground = new SolidColorBrush(phoneBrush);
             }
             else
             {
-                phoneBrush.A = 30;
-                tileGrid.Background = new SolidColorBrush(Windows.UI.Colors.LightGray);
-                tbTaskTitle.Foreground = new SolidColorBrush(Windows.UI.Colors.DarkGray);
+                phoneBrush.A = 85;
+                tileGrid.Background = new SolidColorBrush(phoneBrush);
+                tbTaskTitle.Foreground = new SolidColorBrush(Windows.UI.Colors.White);
             }
         }
     }

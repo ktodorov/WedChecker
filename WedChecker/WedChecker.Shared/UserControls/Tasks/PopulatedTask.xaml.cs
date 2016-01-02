@@ -1,20 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using WedChecker.Common;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -29,12 +19,15 @@ namespace WedChecker.UserControls.Tasks
         }
 
         private bool InEditMode = false;
+        private bool TaskOptionsOpened = false;
 
         public PopulatedTask()
         {
             this.InitializeComponent();
             SetBackgroundColor();
         }
+
+
         public PopulatedTask(BaseTaskControl control, bool isNew)
         {
             this.InitializeComponent();
@@ -72,25 +65,15 @@ namespace WedChecker.UserControls.Tasks
             var colorBrush = new SolidColorBrush(phoneAccentColor);
             mainPanel.Background = colorBrush;
 
-            phoneAccentColor.A = 35;
-            colorBrush = new SolidColorBrush(phoneAccentColor);
-            borderSplitter.BorderBrush = colorBrush;
+            //phoneAccentColor.A = 45;
+            //colorBrush = new SolidColorBrush(phoneAccentColor);
+            //taskOptionsPanel.Background = colorBrush;
+            //showTaskOptionsPanel.Background = colorBrush;
         }
 
         private void buttonTaskName_Click(object sender, RoutedEventArgs e)
         {
-            if (childPanel.Visibility == Visibility.Collapsed)
-            {
-                ChangeMainContentVisibility(Visibility.Visible);
-
-                buttonTaskName.SetValue(Grid.ColumnSpanProperty, 1);
-            }
-            else if (childPanel.Visibility == Visibility.Visible)
-            {
-                ChangeMainContentVisibility(Visibility.Collapsed);
-
-                buttonTaskName.SetValue(Grid.ColumnSpanProperty, 2);
-            }
+            ShowCollapseTask();
         }
 
         private void ChangeMainContentVisibility(Visibility visibility)
@@ -98,9 +81,14 @@ namespace WedChecker.UserControls.Tasks
             childPanel.Visibility = visibility;
 
             ConnectedTaskControl.Visibility = visibility;
-            borderSplitter.Visibility = visibility;
             tbTaskHeader.Visibility = visibility;
-            editTask.Visibility = visibility;
+
+            if (TaskOptionsOpened)
+            {
+                showTaskOptions.Content = "\uE09A";
+                taskOptionsPanel.Visibility = Visibility.Collapsed;
+                TaskOptionsOpened = false;
+            }
 
             if (visibility == Visibility.Collapsed || InEditMode)
             {
@@ -154,6 +142,76 @@ namespace WedChecker.UserControls.Tasks
         private void tryAgainButton_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private async void deleteTask_Click(object sender, RoutedEventArgs e)
+        {
+            var msgDialog = new MessageDialog("Are you sure you want to delete this task?", "Please confirm");
+
+            msgDialog.Commands.Add(new UICommand("Delete", new UICommandInvokedHandler(CommandHandler)));
+            msgDialog.Commands.Add(new UICommand("Cancel", new UICommandInvokedHandler(CommandHandler)));
+            
+            await msgDialog.ShowAsync();
+        }
+
+        private void CommandHandler(IUICommand command)
+        {
+            var commandLabel = command.Label;
+            switch (commandLabel)
+            {
+                case "Delete":
+                    DeleteTask();
+                    break;
+                case "Cancel":
+                    break;
+            }
+        }
+
+        private async void DeleteTask()
+        {
+            if (ConnectedTaskControl != null)
+            {
+                await AppData.DeleteSerializableTask(ConnectedTaskControl);
+
+                var parent = this.Parent as StackPanel;
+                parent.Children.Remove(this);
+            }
+        }
+
+        private void showTaskOptions_Click(object sender, RoutedEventArgs e)
+        {
+            if (TaskOptionsOpened)
+            {
+                showTaskOptions.Content = "\uE09A";
+                taskOptionsPanel.Visibility = Visibility.Collapsed;
+                TaskOptionsOpened = false;
+            }
+            else
+            {
+
+                showTaskOptions.Content = "\uE09D";
+                taskOptionsPanel.Visibility = Visibility.Visible;
+                TaskOptionsOpened = true;
+            }
+        }
+
+        private void collapseTask_Click(object sender, RoutedEventArgs e)
+        {
+            ShowCollapseTask();
+        }
+
+        private void ShowCollapseTask()
+        {
+            if (childPanel.Visibility == Visibility.Collapsed)
+            {
+                ChangeMainContentVisibility(Visibility.Visible);
+                tbShowCollapse.Text = "Collapse";
+            }
+            else if (childPanel.Visibility == Visibility.Visible)
+            {
+                ChangeMainContentVisibility(Visibility.Collapsed);
+                tbShowCollapse.Text = "Expand";
+            }
         }
     }
 }
