@@ -38,6 +38,14 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string TaskCode
+        {
+            get
+            {
+                return TaskData.Tasks.WeddingStyle.ToString();
+            }
+        }
+
         public WeddingStyle()
         {
             this.InitializeComponent();
@@ -66,7 +74,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskData.Tasks.WeddingStyle.ToString());
+            writer.Write(TaskCode);
             writer.Write(Style);
         }
 
@@ -88,7 +96,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             if (Style != weddingStyle)
             {
                 Style = weddingStyle;
-                await AppData.InsertGlobalValue(TaskData.Tasks.WeddingStyle.ToString());
+                await AppData.InsertGlobalValue(TaskCode);
             }
         }
 

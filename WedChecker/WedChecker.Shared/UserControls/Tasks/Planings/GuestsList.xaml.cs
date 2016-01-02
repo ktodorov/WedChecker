@@ -2,20 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using Windows.ApplicationModel.Contacts;
 using WedChecker.Common;
-using System.IO.Compression;
-using System.Text;
 using System.Threading.Tasks;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
@@ -56,6 +46,14 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string TaskCode
+        {
+            get
+            {
+                return TaskData.Tasks.GuestsList.ToString();
+            }
+        }
+
         public GuestsList()
         {
             this.InitializeComponent();
@@ -83,7 +81,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskData.Tasks.GuestsList.ToString());
+            writer.Write(TaskCode);
             writer.Write(Guests.Count);
             foreach (var guest in Guests)
             {
@@ -112,8 +110,8 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         private async void selectContacts_Click(object sender, RoutedEventArgs e)
         {
-            var picker = new Windows.ApplicationModel.Contacts.ContactPicker();
-            picker.DesiredFieldsWithContactFieldType.Add(Windows.ApplicationModel.Contacts.ContactFieldType.PhoneNumber);
+            var picker = new ContactPicker();
+            picker.DesiredFieldsWithContactFieldType.Add(ContactFieldType.PhoneNumber);
             var contacts = await picker.PickContactsAsync();
 
             if (contacts == null || !contacts.Any())
@@ -146,7 +144,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                 guestsString += $"{guest.StoredContact.Notes}{AppData.GLOBAL_SEPARATOR}";
             }
 
-            await AppData.InsertGlobalValue(TaskData.Tasks.GuestsList.ToString(), guestsString);
+            await AppData.InsertGlobalValue(TaskCode, guestsString);
         }
 
         void deleteButton_Click(object sender, RoutedEventArgs e)

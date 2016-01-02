@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using WedChecker.Common;
-using Windows.ApplicationModel.Contacts;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -40,6 +35,14 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string TaskCode
+        {
+            get
+            {
+                return TaskData.Tasks.ForeignGuestsAccomodation.ToString();
+            }
+        }
+
         public ForeignGuestsAccomodation()
         {
             this.InitializeComponent();
@@ -49,7 +52,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         private void InitializeStoredInfo()
         {
-            StoredAccomodationPlaces = AppData.GetGlobalValues(TaskData.Tasks.AccomodationPlaces.ToString());
+            StoredAccomodationPlaces = AppData.GetGlobalValues(TaskCode);
 
             guestsPerHotel.StoredPlaces = StoredAccomodationPlaces;
         }
@@ -93,7 +96,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override async Task SubmitValues()
         {
-            await AppData.InsertGlobalValue(TaskData.Tasks.ForeignGuestsAccomodation.ToString());
+            await AppData.InsertGlobalValue(TaskCode);
         }
     }
 }

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Threading.Tasks;
 using WedChecker.Common;
-using Windows.ApplicationModel.Contacts;
-using Windows.UI.Xaml;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -39,6 +34,14 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string TaskCode
+        {
+            get
+            {
+                return TaskData.Tasks.Photographer.ToString();
+            }
+        }
+
         public Photographer()
         {
             this.InitializeComponent();
@@ -56,7 +59,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskData.Tasks.Photographer.ToString());
+            writer.Write(TaskCode);
 
             ccPhotographer.SerializeContact(writer);
         }
@@ -70,7 +73,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override async Task SubmitValues()
         {
-            await AppData.InsertGlobalValue(TaskData.Tasks.Photographer.ToString());
+            await AppData.InsertGlobalValue(TaskCode);
         }
     }
 }

@@ -54,6 +54,14 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string TaskCode
+        {
+            get
+            {
+                return TaskData.Tasks.BestManMaidOfHonor.ToString();
+            }
+        }
+
         public BestManMaidOfHonor()
         {
             this.InitializeComponent();
@@ -87,7 +95,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskData.Tasks.BestManMaidOfHonor.ToString());
+            writer.Write(TaskCode);
 
             var count = 0;
             if (BestMan != null)
@@ -137,7 +145,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override async Task SubmitValues()
         {
-            await AppData.InsertGlobalValue(TaskData.Tasks.BestManMaidOfHonor.ToString());
+            await AppData.InsertGlobalValue(TaskCode);
         }
     }
 }

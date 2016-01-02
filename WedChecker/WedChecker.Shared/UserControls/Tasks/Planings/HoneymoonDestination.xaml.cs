@@ -40,6 +40,14 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string TaskCode
+        {
+            get
+            {
+                return TaskData.Tasks.HoneymoonDestination.ToString();
+            }
+        }
+
         public HoneymoonDestination()
         {
             this.InitializeComponent();
@@ -65,7 +73,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskData.Tasks.HoneymoonDestination.ToString());
+            writer.Write(TaskCode);
 
             var objectsCount = GetObjectsCount();
             writer.Write(objectsCount);
@@ -126,7 +134,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             if (HoneymoonNotes != registryNotes)
             {
                 HoneymoonNotes = registryNotes;
-                await AppData.InsertGlobalValue(TaskData.Tasks.HoneymoonDestination.ToString());
+                await AppData.InsertGlobalValue(TaskCode);
             }
         }
 

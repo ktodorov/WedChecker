@@ -1,19 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using WedChecker.Common;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -46,6 +34,14 @@ namespace WedChecker.UserControls.Tasks.Bookings
             }
         }
 
+        public override string TaskCode
+        {
+            get
+            {
+                return TaskData.Tasks.SendInvitations.ToString();
+            }
+        }
+
         public SendInvitations()
         {
             this.InitializeComponent();
@@ -70,7 +66,7 @@ namespace WedChecker.UserControls.Tasks.Bookings
 
         public override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskData.Tasks.SendInvitations.ToString());
+            writer.Write(TaskCode);
 
             var toggles = mainPanel.Children.OfType<ToggleControl>();
             writer.Write(toggles.Count());
@@ -88,7 +84,7 @@ namespace WedChecker.UserControls.Tasks.Bookings
 
         public override async Task SubmitValues()
         {
-            await AppData.InsertGlobalValue(TaskData.Tasks.SendInvitations.ToString());
+            await AppData.InsertGlobalValue(TaskCode);
         }
     }
 }

@@ -41,6 +41,14 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string TaskCode
+        {
+            get
+            {
+                return TaskData.Tasks.ReligiousPlace.ToString();
+            }
+        }
+
         public ReligiousPlace()
         {
             this.InitializeComponent();
@@ -72,7 +80,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskData.Tasks.ReligiousPlace.ToString());
+            writer.Write(TaskCode);
 
             var objectsCount = GetObjectsCount();
             writer.Write(objectsCount);
@@ -117,7 +125,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             if (ReligiousNotes != religiousNotes)
             {
                 ReligiousNotes = religiousNotes;
-                await AppData.InsertGlobalValue(TaskData.Tasks.ReligiousPlace.ToString());
+                await AppData.InsertGlobalValue(TaskCode);
             }
         }
 

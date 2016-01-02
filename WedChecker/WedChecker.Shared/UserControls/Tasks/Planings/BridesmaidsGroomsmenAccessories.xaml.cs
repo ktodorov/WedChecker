@@ -42,6 +42,14 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string TaskCode
+        {
+            get
+            {
+                return TaskData.Tasks.BridesmaidsGroomsmenAccessories.ToString();
+            }
+        }
+
         public BridesmaidsGroomsmenAccessories()
         {
             this.InitializeComponent();
@@ -94,7 +102,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskData.Tasks.BridesmaidsGroomsmenAccessories.ToString());
+            writer.Write(TaskCode);
 
             int count = BridesmaidsAccessories.Any() ? (GroomsmenAccessories.Any() ? 2 : 1) : (GroomsmenAccessories.Any() ? 1 : 0);
             writer.Write(count);
@@ -214,7 +222,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                 allAccessories.AddRange(groomsmenElementChildren.Select(a => a.Title).ToList());
                 allAccessories.Add($"EndGroomsmenAccessories{AppData.GLOBAL_SEPARATOR}");
 
-                await AppData.InsertGlobalValues(TaskData.Tasks.BridesmaidsGroomsmenAccessories.ToString(), allAccessories);
+                await AppData.InsertGlobalValues(TaskCode, allAccessories);
             }
         }
 

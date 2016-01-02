@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using Windows.UI.Popups;
@@ -172,9 +173,76 @@ namespace WedChecker.UserControls.Tasks
             if (ConnectedTaskControl != null)
             {
                 await AppData.DeleteSerializableTask(ConnectedTaskControl);
+                await AppData.RemoveGlobalValue(ConnectedTaskControl.TaskCode);
+
+                EnableTaskTile();
 
                 var parent = this.Parent as StackPanel;
                 parent.Children.Remove(this);
+            }
+        }
+
+        private void EnableTaskTile()
+        {
+            var parent1 = this.Parent as StackPanel;
+            if (parent1 == null)
+            {
+                return;
+            }
+
+            var parent2 = parent1.Parent as Grid;
+            if (parent2 == null)
+            {
+                return;
+            }
+
+            var parent3 = parent2.Parent as ScrollViewer;
+            if (parent3 == null)
+            {
+                return;
+            }
+
+            var parent4 = parent3.Parent as PivotItem;
+            if (parent4 == null)
+            {
+                return;
+            }
+
+            var parent5 = parent4.Parent as Pivot;
+            if (parent5 == null)
+            {
+                return;
+            }
+
+            var parent6 = parent5.Parent as Grid;
+            if (parent6 == null)
+            {
+                return;
+            }
+
+            var svMain = parent6.Children.OfType<ScrollViewer>().FirstOrDefault(sv => sv.Name == "svMain");
+            if (svMain == null)
+            {
+                return;
+            }
+
+            var panel = svMain.Content as StackPanel;
+            if (panel == null)
+            {
+                return;
+            }
+
+            var gridViews = panel.Children.OfType<GridView>().ToList();
+            foreach (var gridView in gridViews)
+            {
+                var tiles = gridView.Items.OfType<TaskTileControl>();
+                var tile = tiles.FirstOrDefault(t => t.Name == ConnectedTaskControl.TaskCode);
+                
+                if (tile != null)
+                {
+                    tile.IsEnabled = true;
+                    return;
+                }
             }
         }
 

@@ -33,6 +33,14 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string TaskCode
+        {
+            get
+            {
+                return TaskData.Tasks.HairdresserMakeupArtist.ToString();
+            }
+        }
+
         public HairdresserMakeupArtist()
         {
             this.InitializeComponent();
@@ -57,7 +65,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                 return;
             }
 
-            writer.Write(TaskData.Tasks.HairdresserMakeupArtist.ToString());
+            writer.Write(TaskCode);
 
             var storedContactsCount = 0;
             if (ccHairdresser.IsStored)
@@ -107,7 +115,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override async Task SubmitValues()
         {
-            await AppData.InsertGlobalValue(TaskData.Tasks.HairdresserMakeupArtist.ToString());
+            await AppData.InsertGlobalValue(TaskCode);
         }
     }
 }

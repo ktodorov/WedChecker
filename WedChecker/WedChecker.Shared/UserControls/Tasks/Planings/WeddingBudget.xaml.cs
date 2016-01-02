@@ -1,21 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using WedChecker.Common;
-using WedChecker.UserControls.Tasks;
-using System.IO.Compression;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace WedChecker.UserControls.Tasks.Planings
@@ -52,6 +39,14 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string TaskCode
+        {
+            get
+            {
+                return TaskData.Tasks.WeddingBudget.ToString();
+            }
+        }
+
         public WeddingBudget()
         {
             this.InitializeComponent();
@@ -80,7 +75,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskData.Tasks.WeddingBudget.ToString());
+            writer.Write(TaskCode);
             writer.Write(Budget);
         }
 
@@ -103,7 +98,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             if (Budget != Convert.ToInt32(weddingBudget))
             {
                 Budget = Convert.ToInt32(weddingBudget);
-                await AppData.InsertGlobalValue(TaskData.Tasks.WeddingBudget.ToString());
+                await AppData.InsertGlobalValue(TaskCode);
             }
         }
 

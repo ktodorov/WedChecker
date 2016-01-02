@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -41,6 +40,14 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string TaskCode
+        {
+            get
+            {
+                return TaskData.Tasks.GroomAccessories.ToString();
+            }
+        }
+
         public GroomAccessories()
         {
             this.InitializeComponent();
@@ -73,7 +80,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskData.Tasks.GroomAccessories.ToString());
+            writer.Write(TaskCode);
             writer.Write(Accessories.Count);
             foreach (var accessory in Accessories)
             {
@@ -122,7 +129,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             if (AccessoriesChanged)
             {
                 var accessoriesTitles = accessories.Select(a => a.Title).ToList();
-                await AppData.InsertGlobalValues(TaskData.Tasks.GroomAccessories.ToString(), accessoriesTitles);
+                await AppData.InsertGlobalValues(TaskCode, accessoriesTitles);
             }
         }
 

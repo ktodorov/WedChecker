@@ -2,19 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using Windows.ApplicationModel.Contacts;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -60,6 +52,14 @@ namespace WedChecker.UserControls.Tasks.Planings
             get
             {
                 return "Here are the bridesmaids and groomsmen for your wedding";
+            }
+        }
+
+        public override string TaskCode
+        {
+            get
+            {
+                return TaskData.Tasks.BridesmaidsGroomsmen.ToString();
             }
         }
 
@@ -130,7 +130,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskData.Tasks.BridesmaidsGroomsmen.ToString());
+            writer.Write(TaskCode);
 
             var bridesmaidContacts = spBridesmaids.Children.OfType<ContactControl>().ToList();
             writer.Write(bridesmaidContacts.Count);
@@ -154,12 +154,6 @@ namespace WedChecker.UserControls.Tasks.Planings
 
             for (int i = 0; i < bridesmaidsCount; i++)
             {
-                //var contact = new Contact();
-                //contact.Id = reader.ReadString();
-                //contact.FirstName = reader.ReadString();
-                //contact.LastName = reader.ReadString();
-                //Bridesmaids.Add(contact);
-
                 var contactControl = new ContactControl();
                 contactControl.DeserializeContact(reader);
                 contactControl.OnDelete = deleteBridesmaidButton_Click;
@@ -169,12 +163,6 @@ namespace WedChecker.UserControls.Tasks.Planings
             var groomsmenCount = reader.ReadInt32();
             for (int i = 0; i < groomsmenCount; i++)
             {
-                //var contact = new Contact();
-                //contact.Id = reader.ReadString();
-                //contact.FirstName = reader.ReadString();
-                //contact.LastName = reader.ReadString();
-                //Groomsmen.Add(contact);
-
                 var contactControl = new ContactControl();
                 contactControl.DeserializeContact(reader);
                 contactControl.OnDelete = deleteGroomsmanButton_Click;
@@ -186,7 +174,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override async Task SubmitValues()
         {
-            await AppData.InsertGlobalValue(TaskData.Tasks.BridesmaidsGroomsmen.ToString());
+            await AppData.InsertGlobalValue(TaskCode);
         }
 
         void deleteBridesmaidButton_Click(object sender, RoutedEventArgs e)
@@ -203,14 +191,6 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         private async void DeleteBridesmaid(ContactControl controlToRemove)
         {
-            //var bridesmaidToRemove = Bridesmaids.FirstOrDefault(g => g.Id == id);
-
-            //if (bridesmaidToRemove != null)
-            //{
-            //    Bridesmaids.Remove(bridesmaidToRemove);
-            //}
-
-            //var controlToRemove = spBridesmaids.Children.OfType<ContactControl>().FirstOrDefault(c => c.StoredContact.Id == bridesmaidToRemove.Id);
             if (controlToRemove != null)
             {
                 spBridesmaids.Children.Remove(controlToRemove);
@@ -221,14 +201,6 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         private async void DeleteGroomsman(ContactControl controlToRemove)
         {
-            //var groomsmanToRemove = Groomsmen.FirstOrDefault(g => g.Id == id);
-
-            //if (groomsmanToRemove != null)
-            //{
-            //    Groomsmen.Remove(groomsmanToRemove);
-            //}
-
-            //var controlToRemove = spGroomsmen.Children.OfType<ContactControl>().FirstOrDefault(c => c.StoredContact.Id == groomsmanToRemove.Id);
             if (controlToRemove != null)
             {
                 spGroomsmen.Children.Remove(controlToRemove);
@@ -252,7 +224,6 @@ namespace WedChecker.UserControls.Tasks.Planings
             {
                 if (!Bridesmaids.Any(c => c.StoredContact.Id == contact.Id))
                 {
-                    //Bridesmaids.Add(contact);
                     var contactControl = new ContactControl(contact);
                     contactControl.OnDelete = deleteBridesmaidButton_Click;
 
@@ -277,7 +248,6 @@ namespace WedChecker.UserControls.Tasks.Planings
             {
                 if (!Groomsmen.Any(c => c.StoredContact.Id == contact.Id))
                 {
-                    //Groomsmen.Add(contact);
                     var contactControl = new ContactControl(contact);
                     contactControl.OnDelete = deleteGroomsmanButton_Click;
 

@@ -36,6 +36,14 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string TaskCode
+        {
+            get
+            {
+                return TaskData.Tasks.MusicLayout.ToString();
+            }
+        }
+
         public MusicLayout()
         {
             this.InitializeComponent();
@@ -64,7 +72,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskData.Tasks.MusicLayout.ToString());
+            writer.Write(TaskCode);
             writer.Write(PlannedLayout);
         }
 
@@ -86,7 +94,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             if (PlannedLayout != decoration)
             {
                 PlannedLayout = decoration;
-                await AppData.InsertGlobalValue(TaskData.Tasks.MusicLayout.ToString());
+                await AppData.InsertGlobalValue(TaskCode);
             }
         }
 

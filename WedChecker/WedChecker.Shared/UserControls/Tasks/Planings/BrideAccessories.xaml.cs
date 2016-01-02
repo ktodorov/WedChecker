@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using WedChecker.Common;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -49,6 +40,14 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string TaskCode
+        {
+            get
+            {
+                return TaskData.Tasks.BrideAccessories.ToString();
+            }
+        }
+
         public BrideAccessories()
         {
             this.InitializeComponent();
@@ -81,7 +80,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskData.Tasks.BrideAccessories.ToString());
+            writer.Write(TaskCode);
             writer.Write(Accessories.Count);
             foreach (var accessory in Accessories)
             {
@@ -99,7 +98,6 @@ namespace WedChecker.UserControls.Tasks.Planings
             {
                 var accessory = reader.ReadString();
                 AddAccessory(i, accessory);
-                //spBrideAccessories.Children.Add(new ElementControl(accessory.Key, accessory.Value));
             }
 
             DisplayValues();
@@ -116,7 +114,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             if (AccessoriesChanged)
             {
                 var accessoriesTitles = accessories.Select(a => a.Title).ToList();
-                await AppData.InsertGlobalValues(TaskData.Tasks.BrideAccessories.ToString(), accessoriesTitles);
+                await AppData.InsertGlobalValues(TaskCode, accessoriesTitles);
             }
         }
 

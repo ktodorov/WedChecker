@@ -49,6 +49,14 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string TaskCode
+        {
+            get
+            {
+                return TaskData.Tasks.AccomodationPlaces.ToString();
+            }
+        }
+
         public AccomodationPlaces()
         {
             this.InitializeComponent();
@@ -82,7 +90,7 @@ namespace WedChecker.UserControls.Tasks.Planings
         {
             Places.RemoveAll(p => string.IsNullOrEmpty(p));
 
-            writer.Write(TaskData.Tasks.AccomodationPlaces.ToString());
+            writer.Write(TaskCode);
             writer.Write(Places.Count);
             foreach (var place in Places)
             {
@@ -115,7 +123,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             if (PlacesChanged)
             {
                 var valueList = Places.ToList();
-                await AppData.InsertGlobalValues(TaskData.Tasks.AccomodationPlaces.ToString(), valueList);
+                await AppData.InsertGlobalValues(TaskCode, valueList);
             }
         }
 

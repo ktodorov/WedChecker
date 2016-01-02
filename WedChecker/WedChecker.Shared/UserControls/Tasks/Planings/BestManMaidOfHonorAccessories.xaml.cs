@@ -42,6 +42,14 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string TaskCode
+        {
+            get
+            {
+                return TaskData.Tasks.BestManMaidOfHonorAccessories.ToString();
+            }
+        }
+
         public BestManMaidOfHonorAccessories()
         {
             this.InitializeComponent();
@@ -94,7 +102,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskData.Tasks.BestManMaidOfHonorAccessories.ToString());
+            writer.Write(TaskCode);
 
             int count = BestManAccessories.Any() ? (MaidOfHonorAccessories.Any() ? 2 : 1) : (MaidOfHonorAccessories.Any() ? 1 : 0);
             writer.Write(count);
@@ -213,7 +221,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                 allAccessories.AddRange(maidOfHonorElementChildren.Select(a => a.Title).ToList());
                 allAccessories.Add($"EndMaidOfHonorAccessories{AppData.GLOBAL_SEPARATOR}");
 
-                await AppData.InsertGlobalValues(TaskData.Tasks.BestManMaidOfHonorAccessories.ToString(), allAccessories);
+                await AppData.InsertGlobalValues(TaskCode, allAccessories);
             }
         }
 

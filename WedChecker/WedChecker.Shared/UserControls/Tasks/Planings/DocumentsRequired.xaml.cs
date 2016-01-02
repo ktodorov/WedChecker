@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using WedChecker.Common;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -49,6 +40,14 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
+        public override string TaskCode
+        {
+            get
+            {
+                return TaskData.Tasks.DocumentsRequired.ToString();
+            }
+        }
+
         public DocumentsRequired()
         {
             this.InitializeComponent();
@@ -80,7 +79,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskData.Tasks.DocumentsRequired.ToString());
+            writer.Write(TaskCode);
             writer.Write(Documents.Count);
             foreach (var document in Documents)
             {
@@ -117,7 +116,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
             if (DocumentsChanged)
             {
-                await AppData.InsertGlobalValue(TaskData.Tasks.DocumentsRequired.ToString());
+                await AppData.InsertGlobalValue(TaskCode);
             }
         }
 

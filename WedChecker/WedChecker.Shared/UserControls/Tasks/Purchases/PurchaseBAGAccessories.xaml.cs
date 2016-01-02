@@ -1,19 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using WedChecker.Common;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -95,6 +84,14 @@ namespace WedChecker.UserControls.Tasks.Purchases
             }
         }
 
+        public override string TaskCode
+        {
+            get
+            {
+                return TaskData.Tasks.PurchaseBAGAccessories.ToString();
+            }
+        }
+
         public PurchaseBAGAccessories()
         {
             this.InitializeComponent();
@@ -146,7 +143,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
 
         public override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskData.Tasks.PurchaseBAGAccessories.ToString());
+            writer.Write(TaskCode);
 
             var bridesmaidsToggles = bridesmaidsPanel.Children.OfType<ToggleControl>();
             writer.Write("Bridesmaids");
@@ -194,7 +191,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
 
         public override async Task SubmitValues()
         {
-            await AppData.InsertGlobalValue(TaskData.Tasks.PurchaseBAGAccessories.ToString());
+            await AppData.InsertGlobalValue(TaskCode);
         }
 
         private void AddBridesmaidsToggle(ToggleControl toggle)

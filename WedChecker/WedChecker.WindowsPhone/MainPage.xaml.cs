@@ -1,26 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using WedChecker.UserControls;
 using WedChecker.UserControls.Tasks;
 using WedChecker.Common;
-using System.Threading.Tasks;
 using Windows.Phone.UI.Input;
 using System.Threading;
 using WedChecker.WindowsPhoneControls;
 using Windows.ApplicationModel.Background;
-using Windows.UI.Popups;
 
 namespace WedChecker
 {
@@ -216,8 +207,6 @@ namespace WedChecker
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            //this.navigationHelper.OnNavigatedFrom(e);
-
             base.OnNavigatedFrom(e);
         }
 
@@ -248,7 +237,6 @@ namespace WedChecker
             {
                 var type = populatedControl.GetType();
                 TaskData.InsertTaskControl(this, type, populatedControl, false);
-                //spPlanings.Children.Add(new PopulatedTask(populatedControl, false));
                 AppData.InsertSerializableTask(populatedControl);
             }
 

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using WedChecker.Common;
-using Windows.ApplicationModel.Contacts;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -39,6 +35,14 @@ namespace WedChecker.UserControls.Tasks.Planings
             get
             {
                 return "Here are your plannings about tables accomodation so far";
+            }
+        }
+
+        public override string TaskCode
+        {
+            get
+            {
+                return TaskData.Tasks.RestaurantAccomodationPlan.ToString();
             }
         }
 
@@ -86,7 +90,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskData.Tasks.RestaurantAccomodationPlan.ToString());
+            writer.Write(TaskCode);
 
             writer.Write(2);
 
@@ -125,7 +129,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                 return;
             }
 
-            await AppData.InsertGlobalValue(TaskData.Tasks.RestaurantAccomodationPlan.ToString());
+            await AppData.InsertGlobalValue(TaskCode);
         }
 
         private void confirmTablesCountButton_Click(object sender, RoutedEventArgs e)
