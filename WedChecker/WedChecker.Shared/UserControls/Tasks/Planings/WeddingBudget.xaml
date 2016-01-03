@@ -7,11 +7,13 @@
     xmlns:we="using:WedChecker.UserControls.Tasks"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
     <StackPanel VerticalAlignment="Center">
-        <TextBox Name="tbBudget" InputScope="CurrencyAmountAndSymbol" Margin="20,0" TextChanged="tbBudget_TextChanged"/>
+        <TextBox Name="tbBudget" InputScope="CurrencyAmountAndSymbol" Margin="20,0" TextChanged="tbBudget_TextChanged"
+                 Style="{StaticResource WedCheckerFormTextBoxStyle}"/>
         <StackPanel Name="displayPanel" Visibility="Collapsed">
             <TextBlock Name="tbBudgetDisplay" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" TextAlignment="Center"/>
         </StackPanel>
-        <TextBlock Name="tbErrorMessage" TextAlignment="Center" Foreground="Red"
-                   Style="{StaticResource ControlHeaderTextBlockStyle}" Margin="0, 10, 0, 0"/>
+        <TextBlock Name="tbErrorMessage" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
+                   TextAlignment="Center" Foreground="Red"
+                   Margin="0, 10, 0, 0"/>
     </StackPanel>
 </we:BaseTaskControl>

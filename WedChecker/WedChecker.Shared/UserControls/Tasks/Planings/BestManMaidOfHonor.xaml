@@ -9,9 +9,9 @@
     xmlns:uc="using:WedChecker.UserControls">
     <StackPanel Orientation="Vertical">
         <uc:ContactControl x:Name="ccBestMan" Header="Best man" ClearOnRemove="True"
-                           IsEditable="True" ShowAlongWithPanel="False"/>
+                           IsEditable="True" ShowAlongWithPanel="False" IsReplaceable="True"/>
         
         <uc:ContactControl x:Name="ccMaidOfHonor" Header="Maid of honor" ClearOnRemove="True"
-                           IsEditable="True" ShowAlongWithPanel="False"/>
+                           IsEditable="True" ShowAlongWithPanel="False" IsReplaceable="True"/>
     </StackPanel>
 </we:BaseTaskControl>

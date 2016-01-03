@@ -20,5 +20,26 @@
         </TextBlock>
         <ToggleSwitch Name="wiFiOnlyToggle" Toggled="wiFiOnlyToggle_Toggled"
                       Margin="15, 0"/>
+
+
+        <TextBlock Style="{StaticResource WedCheckerFormTextBlockStyle}">
+            Last online backup
+        </TextBlock>
+        <TextBlock Name="tbBackupDate" 
+                   Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
+                   Margin="30, 10, 10, 0">
+            01.01.2016
+        </TextBlock>
+
+        <Button Name="backupButton" Style="{StaticResource ButtonClearStyle}" 
+                Margin="30, 10" Content="Backup now" Width="150"
+                Click="backupButton_Click"/>
+
+        <TextBlock Name="tbBackupErrorMessage" 
+                   Style="{StaticResource WedCheckerFormTextBlockStyle}" Margin="20, 5"
+                   FontSize="17" Foreground="Red" Visibility="Collapsed">
+            We can't backup now because you're not on WiFi and you have selected not to sync on mobile data
+        </TextBlock>
+
     </StackPanel>
 </Page>

@@ -54,7 +54,7 @@ namespace WedChecker.UserControls
             var storedGuests = AppData.GetValue(TaskData.Tasks.GuestsList.ToString());
             if (storedGuests == null)
             {
-                throw new WedCheckerInvalidDataException("No guests added. You must first add them from the Guest List planning task.");
+                throw new Exception("No guests added. You must first add them from the Guest List planning task.");
             }
             var storedGuestsInfo = storedGuests.Split(new string[] { AppData.GLOBAL_SEPARATOR }, StringSplitOptions.None).ToList();
 

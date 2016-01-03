@@ -4,6 +4,7 @@ using Windows.Devices.Geolocation;
 using System.Collections.Generic;
 using Windows.UI;
 using WedChecker.Common;
+using Windows.UI.Popups;
 
 #if WINDOWS_PHONE_APP
 using Windows.UI.Xaml.Controls.Maps;
@@ -47,15 +48,29 @@ namespace WedChecker.UserControls
             _map.Children.Add(_pinLayer);
 
 #elif WINDOWS_PHONE_APP
+            
             _map = new MapControl();
 #endif
-
             Loaded += async (sender, args) =>
             {
                 await CenterOnCurrentLocation();
                 this.Children.Add(_map);
             };
         }
+
+
+        private void CommandHandler(IUICommand command)
+        {
+            var commandLabel = command.Label;
+            switch (commandLabel)
+            {
+                case "Delete":
+                    break;
+                case "Cancel":
+                    break;
+            }
+        }
+
 
         public double Zoom
         {
@@ -259,13 +274,26 @@ namespace WedChecker.UserControls
 
         public async Task CenterOnCurrentLocation()
         {
-            var gl = new Geolocator() { DesiredAccuracy = PositionAccuracy.High };
-            Geoposition location = await gl.GetGeopositionAsync(TimeSpan.FromMinutes(5), TimeSpan.FromSeconds(5));
+            try
+            {
+                var gl = new Geolocator() { DesiredAccuracy = PositionAccuracy.High };
+                Geoposition location = await gl.GetGeopositionAsync(TimeSpan.FromMinutes(5), TimeSpan.FromSeconds(5));
 
-            var basicGeoposition = new BasicGeoposition() { Latitude = location.Coordinate.Latitude, Longitude = location.Coordinate.Longitude };
+                var basicGeoposition = new BasicGeoposition() { Latitude = location.Coordinate.Latitude, Longitude = location.Coordinate.Longitude };
 
-            var locationGeopoint = new Geopoint(basicGeoposition);
-            Center = locationGeopoint;
+                var locationGeopoint = new Geopoint(basicGeoposition);
+                Center = locationGeopoint;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                var msgDialog = new MessageDialog("Location service is turned off!", "Oops");
+
+                UICommand okBtn = new UICommand("OK");
+                msgDialog.Commands.Add(okBtn);
+
+                await msgDialog.ShowAsync();
+            }
+
         }
     }
 }
