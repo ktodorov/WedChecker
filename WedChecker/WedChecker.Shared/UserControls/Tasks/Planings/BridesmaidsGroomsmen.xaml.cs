@@ -179,14 +179,20 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         void deleteBridesmaidButton_Click(object sender, RoutedEventArgs e)
         {
-            var contactControl = ((sender as Button).Parent as Grid).Parent as ContactControl;
-            DeleteBridesmaid(contactControl);
+            var contactControl = ((sender as Button).FindAncestorByType(typeof(ContactControl))) as ContactControl;
+            if (contactControl != null)
+            {
+                DeleteBridesmaid(contactControl);
+            }
         }
 
         void deleteGroomsmanButton_Click(object sender, RoutedEventArgs e)
         {
-            var contactControl = ((sender as Button).Parent as Grid).Parent as ContactControl;
-            DeleteGroomsman(contactControl);
+            var contactControl = ((sender as Button).FindAncestorByType(typeof(ContactControl))) as ContactControl;
+            if (contactControl != null)
+            {
+                DeleteGroomsman(contactControl);
+            }
         }
 
         private async void DeleteBridesmaid(ContactControl controlToRemove)

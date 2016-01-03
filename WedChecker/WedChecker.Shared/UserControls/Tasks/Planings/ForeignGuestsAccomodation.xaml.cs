@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using WedChecker.Common;
@@ -45,14 +46,26 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public ForeignGuestsAccomodation()
         {
-            this.InitializeComponent();
-            
+            try
+            {
+                this.InitializeComponent();
+
+            }
+            catch (Exception)
+            {
+                var storedGuests = AppData.GetValue(TaskData.Tasks.GuestsList.ToString());
+                if (storedGuests == null)
+                {
+                    throw new Exception("No guests added. You must first add them from the Guest List planning task.");
+                }
+            }
+
             InitializeStoredInfo();
         }
 
         private void InitializeStoredInfo()
         {
-            StoredAccomodationPlaces = AppData.GetGlobalValues(TaskCode);
+            StoredAccomodationPlaces = AppData.GetGlobalValues(TaskData.Tasks.AccomodationPlaces.ToString());
 
             guestsPerHotel.StoredPlaces = StoredAccomodationPlaces;
         }
@@ -69,7 +82,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         public override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskData.Tasks.ForeignGuestsAccomodation.ToString());
+            writer.Write(TaskCode);
 
             writer.Write(1);
             writer.Write("GuestsPerHotel");

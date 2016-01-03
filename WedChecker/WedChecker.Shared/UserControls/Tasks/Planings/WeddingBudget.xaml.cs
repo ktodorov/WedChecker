@@ -76,12 +76,23 @@ namespace WedChecker.UserControls.Tasks.Planings
         public override void Serialize(BinaryWriter writer)
         {
             writer.Write(TaskCode);
+            writer.Write(1);
+            writer.Write("Budget");
             writer.Write(Budget);
         }
 
         public override void Deserialize(BinaryReader reader)
         {
-            Budget = reader.ReadInt32();
+            var objectsCount = reader.ReadInt32();
+
+            for (var i = 0; i < objectsCount; i++)
+            {
+                var type = reader.ReadString();
+                if (type == "Budget")
+                {
+                    Budget = reader.ReadInt32();
+                }
+            }
             
             DisplayValues();
         }

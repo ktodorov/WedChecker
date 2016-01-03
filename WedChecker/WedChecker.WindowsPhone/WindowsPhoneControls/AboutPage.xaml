@@ -8,18 +8,19 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <StackPanel Background="White">
-        <StackPanel Background="{StaticResource PhoneAccentBrush}" HorizontalAlignment="Stretch">
-            <Image Source="/SharedAssets/WedCheckerIcon.png/" Margin="100, 30" HorizontalAlignment="Center"/>
+    <ScrollViewer>
+        <StackPanel Background="White">
+            <StackPanel Background="{StaticResource PhoneAccentBrush}" HorizontalAlignment="Stretch">
+                <Image Source="/SharedAssets/WedCheckerIcon.png/" Margin="100, 30" HorizontalAlignment="Center"/>
 
-            <TextBlock Style="{StaticResource WedCheckerDisplayTextBlockStyle}" 
+                <TextBlock Style="{StaticResource WedCheckerDisplayTextBlockStyle}" 
                        FontSize="30" FontWeight="Bold" Foreground="White" TextAlignment="Center"
                        Margin="0, 10" HorizontalAlignment="Center">
                 WedChecker
-            </TextBlock>
-        </StackPanel>
+                </TextBlock>
+            </StackPanel>
 
-        <TextBlock Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="20"
+            <TextBlock Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="20"
                    HorizontalAlignment="Center" TextAlignment="Center" Margin="40, 30, 40, 0">
             This app was created by me, <LineBreak />
             <Bold>Konstantin Todorov</Bold> <LineBreak />
@@ -27,13 +28,26 @@
             <Bold>
                 <Hyperlink NavigateUri="mailto:wedchecker@outlook.com" 
                            Foreground="{StaticResource PhoneAccentBrush}">
-                    wedchecker@outlook.com
+                    <Underline>
+                        wedchecker@outlook.com
+                    </Underline>
                 </Hyperlink>
             </Bold>
-        </TextBlock>
+            </TextBlock>
 
-        <TextBlock Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="13" HorizontalAlignment="Center" Margin="40, 50, 40, 0">
-            ©WedChecker, 2015, All rights reserved
-        </TextBlock>
-    </StackPanel>
+            <HyperlinkButton NavigateUri="https://wedchecker.wordpress.com/privacy-policy/" HorizontalAlignment="Center"
+                             Margin="20, 60, 20, 0">
+                <TextBlock FontSize="16" Foreground="{StaticResource PhoneAccentBrush}"
+                           FontWeight="Light" FontFamily="Segoe UI" >
+                    <Underline>
+                        Privacy policy
+                    </Underline>
+                </TextBlock>
+            </HyperlinkButton>
+
+            <TextBlock Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="13" HorizontalAlignment="Center" Margin="40, 50, 40, 0">
+            ©WedChecker, K.Todorov, 2015, All rights reserved
+            </TextBlock>
+        </StackPanel>
+    </ScrollViewer>
 </Page>

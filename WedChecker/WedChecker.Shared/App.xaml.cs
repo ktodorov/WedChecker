@@ -140,10 +140,8 @@ namespace WedChecker
             ctsToUse.Cancel();
             ctsToUse = new CancellationTokenSource();
 
-            var wiFiOnlyValue = AppData.GetValue("wifiOnlySync");
-            var wiFiOnly = wiFiOnlyValue != null && bool.Parse(wiFiOnlyValue);
-            if ((wiFiOnly && Core.UserIsOnWiFi()) || !wiFiOnly)
-            {
+            if (Core.CanRoamData())
+            { 
                 if (Core.RoamingSettings.Values.ContainsKey("SerializedOn"))
                 {
                     var serializedOn = Core.RoamingSettings.Values["SerializedOn"] as string;

@@ -32,7 +32,7 @@ namespace WedChecker.Common
                 return ApplicationData.Current.RoamingSettings;
             }
         }
-        
+
         public static StorageFolder RoamingFolder
         {
             get
@@ -73,8 +73,8 @@ namespace WedChecker.Common
         public static Dictionary<string, object> GetPopulatedControls()
         {
             var populatedObjects = new Dictionary<string, object>();
-            
-            foreach(var taskControl in TaskData.TaskControls)
+
+            foreach (var taskControl in TaskData.TaskControls)
             {
                 if (AppData.GetValue(taskControl) != null)
                 {
@@ -82,7 +82,7 @@ namespace WedChecker.Common
                     populatedObjects.Add(taskControl, AppData.GetValue(taskControl));
                 }
             }
-            
+
             return populatedObjects;
         }
 
@@ -114,6 +114,18 @@ namespace WedChecker.Common
             var connectionProfile = NetworkInformation.GetInternetConnectionProfile();
 
             if (connectionProfile != null && connectionProfile.IsWlanConnectionProfile)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool CanRoamData()
+        {
+            var wiFiOnlyValue = AppData.GetValue("wifiOnlySync");
+            var wiFiOnly = wiFiOnlyValue != null && bool.Parse(wiFiOnlyValue);
+            if ((wiFiOnly && UserIsOnWiFi()) || !wiFiOnly)
             {
                 return true;
             }

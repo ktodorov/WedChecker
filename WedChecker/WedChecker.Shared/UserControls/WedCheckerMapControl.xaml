@@ -9,10 +9,10 @@
     xmlns:UserControls="using:WedChecker.UserControls">
 
     <StackPanel Orientation="Vertical">
-        <Button Name="showMapGrid" Click="showMapGrid_Click" Content="Show map" Grid.Row="1" 
+        <Button Name="showMapGrid" Click="showMapGrid_Click" Content="Hide map" Grid.Row="1" 
                 HorizontalAlignment="Center" Style="{StaticResource ButtonClearStyle}"/>
 
-        <Grid Name="mapGrid" Grid.Row="2" Visibility="Collapsed">
+        <Grid Name="mapGrid" Grid.Row="2" Visibility="Visible">
             <Border BorderBrush="{StaticResource PhoneAccentBrush}" BorderThickness="1" Margin="9, 1" Grid.Row="2" />
             <UserControls:MapView x:Name="locationMap" Zoom="10" ShowTraffic="False" Height="300" Grid.Row="2" 
                               MapServiceToken="tPlo53-BRbJuec2d8hOzgw" Margin="10, 2"/>
@@ -22,7 +22,7 @@
                 VerticalAlignment="Center" Margin="9, 1" Grid.Row="2"/>
         </Grid>
         <Grid Name="mapControlsGrid" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Grid.Row="3" Margin="9, -8, 9, 0"
-              Visibility="Collapsed">
+              Visibility="Visible">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />

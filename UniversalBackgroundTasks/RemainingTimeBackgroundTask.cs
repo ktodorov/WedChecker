@@ -24,14 +24,17 @@ namespace UniversalBackgroundTasks
             // while asynchronous code is still running.
             BackgroundTaskDeferral deferral = taskInstance.GetDeferral();
 
-            // Get the remaining time.
-            var remainingTime = GetRemainingTime();
 
             // Update the live tile with the feed items.
-            UpdateTile(remainingTime);
+            UpdateTile();
 
             // Inform the system that the task is finished.
             deferral.Complete();
+        }
+
+        public static void RunTileUpdater()
+        {
+            UpdateTile();
         }
 
         private static TimeRemaining GetRemainingTime()
@@ -68,8 +71,11 @@ namespace UniversalBackgroundTasks
             return remainingTime;
         }
 
-        private static void UpdateTile(TimeRemaining remainingTime)
+        private static void UpdateTile()
         {
+            // Get the remaining time.
+            var remainingTime = GetRemainingTime();
+
             // Create a tile update manager for the specified syndication feed.
             var updater = TileUpdateManager.CreateTileUpdaterForApplication();
             updater.EnableNotificationQueue(true);

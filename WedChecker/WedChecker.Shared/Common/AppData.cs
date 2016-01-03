@@ -176,11 +176,27 @@ namespace WedChecker.Common
 
         public static async Task SerializeData(CancellationTokenSource ctsToUse = null, bool serializeToRoaming = false)
         {
-            var wiFiOnlyValue = GetValue("wifiOnlySync");
-            var wiFiOnly = wiFiOnlyValue != null && bool.Parse(wiFiOnlyValue);
-            if (wiFiOnly && !Core.UserIsOnWiFi())
+            if (!Core.CanRoamData())
             {
                 serializeToRoaming = false;
+            }
+            else
+            {
+                if (!serializeToRoaming &&
+                    Core.RoamingSettings.Values.ContainsKey("SerializedOn"))
+                {
+                    var roamingSerializedOn = Core.RoamingSettings.Values["SerializedOn"] as string;
+
+                    if (roamingSerializedOn != null)
+                    {
+                        var roamingSerializedOnDate = DateTime.Parse(roamingSerializedOn);
+
+                        if ((DateTime.Now.ToUniversalTime() - roamingSerializedOnDate).Minutes > 30)
+                        {
+                            serializeToRoaming = true;
+                        }
+                    }
+                }
             }
 
             CancellationToken ctToUse;
@@ -259,9 +275,7 @@ namespace WedChecker.Common
 
         public static async Task<List<BaseTaskControl>> DeserializeData(bool deserializeFromRoaming = false)
         {
-            var wiFiOnlyValue = GetValue("wifiOnlySync");
-            var wiFiOnly = wiFiOnlyValue != null && bool.Parse(wiFiOnlyValue);
-            if (wiFiOnly && !Core.UserIsOnWiFi())
+            if (!Core.CanRoamData())
             {
                 deserializeFromRoaming = false;
             }
