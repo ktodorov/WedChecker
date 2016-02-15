@@ -168,12 +168,11 @@ namespace WedChecker.UserControls.Tasks
             }
         }
 
-        private async void DeleteTask()
+        private void DeleteTask()
         {
             if (ConnectedTaskControl != null)
             {
-                await AppData.DeleteSerializableTask(ConnectedTaskControl);
-                await AppData.RemoveGlobalValue(ConnectedTaskControl.TaskCode);
+                AppData.AllTasks.DeleteTask(ConnectedTaskControl.TaskCode);
 
                 EnableTaskTile();
 

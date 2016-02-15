@@ -67,9 +67,13 @@ namespace WedChecker.UserControls.Tasks.Planings
             flowersMap.EditValues();
         }
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
+            var decoration = tbFreshFlowers.Text;
+            if (FlowersNotes != decoration)
+            {
+                FlowersNotes = decoration;
+            }
 
             var objectsCount = GetObjectsCount();
             writer.Write(objectsCount);
@@ -87,7 +91,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             var objectsCount = reader.ReadInt32();
 
@@ -103,24 +107,6 @@ namespace WedChecker.UserControls.Tasks.Planings
                 {
                     flowersMap.DeserializeMapData(reader);
                 }
-            }
-
-            DisplayValues();
-        }
-
-        public override async Task SubmitValues()
-        {
-            var decoration = tbFreshFlowers.Text;
-            if (string.IsNullOrEmpty(decoration))
-            {
-                tbErrorMessage.Text = "Please, do not enter an empty flowers information";
-                return;
-            }
-
-            if (FlowersNotes != decoration)
-            {
-                FlowersNotes = decoration;
-                await AppData.InsertGlobalValue(TaskCode);
             }
         }
 

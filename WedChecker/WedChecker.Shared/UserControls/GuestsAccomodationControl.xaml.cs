@@ -51,22 +51,13 @@ namespace WedChecker.UserControls
 
         private void InitializeStoredInfo()
         {
-            var storedGuests = AppData.GetValue(TaskData.Tasks.GuestsList.ToString());
+            var storedGuests = AppData.GetStorage("GuestsList") as List<Contact>;
             if (storedGuests == null)
             {
                 throw new Exception("No guests added. You must first add them from the Guest List planning task.");
             }
-            var storedGuestsInfo = storedGuests.Split(new string[] { AppData.GLOBAL_SEPARATOR }, StringSplitOptions.None).ToList();
 
-            for (var i = 0; i < storedGuestsInfo.Count / 4; i++)
-            {
-                var contact = new Contact();
-                contact.Id = storedGuestsInfo[i * 4];
-                contact.FirstName = storedGuestsInfo[i * 4 + 1];
-                contact.LastName = storedGuestsInfo[i * 4 + 2];
-                contact.Notes = storedGuestsInfo[i * 4 + 3];
-                StoredGuests.Add(contact);
-            }
+            StoredGuests.AddRange(storedGuests);
         }
 
         private void AddChildButton_Click(object sender, RoutedEventArgs e)
@@ -257,7 +248,7 @@ namespace WedChecker.UserControls
             DeleteGuestFromPlace(contactControl.StoredContact.Id);
         }
 
-        private async void DeleteGuestFromPlace(string id)
+        private void DeleteGuestFromPlace(string id)
         {
             var placeToUse = GuestsPerPlaces.FirstOrDefault(p => p.Value.Any(g => g.StoredContact.Id == id)).Key;
 
@@ -268,8 +259,6 @@ namespace WedChecker.UserControls
                 treeViewPanel.Children.OfType<TreeNodeControl>().FirstOrDefault(tn => tn.NodeName == placeToUse)
                                                          .RemoveChildNode(c => (c is ContactControl) && (c as ContactControl).StoredContact.Id == id);
             }
-
-            await AppData.SerializeData();
         }
 
         private void backButton_Click(object sender, RoutedEventArgs e)

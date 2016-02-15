@@ -18,7 +18,12 @@ namespace WedChecker.UserControls.Tasks.Purchases
             {
                 if (_storedClothes == null)
                 {
-                    _storedClothes = AppData.GetGlobalValues(TaskData.Tasks.GroomClothes.ToString());
+                    _storedClothes = AppData.GetStorage("GroomClothes") as List<string>;
+                }
+
+                if (_storedClothes == null || !_storedClothes.Any())
+                {
+                    throw new WedCheckerInvalidDataException("You must first add groom clothes in order to mark them purchased after that!");
                 }
 
                 return _storedClothes;
@@ -105,10 +110,8 @@ namespace WedChecker.UserControls.Tasks.Purchases
             }
         }
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
-
             var toggles = mainPanel.Children.OfType<ToggleControl>();
             writer.Write(toggles.Count());
             foreach (var toggle in toggles)
@@ -117,7 +120,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
             }
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             var count = reader.ReadInt32();
 
@@ -128,13 +131,6 @@ namespace WedChecker.UserControls.Tasks.Purchases
 
                 AddToggle(toggle);
             }
-
-            DisplayValues();
-        }
-
-        public override async Task SubmitValues()
-        {
-            await AppData.InsertGlobalValue(TaskCode);
         }
 
         private void AddToggle(ToggleControl toggle)

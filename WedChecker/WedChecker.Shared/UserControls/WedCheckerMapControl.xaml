@@ -20,6 +20,8 @@
                 VerticalAlignment="Stretch" Margin="9, 1" Grid.Row="2"/>
             <Border Name="HorizontalMapBorder" BorderBrush="{StaticResource PhoneAccentBrush}" BorderThickness="1" HorizontalAlignment="Stretch" 
                 VerticalAlignment="Center" Margin="9, 1" Grid.Row="2"/>
+
+            <ProgressRing Name="centerMapProgressRing" IsActive="False" />
         </Grid>
         <Grid Name="mapControlsGrid" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Grid.Row="3" Margin="9, -8, 9, 0"
               Visibility="Visible">

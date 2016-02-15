@@ -663,7 +663,6 @@ namespace WedChecker.UserControls
         private async void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             ClearContact();
-            await AppData.SerializeData();
         }
     }
 }

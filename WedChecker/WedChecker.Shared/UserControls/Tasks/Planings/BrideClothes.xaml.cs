@@ -78,9 +78,14 @@ namespace WedChecker.UserControls.Tasks.Planings
             addClothingButton.Visibility = Visibility.Visible;
         }
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
+            var clothes = spBrideClothes.Children.OfType<ElementControl>();
+            foreach (var clothing in clothes)
+            {
+                SaveClothing(clothing);
+            }
+
             writer.Write(Clothes.Count);
             foreach (var clothing in Clothes)
             {
@@ -89,7 +94,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             ClothesChanged = false;
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             Clothes = new Dictionary<int, string>();
             var size = reader.ReadInt32();
@@ -99,8 +104,6 @@ namespace WedChecker.UserControls.Tasks.Planings
                 var clothing = reader.ReadString();
                 AddClothing(i, clothing);
             }
-
-            DisplayValues();
         }
 
         private void AddClothing(int number, string title)
@@ -118,19 +121,12 @@ namespace WedChecker.UserControls.Tasks.Planings
             ClothesChanged = true;
         }
 
-        public override async Task SubmitValues()
+        protected override void SetLocalStorage()
         {
             var clothes = spBrideClothes.Children.OfType<ElementControl>();
-            foreach (var clothing in clothes)
-            {
-                SaveClothing(clothing);
-            }
 
-            if (ClothesChanged)
-            {
-                var clothesTitles = clothes.Select(a => a.Title).ToList();
-                await AppData.InsertGlobalValues(TaskCode, clothesTitles);
-            }
+            var clothesTitles = clothes?.Select(a => a.Title).ToList();
+            AppData.SetStorage("BrideClothes", clothesTitles);
         }
 
         private int FindFirstFreeNumber()

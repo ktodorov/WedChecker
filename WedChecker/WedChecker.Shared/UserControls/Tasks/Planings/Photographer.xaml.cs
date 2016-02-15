@@ -57,23 +57,14 @@ namespace WedChecker.UserControls.Tasks.Planings
             ccPhotographer.EditValues();
         }
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
-
             ccPhotographer.SerializeContact(writer);
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             ccPhotographer.DeserializeContact(reader);
-
-            DisplayValues();
-        }
-
-        public override async Task SubmitValues()
-        {
-            await AppData.InsertGlobalValue(TaskCode);
         }
     }
 }

@@ -86,20 +86,25 @@ namespace WedChecker.UserControls.Tasks.Planings
             addPlaceButton.Visibility = Visibility.Visible;
         }
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
+            foreach (var place in spPlaces.Children.OfType<ElementControl>())
+            {
+                SavePlace(place.Title);
+            }
+
             Places.RemoveAll(p => string.IsNullOrEmpty(p));
 
-            writer.Write(TaskCode);
             writer.Write(Places.Count);
             foreach (var place in Places)
             {
                 writer.Write(place);
             }
+
             PlacesChanged = false;
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             Places = new List<string>();
             var size = reader.ReadInt32();
@@ -109,22 +114,11 @@ namespace WedChecker.UserControls.Tasks.Planings
                 var place = reader.ReadString();
                 AddPlace(place);
             }
-
-            DisplayValues();
         }
 
-        public override async Task SubmitValues()
+        protected override void SetLocalStorage()
         {
-            foreach (var place in spPlaces.Children.OfType<ElementControl>())
-            {
-                SavePlace(place.Title);
-            }
-
-            if (PlacesChanged)
-            {
-                var valueList = Places.ToList();
-                await AppData.InsertGlobalValues(TaskCode, valueList);
-            }
+            AppData.SetStorage("AccomodationPlaces", Places);
         }
 
         private void SavePlace(string place)

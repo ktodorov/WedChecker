@@ -100,9 +100,20 @@ namespace WedChecker.UserControls.Tasks.Planings
             addMaidOfHonorAccessoryButton.Visibility = Visibility.Visible;
         }
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
+            var bestManElementChildren = spBestManAccessories.Children.OfType<ElementControl>();
+            var maidOfHonorElementChildren = spMaidOfHonorAccessories.Children.OfType<ElementControl>();
+
+            foreach (var accessory in bestManElementChildren)
+            {
+                SaveBestManAccessory(accessory);
+            }
+
+            foreach (var accessory in maidOfHonorElementChildren)
+            {
+                SaveMaidOfHonorAccessory(accessory);
+            }
 
             int count = BestManAccessories.Any() ? (MaidOfHonorAccessories.Any() ? 2 : 1) : (MaidOfHonorAccessories.Any() ? 1 : 0);
             writer.Write(count);
@@ -130,7 +141,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             BestManAccessories = new Dictionary<int, string>();
             MaidOfHonorAccessories = new Dictionary<int, string>();
@@ -164,8 +175,6 @@ namespace WedChecker.UserControls.Tasks.Planings
                     }
                 }
             }
-
-            DisplayValues();
         }
 
         private void AddMaidOfHonorAccessory(int number, string title)
@@ -196,33 +205,16 @@ namespace WedChecker.UserControls.Tasks.Planings
             BestManAccessoriesChanged = true;
         }
 
-        public override async Task SubmitValues()
+        protected override void SetLocalStorage()
         {
             var bestManElementChildren = spBestManAccessories.Children.OfType<ElementControl>();
             var maidOfHonorElementChildren = spMaidOfHonorAccessories.Children.OfType<ElementControl>();
 
-            foreach (var accessory in bestManElementChildren)
-            {
-                SaveBestManAccessory(accessory);
-            }
+            var bestMenAccessories = bestManElementChildren?.Select(a => a.Title).ToList();
+            AppData.SetStorage("BestMenAccessories", bestMenAccessories);
 
-            foreach (var accessory in maidOfHonorElementChildren)
-            {
-                SaveMaidOfHonorAccessory(accessory);
-            }
-
-            if (BestManAccessoriesChanged || MaidOfHonorAccessoriesChanged)
-            {
-                var allAccessories = new List<string>();
-                allAccessories.Add($"StartBestManAccessories{AppData.GLOBAL_SEPARATOR}");
-                allAccessories.AddRange(bestManElementChildren.Select(a => a.Title).ToList());
-                allAccessories.Add($"EndBestManAccessories{AppData.GLOBAL_SEPARATOR}");
-                allAccessories.Add($"StartMaidOfHonorAccessories{AppData.GLOBAL_SEPARATOR}");
-                allAccessories.AddRange(maidOfHonorElementChildren.Select(a => a.Title).ToList());
-                allAccessories.Add($"EndMaidOfHonorAccessories{AppData.GLOBAL_SEPARATOR}");
-
-                await AppData.InsertGlobalValues(TaskCode, allAccessories);
-            }
+            var maidsOfHonorAccessories = maidOfHonorElementChildren?.Select(a => a.Title).ToList();
+            AppData.SetStorage("MaidsOfHonorAccessories", maidsOfHonorAccessories);
         }
 
         private int FindFirstFreeNumber(Dictionary<int, string> dict)

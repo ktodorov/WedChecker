@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using WedChecker.Common;
+using Windows.ApplicationModel.Contacts;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -53,7 +54,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
             catch (Exception)
             {
-                var storedGuests = AppData.GetValue(TaskData.Tasks.GuestsList.ToString());
+                var storedGuests = AppData.GetStorage("GuestsList") as List<Contact>;
                 if (storedGuests == null)
                 {
                     throw new Exception("No guests added. You must first add them from the Guest List planning task.");
@@ -65,7 +66,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         private void InitializeStoredInfo()
         {
-            StoredAccomodationPlaces = AppData.GetGlobalValues(TaskData.Tasks.AccomodationPlaces.ToString());
+            StoredAccomodationPlaces = AppData.GetStorage("AccomodationPlaces") as List<string>;
 
             guestsPerHotel.StoredPlaces = StoredAccomodationPlaces;
         }
@@ -80,16 +81,14 @@ namespace WedChecker.UserControls.Tasks.Planings
             guestsPerHotel.EditValues();
         }
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
-
             writer.Write(1);
             writer.Write("GuestsPerHotel");
             guestsPerHotel.SerializeData(writer);
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             var objectsCount = reader.ReadInt32();
 
@@ -102,14 +101,6 @@ namespace WedChecker.UserControls.Tasks.Planings
                     guestsPerHotel.DeserializeData(reader);
                 }
             }
-
-            DisplayValues();
-        }
-
-
-        public override async Task SubmitValues()
-        {
-            await AppData.InsertGlobalValue(TaskCode);
         }
     }
 }

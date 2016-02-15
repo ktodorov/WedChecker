@@ -29,9 +29,10 @@ namespace WedChecker.WindowsPhoneControls
         {
         }
 
-        private async void wiFiOnlyToggle_Toggled(object sender, RoutedEventArgs e)
+        private void wiFiOnlyToggle_Toggled(object sender, RoutedEventArgs e)
         {
-            await AppData.InsertGlobalValue("wifiOnlySync", wiFiOnlyToggle.IsOn.ToString());
+            //await AppData.InsertGlobalValue("wifiOnlySync", wiFiOnlyToggle.IsOn.ToString());
+            AppData.InsertRoamingSetting("WiFiOnlySync", wiFiOnlyToggle.IsOn);
         }
 
         private async void backupButton_Click(object sender, RoutedEventArgs e)
@@ -41,7 +42,7 @@ namespace WedChecker.WindowsPhoneControls
 
             if (Core.CanRoamData())
             {
-                await AppData.SerializeData(null, true);
+                //await AppData.SerializeData(null, true);
             }
             else
             {

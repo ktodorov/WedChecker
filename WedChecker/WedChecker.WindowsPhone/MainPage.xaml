@@ -60,7 +60,7 @@
             </TransitionCollection>
         </Grid.ChildrenTransitions>
 
-        <!--<UserControls:FirstLaunchPopup VerticalAlignment="Stretch" x:Name="firstLaunchPopup"/>-->
+        <ProgressRing Name="loadControlsProgressRing" IsActive="False"/>
 
         <Pivot x:Name="mainPivot" Title="WEDCHECKER" Visibility="Collapsed">
             <Pivot.TitleTemplate>
@@ -181,9 +181,9 @@
         <CommandBar x:Name="appBar" IsOpen="False" Visibility="Collapsed" 
                     Background="{StaticResource PhoneAccentBrush}" Foreground="White">
             <CommandBar.SecondaryCommands>
-                <AppBarButton Label="sync"/>
-                <AppBarButton Label="settings" Click="SettingsPageButton_Click"/>
+                <!--<AppBarButton Label="settings" Click="SettingsPageButton_Click"/>-->
                 <AppBarButton Label="about" Click="AboutPageButton_Click"/>
+                <AppBarButton Label="rate and review" Click="RateReviewButton_Click"/>
             </CommandBar.SecondaryCommands>
             <AppBarButton Icon="Add" IsCompact="False" Label="Add task" Click="AddTaskButton_Click"/>
         </CommandBar>

@@ -9,7 +9,6 @@ namespace WedChecker.UserControls.Tasks.Purchases
 {
     public sealed partial class PurchaseRings : BaseTaskControl
     {
-
         public override string TaskName
         {
             get
@@ -64,27 +63,18 @@ namespace WedChecker.UserControls.Tasks.Purchases
             ringsPurchasedToggle.EditValues();
         }
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
-
             var toggles = mainPanel.Children.OfType<ToggleControl>();
             writer.Write(toggles.Count());
             ringsPurchasedToggle.Serialize(writer);
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             var count = reader.ReadInt32();
 
             ringsPurchasedToggle.Deserialize(reader);
-
-            DisplayValues();
-        }
-
-        public override async Task SubmitValues()
-        {
-            await AppData.InsertGlobalValue(TaskCode);
         }
     }
 }

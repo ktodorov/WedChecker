@@ -58,14 +58,12 @@ namespace WedChecker.UserControls.Tasks.Planings
             ccMakeupArtist.EditValues();
         }
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
             if (!ccHairdresser.IsStored && !ccMakeupArtist.IsStored)
             {
                 return;
             }
-
-            writer.Write(TaskCode);
 
             var storedContactsCount = 0;
             if (ccHairdresser.IsStored)
@@ -92,7 +90,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             var storedContactsCount = reader.ReadInt32();
 
@@ -109,13 +107,6 @@ namespace WedChecker.UserControls.Tasks.Planings
                     ccMakeupArtist.DeserializeContact(reader);
                 }
             }
-
-            DisplayValues();
-        }
-
-        public override async Task SubmitValues()
-        {
-            await AppData.InsertGlobalValue(TaskCode);
         }
     }
 }

@@ -70,32 +70,27 @@ namespace WedChecker.UserControls.Tasks.Planings
         }
 
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
+            var decoration = tbDecoration.Text;
+            PlannedDecoration = decoration;
+
             writer.Write(PlannedDecoration);
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             PlannedDecoration = reader.ReadString();
-            DisplayValues();
         }
 
-        public override async Task SubmitValues()
+        protected override void SetLocalStorage()
         {
-            var decoration = tbDecoration.Text;
-            if (string.IsNullOrEmpty(decoration))
-            {
-                tbErrorMessage.Text = "Please, do not enter an empty decoration.";
-                return;
-            }
-
-            if (PlannedDecoration != decoration)
-            {
-                PlannedDecoration = decoration;
-                await AppData.InsertGlobalValue(TaskCode, decoration);
-            }
+            //if (string.IsNullOrEmpty(decoration))
+            //{
+            //    tbErrorMessage.Text = "Please, do not enter an empty decoration.";
+            //    return;
+            //}
+            AppData.SetStorage("Decoration", PlannedDecoration);
         }
 
         private void tbDecoration_TextChanged(object sender, TextChangedEventArgs e)

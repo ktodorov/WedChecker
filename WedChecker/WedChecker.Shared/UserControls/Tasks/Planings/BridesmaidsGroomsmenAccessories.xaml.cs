@@ -55,15 +55,6 @@ namespace WedChecker.UserControls.Tasks.Planings
             this.InitializeComponent();
         }
 
-        public BridesmaidsGroomsmenAccessories(Dictionary<string, Dictionary<int, string>> values)
-        {
-            this.InitializeComponent();
-            BridesmaidsAccessories = values.ContainsKey("BridesmaidsAcc") ? values["BridesmaidsAcc"] : new Dictionary<int, string>();
-            BridesmaidsAccessoriesChanged = false;
-            GroomsmenAccessories = values.ContainsKey("GroomsmenAcc") ? values["GroomsmenAcc"] : new Dictionary<int, string>();
-            GroomsmenAccessoriesChanged = false;
-        }
-
         public override void DisplayValues()
         {
             var bridesmaidsElementChildren = spBridesmaidsAccessories.Children.OfType<ElementControl>();
@@ -100,9 +91,20 @@ namespace WedChecker.UserControls.Tasks.Planings
             addGroomsmenAccessoryButton.Visibility = Visibility.Visible;
         }
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
+            var bridesmaidsElementChildren = spBridesmaidsAccessories.Children.OfType<ElementControl>();
+            var groomsmenElementChildren = spGroomsmenAccessories.Children.OfType<ElementControl>();
+
+            foreach (var accessory in bridesmaidsElementChildren)
+            {
+                SaveBridesmaidsAccessory(accessory);
+            }
+
+            foreach (var accessory in groomsmenElementChildren)
+            {
+                SaveGroomsmenAccessory(accessory);
+            }
 
             int count = BridesmaidsAccessories.Any() ? (GroomsmenAccessories.Any() ? 2 : 1) : (GroomsmenAccessories.Any() ? 1 : 0);
             writer.Write(count);
@@ -130,7 +132,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             BridesmaidsAccessories = new Dictionary<int, string>();
             GroomsmenAccessories = new Dictionary<int, string>();
@@ -164,8 +166,6 @@ namespace WedChecker.UserControls.Tasks.Planings
                     }
                 }
             }
-
-            DisplayValues();
         }
 
         private void AddGroomsmanAccessory(int number, string title)
@@ -197,33 +197,16 @@ namespace WedChecker.UserControls.Tasks.Planings
         }
 
 
-        public override async Task SubmitValues()
+        protected override void SetLocalStorage()
         {
             var bridesmaidsElementChildren = spBridesmaidsAccessories.Children.OfType<ElementControl>();
             var groomsmenElementChildren = spGroomsmenAccessories.Children.OfType<ElementControl>();
 
-            foreach (var accessory in bridesmaidsElementChildren)
-            {
-                SaveBridesmaidsAccessory(accessory);
-            }
+            var bridesmaidsAccessories = bridesmaidsElementChildren?.Select(a => a.Title).ToList();
+            AppData.SetStorage("BridesmaidsAccessories", bridesmaidsAccessories);
 
-            foreach (var accessory in groomsmenElementChildren)
-            {
-                SaveGroomsmenAccessory(accessory);
-            }
-
-            if (BridesmaidsAccessoriesChanged || GroomsmenAccessoriesChanged)
-            {
-                var allAccessories = new List<string>();
-                allAccessories.Add($"StartBridesmaidsAccessories{AppData.GLOBAL_SEPARATOR}");
-                allAccessories.AddRange(bridesmaidsElementChildren.Select(a => a.Title).ToList());
-                allAccessories.Add($"EndBridesmaidsAccessories{AppData.GLOBAL_SEPARATOR}");
-                allAccessories.Add($"StartGroomsmenAccessories{AppData.GLOBAL_SEPARATOR}");
-                allAccessories.AddRange(groomsmenElementChildren.Select(a => a.Title).ToList());
-                allAccessories.Add($"EndGroomsmenAccessories{AppData.GLOBAL_SEPARATOR}");
-
-                await AppData.InsertGlobalValues(TaskCode, allAccessories);
-            }
+            var groomsmenAccessories = groomsmenElementChildren?.Select(a => a.Title).ToList();
+            AppData.SetStorage("GroomsmenAccessories", groomsmenAccessories);
         }
 
         private int FindFirstFreeNumber(Dictionary<int, string> dict)

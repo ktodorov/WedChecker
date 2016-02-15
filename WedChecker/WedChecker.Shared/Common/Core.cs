@@ -51,14 +51,9 @@ namespace WedChecker.Common
         {
             object result = null;
 
-            if (LocalSettings.Values.ContainsKey(key))
-            {
-                result = LocalSettings.Values[key];
-            }
-            else if (RoamingSettings.Values[key] != null)
+            if (RoamingSettings.Values.ContainsKey(key))
             {
                 result = RoamingSettings.Values[key];
-                LocalSettings.Values.Add(key, result);
             }
 
             return result;
@@ -70,37 +65,21 @@ namespace WedChecker.Common
             return firstLaunch == null || (bool)firstLaunch == false;
         }
 
-        public static Dictionary<string, object> GetPopulatedControls()
-        {
-            var populatedObjects = new Dictionary<string, object>();
+        //public static List<BaseTaskControl> GetPopulatedTaskControls()
+        //{
+        //    var populatedObjects = new List<BaseTaskControl>();
 
-            foreach (var taskControl in TaskData.TaskControls)
-            {
-                if (AppData.GetValue(taskControl) != null)
-                {
-                    // Then this task was populated
-                    populatedObjects.Add(taskControl, AppData.GetValue(taskControl));
-                }
-            }
+        //    foreach (var taskControl in TaskData.TaskControls)
+        //    {
+        //        if (AppData.GetValue(taskControl) != null)
+        //        {
+        //            // Then this task was populated
+        //            populatedObjects.Add(TaskData.GetTaskControlFromString(taskControl));
+        //        }
+        //    }
 
-            return populatedObjects;
-        }
-
-        public static List<BaseTaskControl> GetPopulatedTaskControls()
-        {
-            var populatedObjects = new List<BaseTaskControl>();
-
-            foreach (var taskControl in TaskData.TaskControls)
-            {
-                if (AppData.GetValue(taskControl) != null)
-                {
-                    // Then this task was populated
-                    populatedObjects.Add(TaskData.GetTaskControlFromString(taskControl));
-                }
-            }
-
-            return populatedObjects;
-        }
+        //    return populatedObjects;
+        //}
 
         public static Color GetPhoneAccentBrush()
         {
@@ -123,8 +102,8 @@ namespace WedChecker.Common
 
         public static bool CanRoamData()
         {
-            var wiFiOnlyValue = AppData.GetValue("wifiOnlySync");
-            var wiFiOnly = wiFiOnlyValue != null && bool.Parse(wiFiOnlyValue);
+            var wiFiOnlyValue = AppData.GetRoamingSetting<bool?>("WiFiOnlySync"); //AppData.GetValue("wifiOnlySync");
+            var wiFiOnly = wiFiOnlyValue.HasValue && wiFiOnlyValue.Value;
             if ((wiFiOnly && UserIsOnWiFi()) || !wiFiOnly)
             {
                 return true;

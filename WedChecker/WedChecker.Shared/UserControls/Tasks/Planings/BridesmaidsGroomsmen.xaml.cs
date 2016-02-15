@@ -128,10 +128,8 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
-
             var bridesmaidContacts = spBridesmaids.Children.OfType<ContactControl>().ToList();
             writer.Write(bridesmaidContacts.Count);
             foreach (var bridesmaidContact in bridesmaidContacts)
@@ -147,7 +145,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             //Read in the number of records
             var bridesmaidsCount = reader.ReadInt32();
@@ -168,13 +166,6 @@ namespace WedChecker.UserControls.Tasks.Planings
                 contactControl.OnDelete = deleteGroomsmanButton_Click;
                 spGroomsmen.Children.Add(contactControl);
             }
-
-            DisplayValues();
-        }
-
-        public override async Task SubmitValues()
-        {
-            await AppData.InsertGlobalValue(TaskCode);
         }
 
         void deleteBridesmaidButton_Click(object sender, RoutedEventArgs e)
@@ -195,24 +186,20 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
-        private async void DeleteBridesmaid(ContactControl controlToRemove)
+        private void DeleteBridesmaid(ContactControl controlToRemove)
         {
             if (controlToRemove != null)
             {
                 spBridesmaids.Children.Remove(controlToRemove);
             }
-
-            await AppData.SerializeData();
         }
 
-        private async void DeleteGroomsman(ContactControl controlToRemove)
+        private void DeleteGroomsman(ContactControl controlToRemove)
         {
             if (controlToRemove != null)
             {
                 spGroomsmen.Children.Remove(controlToRemove);
             }
-
-            await AppData.SerializeData();
         }
 
         private async void selectBridesmaids_Click(object sender, RoutedEventArgs e)
