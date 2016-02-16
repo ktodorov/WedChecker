@@ -18,12 +18,11 @@ namespace UniversalBackgroundTasks
 
     public sealed class RemainingTimeBackgroundTask : IBackgroundTask
     {
-        public async void Run(IBackgroundTaskInstance taskInstance)
+        public void Run(IBackgroundTaskInstance taskInstance)
         {
             // Get a deferral, to prevent the task from closing prematurely 
             // while asynchronous code is still running.
-            BackgroundTaskDeferral deferral = taskInstance.GetDeferral();
-
+            var deferral = taskInstance.GetDeferral();
 
             // Update the live tile with the feed items.
             UpdateTile();
@@ -47,9 +46,9 @@ namespace UniversalBackgroundTasks
             {
                 object weddingDateObject = null;
 
-                if (Windows.Storage.ApplicationData.Current.LocalSettings.Values["WeddingDate"] != null)
+                if (Windows.Storage.ApplicationData.Current.RoamingSettings.Values["WeddingDate"] != null)
                 {
-                    weddingDateObject = Windows.Storage.ApplicationData.Current.LocalSettings.Values["WeddingDate"];
+                    weddingDateObject = Windows.Storage.ApplicationData.Current.RoamingSettings.Values["WeddingDate"];
                 }
 
                 var weddingDate = Convert.ToDateTime(weddingDateObject);
@@ -81,20 +80,20 @@ namespace UniversalBackgroundTasks
             updater.EnableNotificationQueue(true);
             updater.Clear();
 
-            // Create a live update for a square tile
-            XmlDocument tileXml = TileUpdateManager.GetTemplateContent(TileTemplateType.TileSquare150x150PeekImageAndText03);
+            //// Create a live update for a square tile
+            //XmlDocument tileXml = TileUpdateManager.GetTemplateContent(TileTemplateType.TileSquare150x150PeekImageAndText03);
 
-            XmlNodeList tileTextAttributes = tileXml.GetElementsByTagName("text");
-            tileTextAttributes[0].InnerText = $"{remainingTime.RemainingDays} days";
-            tileTextAttributes[1].InnerText = $"{remainingTime.RemainingHours} hours";
-            tileTextAttributes[2].InnerText = "remaining";
+            //XmlNodeList tileTextAttributes = tileXml.GetElementsByTagName("text");
+            //tileTextAttributes[0].InnerText = $"{remainingTime.RemainingDays} days";
+            //tileTextAttributes[1].InnerText = $"{remainingTime.RemainingHours} hours";
+            //tileTextAttributes[2].InnerText = "remaining";
 
-            XmlNodeList tileImageAttributes = tileXml.GetElementsByTagName("image");
-            ((XmlElement)tileImageAttributes[0]).SetAttribute("src", "ms-appx:///Assets/Square71x71Logo.scale-240.png");
-            ((XmlElement)tileImageAttributes[0]).SetAttribute("alt", "Contoso Food & Dining logo");
+            //XmlNodeList tileImageAttributes = tileXml.GetElementsByTagName("image");
+            //((XmlElement)tileImageAttributes[0]).SetAttribute("src", "ms-appx:///Assets/Square71x71Logo.scale-240.png");
+            //((XmlElement)tileImageAttributes[0]).SetAttribute("alt", "Contoso Food & Dining logo");
 
-            var tileBinding = (XmlElement)tileXml.GetElementsByTagName("binding").Item(0);
-            tileBinding.SetAttribute("branding", "nameAndLogo");
+            //var tileBinding = (XmlElement)tileXml.GetElementsByTagName("binding").Item(0);
+            //tileBinding.SetAttribute("branding", "nameAndLogo");
 
             // Create a tile notification for wide tile.
             XmlDocument wideTileXml = TileUpdateManager.GetTemplateContent(TileTemplateType.TileWide310x150PeekImage04);
@@ -109,17 +108,17 @@ namespace UniversalBackgroundTasks
             // Create a new tile notification. 
             updater.Update(new TileNotification(wideTileXml));
 
-            var wideTileBinding = (XmlElement)wideTileXml.GetElementsByTagName("binding").Item(0);
-            wideTileBinding.SetAttribute("branding", "nameAndLogo");
+            //var wideTileBinding = (XmlElement)wideTileXml.GetElementsByTagName("binding").Item(0);
+            //wideTileBinding.SetAttribute("branding", "nameAndLogo");
 
-            // Add the wide tile to the square tile's payload, so they are sibling elements under visual 
-            IXmlNode node = tileXml.ImportNode(wideTileXml.GetElementsByTagName("binding").Item(0), true);
-            tileXml.GetElementsByTagName("visual").Item(0).AppendChild(node);
+            //// Add the wide tile to the square tile's payload, so they are sibling elements under visual 
+            //IXmlNode node = tileXml.ImportNode(wideTileXml.GetElementsByTagName("binding").Item(0), true);
+            //tileXml.GetElementsByTagName("visual").Item(0).AppendChild(node);
 
-            // Create a tile notification that will expire in 1 day and send the live tile update.  
-            TileNotification tileNotification = new TileNotification(tileXml);
-            tileNotification.ExpirationTime = DateTimeOffset.UtcNow.AddHours(1);
-            TileUpdateManager.CreateTileUpdaterForApplication().Update(tileNotification);
+            //// Create a tile notification that will expire in 1 day and send the live tile update.  
+            //TileNotification tileNotification = new TileNotification(tileXml);
+            //tileNotification.ExpirationTime = DateTimeOffset.UtcNow.AddHours(1);
+            //TileUpdateManager.CreateTileUpdaterForApplication().Update(tileNotification);
         }
     }
 }

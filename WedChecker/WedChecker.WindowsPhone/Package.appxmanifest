@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-  <Identity Name="770K.Todorov.WedChecker" Publisher="CN=4BCA5D89-4760-406A-832A-9D4F774F126F" Version="1.0.0.0" />
+  <Identity Name="770K.Todorov.WedChecker" Publisher="CN=4BCA5D89-4760-406A-832A-9D4F774F126F" Version="1.2.0.0" />
   <mp:PhoneIdentity PhoneProductId="e493fe19-dbfb-4c52-a3fe-e1f163d70687" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>WedChecker</DisplayName>

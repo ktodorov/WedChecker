@@ -19,20 +19,31 @@ namespace WedChecker.UserControls
 
         public void UpdateTimeLeft()
         {
-            var weddingDate = Convert.ToDateTime(Core.GetSetting("WeddingDate"));
-
-            if (weddingDate != null)
+            var weddingDateString = AppData.GetRoamingSetting<string>("WeddingDate");
+            if (string.IsNullOrEmpty(weddingDateString))
             {
-                var days = Convert.ToInt32((weddingDate - DateTime.Now).TotalDays);
-                var hours = Convert.ToInt32((weddingDate - DateTime.Now).Hours);
-                var minutes = Convert.ToInt32((weddingDate - DateTime.Now).Minutes);
-                var seconds = Convert.ToInt32((weddingDate - DateTime.Now).Seconds);
-
-                tbDaysLeft.Text = days.ToString("00");
-                tbHoursLeft.Text = hours.ToString("00");
-                tbMinutesLeft.Text = minutes.ToString("00");
-                tbSecondsLeft.Text = seconds.ToString("00");
+                return;
             }
+            var weddingDate = new DateTime();
+            
+            try
+            {
+                weddingDate = Convert.ToDateTime(weddingDateString);
+            }
+            catch (FormatException)
+            {
+                return;
+            }
+
+            var days = Convert.ToInt32((weddingDate - DateTime.Now).TotalDays);
+            var hours = Convert.ToInt32((weddingDate - DateTime.Now).Hours);
+            var minutes = Convert.ToInt32((weddingDate - DateTime.Now).Minutes);
+            var seconds = Convert.ToInt32((weddingDate - DateTime.Now).Seconds);
+
+            tbDaysLeft.Text = days.ToString("00");
+            tbHoursLeft.Text = hours.ToString("00");
+            tbMinutesLeft.Text = minutes.ToString("00");
+            tbSecondsLeft.Text = seconds.ToString("00");
         }
     }
 }

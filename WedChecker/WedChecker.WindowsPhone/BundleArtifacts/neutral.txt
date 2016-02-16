@@ -1,2 +1,3 @@
-MainPackage=D:\OneDrive\Work\WedChecker\WedChecker\WedChecker.WindowsPhone\bin\Release\WedChecker.WindowsPhone_1.0.0.0_AnyCPU.appx
-SymbolPackage=D:\OneDrive\Work\WedChecker\WedChecker\WedChecker.WindowsPhone\AppPackages\WedChecker.WindowsPhone_1.0.0.0_Test\WedChecker.WindowsPhone_1.0.0.0_AnyCPU.appxsym
+MainPackage=D:\OneDrive\Work\WedChecker\WedChecker\WedChecker.WindowsPhone\bin\Release\WedChecker.WindowsPhone_1.2.0.0_AnyCPU.appx
+SymbolPackage=D:\OneDrive\Work\WedChecker\WedChecker\WedChecker.WindowsPhone\AppPackages\WedChecker.WindowsPhone_1.2.0.0_Test\WedChecker.WindowsPhone_1.2.0.0_AnyCPU.appxsym
+ResourcePack=D:\OneDrive\Work\WedChecker\WedChecker\WedChecker.WindowsPhone\bin\Release\WedChecker.WindowsPhone_1.2.0.0_scale-100.appx

@@ -61,25 +61,9 @@ namespace WedChecker.Common
 
         public static bool IsFirstLaunch()
         {
-            var firstLaunch = GetSetting("first");
-            return firstLaunch == null || (bool)firstLaunch == false;
+            var firstLaunch = AppData.GetRoamingSetting<bool?>("FirstLaunch");
+            return !firstLaunch.HasValue || firstLaunch.Value;
         }
-
-        //public static List<BaseTaskControl> GetPopulatedTaskControls()
-        //{
-        //    var populatedObjects = new List<BaseTaskControl>();
-
-        //    foreach (var taskControl in TaskData.TaskControls)
-        //    {
-        //        if (AppData.GetValue(taskControl) != null)
-        //        {
-        //            // Then this task was populated
-        //            populatedObjects.Add(TaskData.GetTaskControlFromString(taskControl));
-        //        }
-        //    }
-
-        //    return populatedObjects;
-        //}
 
         public static Color GetPhoneAccentBrush()
         {
