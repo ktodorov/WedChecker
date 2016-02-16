@@ -60,7 +60,6 @@
             </TransitionCollection>
         </Grid.ChildrenTransitions>
 
-        <ProgressRing Name="loadControlsProgressRing" IsActive="False"/>
 
         <Pivot x:Name="mainPivot" Title="WEDCHECKER" Visibility="Collapsed">
             <Pivot.TitleTemplate>
@@ -175,6 +174,7 @@
             </StackPanel>
         </ScrollViewer>
 
+        <ProgressRing Name="loadControlsProgressRing" IsActive="False"/>
     </Grid>
 
     <Page.BottomAppBar>

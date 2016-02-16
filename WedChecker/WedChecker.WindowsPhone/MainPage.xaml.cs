@@ -157,11 +157,8 @@ namespace WedChecker
         /// </summary>
         /// <param name="e">Event data that describes how this page was reached.
         /// This parameter is typically used to configure the page.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            this.RegisterBackgroundTask();
-
-            //Core.RoamingSettings.Values["first"] = false; // debug
             Loaded += async (sender, args) =>
             {
                 if (!FirstTimeLaunched)
@@ -180,7 +177,8 @@ namespace WedChecker
                     loadControlsProgressRing.IsActive = true;
                     var task = AppData.PopulateAddedControls();
                     await Task.WhenAll(task);
-                    var controls = task.Result.OrderBy(c => c.TaskName).ToList();
+                    var controls = task.Result;
+                    controls = controls.OrderBy(c => c.TaskName).ToList();
                     AddPopulatedControls(controls);
 
                     tbGreetUser.Text = string.Format("Hello, {0}", Core.GetSetting("Name"));
@@ -190,28 +188,31 @@ namespace WedChecker
 
                 FirstTimeLaunched = false;
             };
+
+            await this.RegisterBackgroundTask();
         }
 
         private const string taskName = "RemainingTimeBackgroundTask";
         private const string taskEntryPoint = "UniversalBackgroundTasks.RemainingTimeBackgroundTask";
 
-        private void RegisterBackgroundTask()
+        private async Task RegisterBackgroundTask()
         {
-            foreach (var task in BackgroundTaskRegistration.AllTasks)
+            var result = await BackgroundExecutionManager.RequestAccessAsync();
+            if (result == BackgroundAccessStatus.AllowedMayUseActiveRealTimeConnectivity ||
+                result == BackgroundAccessStatus.AllowedWithAlwaysOnRealTimeConnectivity)
             {
-                if (task.Value.Name == taskName)
+                foreach (var task in BackgroundTaskRegistration.AllTasks)
                 {
-                    task.Value.Unregister(true);
+                    if (task.Value.Name == taskName)
+                        task.Value.Unregister(true);
                 }
+
+                BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder();
+                taskBuilder.Name = taskName;
+                taskBuilder.TaskEntryPoint = taskEntryPoint;
+                taskBuilder.SetTrigger(new TimeTrigger(15, false));
+                var registration = taskBuilder.Register();
             }
-
-            BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder();
-            taskBuilder.Name = taskName;
-            taskBuilder.TaskEntryPoint = taskEntryPoint;
-            taskBuilder.SetTrigger(new TimeTrigger(30, false));
-            var registration = taskBuilder.Register();
-
-            UniversalBackgroundTasks.RemainingTimeBackgroundTask.RunTileUpdater();
         }
 
 
@@ -247,7 +248,6 @@ namespace WedChecker
             {
                 var type = populatedControl.GetType();
                 TaskData.InsertTaskControl(this, type, populatedControl, false);
-                //AppData.InsertSerializableTask(populatedControl);
             }
 
             var firstLaunchPopup = LayoutRoot.Children.OfType<FirstLaunchPopup>().FirstOrDefault();

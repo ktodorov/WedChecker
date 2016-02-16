@@ -55,7 +55,7 @@ namespace WedChecker.UserControls
 
             popup.Visibility = Visibility.Collapsed;
 
-            Core.SetSetting("first", true);
+            AppData.InsertRoamingSetting("FirstLaunch", false);
         }
     }
 }
