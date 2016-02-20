@@ -71,9 +71,10 @@ namespace WedChecker.UserControls.Tasks.Planings
             honeymoonMap.EditValues();
         }
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
+            var registryNotes = tbHoneymoonNotes.Text;
+            HoneymoonNotes = registryNotes;
 
             var objectsCount = GetObjectsCount();
             writer.Write(objectsCount);
@@ -90,7 +91,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             var objectsCount = reader.ReadInt32();
 
@@ -106,8 +107,6 @@ namespace WedChecker.UserControls.Tasks.Planings
                     honeymoonMap.DeserializeMapData(reader);
                 }
             }
-
-            DisplayValues();
         }
 
         int GetObjectsCount()
@@ -125,17 +124,6 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
 
             return objectsCount;
-        }
-
-        public override async Task SubmitValues()
-        {
-            var registryNotes = tbHoneymoonNotes.Text;
-
-            if (HoneymoonNotes != registryNotes)
-            {
-                HoneymoonNotes = registryNotes;
-                await AppData.InsertGlobalValue(TaskCode);
-            }
         }
 
         private void tbHoneymoonNotes_TextChanged(object sender, TextChangedEventArgs e)

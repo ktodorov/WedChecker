@@ -77,9 +77,14 @@ namespace WedChecker.UserControls.Tasks.Planings
             addDishButton.Visibility = Visibility.Visible;
         }
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
+            var dishes = spDishes.Children.OfType<DishControl>();
+            foreach (var dish in dishes)
+            {
+                SaveDish(dish);
+            }
+
             writer.Write(Dishes.Count);
             foreach (var dish in Dishes)
             {
@@ -88,7 +93,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             DishesChanged = false;
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             Dishes = new Dictionary<int, string>();
             var size = reader.ReadInt32();
@@ -98,23 +103,14 @@ namespace WedChecker.UserControls.Tasks.Planings
                 var dish = reader.ReadString();
                 AddDish(i, dish);
             }
-
-            DisplayValues();
         }
 
-        public override async Task SubmitValues()
+        protected override void SetLocalStorage()
         {
             var dishes = spDishes.Children.OfType<DishControl>();
-            foreach (var dish in dishes)
-            {
-                SaveDish(dish);
-            }
 
-            if (DishesChanged)
-            {
-                var foodTitles = dishes.Select(a => a.Title).ToList();
-                await AppData.InsertGlobalValues(TaskCode, foodTitles);
-            }
+            var foodTitles = dishes.Select(a => a.Title).ToList();
+            AppData.SetStorage("RestaurantFood", foodTitles);
         }
 
         private int FindFirstFreeNumber()

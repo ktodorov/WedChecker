@@ -77,9 +77,13 @@ namespace WedChecker.UserControls.Tasks.Planings
             addDocumentButton.Visibility = Visibility.Visible;
         }
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
+            foreach (var document in spDocuments.Children.OfType<ElementControl>())
+            {
+                SaveDocument(document);
+            }
+
             writer.Write(Documents.Count);
             foreach (var document in Documents)
             {
@@ -88,7 +92,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             DocumentsChanged = false;
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             Documents = new Dictionary<int, string>();
             var size = reader.ReadInt32();
@@ -102,21 +106,6 @@ namespace WedChecker.UserControls.Tasks.Planings
             foreach (var document in Documents)
             {
                 spDocuments.Children.Add(new ElementControl(document.Key, document.Value));
-            }
-
-            DisplayValues();
-        }
-
-        public override async Task SubmitValues()
-        {
-            foreach (var document in spDocuments.Children.OfType<ElementControl>())
-            {
-                SaveDocument(document);
-            }
-
-            if (DocumentsChanged)
-            {
-                await AppData.InsertGlobalValue(TaskCode);
             }
         }
 

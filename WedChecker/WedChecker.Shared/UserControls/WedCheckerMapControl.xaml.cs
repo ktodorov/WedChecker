@@ -84,7 +84,17 @@ namespace WedChecker.UserControls
 
         private async void centerLocationButton_Click(object sender, RoutedEventArgs e)
         {
+            centerMapProgressRing.IsActive = true;
+            centerLocationButton.IsEnabled = false;
+            centerPinButton.IsEnabled = false;
+            pinAdressButton.IsEnabled = false;
+
             await locationMap.CenterOnCurrentLocation();
+
+            centerLocationButton.IsEnabled = true;
+            centerPinButton.IsEnabled = true;
+            pinAdressButton.IsEnabled = true;
+            centerMapProgressRing.IsActive = false;
         }
 
         private void centerPinButton_Click(object sender, RoutedEventArgs e)

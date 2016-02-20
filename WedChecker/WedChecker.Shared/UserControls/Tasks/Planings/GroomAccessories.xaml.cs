@@ -78,9 +78,14 @@ namespace WedChecker.UserControls.Tasks.Planings
             addAccessoryButton.Visibility = Visibility.Visible;
         }
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
+            var accessories = spGroomAccessories.Children.OfType<ElementControl>();
+            foreach (var accessory in accessories)
+            {
+                SaveAccessory(accessory);
+            }
+
             writer.Write(Accessories.Count);
             foreach (var accessory in Accessories)
             {
@@ -89,7 +94,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             AccessoriesChanged = false;
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             Accessories = new Dictionary<int, string>();
             var size = reader.ReadInt32();
@@ -99,8 +104,6 @@ namespace WedChecker.UserControls.Tasks.Planings
                 var accessory = reader.ReadString();
                 AddAccessory(i, accessory);
             }
-
-            DisplayValues();
         }
 
         private void AddAccessory(int number, string title)
@@ -118,19 +121,12 @@ namespace WedChecker.UserControls.Tasks.Planings
             AccessoriesChanged = true;
         }
 
-        public override async Task SubmitValues()
+        protected override void SetLocalStorage()
         {
             var accessories = spGroomAccessories.Children.OfType<ElementControl>();
-            foreach (var accessory in accessories)
-            {
-                SaveAccessory(accessory);
-            }
 
-            if (AccessoriesChanged)
-            {
-                var accessoriesTitles = accessories.Select(a => a.Title).ToList();
-                await AppData.InsertGlobalValues(TaskCode, accessoriesTitles);
-            }
+            var accessoriesTitles = accessories.Select(a => a.Title).ToList();
+            AppData.SetStorage("GroomAccessories", accessoriesTitles);
         }
 
         private int FindFirstFreeNumber()

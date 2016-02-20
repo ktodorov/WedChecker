@@ -48,13 +48,19 @@ namespace WedChecker.UserControls
             _map.Children.Add(_pinLayer);
 
 #elif WINDOWS_PHONE_APP
-            
+
             _map = new MapControl();
 #endif
             Loaded += async (sender, args) =>
             {
-                await CenterOnCurrentLocation();
-                this.Children.Add(_map);
+                try
+                {
+                    await CenterOnCurrentLocation();
+                    this.Children.Add(_map);
+                }
+                catch
+                {
+                }
             };
         }
 
@@ -249,7 +255,6 @@ namespace WedChecker.UserControls
             _map.Children.Add(pin);
 
             PinnedPlace = location;
-            AppData.SerializeData();
 #endif
         }
 

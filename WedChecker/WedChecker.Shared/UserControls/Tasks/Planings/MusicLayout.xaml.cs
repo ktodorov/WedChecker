@@ -70,32 +70,17 @@ namespace WedChecker.UserControls.Tasks.Planings
         }
 
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
+            var decoration = tbMusicLayout.Text;
+            PlannedLayout = decoration;
+
             writer.Write(PlannedLayout);
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             PlannedLayout = reader.ReadString();
-            DisplayValues();
-        }
-
-        public override async Task SubmitValues()
-        {
-            var decoration = tbMusicLayout.Text;
-            if (string.IsNullOrEmpty(decoration))
-            {
-                tbErrorMessage.Text = "Please, do not enter an empty music notes.";
-                return;
-            }
-
-            if (PlannedLayout != decoration)
-            {
-                PlannedLayout = decoration;
-                await AppData.InsertGlobalValue(TaskCode);
-            }
         }
 
         private void tbMusicLayout_TextChanged(object sender, TextChangedEventArgs e)

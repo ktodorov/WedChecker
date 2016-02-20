@@ -78,9 +78,10 @@ namespace WedChecker.UserControls.Tasks.Planings
             religiousPlaceMap.EditValues();
         }
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
+            var religiousNotes = tbReligiousNotes.Text;
+            ReligiousNotes = religiousNotes;
 
             var objectsCount = GetObjectsCount();
             writer.Write(objectsCount);
@@ -97,7 +98,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             var objectsCount = reader.ReadInt32();
 
@@ -113,19 +114,6 @@ namespace WedChecker.UserControls.Tasks.Planings
                 {
                     religiousPlaceMap.DeserializeMapData(reader);
                 }
-            }
-
-            DisplayValues();
-        }
-
-        public override async Task SubmitValues()
-        {
-            var religiousNotes = tbReligiousNotes.Text;
-
-            if (ReligiousNotes != religiousNotes)
-            {
-                ReligiousNotes = religiousNotes;
-                await AppData.InsertGlobalValue(TaskCode);
             }
         }
 

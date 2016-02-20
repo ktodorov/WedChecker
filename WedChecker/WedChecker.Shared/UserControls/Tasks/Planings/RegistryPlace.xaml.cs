@@ -71,9 +71,10 @@ namespace WedChecker.UserControls.Tasks.Planings
             registryMap.EditValues();
         }
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
+            var registryNotes = tbRegistryNotes.Text;
+            RegistryNotes = registryNotes;
 
             var objectsCount = GetObjectsCount();
             writer.Write(objectsCount);
@@ -90,7 +91,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             var objectsCount = reader.ReadInt32();
 
@@ -107,8 +108,6 @@ namespace WedChecker.UserControls.Tasks.Planings
                     registryMap.DeserializeMapData(reader);
                 }
             }
-
-            DisplayValues();
         }
 
         int GetObjectsCount()
@@ -126,17 +125,6 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
 
             return objectsCount;
-        }
-
-        public override async Task SubmitValues()
-        {
-            var registryNotes = tbRegistryNotes.Text;
-
-            if (RegistryNotes != registryNotes)
-            {
-                RegistryNotes = registryNotes;
-                await AppData.InsertGlobalValue(TaskCode);
-            }
         }
 
         private void tbRegistryNotes_TextChanged(object sender, TextChangedEventArgs e)

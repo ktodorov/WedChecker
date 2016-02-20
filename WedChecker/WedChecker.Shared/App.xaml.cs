@@ -140,32 +140,32 @@ namespace WedChecker
             ctsToUse.Cancel();
             ctsToUse = new CancellationTokenSource();
 
-            if (Core.CanRoamData())
-            { 
-                if (Core.RoamingSettings.Values.ContainsKey("SerializedOn"))
-                {
-                    var serializedOn = Core.RoamingSettings.Values["SerializedOn"] as string;
+            //if (Core.CanRoamData())
+            //{ 
+            //    if (Core.RoamingSettings.Values.ContainsKey("SerializedOn"))
+            //    {
+            //        var serializedOn = Core.RoamingSettings.Values["SerializedOn"] as string;
 
-                    if (serializedOn != null)
-                    {
-                        var serializedOnDate = DateTime.Parse(serializedOn);
-                        if ((DateTime.Now.ToUniversalTime() - serializedOnDate).Minutes > 5)
-                        {
-                            await AppData.SerializeData(ctsToUse, serializeToRoaming: true);
-                            await AppData.SerializeData(ctsToUse);
-                        }
-                    }
-                }
-                else
-                {
-                    await AppData.SerializeData(ctsToUse, serializeToRoaming: true);
-                    await AppData.SerializeData(ctsToUse);
-                }
-            }
-            else
-            {
-                await AppData.SerializeData(ctsToUse);
-            }
+            //        if (serializedOn != null)
+            //        {
+            //            var serializedOnDate = DateTime.Parse(serializedOn);
+            //            if ((DateTime.Now.ToUniversalTime() - serializedOnDate).Minutes > 5)
+            //            {
+            //                await AppData.SerializeData(ctsToUse, serializeToRoaming: true);
+            //                await AppData.SerializeData(ctsToUse);
+            //            }
+            //        }
+            //    }
+            //    else
+            //    {
+            //        await AppData.SerializeData(ctsToUse, serializeToRoaming: true);
+            //        await AppData.SerializeData(ctsToUse);
+            //    }
+            //}
+            //else
+            //{
+            //    await AppData.SerializeData(ctsToUse);
+            //}
 
             deferral.Complete();
         }

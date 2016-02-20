@@ -71,34 +71,8 @@ namespace WedChecker.UserControls.Tasks.Planings
         }
 
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
-            writer.Write(RestaurantName);
-            writer.Write(Address);
-            writer.Write(Phone);
-            writer.Write(Notes);
-        }
-
-        public override void Deserialize(BinaryReader reader)
-        {
-            RestaurantName = reader.ReadString();
-            Address = reader.ReadString();
-            Phone = reader.ReadString();
-            Notes = reader.ReadString();
-
-            PopulateControls();
-            DisplayValues();
-        }
-
-        public override async Task SubmitValues()
-        {
-            if (RestaurantName == tbName.Text && Address == tbAddress.Text &&
-                Phone == tbPhone.Text && Notes == tbNotes.Text)
-            {
-                return;
-            }
-
             RestaurantName = tbName.Text;
             tbNameDisplay.Text = RestaurantName;
 
@@ -111,7 +85,20 @@ namespace WedChecker.UserControls.Tasks.Planings
             Notes = tbNotes.Text;
             tbNotesDisplay.Text = Notes;
 
-            await AppData.InsertGlobalValue(TaskCode);
+            writer.Write(RestaurantName);
+            writer.Write(Address);
+            writer.Write(Phone);
+            writer.Write(Notes);
+        }
+
+        protected override void Deserialize(BinaryReader reader)
+        {
+            RestaurantName = reader.ReadString();
+            Address = reader.ReadString();
+            Phone = reader.ReadString();
+            Notes = reader.ReadString();
+
+            PopulateControls();
         }
 
         private void PopulateParameters(Dictionary<string, string> parameters)

@@ -17,19 +17,18 @@ namespace WedChecker.Common
 {
     public static partial class TaskData
     {
-        public static bool CreateTaskControl(Page currentPage, KeyValuePair<string, object> populatedControl)
+        public static bool CreateTaskControl(Page currentPage, string populatedControl)
         {
-            object value = populatedControl.Value;
-            var type = GetTaskType(populatedControl.Key);
+            var type = GetTaskType(populatedControl);
             BaseTaskControl taskControl = null;
-            taskControl = CreateTaskControl(type, value);
+            taskControl = CreateTaskControl(type);
 
             if (taskControl == null)
             {
                 return false;
             }
 
-            AppData.InsertSerializableTask(taskControl);
+            //AppData.InsertSerializableTask(taskControl);
 
             InsertTaskControl(currentPage, type, taskControl, true);
 
@@ -125,16 +124,11 @@ namespace WedChecker.Common
             return type;
         }
 
-        private static BaseTaskControl CreateTaskControl(Type taskType, object value)
+        private static BaseTaskControl CreateTaskControl(Type taskType)
         {
             try
             {
-                if (value == null)
-                {
-                    return Activator.CreateInstance(taskType) as BaseTaskControl;
-                }
-
-                return Activator.CreateInstance(taskType, value) as BaseTaskControl;
+                return Activator.CreateInstance(taskType) as BaseTaskControl;
             }
             catch (Exception ex)
             {
@@ -157,7 +151,8 @@ namespace WedChecker.Common
                     continue;
                 }
 
-                if (AppData.GetValue((item as TaskTileControl).Name) != null)
+                if (AppData.ControlIsAdded((item as TaskTileControl).Name))
+                //if (AppData.GetValue((item as TaskTileControl).Name) != null)
                 {
                     (item as TaskTileControl).IsEnabled = false;
                 }

@@ -10,20 +10,6 @@ namespace WedChecker.UserControls.Tasks.Purchases
 {
     public sealed partial class PurchaseBMMOHAccessories : BaseTaskControl
     {
-        private List<string> _storedAccessories;
-        public List<string> StoredAccessories
-        {
-            get
-            {
-                if (_storedAccessories == null)
-                {
-                    _storedAccessories = AppData.GetGlobalValues(TaskData.Tasks.BestManMaidOfHonorAccessories.ToString());
-                }
-
-                return _storedAccessories;
-            }
-        }
-
         private List<string> _storedBestManAccessories;
         public List<string> StoredBestManAccessories
         {
@@ -31,11 +17,17 @@ namespace WedChecker.UserControls.Tasks.Purchases
             {
                 if (_storedBestManAccessories == null)
                 {
-                    var startIndex = StoredAccessories.IndexOf($"StartBestManAccessories{AppData.GLOBAL_SEPARATOR}") + 1;
-                    var endIndex = StoredAccessories.IndexOf($"EndBestManAccessories{AppData.GLOBAL_SEPARATOR}") - startIndex;
+                    _storedBestManAccessories = AppData.GetStorage("BestMenAccessories") as List<string>;
+                }
 
+                if ((_storedBestManAccessories == null || !_storedBestManAccessories.Any()) && (_storedMaidOfHonorAccessories == null || !_storedMaidOfHonorAccessories.Any()))
+                {
+                    throw new WedCheckerInvalidDataException("You must first add accessories for the best men or maids of honor in order to mark them purchased after that!");
+                }
+
+                if (_storedBestManAccessories == null)
+                {
                     _storedBestManAccessories = new List<string>();
-                    _storedBestManAccessories.AddRange(StoredAccessories.Skip(startIndex).Take(endIndex));
                 }
 
                 return _storedBestManAccessories;
@@ -49,11 +41,17 @@ namespace WedChecker.UserControls.Tasks.Purchases
             {
                 if (_storedMaidOfHonorAccessories == null)
                 {
-                    var startIndex = StoredAccessories.IndexOf($"StartMaidOfHonorAccessories{AppData.GLOBAL_SEPARATOR}") + 1;
-                    var endIndex = StoredAccessories.IndexOf($"EndMaidOfHonorAccessories{AppData.GLOBAL_SEPARATOR}") - startIndex;
+                    _storedMaidOfHonorAccessories = AppData.GetStorage("MaidsOfHonorAccessories") as List<string>;
+                }
 
+                if ((_storedBestManAccessories == null || !_storedBestManAccessories.Any()) && (_storedMaidOfHonorAccessories == null || !_storedMaidOfHonorAccessories.Any()))
+                {
+                    throw new WedCheckerInvalidDataException("You must first add accessories for the best men or maids of honor in order to mark them purchased after that!");
+                }
+
+                if (_storedMaidOfHonorAccessories == null)
+                {
                     _storedMaidOfHonorAccessories = new List<string>();
-                    _storedMaidOfHonorAccessories.AddRange(StoredAccessories.Skip(startIndex).Take(endIndex));
                 }
 
                 return _storedMaidOfHonorAccessories;
@@ -141,10 +139,8 @@ namespace WedChecker.UserControls.Tasks.Purchases
             }
         }
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
-
             var bestManToggles = bestManPanel.Children.OfType<ToggleControl>();
             writer.Write("BestMan");
             writer.Write(bestManToggles.Count());
@@ -162,7 +158,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
             }
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             for (int i = 0; i < 2; i++)
             {
@@ -185,13 +181,6 @@ namespace WedChecker.UserControls.Tasks.Purchases
                     }
                 }
             }
-
-            DisplayValues();
-        }
-
-        public override async Task SubmitValues()
-        {
-            await AppData.InsertGlobalValue(TaskCode);
         }
 
         private void AddBestManToggle(ToggleControl toggle)

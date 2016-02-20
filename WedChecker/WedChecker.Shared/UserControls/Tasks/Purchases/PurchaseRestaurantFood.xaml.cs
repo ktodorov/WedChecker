@@ -18,7 +18,12 @@ namespace WedChecker.UserControls.Tasks.Purchases
             {
                 if (_storedFood == null)
                 {
-                    _storedFood = AppData.GetGlobalValues(TaskData.Tasks.RestaurantFood.ToString());
+                    _storedFood = AppData.GetStorage("RestaurantFood") as List<string>;
+                }
+
+                if (_storedFood == null || !_storedFood.Any())
+                {
+                    throw new WedCheckerInvalidDataException("You must first add restaurant food in order to mark it purchased after that!");
                 }
 
                 return _storedFood;
@@ -105,10 +110,8 @@ namespace WedChecker.UserControls.Tasks.Purchases
             }
         }
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
-
             var toggles = mainPanel.Children.OfType<ToggleControl>();
             writer.Write(toggles.Count());
             foreach (var toggle in toggles)
@@ -117,7 +120,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
             }
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             var count = reader.ReadInt32();
 
@@ -128,13 +131,6 @@ namespace WedChecker.UserControls.Tasks.Purchases
 
                 AddToggle(toggle);
             }
-
-            DisplayValues();
-        }
-
-        public override async Task SubmitValues()
-        {
-            await AppData.InsertGlobalValue(TaskCode);
         }
 
         private void AddToggle(ToggleControl toggle)

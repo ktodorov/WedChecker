@@ -18,7 +18,12 @@ namespace WedChecker.UserControls.Tasks.Bookings
             {
                 if (_storedAccomodationPlaces == null)
                 {
-                    _storedAccomodationPlaces = AppData.GetGlobalValues(TaskData.Tasks.AccomodationPlaces.ToString());
+                    _storedAccomodationPlaces = AppData.GetStorage("AccomodationPlaces") as List<string>;
+                }
+
+                if (_storedAccomodationPlaces == null || !_storedAccomodationPlaces.Any())
+                {
+                    throw new WedCheckerInvalidDataException("You must first add accomodation places in order to mark it purchased after that!");
                 }
 
                 return _storedAccomodationPlaces;
@@ -105,10 +110,8 @@ namespace WedChecker.UserControls.Tasks.Bookings
             }
         }
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
-
             var toggles = mainPanel.Children.OfType<ToggleControl>();
             writer.Write(toggles.Count());
             foreach (var toggle in toggles)
@@ -117,7 +120,7 @@ namespace WedChecker.UserControls.Tasks.Bookings
             }
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             var count = reader.ReadInt32();
 
@@ -128,13 +131,6 @@ namespace WedChecker.UserControls.Tasks.Bookings
 
                 AddToggle(toggle);
             }
-
-            DisplayValues();
-        }
-
-        public override async Task SubmitValues()
-        {
-            await AppData.InsertGlobalValue(TaskCode);
         }
 
         private void AddToggle(ToggleControl toggle)

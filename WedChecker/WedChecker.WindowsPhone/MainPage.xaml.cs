@@ -12,6 +12,9 @@ using Windows.Phone.UI.Input;
 using System.Threading;
 using WedChecker.WindowsPhoneControls;
 using Windows.ApplicationModel.Background;
+using System.Threading.Tasks;
+using Windows.System;
+using Windows.ApplicationModel.Store;
 
 namespace WedChecker
 {
@@ -174,10 +177,15 @@ namespace WedChecker
                 }
                 else
                 {
-                    var controls = await AppData.DeserializeData();
+                    loadControlsProgressRing.IsActive = true;
+                    var task = AppData.PopulateAddedControls();
+                    await Task.WhenAll(task);
+                    var controls = task.Result.OrderBy(c => c.TaskName).ToList();
                     AddPopulatedControls(controls);
 
                     tbGreetUser.Text = string.Format("Hello, {0}", Core.GetSetting("Name"));
+
+                    loadControlsProgressRing.IsActive = false;
                 }
 
                 FirstTimeLaunched = false;
@@ -221,7 +229,7 @@ namespace WedChecker
 
         private void AddPopulatedControls()
         {
-            var populatedControls = Core.GetPopulatedControls();
+            var populatedControls = AppData.AllTasks.GetAllTasks();
 
             foreach (var populatedControl in populatedControls)
             {
@@ -239,7 +247,7 @@ namespace WedChecker
             {
                 var type = populatedControl.GetType();
                 TaskData.InsertTaskControl(this, type, populatedControl, false);
-                AppData.InsertSerializableTask(populatedControl);
+                //AppData.InsertSerializableTask(populatedControl);
             }
 
             var firstLaunchPopup = LayoutRoot.Children.OfType<FirstLaunchPopup>().FirstOrDefault();
@@ -269,9 +277,7 @@ namespace WedChecker
                 return;
             }
 
-            var taskClicked = new KeyValuePair<string, object>(senderElement.Name, null);
-
-            var created = TaskData.CreateTaskControl(this, taskClicked);
+            var created = TaskData.CreateTaskControl(this, senderElement.Name);
             if (created)
             {
                 senderElement.IsEnabled = false;
@@ -286,6 +292,11 @@ namespace WedChecker
         private void SettingsPageButton_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(SettingsPage));
+        }
+
+        private async void RateReviewButton_Click(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("ms-windows-store:reviewapp?appid=8f849272-e314-42ee-81d5-0967f0034456"));
         }
     }
 }

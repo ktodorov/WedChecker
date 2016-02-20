@@ -64,27 +64,17 @@ namespace WedChecker.UserControls.Tasks.Bookings
             musicLayoutBookedToggle.EditValues();
         }
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
-
             var toggles = mainPanel.Children.OfType<ToggleControl>();
             writer.Write(toggles.Count());
             musicLayoutBookedToggle.Serialize(writer);
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             var count = reader.ReadInt32();
-
             musicLayoutBookedToggle.Deserialize(reader);
-
-            DisplayValues();
-        }
-
-        public override async Task SubmitValues()
-        {
-            await AppData.InsertGlobalValue(TaskCode);
         }
     }
 }

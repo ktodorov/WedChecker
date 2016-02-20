@@ -78,9 +78,14 @@ namespace WedChecker.UserControls.Tasks.Planings
             addClothingButton.Visibility = Visibility.Visible;
         }
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
+            var childrenClothes = spGroomClothes.Children.OfType<ElementControl>();
+            foreach (var clothing in childrenClothes)
+            {
+                SaveClothing(clothing);
+            }
+
             writer.Write(Clothes.Count);
             foreach (var clothing in Clothes)
             {
@@ -89,7 +94,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             ClothesChanged = false;
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             Clothes = new Dictionary<int, string>();
             var size = reader.ReadInt32();
@@ -99,8 +104,6 @@ namespace WedChecker.UserControls.Tasks.Planings
                 var clothing = reader.ReadString();
                 AddClothing(i, clothing);
             }
-
-            DisplayValues();
         }
 
         private void AddClothing(int number, string title)
@@ -118,19 +121,12 @@ namespace WedChecker.UserControls.Tasks.Planings
             ClothesChanged = true;
         }
 
-        public override async Task SubmitValues()
+        protected override void SetLocalStorage()
         {
             var childrenClothes = spGroomClothes.Children.OfType<ElementControl>();
-            foreach (var clothing in childrenClothes)
-            {
-                SaveClothing(clothing);
-            }
 
-            if (ClothesChanged)
-            {
-                var clothesTitles = childrenClothes.Select(c => c.Title).ToList();
-                await AppData.InsertGlobalValues(TaskCode, clothesTitles);
-            }
+            var clothesTitles = childrenClothes.Select(c => c.Title).ToList();
+            AppData.SetStorage("GroomClothes", clothesTitles);
         }
 
         private int FindFirstFreeNumber()

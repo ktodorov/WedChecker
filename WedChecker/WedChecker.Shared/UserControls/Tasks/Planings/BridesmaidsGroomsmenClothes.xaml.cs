@@ -100,9 +100,20 @@ namespace WedChecker.UserControls.Tasks.Planings
             addGroomsmenClothingButton.Visibility = Visibility.Visible;
         }
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
+            var bridesmaidsElementChildren = spBridesmaidsClothes.Children.OfType<ElementControl>();
+            var groomsmenElementChildren = spGroomsmenClothes.Children.OfType<ElementControl>();
+
+            foreach (var clothing in bridesmaidsElementChildren)
+            {
+                SaveBridesmaidsClothing(clothing);
+            }
+
+            foreach (var clothing in groomsmenElementChildren)
+            {
+                SaveGroomsmenClothing(clothing);
+            }
 
             int count = BridesmaidsClothes.Any() ? (GroomsmenClothes.Any() ? 2 : 1) : (GroomsmenClothes.Any() ? 1 : 0);
             writer.Write(count);
@@ -130,7 +141,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             BridesmaidsClothes = new Dictionary<int, string>();
             GroomsmenClothes = new Dictionary<int, string>();
@@ -164,8 +175,6 @@ namespace WedChecker.UserControls.Tasks.Planings
                     }
                 }
             }
-
-            DisplayValues();
         }
 
         private void AddGroomsmanClothing(int number, string title)
@@ -196,33 +205,16 @@ namespace WedChecker.UserControls.Tasks.Planings
             BridesmaidsClothesChanged = true;
         }
 
-        public override async Task SubmitValues()
+        protected override void SetLocalStorage()
         {
             var bridesmaidsElementChildren = spBridesmaidsClothes.Children.OfType<ElementControl>();
             var groomsmenElementChildren = spGroomsmenClothes.Children.OfType<ElementControl>();
 
-            foreach (var clothing in bridesmaidsElementChildren)
-            {
-                SaveBridesmaidsClothing(clothing);
-            }
+            var bridesmaidsClothes = bridesmaidsElementChildren?.Select(a => a.Title).ToList();
+            AppData.SetStorage("BridesmaidsClothes", bridesmaidsClothes);
 
-            foreach (var clothing in groomsmenElementChildren)
-            {
-                SaveGroomsmenClothing(clothing);
-            }
-
-            if (BridesmaidsClothesChanged || GroomsmenClothesChanged)
-            {
-                var allClothes = new List<string>();
-                allClothes.Add($"StartBridesmaidsClothes{AppData.GLOBAL_SEPARATOR}");
-                allClothes.AddRange(bridesmaidsElementChildren.Select(a => a.Title).ToList());
-                allClothes.Add($"EndBridesmaidsClothes{AppData.GLOBAL_SEPARATOR}");
-                allClothes.Add($"StartGroomsmenClothes{AppData.GLOBAL_SEPARATOR}");
-                allClothes.AddRange(groomsmenElementChildren.Select(a => a.Title).ToList());
-                allClothes.Add($"EndGroomsmenClothes{AppData.GLOBAL_SEPARATOR}");
-
-                await AppData.InsertGlobalValues(TaskCode, allClothes);
-            }
+            var groomsmenClothes = groomsmenElementChildren?.Select(a => a.Title).ToList();
+            AppData.SetStorage("GroomsmenClothes", groomsmenClothes);
         }
 
         private int FindFirstFreeNumber(Dictionary<int, string> dict)

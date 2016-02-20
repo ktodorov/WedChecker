@@ -10,20 +10,6 @@ namespace WedChecker.UserControls.Tasks.Purchases
 {
     public sealed partial class PurchaseBAGClothes : BaseTaskControl
     {
-        private List<string> _storedClothes;
-        public List<string> StoredClothes
-        {
-            get
-            {
-                if (_storedClothes == null)
-                {
-                    _storedClothes = AppData.GetGlobalValues(TaskData.Tasks.BridesmaidsGroomsmenClothes.ToString());
-                }
-
-                return _storedClothes;
-            }
-        }
-
         private List<string> _storedBridesmaidsClothes;
         public List<string> StoredBridesmaidsClothes
         {
@@ -31,11 +17,17 @@ namespace WedChecker.UserControls.Tasks.Purchases
             {
                 if (_storedBridesmaidsClothes == null)
                 {
-                    var startIndex = StoredClothes.IndexOf($"StartBridesmaidsClothes{AppData.GLOBAL_SEPARATOR}") + 1;
-                    var endIndex = StoredClothes.IndexOf($"EndBridesmaidsClothes{AppData.GLOBAL_SEPARATOR}") - startIndex;
+                    _storedBridesmaidsClothes = AppData.GetStorage("BridesmaidsClothes") as List<string>;
+                }
 
+                if ((_storedBridesmaidsClothes == null || !_storedBridesmaidsClothes.Any()) && (_storedGroomsmenClothes == null || !_storedGroomsmenClothes.Any()))
+                {
+                    throw new WedCheckerInvalidDataException("You must first add clothes for the bridesmaids or the groomsmen in order to mark them purchased after that!");
+                }
+
+                if (_storedBridesmaidsClothes == null)
+                {
                     _storedBridesmaidsClothes = new List<string>();
-                    _storedBridesmaidsClothes.AddRange(StoredClothes.Skip(startIndex).Take(endIndex));
                 }
 
                 return _storedBridesmaidsClothes;
@@ -49,11 +41,17 @@ namespace WedChecker.UserControls.Tasks.Purchases
             {
                 if (_storedGroomsmenClothes == null)
                 {
-                    var startIndex = StoredClothes.IndexOf($"StartGroomsmenClothes{AppData.GLOBAL_SEPARATOR}") + 1;
-                    var endIndex = StoredClothes.IndexOf($"EndGroomsmenClothes{AppData.GLOBAL_SEPARATOR}") - startIndex;
+                    _storedGroomsmenClothes = AppData.GetStorage("GroomsmenClothes") as List<string>;
+                }
 
+                if ((_storedBridesmaidsClothes == null || !_storedBridesmaidsClothes.Any()) && (_storedGroomsmenClothes == null || !_storedGroomsmenClothes.Any()))
+                {
+                    throw new WedCheckerInvalidDataException("You must first add clothes for the bridesmaids or the groomsmen in order to mark them purchased after that!");
+                }
+
+                if (_storedGroomsmenClothes == null)
+                {
                     _storedGroomsmenClothes = new List<string>();
-                    _storedGroomsmenClothes.AddRange(StoredClothes.Skip(startIndex).Take(endIndex));
                 }
 
                 return _storedGroomsmenClothes;
@@ -141,10 +139,8 @@ namespace WedChecker.UserControls.Tasks.Purchases
             }
         }
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
-
             var bridesmaidsToggles = bridesmaidsPanel.Children.OfType<ToggleControl>();
             writer.Write("Bridesmaids");
             writer.Write(bridesmaidsToggles.Count());
@@ -162,7 +158,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
             }
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             for (int i = 0; i < 2; i++)
             {
@@ -185,13 +181,6 @@ namespace WedChecker.UserControls.Tasks.Purchases
                     }
                 }
             }
-
-            DisplayValues();
-        }
-
-        public override async Task SubmitValues()
-        {
-            await AppData.InsertGlobalValue(TaskCode);
         }
 
         private void AddBridesmaidsToggle(ToggleControl toggle)

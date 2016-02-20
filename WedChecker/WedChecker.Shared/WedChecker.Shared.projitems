@@ -21,6 +21,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\TaskData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Tasks.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\WedCheckerInvalidDataException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\CommonExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\CompositeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ExceptionExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\AddedTasksHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UserControls\ContactControl.xaml.cs">
       <DependentUpon>ContactControl.xaml</DependentUpon>
     </Compile>

@@ -100,9 +100,20 @@ namespace WedChecker.UserControls.Tasks.Planings
             addMaidOfHonorClothingButton.Visibility = Visibility.Visible;
         }
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
+            var bestManElementChildren = spBestManClothes.Children.OfType<ElementControl>();
+            var maidOfHonorElementChildren = spMaidOfHonorClothes.Children.OfType<ElementControl>();
+
+            foreach (var clothing in bestManElementChildren)
+            {
+                SaveBestManClothing(clothing);
+            }
+
+            foreach (var clothing in maidOfHonorElementChildren)
+            {
+                SaveMaidOfHonorClothing(clothing);
+            }
 
             int count = BestManClothes.Any() ? (MaidOfHonorClothes.Any() ? 2 : 1) : (MaidOfHonorClothes.Any() ? 1 : 0);
             writer.Write(count);
@@ -130,7 +141,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             BestManClothes = new Dictionary<int, string>();
             MaidOfHonorClothes = new Dictionary<int, string>();
@@ -164,8 +175,6 @@ namespace WedChecker.UserControls.Tasks.Planings
                     }
                 }
             }
-
-            DisplayValues();
         }
 
         private void AddMaidOfHonorClothing(int number, string title)
@@ -196,35 +205,17 @@ namespace WedChecker.UserControls.Tasks.Planings
             BestManClothesChanged = true;
         }
 
-        public override async Task SubmitValues()
+        protected override void SetLocalStorage()
         {
             var bestManElementChildren = spBestManClothes.Children.OfType<ElementControl>();
             var maidOfHonorElementChildren = spMaidOfHonorClothes.Children.OfType<ElementControl>();
 
-            foreach (var clothing in bestManElementChildren)
-            {
-                SaveBestManClothing(clothing);
-            }
+            var bestMenClothes = bestManElementChildren?.Select(a => a.Title).ToList();
+            AppData.SetStorage("BestMenClothes", bestMenClothes);
 
-            foreach (var clothing in maidOfHonorElementChildren)
-            {
-                SaveMaidOfHonorClothing(clothing);
-            }
-
-            if (BestManClothesChanged || MaidOfHonorClothesChanged)
-            {
-                var allClothes = new List<string>();
-                allClothes.Add($"StartBestManClothes{AppData.GLOBAL_SEPARATOR}");
-                allClothes.AddRange(bestManElementChildren.Select(a => a.Title).ToList());
-                allClothes.Add($"EndBestManClothes{AppData.GLOBAL_SEPARATOR}");
-                allClothes.Add($"StartMaidOfHonorClothes{AppData.GLOBAL_SEPARATOR}");
-                allClothes.AddRange(maidOfHonorElementChildren.Select(a => a.Title).ToList());
-                allClothes.Add($"EndMaidOfHonorClothes{AppData.GLOBAL_SEPARATOR}");
-
-                await AppData.InsertGlobalValues(TaskCode, allClothes);
-            }
+            var maidsOfHonorClothes = maidOfHonorElementChildren?.Select(a => a.Title).ToList();
+            AppData.SetStorage("MaidsOfHonorClothes", maidsOfHonorClothes);
         }
-
         private int FindFirstFreeNumber(Dictionary<int, string> dict)
         {
             var result = 0;

@@ -79,9 +79,8 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
             writer.Write(Guests.Count);
             foreach (var guest in Guests)
             {
@@ -89,7 +88,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             //Read in the number of records
             var records = reader.ReadInt32();
@@ -105,7 +104,6 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
 
             tbGuestsAdded.Text = string.Format("{0} guests added", Guests.Count);
-            DisplayValues();
         }
 
         private async void selectContacts_Click(object sender, RoutedEventArgs e)
@@ -133,18 +131,10 @@ namespace WedChecker.UserControls.Tasks.Planings
             tbGuestsAdded.Text = string.Format("{0} guests added", Guests.Count);
         }
 
-        public override async Task SubmitValues()
+        protected override void SetLocalStorage()
         {
-            var guestsString = Guests.Count.ToString();
-            foreach (var guest in Guests)
-            {
-                guestsString += $"{guest.StoredContact.Id}{AppData.GLOBAL_SEPARATOR}";
-                guestsString += $"{guest.StoredContact.FirstName}{AppData.GLOBAL_SEPARATOR}";
-                guestsString += $"{guest.StoredContact.LastName}{AppData.GLOBAL_SEPARATOR}";
-                guestsString += $"{guest.StoredContact.Notes}{AppData.GLOBAL_SEPARATOR}";
-            }
-
-            await AppData.InsertGlobalValue(TaskCode, guestsString);
+            var guestsContacts = Guests.Select(g => g.StoredContact).ToList();
+            AppData.SetStorage("GuestsList", guestsContacts);
         }
 
         void deleteButton_Click(object sender, RoutedEventArgs e)
@@ -153,7 +143,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             DeleteGuest(contactControl.StoredContact.Id);
         }
 
-        private async void DeleteGuest(string id)
+        private void DeleteGuest(string id)
         {
             var guestToRemove = Guests.FirstOrDefault(g => g.StoredContact.Id == id);
 
@@ -161,8 +151,6 @@ namespace WedChecker.UserControls.Tasks.Planings
             {
                 spContacts.Children.Remove(guestToRemove);
             }
-
-            await AppData.SerializeData();
         }
 
         private void addNewContactButton_Click(object sender, RoutedEventArgs e)

@@ -88,10 +88,8 @@ namespace WedChecker.UserControls.Tasks.Planings
             guestsPerTable.EditValues();
         }
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
-
             writer.Write(2);
 
             writer.Write("TablesCount");
@@ -101,7 +99,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             guestsPerTable.SerializeData(writer);
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             var objectsCount = reader.ReadInt32();
 
@@ -118,18 +116,6 @@ namespace WedChecker.UserControls.Tasks.Planings
                     guestsPerTable.DeserializeData(reader);
                 }
             }
-
-            DisplayValues();
-        }
-
-        public override async Task SubmitValues()
-        {
-            if (TablesCount <= 0)
-            {
-                return;
-            }
-
-            await AppData.InsertGlobalValue(TaskCode);
         }
 
         private void confirmTablesCountButton_Click(object sender, RoutedEventArgs e)

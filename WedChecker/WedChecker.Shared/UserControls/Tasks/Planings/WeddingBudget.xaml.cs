@@ -73,15 +73,17 @@ namespace WedChecker.UserControls.Tasks.Planings
         }
 
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
+            var weddingBudget = tbBudget.Text;
+            Budget = Convert.ToInt32(weddingBudget);
+
             writer.Write(1);
             writer.Write("Budget");
             writer.Write(Budget);
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             var objectsCount = reader.ReadInt32();
 
@@ -92,24 +94,6 @@ namespace WedChecker.UserControls.Tasks.Planings
                 {
                     Budget = reader.ReadInt32();
                 }
-            }
-            
-            DisplayValues();
-        }
-
-        public override async Task SubmitValues()
-        {
-            var weddingBudget = tbBudget.Text;
-            if (string.IsNullOrEmpty(weddingBudget) || Convert.ToInt32(weddingBudget) < 0)
-            {
-                tbErrorMessage.Text = "Please, enter a valid budget!";
-                return;
-            }
-
-            if (Budget != Convert.ToInt32(weddingBudget))
-            {
-                Budget = Convert.ToInt32(weddingBudget);
-                await AppData.InsertGlobalValue(TaskCode);
             }
         }
 

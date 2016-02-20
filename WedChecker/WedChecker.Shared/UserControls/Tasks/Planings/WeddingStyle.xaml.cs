@@ -72,32 +72,17 @@ namespace WedChecker.UserControls.Tasks.Planings
         }
 
 
-        public override void Serialize(BinaryWriter writer)
+        protected override void Serialize(BinaryWriter writer)
         {
-            writer.Write(TaskCode);
+            var weddingStyle = tbStyle.Text;
+            Style = weddingStyle;
+
             writer.Write(Style);
         }
 
-        public override void Deserialize(BinaryReader reader)
+        protected override void Deserialize(BinaryReader reader)
         {
             Style = reader.ReadString();
-            DisplayValues();
-        }
-
-        public override async Task SubmitValues()
-        {
-            var weddingStyle = tbStyle.Text;
-            if (string.IsNullOrEmpty(weddingStyle))
-            {
-                tbErrorMessage.Text = "Please, do not enter an empty style.";
-                return;
-            }
-
-            if (Style != weddingStyle)
-            {
-                Style = weddingStyle;
-                await AppData.InsertGlobalValue(TaskCode);
-            }
         }
 
         private void tbStyle_TextChanged(object sender, TextChangedEventArgs e)
