@@ -1,0 +1,30 @@
+﻿<UserControl
+    x:Class="WedChecker.UserControls.ToggleControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WedChecker.UserControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel Orientation="Vertical" VerticalAlignment="Center"
+                HorizontalAlignment="Stretch">
+
+        <StackPanel Name="displayPanel" Orientation="Horizontal"
+                    HorizontalAlignment="Center" Visibility="Collapsed">
+            <TextBlock Name="tbTitle" Style="{StaticResource WedCheckerFormTextBlockStyle}" 
+                   FontSize="20" TextAlignment="Center" Foreground="{ThemeResource SystemAccentColor}"
+                   FontWeight="Bold" HorizontalAlignment="Center"/>
+            <TextBlock Name="tbTitleSymbol" FontSize="20" FontWeight="Bold"
+                       Style="{StaticResource WedCheckerFormTextBlockStyle}"
+                       FontFamily="Segoe UI Symbol" />
+        </StackPanel>
+
+        <CheckBox Name="toggleSwitch" Foreground="Black" FontSize="20"
+                  HorizontalAlignment="Left" HorizontalContentAlignment="Left"
+                  Margin="50, 0, 0, 0">
+            <TextBlock Name="tbCheckboxTitle" FontSize="20" VerticalAlignment="Center"
+                       TextAlignment="Center" Foreground="Black" FontWeight="Normal"/>
+        </CheckBox>
+    </StackPanel>
+</UserControl>

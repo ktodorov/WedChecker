@@ -1,0 +1,35 @@
+﻿<we:BaseTaskControl
+    x:Class="WedChecker.UserControls.Tasks.Planings.BestManMaidOfHonorClothes"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WedChecker.UserControls.Tasks.Planings"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:we="using:WedChecker.UserControls.Tasks"
+    mc:Ignorable="d"
+    Height="Auto"
+    Width="Auto">
+
+    <StackPanel Orientation="Vertical">
+
+        <StackPanel Name="spBestMan" Margin="0, 0, 0, 10">
+            <TextBlock Text="Best man" Style="{StaticResource WedCheckerFormTextBlockStyle}"/>
+            <StackPanel Name="spBestManClothes" Orientation="Vertical" Margin="15, 0">
+            </StackPanel>
+            <Button Name="addBestManClothingButton" BorderThickness="0" Content="&#xE109; New clothing for the best man" 
+                VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Symbol" 
+                FontWeight="Light" FontSize="20" Foreground="{ThemeResource SystemAccentColor}"
+                Click="addBestManClothingButton_Click"/>
+        </StackPanel>
+
+        <StackPanel Name="spMaidOfHonor">
+            <TextBlock Text="Maid of honor" Style="{StaticResource WedCheckerFormTextBlockStyle}"/>
+            <StackPanel Name="spMaidOfHonorClothes" Orientation="Vertical" Margin="15, 0">
+            </StackPanel>
+            <Button Name="addMaidOfHonorClothingButton" BorderThickness="0" Content="&#xE109; New clothing for the maid of honor" 
+                VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Symbol" 
+                FontWeight="Light" FontSize="20" Foreground="{ThemeResource SystemAccentColor}"
+                Click="addMaidOfHonorClothingButton_Click"/>
+        </StackPanel>
+    </StackPanel>
+</we:BaseTaskControl>

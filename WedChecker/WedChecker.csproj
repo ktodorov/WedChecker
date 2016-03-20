@@ -1,0 +1,569 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{7BD19105-DC64-48EA-9538-7F8B22AD1BE7}</ProjectGuid>
+    <OutputType>AppContainerExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WedChecker</RootNamespace>
+    <AssemblyName>WedChecker</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <PackageCertificateKeyFile>WedChecker_TemporaryKey.pfx</PackageCertificateKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SharedAssets\WedCheckerIcon.png" />
+    <None Include="project.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Common\AppData.cs" />
+    <Compile Include="Common\Core.cs" />
+    <Compile Include="Common\Extensions.cs" />
+    <Compile Include="Common\TaskData.cs" />
+    <Compile Include="Common\Tasks.cs" />
+    <Compile Include="Common\WedCheckerInvalidDataException.cs" />
+    <Compile Include="Extensions\CommonExtensions.cs" />
+    <Compile Include="Extensions\CompositeExtensions.cs" />
+    <Compile Include="Extensions\ExceptionExtensions.cs" />
+    <Compile Include="Helpers\AddedTasksHelper.cs" />
+    <Compile Include="MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Triggers\DeviceTypeAdaptiveTrigger.cs" />
+    <Compile Include="UserControls\ContactControl.xaml.cs">
+      <DependentUpon>ContactControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CountdownTimer.xaml.cs">
+      <DependentUpon>CountdownTimer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\DishControl.xaml.cs">
+      <DependentUpon>DishControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ElementControl.xaml.cs">
+      <DependentUpon>ElementControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FirstLaunchPopup.xaml.cs">
+      <DependentUpon>FirstLaunchPopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\GuestsAccomodationControl.xaml.cs">
+      <DependentUpon>GuestsAccomodationControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\MapView.cs" />
+    <Compile Include="UserControls\Tasks\BaseTaskControl.xaml.cs">
+      <DependentUpon>BaseTaskControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Bookings\BookGuestsAccomodation.xaml.cs">
+      <DependentUpon>BookGuestsAccomodation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Bookings\BookHairdresserMakeupArtistAppointments.xaml.cs">
+      <DependentUpon>BookHairdresserMakeupArtistAppointments.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Bookings\BookHoneymoonDestination.xaml.cs">
+      <DependentUpon>BookHoneymoonDestination.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Bookings\BookMusicLayout.xaml.cs">
+      <DependentUpon>BookMusicLayout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Bookings\BookPhotographer.xaml.cs">
+      <DependentUpon>BookPhotographer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Bookings\SendInvitations.xaml.cs">
+      <DependentUpon>SendInvitations.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Planings\AccomodationPlaces.xaml.cs">
+      <DependentUpon>AccomodationPlaces.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Planings\BestManMaidOfHonor.xaml.cs">
+      <DependentUpon>BestManMaidOfHonor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Planings\BestManMaidOfHonorAccessories.xaml.cs">
+      <DependentUpon>BestManMaidOfHonorAccessories.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Planings\BestManMaidOfHonorClothes.xaml.cs">
+      <DependentUpon>BestManMaidOfHonorClothes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Planings\BrideAccessories.xaml.cs">
+      <DependentUpon>BrideAccessories.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Planings\BrideClothes.xaml.cs">
+      <DependentUpon>BrideClothes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Planings\BridesmaidsGroomsmen.xaml.cs">
+      <DependentUpon>BridesmaidsGroomsmen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Planings\BridesmaidsGroomsmenAccessories.xaml.cs">
+      <DependentUpon>BridesmaidsGroomsmenAccessories.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Planings\BridesmaidsGroomsmenClothes.xaml.cs">
+      <DependentUpon>BridesmaidsGroomsmenClothes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Planings\Decoration.xaml.cs">
+      <DependentUpon>Decoration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Planings\DocumentsRequired.xaml.cs">
+      <DependentUpon>DocumentsRequired.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Planings\ForeignGuestsAccomodation.xaml.cs">
+      <DependentUpon>ForeignGuestsAccomodation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Planings\FreshFlowers.xaml.cs">
+      <DependentUpon>FreshFlowers.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Planings\GroomAccessories.xaml.cs">
+      <DependentUpon>GroomAccessories.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Planings\GroomClothes.xaml.cs">
+      <DependentUpon>GroomClothes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Planings\GuestsList.xaml.cs">
+      <DependentUpon>GuestsList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Planings\HairdresserMakeupArtist.xaml.cs">
+      <DependentUpon>HairdresserMakeupArtist.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Planings\HoneymoonDestination.xaml.cs">
+      <DependentUpon>HoneymoonDestination.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Planings\MusicLayout.xaml.cs">
+      <DependentUpon>MusicLayout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Planings\Photographer.xaml.cs">
+      <DependentUpon>Photographer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Planings\RegistryPlace.xaml.cs">
+      <DependentUpon>RegistryPlace.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Planings\ReligiousPlace.xaml.cs">
+      <DependentUpon>ReligiousPlace.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Planings\Restaurant.xaml.cs">
+      <DependentUpon>Restaurant.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Planings\RestaurantAccomodationPlan.xaml.cs">
+      <DependentUpon>RestaurantAccomodationPlan.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Planings\RestaurantFood.xaml.cs">
+      <DependentUpon>RestaurantFood.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Planings\WeddingBudget.xaml.cs">
+      <DependentUpon>WeddingBudget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Planings\WeddingStyle.xaml.cs">
+      <DependentUpon>WeddingStyle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\PopupTask.xaml.cs">
+      <DependentUpon>PopupTask.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\PopulatedTask.xaml.cs">
+      <DependentUpon>PopulatedTask.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Purchases\PurchaseBAGAccessories.xaml.cs">
+      <DependentUpon>PurchaseBAGAccessories.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Purchases\PurchaseBAGClothes.xaml.cs">
+      <DependentUpon>PurchaseBAGClothes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Purchases\PurchaseBestManMaidOfHonorAccessories.xaml.cs">
+      <DependentUpon>PurchaseBestManMaidOfHonorAccessories.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Purchases\PurchaseBestManMaidOfHonorClothes.xaml.cs">
+      <DependentUpon>PurchaseBestManMaidOfHonorClothes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Purchases\PurchaseBrideAccessories.xaml.cs">
+      <DependentUpon>PurchaseBrideAccessories.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Purchases\PurchaseBrideClothes.xaml.cs">
+      <DependentUpon>PurchaseBrideClothes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Purchases\PurchaseCake.xaml.cs">
+      <DependentUpon>PurchaseCake.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Purchases\PurchaseFreshFlowers.xaml.cs">
+      <DependentUpon>PurchaseFreshFlowers.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Purchases\PurchaseGroomAccessories.xaml.cs">
+      <DependentUpon>PurchaseGroomAccessories.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Purchases\PurchaseGroomClothes.xaml.cs">
+      <DependentUpon>PurchaseGroomClothes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Purchases\PurchaseInvitations.xaml.cs">
+      <DependentUpon>PurchaseInvitations.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Purchases\PurchaseRestaurantFood.xaml.cs">
+      <DependentUpon>PurchaseRestaurantFood.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Purchases\PurchaseRings.xaml.cs">
+      <DependentUpon>PurchaseRings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\TaskTileControl.xaml.cs">
+      <DependentUpon>TaskTileControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ToggleControl.xaml.cs">
+      <DependentUpon>ToggleControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\TreeNodeControl.xaml.cs">
+      <DependentUpon>TreeNodeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\WedCheckerMapControl.xaml.cs">
+      <DependentUpon>WedCheckerMapControl.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+    <None Include="WedChecker_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Properties\Default.rd.xml" />
+    <Content Include="Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="Assets\SplashScreen.scale-200.png" />
+    <Content Include="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\ContactControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\CountdownTimer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\DishControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\ElementControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\FirstLaunchPopup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\GuestsAccomodationControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\BaseTaskControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Bookings\BookGuestsAccomodation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Bookings\BookHairdresserMakeupArtistAppointments.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Bookings\BookHoneymoonDestination.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Bookings\BookMusicLayout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Bookings\BookPhotographer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Bookings\SendInvitations.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Planings\AccomodationPlaces.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Planings\BestManMaidOfHonor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Planings\BestManMaidOfHonorAccessories.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Planings\BestManMaidOfHonorClothes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Planings\BrideAccessories.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Planings\BrideClothes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Planings\BridesmaidsGroomsmen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Planings\BridesmaidsGroomsmenAccessories.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Planings\BridesmaidsGroomsmenClothes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Planings\Decoration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Planings\DocumentsRequired.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Planings\ForeignGuestsAccomodation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Planings\FreshFlowers.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Planings\GroomAccessories.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Planings\GroomClothes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Planings\GuestsList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Planings\HairdresserMakeupArtist.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Planings\HoneymoonDestination.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Planings\MusicLayout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Planings\Photographer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Planings\RegistryPlace.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Planings\ReligiousPlace.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Planings\Restaurant.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Planings\RestaurantAccomodationPlan.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Planings\RestaurantFood.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Planings\WeddingBudget.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Planings\WeddingStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\PopupTask.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\PopulatedTask.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Purchases\PurchaseBAGAccessories.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Purchases\PurchaseBAGClothes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Purchases\PurchaseBestManMaidOfHonorAccessories.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Purchases\PurchaseBestManMaidOfHonorClothes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Purchases\PurchaseBrideAccessories.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Purchases\PurchaseBrideClothes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Purchases\PurchaseCake.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Purchases\PurchaseFreshFlowers.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Purchases\PurchaseGroomAccessories.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Purchases\PurchaseGroomClothes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Purchases\PurchaseInvitations.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Purchases\PurchaseRestaurantFood.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Purchases\PurchaseRings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\TaskTileControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\ToggleControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\TreeNodeControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\WedCheckerMapControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
