@@ -38,16 +38,6 @@ namespace WedChecker.Common
 
         public static void InsertTaskControl(Page currentPage, Type type, BaseTaskControl taskControl, bool isNew = true, TappedEventHandler tappedEvent = null)
         {
-            //var svMain = currentPage.FindName("svMain") as ScrollViewer;
-            //svMain.Visibility = Visibility.Collapsed;
-
-            var appBar = currentPage.FindName("appBar") as AppBar;
-            appBar.Visibility = Visibility.Visible;
-
-            //var mainPivot = currentPage.FindName("mainPivot") as Pivot;
-            //mainPivot.Visibility = Visibility.Visible;
-
-            //var taskSelectionListView = currentPage.FindName("taskSelectionListView") as ListView;
 
             var pivotName = GetPivotNameFromType(type);//, mainPivot);
             var pivotStackPanel = currentPage.FindName(pivotName) as GridView;

@@ -26,6 +26,14 @@ using Windows.UI.Xaml.Navigation;
 
 namespace WedChecker
 {
+	public enum TaskCategories
+	{
+		Home = 0,
+		Planing = 1,
+		Purchase = 2,
+		Booking = 3
+	}
+
 	/// <summary>
 	/// An empty page that can be used on its own or navigated to within a Frame.
 	/// </summary>
@@ -223,7 +231,33 @@ namespace WedChecker
 			if (created)
 			{
 				senderElement.IsEnabled = false;
+
+				svMain.Visibility = Visibility.Collapsed;
+				appBar.Visibility = Visibility.Visible;
+
+				ChangeTaskCategoryAccordingToTile(senderElement);
+				CalculateTaskSizes(Window.Current.Bounds.Width, Window.Current.Bounds.Height);
 			}
+		}
+
+		private void ChangeTaskCategoryAccordingToTile(TaskTileControl tile)
+		{
+			var taskCategory = TaskCategories.Home;
+
+			if (tile.Parent == gvBookingTasks)
+			{
+				taskCategory = TaskCategories.Booking;
+			}
+			else if (tile.Parent == gvPlanningTasks)
+			{
+				taskCategory = TaskCategories.Planing;
+			}
+			else if (tile.Parent == gvPurchasingTasks)
+			{
+				taskCategory = TaskCategories.Purchase;
+			}
+
+			ChangeTaskCategory(taskCategory);
 		}
 
 		private void AddTaskButton_Click(object sender, RoutedEventArgs e)
@@ -231,7 +265,6 @@ namespace WedChecker
 			svMain.Visibility = Visibility.Visible;
 			SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
 			appBar.Visibility = Visibility.Collapsed;
-			//mainPivot.Visibility = Visibility.Collapsed;
 		}
 
 		private void AboutPageButton_Click(object sender, RoutedEventArgs e)
@@ -256,7 +289,6 @@ namespace WedChecker
 
 		private void taskTapped(object sender, TappedRoutedEventArgs e)
 		{
-
 			var populatedTask = sender as PopulatedTask;
 
 			if (populatedTask != null)
@@ -265,6 +297,8 @@ namespace WedChecker
 				var baseTaskControl = Activator.CreateInstance(baseTaskType) as BaseTaskControl;
 
 				var popupTask = new PopupTask(baseTaskControl, false);
+				popupTask.SaveClick += PopupTask_SaveClick;
+				popupTask.CancelClick += PopupTask_CancelClick;
 
 				appBar.Visibility = Visibility.Collapsed;
 				MySplitView.Pane.Visibility = Visibility.Collapsed;
@@ -283,7 +317,22 @@ namespace WedChecker
 			}
 		}
 
+		private void PopupTask_CancelClick(object sender, RoutedEventArgs e)
+		{
+			HidePopupTask();
+		}
+
+		private void PopupTask_SaveClick(object sender, RoutedEventArgs e)
+		{
+			HidePopupTask();
+		}
+
 		private void rectBackgroundHide_Tapped(object sender, TappedRoutedEventArgs e)
+		{
+			HidePopupTask();
+		}
+
+		private void HidePopupTask()
 		{
 			rectBackgroundHide.Visibility = Visibility.Collapsed;
 			taskPopup.IsOpen = false;
@@ -324,13 +373,19 @@ namespace WedChecker
 
 			columnsCount = (int)Math.Round(width / 300.0);
 
-			rectBackgroundHide.Height = LayoutRoot.ActualWidth;
-			rectBackgroundHide.Width = LayoutRoot.ActualHeight;
+			rectBackgroundHide.Height = Window.Current.Bounds.Width;
+			rectBackgroundHide.Width = Window.Current.Bounds.Height;
 
 			RepopulateGridChildren(svPlanings, columnsCount);
 			RepopulateGridChildren(svPurchases, columnsCount);
 			RepopulateGridChildren(svBookings, columnsCount);
 
+			if (taskPopup.IsOpen)
+			{
+				var popupTask = taskPopup.Child as PopupTask;
+				popupTask.MaxWidth = Window.Current.Bounds.Width - 50;
+				popupTask.MaxHeight = Window.Current.Bounds.Height;
+			}
 		}
 
 		private void RepopulateGridChildren(ScrollViewer scrollViewer, int numberOfColumns)
@@ -368,26 +423,40 @@ namespace WedChecker
 
 		private void purchasesMenu_Tapped(object sender, TappedRoutedEventArgs e)
 		{
-			spHome.Visibility = Visibility.Collapsed;
-			spPlanings.Visibility = Visibility.Collapsed;
-			spBookings.Visibility = Visibility.Collapsed;
-			spPurchases.Visibility = Visibility.Visible;
+			ChangeTaskCategory(TaskCategories.Purchase);
 		}
 
 		private void planningsMenu_Tapped(object sender, TappedRoutedEventArgs e)
 		{
-			spHome.Visibility = Visibility.Collapsed;
-			spPlanings.Visibility = Visibility.Visible;
-			spBookings.Visibility = Visibility.Collapsed;
-			spPurchases.Visibility = Visibility.Collapsed;
+			ChangeTaskCategory(TaskCategories.Planing);
 		}
 
 		private void bookingsMenu_Tapped(object sender, TappedRoutedEventArgs e)
 		{
-			spHome.Visibility = Visibility.Collapsed;
-			spPlanings.Visibility = Visibility.Collapsed;
-			spBookings.Visibility = Visibility.Visible;
-			spPurchases.Visibility = Visibility.Collapsed;
+			ChangeTaskCategory(TaskCategories.Booking);
+		}
+
+		private void homeMenu_Tapped(object sender, TappedRoutedEventArgs e)
+		{
+			ChangeTaskCategory(TaskCategories.Home);
+		}
+
+		private void ChangeTaskCategory(TaskCategories category)
+		{
+			spHome.Visibility = IsVisible(category == TaskCategories.Home);
+			planingsGrid.Visibility = IsVisible(category == TaskCategories.Planing);
+			bookingsGrid.Visibility = IsVisible(category == TaskCategories.Booking);
+			purchasesGrid.Visibility = IsVisible(category == TaskCategories.Purchase);
+		}
+
+		private Visibility IsVisible(bool value)
+		{
+			if (value)
+			{
+				return Visibility.Visible;
+			}
+
+			return Visibility.Collapsed;
 		}
 	}
 }

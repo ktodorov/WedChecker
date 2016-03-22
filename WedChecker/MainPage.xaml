@@ -8,106 +8,69 @@
     xmlns:UserControls="using:WedChecker.UserControls"
     xmlns:TaskUserControls="using:WedChecker.UserControls.Tasks"
     mc:Ignorable="d"
-    Background="White"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     SizeChanged="Page_SizeChanged">
 
-	<!--<StackPanel Orientation="Horizontal">
-        <ListView Name="taskSelectionListView" Background="WhiteSmoke" SelectionChanged="taskSelectionListView_SelectionChanged"
-                      HorizontalAlignment="Stretch" Width="400" BorderBrush="LightGray" BorderThickness="1, 0">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    <Setter Property="Margin" Value="0, 2" />
-                    <Setter Property="Padding" Value="0" />
-                    <Setter Property="BorderBrush" Value="{ThemeResource SystemAccentColor}" />
-                    <Setter Property="BorderThickness" Value="0, 1" />
-                </Style>
-            </ListView.ItemContainerStyle>
-            <ListViewHeaderItem>Planings</ListViewHeaderItem>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="32" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
 
-            <ListViewHeaderItem>Purchases</ListViewHeaderItem>
 
-            <ListViewHeaderItem>Bookings</ListViewHeaderItem>
-        </ListView>
+		<StackPanel VerticalAlignment="Stretch" Background="{ThemeResource AppBarBackgroundThemeBrush}">
+			
+		</StackPanel>
+		
+		<SplitView x:Name="MySplitView" DisplayMode="CompactOverlay"  IsPaneOpen="False" 
+               CompactPaneLength="50" OpenPaneLength="150" Grid.Row="1">
 
-        <StackPanel Name="spConnectedControl">
-            
-        </StackPanel>
-    </StackPanel>-->
-	<SplitView x:Name="MySplitView" DisplayMode="CompactOverlay"  IsPaneOpen="False" 
-               CompactPaneLength="50" OpenPaneLength="150">
-
-		<SplitView.Pane>
-			<StackPanel BorderBrush="LightGray" BorderThickness="1, 0">
-				<Button x:Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;" Foreground="{ThemeResource SystemAccentColor}"
+			<SplitView.Pane>
+				<StackPanel BorderBrush="LightGray" BorderThickness="1, 0"  Background="{ThemeResource AppBarBackgroundThemeBrush}">
+					<Button x:Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"
                      Width="50" Height="50" Background="Transparent" Click="HamburgerButton_Click"/>
 
-				<StackPanel Orientation="Horizontal" Tapped="planningsMenu_Tapped">
-					<Button x:Name="MenuButton1" FontFamily="Segoe MDL2 Assets" Content="&#xE825;"
-                    Width="50" Height="50" Background="Transparent" Foreground="{ThemeResource SystemAccentColor}"/>
-					<TextBlock Text="Plannings" FontSize="18" VerticalAlignment="Center" 
-                               Foreground="{ThemeResource SystemAccentColor}" />
+					<StackPanel Orientation="Horizontal" Tapped="homeMenu_Tapped">
+						<Button x:Name="homeMenuButton" FontFamily="Segoe MDL2 Assets" Content="&#xE825;"
+                    Width="50" Height="50" Background="Transparent" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"/>
+						<TextBlock Text="Home" FontSize="18" VerticalAlignment="Center" 
+								Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"/>
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal" Tapped="planningsMenu_Tapped">
+						<Button x:Name="planningsMenuButton" FontFamily="Segoe MDL2 Assets" Content="&#xE825;"
+                    Width="50" Height="50" Background="Transparent" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"/>
+						<TextBlock Text="Plannings" FontSize="18" VerticalAlignment="Center" 
+                               Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" />
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal" Tapped="purchasesMenu_Tapped">
+						<Button x:Name="purchasesMenuButton" FontFamily="Segoe MDL2 Assets" Content="&#xE10F;"
+                        Width="50" Height="50" Background="Transparent" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"/>
+						<TextBlock Text="Purchases" FontSize="18" VerticalAlignment="Center" 
+                               Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" />
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal" Tapped="bookingsMenu_Tapped">
+						<Button x:Name="bookingsMenuButton" FontFamily="Segoe MDL2 Assets" Content="&#xE1D6;"
+                        Width="50" Height="50" Background="Transparent" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"/>
+						<TextBlock Text="Bookings" FontSize="18" VerticalAlignment="Center" 
+                               Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" />
+					</StackPanel>
 				</StackPanel>
-				<StackPanel Orientation="Horizontal" Tapped="purchasesMenu_Tapped">
-					<Button x:Name="MenuButton2" FontFamily="Segoe MDL2 Assets" Content="&#xE10F;"
-                        Width="50" Height="50" Background="Transparent" Foreground="{ThemeResource SystemAccentColor}"/>
-					<TextBlock Text="Purchases" FontSize="18" VerticalAlignment="Center" 
-                               Foreground="{ThemeResource SystemAccentColor}" />
-				</StackPanel>
-				<StackPanel Orientation="Horizontal" Tapped="bookingsMenu_Tapped">
-					<Button x:Name="MenuButton3" FontFamily="Segoe MDL2 Assets" Content="&#xE1D6;"
-                        Width="50" Height="50" Background="Transparent" Foreground="{ThemeResource SystemAccentColor}"/>
-					<TextBlock Text="Bookings" FontSize="18" VerticalAlignment="Center" 
-                               Foreground="{ThemeResource SystemAccentColor}" />
-				</StackPanel>
-			</StackPanel>
-		</SplitView.Pane>
+			</SplitView.Pane>
 
-		<SplitView.Content>
-			<StackPanel Name="LayoutRoot" Height="Auto" Background="White" BorderBrush="LightGray" BorderThickness="1, 0">
-				<StackPanel.ChildrenTransitions>
-					<TransitionCollection>
-						<ReorderThemeTransition/>
-					</TransitionCollection>
-				</StackPanel.ChildrenTransitions>
+			<SplitView.Content>
+				<Grid Name="LayoutRoot" Height="Auto" Background="White">
+					<Grid.ChildrenTransitions>
+						<TransitionCollection>
+							<ReorderThemeTransition/>
+						</TransitionCollection>
+					</Grid.ChildrenTransitions>
 
-				<!--<Pivot x:Name="mainPivot" Title="WEDCHECKER">
-                    <Pivot.TitleTemplate>
-                        <DataTemplate>
-                            <StackPanel HorizontalAlignment="Stretch" Height="30">
-                                <TextBlock Text="{Binding}" FontFamily="Segoe UI Light" FontWeight="Light" TextLineBounds="Tight" FontSize="40" HorizontalAlignment="Stretch"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </Pivot.TitleTemplate>
-                    <Pivot.HeaderTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <TextBlock Text="{Binding}" FontFamily="Segoe UI" FontWeight="Bold" FontSize="25"/>
-                            </Grid>
-                        </DataTemplate>
-                    </Pivot.HeaderTemplate>
-                    <PivotItem Header="MAIN">
-                        
-                    </PivotItem>
-                    <PivotItem Header="PLANINGS">
-                        
-                    </PivotItem>
-                    <PivotItem Header="PURCHASES">
-                        
-                    </PivotItem>
-                    <PivotItem Header="BOOKINGS">
-                        
-                    </PivotItem>
-                </Pivot>-->
-
-				<StackPanel Height="35" VerticalAlignment="Top" Background="White" BorderBrush="Black" BorderThickness="0, 0, 0, 1">
-
-				</StackPanel>
-
-				<Grid VerticalAlignment="Stretch">
 					<StackPanel Name="spHome" Orientation="Vertical" VerticalAlignment="Center">
 						<TextBlock Style="{StaticResource WedCheckerDisplayTextBlockStyle}" HorizontalAlignment="Center">Home</TextBlock>
-						<ScrollViewer Name="svHome" Height="Auto" VerticalAlignment="Center" VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Stretch">
+						<ScrollViewer Name="svHome" VerticalScrollBarVisibility="Auto">
 							<StackPanel Name="spMain" HorizontalAlignment="Center" VerticalAlignment="Center">
 								<TextBlock x:Name="tbGreetUser" TextWrapping="Wrap" Text="Hello" HorizontalAlignment="Center" 
                                        Foreground="{ThemeResource SystemAccentColor}" FontSize="20"/>
@@ -116,34 +79,49 @@
 						</ScrollViewer>
 					</StackPanel>
 
-					<StackPanel Name="spPurchases" Visibility="Visible" Orientation="Vertical">
-						<TextBlock Style="{StaticResource WedCheckerDisplayTextBlockStyle}" HorizontalAlignment="Center">Purchases</TextBlock>
-						<ScrollViewer Name="svPurchases" Height="Auto" VerticalAlignment="Top" VerticalScrollBarVisibility="Hidden" 
-                                      HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
-							<GridView Name="gvPurchases" HorizontalAlignment="Stretch" SelectionMode="None" Padding="10">
+					<Grid Name="purchasesGrid" Visibility="Collapsed">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="30" />
+							<RowDefinition Height="*" />
+						</Grid.RowDefinitions>
+						<TextBlock Style="{StaticResource WedCheckerDisplayTextBlockStyle}" HorizontalAlignment="Center" Grid.Row="0">
+							Purchases
+						</TextBlock>
+						<ScrollViewer Name="svPurchases" Grid.Row="1" VerticalScrollBarVisibility="Auto">
+							<GridView Name="gvPurchases" SelectionMode="None" Padding="10">
 							</GridView>
 						</ScrollViewer>
-					</StackPanel>
+					</Grid>
 
-					<StackPanel Name="spPlanings" Visibility="Collapsed" Orientation="Vertical">
-						<TextBlock Style="{StaticResource WedCheckerDisplayTextBlockStyle}" HorizontalAlignment="Center">Planings</TextBlock>
-						<ScrollViewer Name="svPlanings" Height="Auto" VerticalAlignment="Top" VerticalScrollBarVisibility="Hidden" 
-                                      HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
+					<Grid Name="planingsGrid" Visibility="Collapsed">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="30" />
+							<RowDefinition Height="*" />
+						</Grid.RowDefinitions>
+						<TextBlock Style="{StaticResource WedCheckerDisplayTextBlockStyle}" HorizontalAlignment="Center" Grid.Row="0">
+							Planings
+						</TextBlock>
+						<ScrollViewer Name="svPlanings" Grid.Row="1" VerticalScrollBarVisibility="Auto" >
 							<GridView Name="gvPlanings" HorizontalAlignment="Stretch" SelectionMode="None" Padding="10">
 							</GridView>
 						</ScrollViewer>
-					</StackPanel>
+					</Grid>
 
-					<StackPanel Name="spBookings" Visibility="Collapsed" Orientation="Vertical">
-						<TextBlock Style="{StaticResource WedCheckerDisplayTextBlockStyle}" HorizontalAlignment="Center">Bookings</TextBlock>
-						<ScrollViewer Name="svBookings" Height="Auto" VerticalAlignment="Top" VerticalScrollBarVisibility="Hidden" 
-                                      HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
-							<GridView Name="gvBookings" HorizontalAlignment="Stretch" SelectionMode="None" Padding="10">
+					<Grid Name="bookingsGrid" Visibility="Collapsed">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="30" />
+							<RowDefinition Height="*" />
+						</Grid.RowDefinitions>
+						<TextBlock Style="{StaticResource WedCheckerDisplayTextBlockStyle}" HorizontalAlignment="Center" Grid.Row="0">
+							Bookings
+						</TextBlock>
+						<ScrollViewer Name="svBookings" Grid.Row="1" VerticalScrollBarVisibility="Auto">
+							<GridView Name="gvBookings" SelectionMode="None" Padding="10" >
 							</GridView>
 						</ScrollViewer>
-					</StackPanel>
+					</Grid>
 
-					<ScrollViewer Name="svMain" Height="Auto" Visibility="Collapsed" Background="WhiteSmoke" VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto">
+					<ScrollViewer Name="svMain" Visibility="Collapsed" Background="WhiteSmoke" VerticalScrollMode="Enabled">
 						<StackPanel Orientation="Vertical">
 							<StackPanel.ChildrenTransitions>
 								<TransitionCollection>
@@ -208,13 +186,18 @@
 					</Rectangle>
 
 					<Popup Name="taskPopup" IsOpen="False" LayoutUpdated="taskPopup_LayoutUpdated">
+						<Popup.Transitions>
+							<TransitionCollection>
+								<PopupThemeTransition />
+							</TransitionCollection>
+						</Popup.Transitions>
 					</Popup>
 				</Grid>
 
-			</StackPanel>
+			</SplitView.Content>
+		</SplitView>
 
-		</SplitView.Content>
-	</SplitView>
+	</Grid>
 
 	<Page.BottomAppBar>
 		<CommandBar x:Name="appBar" IsOpen="False" Visibility="Collapsed"

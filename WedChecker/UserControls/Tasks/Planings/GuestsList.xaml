@@ -28,7 +28,7 @@
                 Click="addNewContactButton_Click" Width="200"/>
         </StackPanel>
         <TextBlock Name="tbGuestsAdded" Grid.Row="1" TextAlignment="Center" Margin="0, 0, 0, 10"
-                   Style="{StaticResource ControlHeaderTextBlockStyle}"/>
+                   Style="{StaticResource SubheaderTextBlockStyle}" FontSize="13"/>
 
         <StackPanel Name="spContacts" Grid.Row="2">
         </StackPanel>

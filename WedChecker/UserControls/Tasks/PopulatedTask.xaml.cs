@@ -38,6 +38,7 @@ namespace WedChecker.UserControls.Tasks
                 ConnectedTaskControl = control;
                 ConnectedTaskControl.Margin = new Thickness(10);
                 buttonTaskName.Text = control.TaskName.ToUpper();
+				this.Name = control.TaskName;
                 SetBackgroundColor();
 
                 if (!isNew)

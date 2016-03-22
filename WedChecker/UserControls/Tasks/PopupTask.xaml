@@ -40,10 +40,6 @@
                         Grid.Column="0" Grid.Row="0" FontSize="25"
                            Style="{StaticResource WedCheckerDisplayTextBlockStyle}" >
                 </TextBlock>
-                <!--HorizontalContentAlignment="Left"
-                        BorderThickness="0" Click="buttonTaskName_Click"-->
-                <!--Content="Task name" Background="Transparent"-->
-                <!--Style="{StaticResource WedCheckerTextButtonStyle}"-->
 
 
                 <StackPanel Name="showTaskOptionsPanel" Grid.Row="0" Grid.Column="1" 
@@ -53,19 +49,17 @@
                         <Button.Flyout>
                             <Flyout x:Name="taskOptionsFlyout">
                                 <StackPanel Name="taskOptionsPanel" Orientation="Vertical" HorizontalAlignment="Stretch">
-                                    <Button Name="collapseTask" Background="Transparent" Click="collapseTask_Click" HorizontalAlignment="Stretch"
+                                    <!--<Button Name="collapseTask" Background="Transparent" Click="collapseTask_Click" HorizontalAlignment="Stretch"
                                             HorizontalContentAlignment="Left">
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
                                             <TextBlock Text="&#xE1D9;" FontFamily="Segoe UI Symbol" FontSize="19"/>
                                             <TextBlock Name="tbShowCollapse" Text="Collapse" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="19" 
                                                        Foreground="Black" VerticalAlignment="Stretch"/>
                                         </StackPanel>
-                                    </Button>
-
-                                    <MenuFlyoutSeparator />
+                                    </Button>-->
 
                                     <Button Name="editTask" Background="Transparent" Click="editTask_Click" HorizontalAlignment="Stretch"
-                                            HorizontalContentAlignment="Left">
+                                            HorizontalContentAlignment="Left" Padding="10">
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
                                             <TextBlock Text="&#xE104;" FontFamily="Segoe UI Symbol" FontSize="19"/>
                                             <TextBlock Text="Edit" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="19" 
@@ -73,10 +67,8 @@
                                         </StackPanel>
                                     </Button>
 
-                                    <MenuFlyoutSeparator />
-
                                     <Button Name="deleteTask" Background="Transparent" Click="deleteTask_Click" HorizontalAlignment="Stretch"
-                                            HorizontalContentAlignment="Left">
+                                            HorizontalContentAlignment="Left" Padding="10">
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                             <TextBlock Text="&#xE107;" FontFamily="Segoe UI Symbol" FontSize="19"/>
                                             <TextBlock Text="Delete" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="19" 
@@ -91,6 +83,11 @@
             </Grid>
 
             <StackPanel Name="childPanel" Orientation="Vertical">
+				<StackPanel.Transitions>
+					<TransitionCollection>
+						<EntranceThemeTransition />
+					</TransitionCollection>
+				</StackPanel.Transitions>
                 <StackPanel.ChildrenTransitions>
                     <TransitionCollection>
                         <EntranceThemeTransition />
@@ -108,12 +105,19 @@
                 <StackPanel Name="spConnectedControl" Grid.Row="3" Grid.ColumnSpan="2">
                 </StackPanel>
 
-                <Button Name="displayTask" Content="SUBMIT" FontFamily="Segoe UI" FontWeight="Light"
-                    FontSize="30" Background="Transparent" BorderThickness="0"
-                    Foreground="{ThemeResource SystemAccentColor}" Height="50"
-                    VerticalAlignment="Center" HorizontalAlignment="Center"
-                    Click="displayTask_Click">
-                </Button>
+				<StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
+					<Button Name="saveTask" Content="Save" FontFamily="Segoe UI" FontWeight="Light"
+							Style="{ThemeResource ButtonClearStyle}" Width="80"
+							VerticalAlignment="Center" HorizontalAlignment="Center"
+							Click="saveTask_Click" Margin="10, 0">
+					</Button>
+
+					<Button Name="cancelTask" Content="Cancel" FontFamily="Segoe UI" FontWeight="Light"
+							Style="{ThemeResource ButtonClearStyle}" Background="Gray"
+							VerticalAlignment="Center" HorizontalAlignment="Center"
+							Click="cancelTask_Click" Margin="10, 0">
+					</Button>
+				</StackPanel>
             </StackPanel>
         </StackPanel>
     </Border>
