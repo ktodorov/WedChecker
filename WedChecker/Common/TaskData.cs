@@ -138,15 +138,16 @@ namespace WedChecker.Common
 
         public static void DisableAddedTasks(GridView itemsControl)
         {
-            foreach (var item in itemsControl.Items)
+			var items = itemsControl.Items;
+
+			foreach (var item in items)
             {
                 if (!(item is TaskTileControl))
                 {
                     continue;
                 }
 
-                if (AppData.ControlIsAdded((item as TaskTileControl).Name))
-                //if (AppData.GetValue((item as TaskTileControl).Name) != null)
+                if (AppData.ControlIsAdded((item as TaskTileControl).TaskName))
                 {
                     (item as TaskTileControl).IsEnabled = false;
                 }

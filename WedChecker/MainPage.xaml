@@ -8,25 +8,26 @@
     xmlns:UserControls="using:WedChecker.UserControls"
     xmlns:TaskUserControls="using:WedChecker.UserControls.Tasks"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    SizeChanged="Page_SizeChanged">
+	RequestedTheme="Dark"
+    Background="{ThemeResource AppBarBackgroundThemeBrush}">
+	<!--SizeChanged="Page_SizeChanged">-->
 
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="32" />
+			<RowDefinition Height="0" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
 
-		<StackPanel VerticalAlignment="Stretch" Background="{ThemeResource AppBarBackgroundThemeBrush}">
+		<!--<StackPanel VerticalAlignment="Stretch" Background="{ThemeResource AppBarBackgroundThemeBrush}">
 			
-		</StackPanel>
+		</StackPanel>-->
 		
 		<SplitView x:Name="MySplitView" DisplayMode="CompactOverlay"  IsPaneOpen="False" 
                CompactPaneLength="50" OpenPaneLength="150" Grid.Row="1">
 
 			<SplitView.Pane>
-				<StackPanel BorderBrush="LightGray" BorderThickness="1, 0"  Background="{ThemeResource AppBarBackgroundThemeBrush}">
+				<StackPanel BorderBrush="LightGray" BorderThickness="1, 0"  Background="{ThemeResource SystemControlBackgroundAccentBrush}">
 					<Button x:Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"
                      Width="50" Height="50" Background="Transparent" Click="HamburgerButton_Click"/>
 
@@ -61,7 +62,7 @@
 			</SplitView.Pane>
 
 			<SplitView.Content>
-				<Grid Name="LayoutRoot" Height="Auto" Background="White">
+				<Grid Name="LayoutRoot" Height="Auto" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 					<Grid.ChildrenTransitions>
 						<TransitionCollection>
 							<ReorderThemeTransition/>
@@ -121,64 +122,8 @@
 						</ScrollViewer>
 					</Grid>
 
-					<ScrollViewer Name="svMain" Visibility="Collapsed" Background="WhiteSmoke" VerticalScrollMode="Enabled">
-						<StackPanel Orientation="Vertical">
-							<StackPanel.ChildrenTransitions>
-								<TransitionCollection>
-									<EntranceThemeTransition />
-								</TransitionCollection>
-							</StackPanel.ChildrenTransitions>
-
-							<TextBlock Text="PLANNING"  Style="{StaticResource WedCheckerGridViewHeaderItemStyle}"/>
-							<GridView x:Name="gvPlanningTasks" HorizontalAlignment="Center" VerticalAlignment="Stretch"
-                          Margin="0, 0, 0, 10">
-								<GridView.ItemContainerTransitions>
-									<TransitionCollection>
-										<EntranceThemeTransition />
-									</TransitionCollection>
-								</GridView.ItemContainerTransitions>
-
-								<GridView.ItemContainerStyle>
-									<Style TargetType="FrameworkElement">
-										<Setter Property="Margin" Value="2"/>
-									</Style>
-								</GridView.ItemContainerStyle>
-							</GridView>
-
-							<TextBlock Text="PURCHASING" Style="{StaticResource WedCheckerGridViewHeaderItemStyle}"/>
-							<GridView x:Name="gvPurchasingTasks" HorizontalAlignment="Center" VerticalAlignment="Stretch"
-                          Margin="0, 0, 0, 10">
-								<GridView.ItemContainerTransitions>
-									<TransitionCollection>
-										<EntranceThemeTransition />
-									</TransitionCollection>
-								</GridView.ItemContainerTransitions>
-
-								<GridView.ItemContainerStyle>
-									<Style TargetType="FrameworkElement">
-										<Setter Property="Margin" Value="2"/>
-									</Style>
-								</GridView.ItemContainerStyle>
-							</GridView>
-
-							<TextBlock Text="BOOKING" Style="{StaticResource WedCheckerGridViewHeaderItemStyle}"/>
-							<GridView x:Name="gvBookingTasks" HorizontalAlignment="Center" VerticalAlignment="Stretch"
-                          Margin="0, 0, 0, 10" >
-								<GridView.ItemContainerTransitions>
-									<TransitionCollection>
-										<EntranceThemeTransition />
-									</TransitionCollection>
-								</GridView.ItemContainerTransitions>
-
-								<GridView.ItemContainerStyle>
-									<Style TargetType="FrameworkElement">
-										<Setter Property="Margin" Value="2"/>
-									</Style>
-								</GridView.ItemContainerStyle>
-							</GridView>
-						</StackPanel>
-					</ScrollViewer>
-
+					<TaskUserControls:TaskDialog x:Name="addTaskDialog" TappedTile="TaskTile_Tapped" Visibility="Collapsed" />
+					
 					<ProgressRing Name="loadControlsProgressRing" IsActive="False"/>
 
 					<Rectangle x:Name="rectBackgroundHide" Fill="#FF1D1D1D" HorizontalAlignment="Left" 
@@ -201,13 +146,13 @@
 
 	<Page.BottomAppBar>
 		<CommandBar x:Name="appBar" IsOpen="False" Visibility="Collapsed"
-                    Background="WhiteSmoke" Foreground="{ThemeResource SystemAccentColor}" BorderThickness="1" BorderBrush="Black">
+                    Background="{ThemeResource SystemControlBackgroundAccentBrush}" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" BorderThickness="1" BorderBrush="Black">
 			<CommandBar.SecondaryCommands>
 				<!--<AppBarButton Label="settings" Click="SettingsPageButton_Click"/>-->
 				<AppBarButton Label="about" Click="AboutPageButton_Click"/>
 				<AppBarButton Label="rate and review" Click="RateReviewButton_Click"/>
 			</CommandBar.SecondaryCommands>
-			<AppBarButton Icon="Add" IsCompact="False" Label="Add task" Click="AddTaskButton_Click" Foreground="{ThemeResource SystemAccentColor}" />
+			<AppBarButton Icon="Add" IsCompact="False" Label="Add task" Click="AddTaskButton_Click" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" />
 		</CommandBar>
 	</Page.BottomAppBar>
 </Page>

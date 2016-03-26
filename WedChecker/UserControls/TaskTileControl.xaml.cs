@@ -20,19 +20,66 @@ namespace WedChecker.UserControls
 {
     public sealed partial class TaskTileControl : UserControl
     {
-        public string TaskTitle
-        {
-            get
-            {
-                return tbTaskTitle.Text;
-            }
-            set
-            {
-                tbTaskTitle.Text = value.ToUpper();
-            }
-        }
+		public event TappedEventHandler TileTapped;
 
-        public string TaskImageUrl { get; set; }
+		public TaskCategories Category;
+		public TaskCategories TaskCategory
+		{
+			get
+			{
+				return (TaskCategories)GetValue(TaskCategoryProperty);
+			}
+			set
+			{
+				SetValue(TaskCategoryProperty, value);
+				//tbTaskTitle.Text = value; //set the textbox content
+			}
+		}
+		public static DependencyProperty TaskCategoryProperty = DependencyProperty.Register("TaskCategory", typeof(TaskCategories), typeof(TaskTileControl), new PropertyMetadata(TaskCategories.Home));
+
+		public string TaskTitle
+		{
+			get
+			{
+				return (string)GetValue(TaskTitleProperty);
+			}
+			set
+			{
+				SetValue(TaskTitleProperty, value);
+				tbTaskTitle.Text = value; //set the textbox content
+			}
+		}
+		public static DependencyProperty TaskTitleProperty = DependencyProperty.Register("TaskTitle", typeof(string), typeof(TaskTileControl), new PropertyMetadata(""));
+
+		public string TaskName
+		{
+			get
+			{
+				return (string)GetValue(TaskNameProperty);
+			}
+			set
+			{
+				SetValue(TaskNameProperty, value);
+				//tbTaskName.Text = value; //set the textbox content
+			}
+		}
+		public static DependencyProperty TaskNameProperty = DependencyProperty.Register("TaskName", typeof(string), typeof(TaskTileControl), new PropertyMetadata(""));
+		//public string TaskTitle
+		//{
+		//	get; set;
+		//}
+		//{
+		//    get
+		//    {
+		//        return tbTaskTitle.Text;
+		//    }
+		//    set
+		//    {
+		//        tbTaskTitle.Text = value.ToUpper();
+		//    }
+		//}
+
+		public string TaskImageUrl { get; set; }
 
         private bool _isEnabled = true;
         public bool IsEnabled
@@ -54,9 +101,19 @@ namespace WedChecker.UserControls
         public TaskTileControl()
         {
             this.InitializeComponent();
+
+			Tapped += TaskTileControl_Tapped;
         }
 
-        private void EnabledChanged()
+		private void TaskTileControl_Tapped(object sender, TappedRoutedEventArgs e)
+		{
+			if (IsEnabled && TileTapped != null)
+			{
+				TileTapped(this, e);
+			}
+		}
+
+		private void EnabledChanged()
         {
             var phoneBrush = Core.GetSystemAccentColor();
 

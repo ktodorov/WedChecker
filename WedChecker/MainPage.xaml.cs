@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using WedChecker.Common;
 using WedChecker.UserControls;
 using WedChecker.UserControls.Tasks;
+using WedChecker.UserControls.Tasks.Planings;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -26,14 +27,6 @@ using Windows.UI.Xaml.Navigation;
 
 namespace WedChecker
 {
-	public enum TaskCategories
-	{
-		Home = 0,
-		Planing = 1,
-		Purchase = 2,
-		Booking = 3
-	}
-
 	/// <summary>
 	/// An empty page that can be used on its own or navigated to within a Frame.
 	/// </summary>
@@ -43,53 +36,42 @@ namespace WedChecker
 		//private ObservableDictionary defaultViewModel = new ObservableDictionary();
 		private DispatcherTimer dispatcherTimer = new DispatcherTimer();
 		//private CancellationTokenSource cts;
-		private List<TaskListItem> PlanningTaskItems;
-		private List<TaskListItem> PurchasingTaskItems;
-		private List<TaskListItem> BookingTaskItems;
 		private bool FirstTimeLaunched = true;
 
 		public MainPage()
 		{
 			this.InitializeComponent();
-			//this.navigationHelper = new NavigationHelper(this);
-			//this.navigationHelper.LoadState += this.NavigationHelper_LoadState;
-			//this.navigationHelper.SaveState += this.NavigationHelper_SaveState;
-			//this.NavigationCacheMode = NavigationCacheMode.Required;
-			//HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+
 			dispatcherTimer.Tick += dispatcherTimer_Tick;
 			dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
 			dispatcherTimer.Start();
 
-			SystemNavigationManager.GetForCurrentView().BackRequested += (s, a) =>
-			{
-				if (svMain.Visibility == Visibility.Visible)
-				{
-					appBar.Visibility = Visibility.Visible;
-					//mainPivot.Visibility = Visibility.Visible;
-					svMain.Visibility = Visibility.Collapsed;
-					SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-				}
-				else if (Frame.CanGoBack)
-				{
-					Frame.GoBack();
-					a.Handled = true;
-				}
-			};
+			SystemNavigationManager.GetForCurrentView().BackRequested += MainPage_BackRequested;
 
 			CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
+
 
 			var applicationView = ApplicationView.GetForCurrentView();
 			var titleBar = applicationView.TitleBar;
 			titleBar.ButtonBackgroundColor = Colors.Transparent;
-			titleBar.ButtonForegroundColor = Colors.Black;
-
-			//cts = new CancellationTokenSource();
-			//App.ctsToUse = cts;
-			//AppData.CancelToken = cts.Token;
-
-			LoadAdditionalData();
+			titleBar.ButtonForegroundColor = Colors.White;
 
 			Loaded += MainPage_Loaded;
+		}
+
+		private void MainPage_BackRequested(object sender, BackRequestedEventArgs e)
+		{
+			if (addTaskDialog.Visibility == Visibility.Visible)
+			{
+				appBar.Visibility = Visibility.Visible;
+				addTaskDialog.Visibility = Visibility.Collapsed;
+				SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+			}
+			else if (Frame.CanGoBack)
+			{
+				Frame.GoBack();
+				e.Handled = true;
+			}
 		}
 
 		private async void MainPage_Loaded(object sender, RoutedEventArgs e)
@@ -162,107 +144,38 @@ namespace WedChecker
 			//{
 			//    LayoutRoot.Children.Remove(firstLaunchPopup);
 			//}
-			svMain.Visibility = Visibility.Collapsed;
+			addTaskDialog.Visibility = Visibility.Collapsed;
 			appBar.Visibility = Visibility.Visible;
 			//mainPivot.Visibility = Visibility.Visible;
 			//mainPivot.SelectedIndex = 0;
 
-
-			TaskData.DisableAddedTasks(gvPlanningTasks);
-			TaskData.DisableAddedTasks(gvPurchasingTasks);
-			TaskData.DisableAddedTasks(gvBookingTasks);
 		}
 
-		private void LoadAdditionalData()
-		{
-			PlanningTaskItems = TaskData.LoadPlanningTaskItems();
-			foreach (var planItem in PlanningTaskItems)
-			{
-				var taskTile = new TaskTileControl();
-				taskTile.TaskTitle = planItem.Title;
-				taskTile.Name = planItem.TaskName;
-				taskTile.Tapped += TaskTile_Tapped;
-
-				gvPlanningTasks.Items.Add(taskTile);
-			}
-
-			PurchasingTaskItems = TaskData.LoadPurchasingTaskItems();
-			foreach (var purchaseItem in PurchasingTaskItems)
-			{
-				var taskTile = new TaskTileControl();
-				taskTile.TaskTitle = purchaseItem.Title;
-				taskTile.Name = purchaseItem.TaskName;
-				taskTile.Tapped += TaskTile_Tapped;
-
-				gvPurchasingTasks.Items.Add(taskTile);
-			}
-
-			BookingTaskItems = TaskData.LoadBookingTaskItems();
-			foreach (var bookItem in BookingTaskItems)
-			{
-				var taskTile = new TaskTileControl();
-				taskTile.TaskTitle = bookItem.Title;
-				taskTile.Name = bookItem.TaskName;
-				taskTile.Tapped += TaskTile_Tapped;
-
-				gvBookingTasks.Items.Add(taskTile);
-			}
-		}
+		
 
 		void dispatcherTimer_Tick(object sender, object e)
 		{
 			tbCountdownTimer.UpdateTimeLeft();
 		}
 
-		private void TaskItem_Clicked(object sender, RoutedEventArgs e)
-		{
-
-		}
-
 		private void TaskTile_Tapped(object sender, TappedRoutedEventArgs e)
 		{
-			var senderElement = sender as TaskTileControl;
-			if (senderElement == null || !senderElement.IsEnabled)
-			{
-				return;
-			}
-
-			var created = TaskData.CreateTaskControl(this, senderElement.Name, taskTapped);
+			var created = TaskData.CreateTaskControl(this, addTaskDialog.TappedTaskName, taskTapped);
 			if (created)
 			{
-				senderElement.IsEnabled = false;
-
-				svMain.Visibility = Visibility.Collapsed;
+				addTaskDialog.Visibility = Visibility.Collapsed;
 				appBar.Visibility = Visibility.Visible;
 
-				ChangeTaskCategoryAccordingToTile(senderElement);
+				var taskCategory = addTaskDialog.TappedTaskCategory;
+				ChangeTaskCategory(taskCategory);
+
 				CalculateTaskSizes(Window.Current.Bounds.Width, Window.Current.Bounds.Height);
 			}
 		}
 
-		private void ChangeTaskCategoryAccordingToTile(TaskTileControl tile)
-		{
-			var taskCategory = TaskCategories.Home;
-
-			if (tile.Parent == gvBookingTasks)
-			{
-				taskCategory = TaskCategories.Booking;
-			}
-			else if (tile.Parent == gvPlanningTasks)
-			{
-				taskCategory = TaskCategories.Planing;
-			}
-			else if (tile.Parent == gvPurchasingTasks)
-			{
-				taskCategory = TaskCategories.Purchase;
-			}
-
-			ChangeTaskCategory(taskCategory);
-		}
-
 		private void AddTaskButton_Click(object sender, RoutedEventArgs e)
 		{
-			svMain.Visibility = Visibility.Visible;
+			addTaskDialog.Visibility = Visibility.Visible;
 			SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
 			appBar.Visibility = Visibility.Collapsed;
 		}
@@ -314,6 +227,8 @@ namespace WedChecker
 
 				taskPopup.Child = popupTask;
 				taskPopup.IsOpen = true;
+
+				CalculateTaskSizes(windowWidth, windowHeight);
 			}
 		}
 
@@ -373,8 +288,8 @@ namespace WedChecker
 
 			columnsCount = (int)Math.Round(width / 300.0);
 
-			rectBackgroundHide.Height = Window.Current.Bounds.Width;
-			rectBackgroundHide.Width = Window.Current.Bounds.Height;
+			rectBackgroundHide.Height = height;
+			rectBackgroundHide.Width = width;
 
 			RepopulateGridChildren(svPlanings, columnsCount);
 			RepopulateGridChildren(svPurchases, columnsCount);
@@ -383,8 +298,10 @@ namespace WedChecker
 			if (taskPopup.IsOpen)
 			{
 				var popupTask = taskPopup.Child as PopupTask;
-				popupTask.MaxWidth = Window.Current.Bounds.Width - 50;
-				popupTask.MaxHeight = Window.Current.Bounds.Height;
+				if (popupTask != null)
+				{
+					popupTask.ResizeContent(width, height);
+				}
 			}
 		}
 

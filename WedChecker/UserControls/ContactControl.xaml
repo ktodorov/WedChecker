@@ -28,7 +28,7 @@
             <StackPanel Name="namePanel" Margin="10, 0, 0, 0" Orientation="Vertical">
                 <TextBlock Name="tbContactNameDisplay" Text="Name" 
                            Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
-                           FontSize="17" Foreground="Black"/>
+                           FontSize="17" Foreground="{ThemeResource ApplicationForegroundThemeBrush}"/>
                 <TextBox Name="tbEditContactName"
                          Visibility="Collapsed"
                          Style="{StaticResource WedCheckerFormTextBoxStyle}"/>
@@ -46,7 +46,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="Email"  Grid.Column="0"
                                Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
-                               FontSize="17" Foreground="Black"/>
+                               FontSize="17" Foreground="{ThemeResource ApplicationForegroundThemeBrush}"/>
                     <TextBlock Name="tbContactEmails"  Grid.Column="1" Margin="0"
                                Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="17">
                     </TextBlock>
@@ -64,7 +64,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="Phone"  Grid.Column="0"
                                Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
-                               FontSize="17" Foreground="Black"/>
+                               FontSize="17" Foreground="{ThemeResource ApplicationForegroundThemeBrush}"/>
                     <TextBlock Name="tbContactPhones" Grid.Column="1" Margin="0"
                                Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="17">
                     </TextBlock>
@@ -77,10 +77,10 @@
             <StackPanel Name="alongWithPanel" Orientation="Horizontal" HorizontalAlignment="Left">
                 <TextBlock Name="tbCheckboxText" TextAlignment="Right" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
                        Text="Along with" VerticalAlignment="Center" FontSize="15" Margin="25, 0, 0, 0"
-                       Foreground="Black"/>
+                       Foreground="{ThemeResource ApplicationForegroundThemeBrush}"/>
                 <TextBlock Name="tbCheckboxTextDisplay" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
                        Visibility="Collapsed" VerticalAlignment="Center" FontSize="13" Margin="25, 0, 0, 0"
-                       Foreground="Black"/>
+                       Foreground="{ThemeResource ApplicationForegroundThemeBrush}"/>
                 <TextBox Name="tbAlongWith" InputScope="Number" VerticalAlignment="Center"
                      Style="{StaticResource WedCheckerFormTextBoxStyle}" Margin="10, 0"/>
             </StackPanel>

@@ -19,7 +19,6 @@ namespace WedChecker.UserControls.Tasks
             private set;
         }
 
-        private bool InEditMode = false;
         private bool TaskOptionsOpened = false;
 
         public PopulatedTask()
@@ -36,23 +35,11 @@ namespace WedChecker.UserControls.Tasks
             try
             {
                 ConnectedTaskControl = control;
-                ConnectedTaskControl.Margin = new Thickness(10);
                 buttonTaskName.Text = control.TaskName.ToUpper();
 				this.Name = control.TaskName;
                 SetBackgroundColor();
+				tbTaskHeader.Text = ConnectedTaskControl.DisplayHeader ?? string.Empty;
 
-                if (!isNew)
-                {
-                    Task.WaitAll(DisplayConnectedTask(false));
-                }
-                else
-                {
-                    EditConnectedTask();
-                }
-
-                if (setVisible)
-                {
-                }
             }
             catch (Exception ex)
             {
@@ -72,34 +59,6 @@ namespace WedChecker.UserControls.Tasks
             //colorBrush = new SolidColorBrush(phoneAccentColor);
             //taskOptionsPanel.Background = colorBrush;
             //showTaskOptionsPanel.Background = colorBrush;
-        }
-
-        private void EditConnectedTask()
-        {
-            InEditMode = true;
-            tbTaskHeader.Text = ConnectedTaskControl.EditHeader ?? string.Empty;
-            if (ConnectedTaskControl != null)
-            {
-                if (ConnectedTaskControl.Visibility == Visibility.Collapsed)
-                {
-                    ConnectedTaskControl.Visibility = Visibility.Visible;
-                }
-                ConnectedTaskControl.EditValues();
-            }
-        }
-
-        private async Task DisplayConnectedTask(bool shouldSave = true)
-        {
-            InEditMode = false;
-            tbTaskHeader.Text = ConnectedTaskControl.DisplayHeader ?? string.Empty;
-            if (ConnectedTaskControl != null)
-            {
-                if (shouldSave)
-                {
-                    await ConnectedTaskControl.SubmitValues();
-                }
-                ConnectedTaskControl.DisplayValues();
-            }
         }
     }
 }

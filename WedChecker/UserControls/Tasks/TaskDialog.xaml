@@ -1,0 +1,77 @@
+﻿<UserControl
+    x:Class="WedChecker.UserControls.Tasks.TaskDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WedChecker.UserControls.Tasks"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:uc ="using:WedChecker.UserControls"
+    mc:Ignorable="d">
+
+	<UserControl.Resources>
+		<CollectionViewSource
+        x:Name="groupItemsViewSource"
+        IsSourceGrouped="true"
+        ItemsPath="Tiles"/>
+	</UserControl.Resources>
+
+	<SemanticZoom Padding="5" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" ViewChangeStarted="SemanticZoom_ViewChangeStarted">
+		<SemanticZoom.ZoomedInView>
+			<GridView Name="tasksGridView" ScrollViewer.IsHorizontalScrollChainingEnabled="False" 
+					  ScrollViewer.IsVerticalScrollChainingEnabled="False"  SelectionMode="None"
+					  ItemsSource="{Binding Source={StaticResource groupItemsViewSource}}">
+				<GridView.GroupStyle>
+					<GroupStyle>
+						<GroupStyle.ContainerStyle>
+							<Style TargetType="GroupItem">
+								<Setter Property="Template">
+									<Setter.Value>
+										<ControlTemplate TargetType="GroupItem">
+											<Border BorderBrush="{TemplateBinding BorderBrush}" 
+													BorderThickness="{TemplateBinding BorderThickness}" 
+													Background="{TemplateBinding Background}">
+												<Grid Margin="0,0,50,0">
+													<Grid.RowDefinitions>
+														<RowDefinition Height="Auto"/>
+														<RowDefinition Height="*"/>
+													</Grid.RowDefinitions>
+													<ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" 
+																	  Content="{TemplateBinding Content}" Margin="{TemplateBinding Padding}"/>
+													<ItemsControl x:Name="ItemsControl" ItemsSource="{Binding GroupItems}" 
+																  Grid.Row="1"/>
+												</Grid>
+											</Border>
+										</ControlTemplate>
+									</Setter.Value>
+								</Setter>
+							</Style>
+						</GroupStyle.ContainerStyle>
+						<GroupStyle.HeaderTemplate>
+							<DataTemplate>
+								<TextBlock FontSize="20" Text="{Binding Title}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Margin="15,0,0,0"/>
+							</DataTemplate>
+						</GroupStyle.HeaderTemplate>
+						<GroupStyle.Panel>
+							<ItemsPanelTemplate>
+								<VariableSizedWrapGrid Orientation="Vertical"/>
+							</ItemsPanelTemplate>
+						</GroupStyle.Panel>
+					</GroupStyle>
+				</GridView.GroupStyle>
+			</GridView>
+		</SemanticZoom.ZoomedInView>
+
+		<SemanticZoom.ZoomedOutView>
+			<GridView Name="ZoomedOutGridView" ScrollViewer.IsHorizontalScrollChainingEnabled="False" 
+					  ScrollViewer.IsVerticalScrollChainingEnabled="False"
+					  VerticalAlignment="Center" HorizontalAlignment="Center" SelectionMode="None">
+				<GridView.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Margin="5" TextWrapping="NoWrap" Text="{Binding Title}" Width="100"
+								   FontSize="23" VerticalAlignment="Center" Foreground="{ThemeResource SystemAccentColor}"/>
+					</DataTemplate>
+				</GridView.ItemTemplate>
+			</GridView>
+		</SemanticZoom.ZoomedOutView>
+	</SemanticZoom>
+</UserControl>

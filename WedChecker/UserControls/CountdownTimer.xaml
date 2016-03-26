@@ -15,7 +15,7 @@
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0" Text="You have" Margin="15, 0, 15, 20"
-                       Style="{StaticResource CountdownTimerTextStyle}" />
+                       Style="{ThemeResource CountdownTimerTextStyle}" />
         <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1.3*"/>

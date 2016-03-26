@@ -9,11 +9,13 @@
 
     <Border BorderThickness="1" BorderBrush="LightGray">
         <Grid Name="tileGrid" Height="130" Width="180" 
-          Background="White">
+          Background="{ThemeResource SettingsFlyoutHeaderBackgroundThemeBrush}">
             <TextBlock Name="tbTaskTitle" Text="{Binding TaskTitle}" VerticalAlignment="Center" 
                    HorizontalAlignment="Center" Margin="10" Padding="5"
                    FontSize="17" FontWeight="SemiLight" Foreground="{ThemeResource SystemAccentColor}"
                    TextWrapping="WrapWholeWords" TextAlignment="Center"/>
-        </Grid>
+
+			<TextBlock Name="tbTaskName" Visibility="Collapsed" />
+		</Grid>
     </Border>
 </UserControl>
