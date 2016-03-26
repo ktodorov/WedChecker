@@ -38,11 +38,6 @@ namespace WedChecker.UserControls.Tasks
 			}
 		}
 
-		public StackPanel GetConnectedControlPanel()
-		{
-			return spConnectedControl;
-		}
-
 		private bool InEditMode = false;
 		private bool TaskOptionsOpened = false;
 
@@ -68,7 +63,6 @@ namespace WedChecker.UserControls.Tasks
 
 				if (!isNew)
 				{
-					ConnectedTaskControl.DisplayValues();
 					Task.WaitAll(DisplayConnectedTask(false));
 				}
 				else
@@ -96,22 +90,6 @@ namespace WedChecker.UserControls.Tasks
 		{
 			await ConnectedTaskControl.DeserializeValues();
 		}
-
-		private void ChangeMainContentVisibility(Visibility visibility)
-		{
-			childPanel.Visibility = visibility;
-
-			ConnectedTaskControl.Visibility = visibility;
-			tbTaskHeader.Visibility = visibility;
-
-			if (TaskOptionsOpened)
-			{
-				//showTaskOptions.Content = "\uE09A";
-				taskOptionsPanel.Visibility = Visibility.Collapsed;
-				TaskOptionsOpened = false;
-			}
-		}
-
 
 		void editTask_Click(object sender, RoutedEventArgs e)
 		{
@@ -191,11 +169,11 @@ namespace WedChecker.UserControls.Tasks
 			}
 		}
 
-		private void DeleteTask()
+		private async void DeleteTask()
 		{
 			if (ConnectedTaskControl != null)
 			{
-				AppData.AllTasks.DeleteTask(ConnectedTaskControl.TaskCode);
+				await ConnectedTaskControl.DeleteValues();
 
 				EnableTaskTile();
 
@@ -268,6 +246,12 @@ namespace WedChecker.UserControls.Tasks
 			{
 				CancelClick(this, e);
 			}
+		}
+
+		public void ResizeContent(double windowWidth, double windowHeight)
+		{
+			//contentScroll.MaxHeight = windowHeight - 160;
+			//contentScroll.MaxWidth = windowWidth - 70;
 		}
 	}
 }
