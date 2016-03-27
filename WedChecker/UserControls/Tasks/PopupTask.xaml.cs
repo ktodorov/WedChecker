@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using Windows.UI.Popups;
@@ -18,6 +19,8 @@ namespace WedChecker.UserControls.Tasks
 			get;
 			private set;
 		}
+
+		private string displayHeader;
 
 		public bool ConnectedControlVisible
 		{
@@ -48,6 +51,7 @@ namespace WedChecker.UserControls.Tasks
 
 		public event RoutedEventHandler SaveClick;
 		public event RoutedEventHandler CancelClick;
+		public event SizeChangedEventHandler TaskSizeChanged;
 
 		public PopupTask(BaseTaskControl control, bool isNew, bool setVisible = false)
 		{
@@ -57,9 +61,18 @@ namespace WedChecker.UserControls.Tasks
 			{
 				ConnectedTaskControl = control;
 				ConnectedTaskControl.Margin = new Thickness(10);
-				this.Name = control.TaskName;
+
+				var taskName = control.GetType().GetProperty("TaskName")?.GetValue(null, null).ToString();
+				if (taskName != null)
+				{
+					buttonTaskName.Text = taskName; // TaskName.ToUpper();
+					this.Name = taskName;
+				}
+
+				var header = control.GetType().GetProperty("DisplayHeader")?.GetValue(null, null).ToString();
+				displayHeader = header;
+
 				spConnectedControl.Children.Add(ConnectedTaskControl);
-				buttonTaskName.Text = control.TaskName.ToUpper();
 
 				if (!isNew)
 				{
@@ -88,7 +101,12 @@ namespace WedChecker.UserControls.Tasks
 
 		private async void PopupTask_Loaded(object sender, RoutedEventArgs e)
 		{
+			connectedControlProgress.IsActive = true;
 			await ConnectedTaskControl.DeserializeValues();
+
+			FireSizeChangedEvent();
+
+			connectedControlProgress.IsActive = false;
 		}
 
 		void editTask_Click(object sender, RoutedEventArgs e)
@@ -110,6 +128,8 @@ namespace WedChecker.UserControls.Tasks
 				}
 				ConnectedTaskControl.EditValues();
 			}
+
+			FireSizeChangedEvent();
 		}
 
 		private async void saveTask_Click(object sender, RoutedEventArgs e)
@@ -125,7 +145,7 @@ namespace WedChecker.UserControls.Tasks
 		private async Task DisplayConnectedTask(bool shouldSave = true)
 		{
 			InEditMode = false;
-			tbTaskHeader.Text = ConnectedTaskControl.DisplayHeader ?? string.Empty;
+			tbTaskHeader.Text = displayHeader;// ConnectedTaskControl.DisplayHeader ?? string.Empty;
 			editTask.Visibility = Visibility.Visible;
 			if (ConnectedTaskControl != null)
 			{
@@ -135,6 +155,8 @@ namespace WedChecker.UserControls.Tasks
 				}
 				ConnectedTaskControl.DisplayValues();
 			}
+
+			FireSizeChangedEvent();
 		}
 
 		private void tryAgainButton_Click(object sender, RoutedEventArgs e)
@@ -250,8 +272,22 @@ namespace WedChecker.UserControls.Tasks
 
 		public void ResizeContent(double windowWidth, double windowHeight)
 		{
-			//contentScroll.MaxHeight = windowHeight - 160;
-			//contentScroll.MaxWidth = windowWidth - 70;
+			contentScroll.MaxHeight = windowHeight - 180;
+			contentScroll.MaxWidth = windowWidth - 50;
+		}
+
+		private void FireSizeChangedEvent()
+		{
+			if (TaskSizeChanged != null)
+			{
+				var t = new RoutedEventArgs();
+				TaskSizeChanged(this, t as SizeChangedEventArgs);
+			}
+		}
+
+		private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			FireSizeChangedEvent();
 		}
 	}
 }

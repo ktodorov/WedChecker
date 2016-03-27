@@ -18,7 +18,7 @@ namespace WedChecker.UserControls.Tasks.Planings
         private bool BestManAccessoriesChanged = false;
         private bool MaidOfHonorAccessoriesChanged = false;
 
-        public override string TaskName
+        public static new string TaskName
         {
             get
             {
@@ -34,7 +34,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
-        public override string DisplayHeader
+        public static new string DisplayHeader
         {
             get
             {

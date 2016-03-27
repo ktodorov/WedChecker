@@ -10,7 +10,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
     public sealed partial class PurchaseCake : BaseTaskControl
     {
 
-        public override string TaskName
+        public static new string TaskName
         {
             get
             {
@@ -26,7 +26,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
             }
         }
 
-        public override string DisplayHeader
+        public static new string DisplayHeader
         {
             get
             {

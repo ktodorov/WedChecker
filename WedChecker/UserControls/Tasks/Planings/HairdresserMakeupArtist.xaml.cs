@@ -9,7 +9,7 @@ namespace WedChecker.UserControls.Tasks.Planings
     public sealed partial class HairdresserMakeupArtist : BaseTaskControl
     {
 
-        public override string TaskName
+        public static new string TaskName
         {
             get
             {
@@ -25,7 +25,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
-        public override string DisplayHeader
+        public static new string DisplayHeader
         {
             get
             {

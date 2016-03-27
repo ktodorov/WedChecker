@@ -7,7 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     HorizontalAlignment="Center"
-    VerticalAlignment="Center">
+    VerticalAlignment="Center"
+	SizeChanged="UserControl_SizeChanged">
 
 	<UserControl.Transitions>
 		<TransitionCollection>
@@ -95,6 +96,7 @@
 						</TransitionCollection>
 					</StackPanel.ChildrenTransitions>
 
+					<ProgressRing Name="connectedControlProgress" IsActive="False"/>
 
 					<TextBlock Name="tbTaskHeader" Style="{ThemeResource DisplayTextBlockStyle}"
                                VerticalAlignment="Stretch" Padding="10"/>

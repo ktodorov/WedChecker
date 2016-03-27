@@ -13,11 +13,9 @@
     <StackPanel Orientation="Vertical">
         <StackPanel Name="spBrideAccessories" Orientation="Vertical" Margin="15, 0">
         </StackPanel>
-        <Button Name="addAccessoryButton" BorderThickness="0" Content="&#xE109; New accessory" 
+		<Button Name="addAccessoryButton" BorderThickness="0" Content="&#xE109; New accessory" 
                 VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Symbol" 
                 FontWeight="Light" FontSize="20" Foreground="{ThemeResource SystemAccentColor}"
                 Click="addAccessoryButton_Click"/>
-        <TextBlock Name="tbErrorMessage" TextAlignment="Center" Foreground="Red"
-                   Style="{StaticResource ControlHeaderTextBlockStyle}" Margin="0, 10, 0, 0"/>
-    </StackPanel>
+	</StackPanel>
 </we:BaseTaskControl>

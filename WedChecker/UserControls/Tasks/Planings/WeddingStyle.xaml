@@ -11,7 +11,5 @@
         <StackPanel Name="displayPanel" Visibility="Collapsed">
             <TextBlock Name="tbStyleDisplay" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" TextAlignment="Center"/>
         </StackPanel>
-        <TextBlock Name="tbErrorMessage" TextAlignment="Center" Foreground="Red"
-                   Style="{StaticResource ControlHeaderTextBlockStyle}" Margin="0, 10, 0, 0"/>
     </StackPanel>
 </we:BaseTaskControl>

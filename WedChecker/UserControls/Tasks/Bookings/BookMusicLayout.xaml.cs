@@ -10,7 +10,7 @@ namespace WedChecker.UserControls.Tasks.Bookings
     public sealed partial class BookMusicLayout : BaseTaskControl
     {
 
-        public override string TaskName
+        public static new string TaskName
         {
             get
             {
@@ -26,7 +26,7 @@ namespace WedChecker.UserControls.Tasks.Bookings
             }
         }
 
-        public override string DisplayHeader
+        public static new string DisplayHeader
         {
             get
             {

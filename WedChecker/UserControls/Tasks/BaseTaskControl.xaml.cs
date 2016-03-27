@@ -20,13 +20,9 @@ namespace WedChecker.UserControls.Tasks
 			this.InitializeComponent();
 		}
 
-		public virtual string TaskName
-		{
-			get;
-		}
-
+		public static string TaskName { get; }
 		public virtual string EditHeader { get; }
-		public virtual string DisplayHeader { get; }
+		public static string DisplayHeader { get; }
 		public virtual string TaskCode { get; }
 
 		public string ErrorMessage { get; set; }
@@ -141,6 +137,6 @@ namespace WedChecker.UserControls.Tasks
 			{
 				await ex.HandleException();
 			}
-			}
+		}
 	}
 }

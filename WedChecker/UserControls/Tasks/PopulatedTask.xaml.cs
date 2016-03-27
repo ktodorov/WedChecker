@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using Windows.UI.Popups;
@@ -13,7 +14,7 @@ namespace WedChecker.UserControls.Tasks
 {
     public sealed partial class PopulatedTask : UserControl
     {
-        public BaseTaskControl ConnectedTaskControl
+        public Type ConnectedTaskControlType
         {
             get;
             private set;
@@ -28,17 +29,23 @@ namespace WedChecker.UserControls.Tasks
         }
 
 
-        public PopulatedTask(BaseTaskControl control, bool isNew, bool setVisible = false)
+        public PopulatedTask(Type controlType, bool isNew, bool setVisible = false)
         {
             this.InitializeComponent();
 
             try
             {
-                ConnectedTaskControl = control;
-                buttonTaskName.Text = control.TaskName.ToUpper();
-				this.Name = control.TaskName;
+                ConnectedTaskControlType = controlType;
+				var taskName = controlType.GetProperty("TaskName")?.GetValue(null, null).ToString();
+				if (taskName != null)
+				{
+					buttonTaskName.Text = taskName; // TaskName.ToUpper();
+					this.Name = taskName;
+				}
                 SetBackgroundColor();
-				tbTaskHeader.Text = ConnectedTaskControl.DisplayHeader ?? string.Empty;
+
+				var displayHeader = controlType.GetProperty("DisplayHeader")?.GetValue(null, null).ToString();
+				tbTaskHeader.Text = displayHeader;
 
             }
             catch (Exception ex)

@@ -30,7 +30,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
             }
         }
 
-        public override string TaskName
+        public static new string TaskName
         {
             get
             {
@@ -46,7 +46,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
             }
         }
 
-        public override string DisplayHeader
+        public static new string DisplayHeader
         {
             get
             {
