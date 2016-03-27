@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using WedChecker.Common;
@@ -11,6 +12,7 @@ using WedChecker.UserControls.Tasks.Planings;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
@@ -50,11 +52,28 @@ namespace WedChecker
 
 			CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
 
+			//PC customization
+			if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.ApplicationView"))
+			{
+				var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+				if (titleBar != null)
+				{
+					titleBar.ButtonBackgroundColor = Colors.Transparent;
+					titleBar.ButtonForegroundColor = Colors.White;
+				}
+			}
 
-			var applicationView = ApplicationView.GetForCurrentView();
-			var titleBar = applicationView.TitleBar;
-			titleBar.ButtonBackgroundColor = Colors.Transparent;
-			titleBar.ButtonForegroundColor = Colors.White;
+			//Mobile customization
+			if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+			{
+				var statusBar = StatusBar.GetForCurrentView();
+				if (statusBar != null)
+				{
+					statusBar.BackgroundOpacity = 1;
+					statusBar.BackgroundColor = Colors.Black;
+					statusBar.ForegroundColor = Colors.White;
+				}
+			}
 
 			Loaded += MainPage_Loaded;
 		}
@@ -66,6 +85,7 @@ namespace WedChecker
 				appBar.Visibility = Visibility.Visible;
 				addTaskDialog.Visibility = Visibility.Collapsed;
 				SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+				e.Handled = true;
 			}
 			else if (Frame.CanGoBack)
 			{
@@ -95,7 +115,7 @@ namespace WedChecker
 				var task = AppData.PopulateAddedControls();
 				await Task.WhenAll(task);
 				var controls = task.Result;
-				controls = controls.OrderBy(c => c.TaskName).ToList();
+				controls = controls.OrderBy(c => c.GetType().GetProperty("TaskName").GetValue(null, null).ToString()).ToList();
 				AddPopulatedControls(controls);
 
 				tbGreetUser.Text = string.Format("Hello, {0}", Core.GetSetting("Name"));
@@ -136,7 +156,7 @@ namespace WedChecker
 			foreach (var populatedControl in populatedControls)
 			{
 				var type = populatedControl.GetType();
-				TaskData.InsertTaskControl(this, type, populatedControl, false, taskTapped);
+				TaskData.InsertTaskControl(this, type, false, taskTapped);
 			}
 
 			//var firstLaunchPopup = LayoutRoot.Children.OfType<FirstLaunchPopup>().FirstOrDefault();
@@ -151,7 +171,7 @@ namespace WedChecker
 
 		}
 
-		
+
 
 		void dispatcherTimer_Tick(object sender, object e)
 		{
@@ -206,12 +226,13 @@ namespace WedChecker
 
 			if (populatedTask != null)
 			{
-				var baseTaskType = populatedTask.ConnectedTaskControl.GetType();
+				var baseTaskType = populatedTask.ConnectedTaskControlType;
 				var baseTaskControl = Activator.CreateInstance(baseTaskType) as BaseTaskControl;
 
 				var popupTask = new PopupTask(baseTaskControl, false);
 				popupTask.SaveClick += PopupTask_SaveClick;
 				popupTask.CancelClick += PopupTask_CancelClick;
+				popupTask.TaskSizeChanged += PopupTask_TaskSizeChanged;
 
 				appBar.Visibility = Visibility.Collapsed;
 				MySplitView.Pane.Visibility = Visibility.Collapsed;
@@ -230,6 +251,11 @@ namespace WedChecker
 
 				CalculateTaskSizes(windowWidth, windowHeight);
 			}
+		}
+
+		private void PopupTask_TaskSizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			ResizePopup();
 		}
 
 		private void PopupTask_CancelClick(object sender, RoutedEventArgs e)
@@ -294,15 +320,6 @@ namespace WedChecker
 			RepopulateGridChildren(svPlanings, columnsCount);
 			RepopulateGridChildren(svPurchases, columnsCount);
 			RepopulateGridChildren(svBookings, columnsCount);
-
-			if (taskPopup.IsOpen)
-			{
-				var popupTask = taskPopup.Child as PopupTask;
-				if (popupTask != null)
-				{
-					popupTask.ResizeContent(width, height);
-				}
-			}
 		}
 
 		private void RepopulateGridChildren(ScrollViewer scrollViewer, int numberOfColumns)
@@ -361,9 +378,11 @@ namespace WedChecker
 		private void ChangeTaskCategory(TaskCategories category)
 		{
 			spHome.Visibility = IsVisible(category == TaskCategories.Home);
-			planingsGrid.Visibility = IsVisible(category == TaskCategories.Planing);
-			bookingsGrid.Visibility = IsVisible(category == TaskCategories.Booking);
-			purchasesGrid.Visibility = IsVisible(category == TaskCategories.Purchase);
+			svPlanings.Visibility = IsVisible(category == TaskCategories.Planing);
+			svBookings.Visibility = IsVisible(category == TaskCategories.Booking);
+			svPurchases.Visibility = IsVisible(category == TaskCategories.Purchase);
+
+			subtitleBlock.Text = category.ToString().ToUpper();
 		}
 
 		private Visibility IsVisible(bool value)
@@ -374,6 +393,42 @@ namespace WedChecker
 			}
 
 			return Visibility.Collapsed;
+		}
+
+		private void LayoutRoot_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			ResizePopup();
+		}
+
+		private void ResizePopup()
+		{
+			if (taskPopup.Child == null || !(taskPopup.Child is PopupTask))
+			{
+				return;
+			}
+
+			var popupTask = taskPopup.Child as PopupTask;
+			if (popupTask == null)
+			{
+				return;
+			}
+
+			double ActualHorizontalOffset = taskPopup.HorizontalOffset;
+			double ActualVerticalOffset = taskPopup.VerticalOffset;
+
+			var windowWidth = Window.Current.Bounds.Width;
+			var windowHeight = Window.Current.Bounds.Height;
+
+			double NewHorizontalOffset = ((windowWidth - popupTask.ActualWidth) / 2);
+			double NewVerticalOffset = (windowHeight - popupTask.ActualHeight) / 2;
+
+			if (ActualHorizontalOffset != NewHorizontalOffset || ActualVerticalOffset != NewVerticalOffset)
+			{
+				taskPopup.HorizontalOffset = NewHorizontalOffset;
+				taskPopup.VerticalOffset = NewVerticalOffset;
+			}
+
+			popupTask.ResizeContent(windowWidth, windowHeight);
 		}
 	}
 }

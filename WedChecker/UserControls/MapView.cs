@@ -43,19 +43,19 @@ namespace WedChecker.UserControls
 
         public MapView()
         {
-#if WINDOWS_APP
-            _map = new Map();
+////#if WINDOWS_APP
+//            _map = new Map();
 
-            _shapeLayer = new MapShapeLayer();
-            _pinLayer = new MapLayer();
-            _map.ShapeLayers.Add(_shapeLayer);
-            _map.Children.Add(_pinLayer);
+//            _shapeLayer = new MapShapeLayer();
+//            _pinLayer = new MapLayer();
+//            _map.ShapeLayers.Add(_shapeLayer);
+//            _map.Children.Add(_pinLayer);
 
-#elif WINDOWS_PHONE_APP
+			//#elif WINDOWS_PHONE_APP
 
-            _map = new MapControl();
-#endif
-            Loaded += async (sender, args) =>
+			_map = new MapControl();
+			//#endif
+			Loaded += async (sender, args) =>
             {
                 try
                 {

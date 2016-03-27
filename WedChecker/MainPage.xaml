@@ -9,25 +9,38 @@
     xmlns:TaskUserControls="using:WedChecker.UserControls.Tasks"
     mc:Ignorable="d"
 	RequestedTheme="Dark"
-    Background="{ThemeResource AppBarBackgroundThemeBrush}">
-	<!--SizeChanged="Page_SizeChanged">-->
+    Background="{ThemeResource AppBarBackgroundThemeBrush}"
+	SizeChanged="Page_SizeChanged">
 
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="0" />
+			<RowDefinition Height="32" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-
-
-		<!--<StackPanel VerticalAlignment="Stretch" Background="{ThemeResource AppBarBackgroundThemeBrush}">
-			
-		</StackPanel>-->
 		
+		<Grid VerticalAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+			<TextBlock Name="titleBlock" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" 
+								   FontSize="13" FontWeight="Bold" Margin="15, 0, 0, 0" Grid.Column="0">
+							WEDCHECKER
+			</TextBlock>
+			<TextBlock Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" FontFamily="Segoe MDL2 Assets "
+					   VerticalAlignment="Center" FontSize="10" Margin="5, 0, 0, 0" Grid.Column="1">&#xE00F;
+			</TextBlock>
+			<TextBlock Name="subtitleBlock"  Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"
+					   VerticalAlignment="Center" FontSize="13" Margin="5, 0, 0, 0" Grid.Column="2">HOME
+			</TextBlock>
+		</Grid>
+
 		<SplitView x:Name="MySplitView" DisplayMode="CompactOverlay"  IsPaneOpen="False" 
                CompactPaneLength="50" OpenPaneLength="150" Grid.Row="1">
 
 			<SplitView.Pane>
-				<StackPanel BorderBrush="LightGray" BorderThickness="1, 0"  Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+				<StackPanel Background="{ThemeResource SystemControlBackgroundAccentBrush}">
 					<Button x:Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"
                      Width="50" Height="50" Background="Transparent" Click="HamburgerButton_Click"/>
 
@@ -62,7 +75,7 @@
 			</SplitView.Pane>
 
 			<SplitView.Content>
-				<Grid Name="LayoutRoot" Height="Auto" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+				<Grid Name="LayoutRoot" Height="Auto" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" SizeChanged="LayoutRoot_SizeChanged">
 					<Grid.ChildrenTransitions>
 						<TransitionCollection>
 							<ReorderThemeTransition/>
@@ -70,7 +83,6 @@
 					</Grid.ChildrenTransitions>
 
 					<StackPanel Name="spHome" Orientation="Vertical" VerticalAlignment="Center">
-						<TextBlock Style="{StaticResource WedCheckerDisplayTextBlockStyle}" HorizontalAlignment="Center">Home</TextBlock>
 						<ScrollViewer Name="svHome" VerticalScrollBarVisibility="Auto">
 							<StackPanel Name="spMain" HorizontalAlignment="Center" VerticalAlignment="Center">
 								<TextBlock x:Name="tbGreetUser" TextWrapping="Wrap" Text="Hello" HorizontalAlignment="Center" 
@@ -80,73 +92,49 @@
 						</ScrollViewer>
 					</StackPanel>
 
-					<Grid Name="purchasesGrid" Visibility="Collapsed">
-						<Grid.RowDefinitions>
-							<RowDefinition Height="30" />
-							<RowDefinition Height="*" />
-						</Grid.RowDefinitions>
-						<TextBlock Style="{StaticResource WedCheckerDisplayTextBlockStyle}" HorizontalAlignment="Center" Grid.Row="0">
-							Purchases
-						</TextBlock>
-						<ScrollViewer Name="svPurchases" Grid.Row="1" VerticalScrollBarVisibility="Auto">
-							<GridView Name="gvPurchases" SelectionMode="None" Padding="10">
-							</GridView>
-						</ScrollViewer>
-					</Grid>
+					<ScrollViewer Name="svPurchases" Grid.Row="1" VerticalScrollBarVisibility="Auto" Visibility="Collapsed">
+						<GridView Name="gvPurchases" SelectionMode="None" Padding="10">
+						</GridView>
+					</ScrollViewer>
 
-					<Grid Name="planingsGrid" Visibility="Collapsed">
-						<Grid.RowDefinitions>
-							<RowDefinition Height="30" />
-							<RowDefinition Height="*" />
-						</Grid.RowDefinitions>
-						<TextBlock Style="{StaticResource WedCheckerDisplayTextBlockStyle}" HorizontalAlignment="Center" Grid.Row="0">
-							Planings
-						</TextBlock>
-						<ScrollViewer Name="svPlanings" Grid.Row="1" VerticalScrollBarVisibility="Auto" >
-							<GridView Name="gvPlanings" HorizontalAlignment="Stretch" SelectionMode="None" Padding="10">
-							</GridView>
-						</ScrollViewer>
-					</Grid>
 
-					<Grid Name="bookingsGrid" Visibility="Collapsed">
-						<Grid.RowDefinitions>
-							<RowDefinition Height="30" />
-							<RowDefinition Height="*" />
-						</Grid.RowDefinitions>
-						<TextBlock Style="{StaticResource WedCheckerDisplayTextBlockStyle}" HorizontalAlignment="Center" Grid.Row="0">
-							Bookings
-						</TextBlock>
-						<ScrollViewer Name="svBookings" Grid.Row="1" VerticalScrollBarVisibility="Auto">
-							<GridView Name="gvBookings" SelectionMode="None" Padding="10" >
-							</GridView>
-						</ScrollViewer>
-					</Grid>
+					<ScrollViewer Name="svPlanings" Grid.Row="1" VerticalScrollBarVisibility="Auto" Visibility="Collapsed">
+						<GridView Name="gvPlanings" HorizontalAlignment="Stretch" SelectionMode="None" Padding="10">
+						</GridView>
+					</ScrollViewer>
+
+
+					<ScrollViewer Name="svBookings" Grid.Row="1" VerticalScrollBarVisibility="Auto" Visibility="Collapsed">
+						<GridView Name="gvBookings" SelectionMode="None" Padding="10" >
+						</GridView>
+					</ScrollViewer>
 
 					<TaskUserControls:TaskDialog x:Name="addTaskDialog" TappedTile="TaskTile_Tapped" Visibility="Collapsed" />
-					
+
 					<ProgressRing Name="loadControlsProgressRing" IsActive="False"/>
 
 					<Rectangle x:Name="rectBackgroundHide" Fill="#FF1D1D1D" HorizontalAlignment="Left" 
                            Height="117" VerticalAlignment="Top" Width="117" Visibility="Collapsed" Opacity="0.7" Tapped="rectBackgroundHide_Tapped">
 					</Rectangle>
-
-					<Popup Name="taskPopup" IsOpen="False" LayoutUpdated="taskPopup_LayoutUpdated">
-						<Popup.Transitions>
-							<TransitionCollection>
-								<PopupThemeTransition />
-							</TransitionCollection>
-						</Popup.Transitions>
-					</Popup>
 				</Grid>
 
 			</SplitView.Content>
 		</SplitView>
 
+
+		<Popup Name="taskPopup" IsOpen="False">
+			<Popup.Transitions>
+				<TransitionCollection>
+					<PopupThemeTransition />
+				</TransitionCollection>
+			</Popup.Transitions>
+		</Popup>
 	</Grid>
 
 	<Page.BottomAppBar>
 		<CommandBar x:Name="appBar" IsOpen="False" Visibility="Collapsed"
-                    Background="{ThemeResource SystemControlBackgroundAccentBrush}" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" BorderThickness="1" BorderBrush="Black">
+                    Background="{ThemeResource AppBarBackgroundThemeBrush}" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" 
+					BorderThickness="1" BorderBrush="{ThemeResource AppBarBorderThemeBrush}">
 			<CommandBar.SecondaryCommands>
 				<!--<AppBarButton Label="settings" Click="SettingsPageButton_Click"/>-->
 				<AppBarButton Label="about" Click="AboutPageButton_Click"/>

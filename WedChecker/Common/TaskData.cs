@@ -21,28 +21,28 @@ namespace WedChecker.Common
         public static bool CreateTaskControl(Page currentPage, string populatedControl, TappedEventHandler tappedEvent = null)
         {
             var type = GetTaskType(populatedControl);
-            BaseTaskControl taskControl = null;
-            taskControl = CreateTaskControl(type);
+            //BaseTaskControl taskControl = null;
+            //taskControl = CreateTaskControl(type);
 
-            if (taskControl == null)
-            {
-                return false;
-            }
+            //if (taskControl == null)
+            //{
+            //    return false;
+            //}
 
             //AppData.InsertSerializableTask(taskControl);
 
-            InsertTaskControl(currentPage, type, taskControl, true, tappedEvent);
+            InsertTaskControl(currentPage, type, true, tappedEvent);
 
             return true;
         }
 
-        public static void InsertTaskControl(Page currentPage, Type type, BaseTaskControl taskControl, bool isNew = true, TappedEventHandler tappedEvent = null)
+        public static void InsertTaskControl(Page currentPage, Type taskControlType, bool isNew = true, TappedEventHandler tappedEvent = null)
         {
 
-            var pivotName = GetPivotNameFromType(type);//, mainPivot);
+            var pivotName = GetPivotNameFromType(taskControlType);//, mainPivot);
             var pivotStackPanel = currentPage.FindName(pivotName) as GridView;
 
-            var newPopulatedTask = new PopulatedTask(taskControl, isNew);
+            var newPopulatedTask = new PopulatedTask(taskControlType, isNew);
             if (tappedEvent != null)
             {
                 newPopulatedTask.Tapped += tappedEvent;
