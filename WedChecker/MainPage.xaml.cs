@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using WedChecker.Common;
+using WedChecker.Pages;
 using WedChecker.UserControls;
 using WedChecker.UserControls.Tasks;
 using WedChecker.UserControls.Tasks.Planings;
@@ -105,9 +106,11 @@ namespace WedChecker
 
 			if (Core.IsFirstLaunch())
 			{
+				mainSplitView.Visibility = Visibility.Collapsed;
 				var firstLaunchPopup = new FirstLaunchPopup();
 				firstLaunchPopup.VerticalAlignment = VerticalAlignment.Stretch;
-				LayoutRoot.Children.Add(firstLaunchPopup);
+				Grid.SetRowSpan(firstLaunchPopup, 2);
+				mainGrid.Children.Add(firstLaunchPopup);
 			}
 			else
 			{
@@ -217,7 +220,7 @@ namespace WedChecker
 
 		private void HamburgerButton_Click(object sender, RoutedEventArgs e)
 		{
-			MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
+			mainSplitView.IsPaneOpen = !mainSplitView.IsPaneOpen;
 		}
 
 		private void taskTapped(object sender, TappedRoutedEventArgs e)
@@ -235,7 +238,7 @@ namespace WedChecker
 				popupTask.TaskSizeChanged += PopupTask_TaskSizeChanged;
 
 				appBar.Visibility = Visibility.Collapsed;
-				MySplitView.Pane.Visibility = Visibility.Collapsed;
+				mainSplitView.Pane.Visibility = Visibility.Collapsed;
 
 				var windowWidth = Window.Current.Bounds.Width;
 				var windowHeight = Window.Current.Bounds.Height;
@@ -246,10 +249,10 @@ namespace WedChecker
 				rectBackgroundHide.Margin = new Thickness(0, 0, 0, 0);
 				rectBackgroundHide.Visibility = Visibility.Visible;
 
+				CalculateTaskSizes(windowWidth, windowHeight);
+
 				taskPopup.Child = popupTask;
 				taskPopup.IsOpen = true;
-
-				CalculateTaskSizes(windowWidth, windowHeight);
 			}
 		}
 
@@ -278,7 +281,7 @@ namespace WedChecker
 			rectBackgroundHide.Visibility = Visibility.Collapsed;
 			taskPopup.IsOpen = false;
 			appBar.Visibility = Visibility.Visible;
-			MySplitView.Pane.Visibility = Visibility.Visible;
+			mainSplitView.Pane.Visibility = Visibility.Visible;
 		}
 
 		private void taskPopup_LayoutUpdated(object sender, object e)

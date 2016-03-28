@@ -8,13 +8,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel x:Uid="popup" Name="popup" Background="White" VerticalAlignment="Stretch">
+    <StackPanel x:Uid="popup" Name="popup" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" VerticalAlignment="Stretch">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <!-- VisualState to be triggered when window
-                         width is >=720 effective pixels. -->
                         <AdaptiveTrigger MinWindowWidth="720" />
                     </VisualState.StateTriggers>
 
@@ -37,7 +35,7 @@
             </TransitionCollection>
         </StackPanel.ChildrenTransitions>
 
-        <Grid VerticalAlignment="Top" Background="{ThemeResource SystemAccentColor}">
+        <Grid VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
             <Grid.ChildrenTransitions>
                 <TransitionCollection>
                     <EntranceThemeTransition />
@@ -50,7 +48,7 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Name="HeaderDialogTextBlock" FontSize="20" TextWrapping="WrapWholeWords" 
-                       Style="{StaticResource TextBlockHeaderClearStyle}" Foreground="White" Margin="10"
+                       Style="{StaticResource TextBlockHeaderClearStyle}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Margin="10"
                        Grid.Column="0">
                 Hello, Beautiful <LineBreak />
                 <Span FontSize="15">and welcome to the best wedding planner around here</Span>
@@ -63,7 +61,7 @@
             <PivotItem Name="firstPivotItem" >
                 <StackPanel Name="firstStepPanel">
                     <TextBlock Name="firstDialogTextBlock" FontSize="17" TextWrapping="WrapWholeWords" Margin="0, 0, 0, 30" 
-                           Style="{StaticResource TextBlockClearStyle}" Foreground="{ThemeResource SystemAccentColor}"
+                           Style="{StaticResource TextBlockClearStyle}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                                HorizontalAlignment="Center">
                     No doubt we will make a wonderful wedding. <LineBreak />Can I know your name first? <LineBreak />It will help me to know you better.
                     </TextBlock>
@@ -80,18 +78,18 @@
             <PivotItem Name="secondPivotItem">
                 <StackPanel Name="secondStepPanel">
                     <TextBlock Name="secondDialogTextBlock" FontSize="17" TextWrapping="WrapWholeWords" Margin="0, 0, 0, 30"
-                           Style="{StaticResource TextBlockClearStyle}" Foreground="{ThemeResource SystemAccentColor}" HorizontalAlignment="Center">
+                           Style="{StaticResource TextBlockClearStyle}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" HorizontalAlignment="Center">
                     Great!<LineBreak/>Okay, when is your wedding?
                     </TextBlock>
 
                     <StackPanel Name="dateTimePickerPanel" Orientation="Vertical" HorizontalAlignment="Center">
                     <DatePicker Name="dpWeddingDate" Width="300" HorizontalAlignment="Center"
-                                VerticalAlignment="Center" Foreground="Black" FontWeight="Light"
+                                VerticalAlignment="Center" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontWeight="Light"
                                 BorderBrush="{ThemeResource SystemAccentColor}" BorderThickness="1"
                                 Margin="10"/>
 
                     <TimePicker Name="tpWeddingDate" Width="300" HorizontalAlignment="Center" 
-                                VerticalAlignment="Center" Foreground="Black" FontWeight="Light"
+                                VerticalAlignment="Center" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontWeight="Light"
                                 BorderBrush="{ThemeResource SystemAccentColor}" BorderThickness="1"
                                 Margin="10"/>
                     </StackPanel>
