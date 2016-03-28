@@ -9,22 +9,25 @@
     HorizontalAlignment="Stretch"
     VerticalAlignment="Stretch">
 
-    <StackPanel Name="mainPanel" Height="Auto" Background="WhiteSmoke"
-                    Orientation="Vertical"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-
-        <StackPanel.ChildrenTransitions>
+    <Grid Name="mainPanel" Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"
+		  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="1" BorderBrush="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}">
+		<Grid.ChildrenTransitions>
             <TransitionCollection>
                 <EntranceThemeTransition />
             </TransitionCollection>
-        </StackPanel.ChildrenTransitions>
+        </Grid.ChildrenTransitions>
 
-        <TextBlock Name="buttonTaskName" HorizontalAlignment="Center" TextAlignment="Center" Text="Task name" FontSize="25"
-                           Style="{StaticResource WedCheckerDisplayTextBlockStyle}" >
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		
+        <TextBlock Name="buttonTaskName" HorizontalAlignment="Center" TextAlignment="Center" Text="TASK NAME" FontSize="17" FontWeight="Bold"
+				   Style="{StaticResource WedCheckerDisplayTextBlockStyle}" Padding="10" Grid.Row="0" >
         </TextBlock>
 
-        <TextBlock Name="tbTaskHeader" Style="{StaticResource DisplayTextBlockStyle}"
-                    Margin="0" VerticalAlignment="Stretch" Padding="10"
-                    TextAlignment="Center" TextWrapping="WrapWholeWords"
-                    Foreground="Gray"/>
-    </StackPanel>
+        <TextBlock Name="tbTaskHeader" Margin="0" VerticalAlignment="Center" Padding="20, 10"
+                    TextAlignment="Center" TextWrapping="WrapWholeWords" Text="Task header"
+                    Foreground="{ThemeResource SystemControlBackgroundBaseHighBrush}" Grid.Row="1"/>
+    </Grid>
 </UserControl>
