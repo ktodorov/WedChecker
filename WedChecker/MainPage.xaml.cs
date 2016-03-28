@@ -202,7 +202,7 @@ namespace WedChecker
 
 		private void AboutPageButton_Click(object sender, RoutedEventArgs e)
 		{
-			// this.Frame.Navigate(typeof(AboutPage));
+			this.Frame.Navigate(typeof(AboutPage));
 		}
 
 		private void SettingsPageButton_Click(object sender, RoutedEventArgs e)

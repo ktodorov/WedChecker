@@ -1,0 +1,78 @@
+﻿<Page
+    x:Class="WedChecker.Pages.AboutPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WedChecker.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+	RequestedTheme="Dark">
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="32" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<Grid VerticalAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+			<TextBlock Name="titleBlock" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" 
+								   FontSize="13" FontWeight="Bold" Margin="15, 0, 0, 0" Grid.Column="0">
+							WEDCHECKER
+			</TextBlock>
+			<TextBlock Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" FontFamily="Segoe MDL2 Assets "
+					   VerticalAlignment="Center" FontSize="10" Margin="5, 0, 0, 0" Grid.Column="1">&#xE00F;
+			</TextBlock>
+			<TextBlock Name="subtitleBlock"  Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"
+					   VerticalAlignment="Center" FontSize="13" Margin="5, 0, 0, 0" Grid.Column="2">ABOUT
+			</TextBlock>
+		</Grid>
+
+		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+			<StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+				<StackPanel Background="{ThemeResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Stretch">
+					<Image Source="/SharedAssets/WedCheckerIcon.png/" Margin="100, 30" HorizontalAlignment="Center"/>
+
+					<TextBlock Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" 
+                       FontSize="30" FontWeight="Bold" Foreground="White" TextAlignment="Center"
+                       Margin="0, 10" HorizontalAlignment="Center">
+                WedChecker
+					</TextBlock>
+				</StackPanel>
+
+				<TextBlock Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" FontSize="20"
+                   HorizontalAlignment="Center" TextAlignment="Center" Margin="40, 30, 40, 0">
+            This app was created by me, <LineBreak />
+            <Bold>Konstantin Todorov</Bold> <LineBreak />
+            You can email me with feedback and any ideas about the app at <LineBreak />
+            <Bold>
+                <Hyperlink NavigateUri="mailto:wedchecker@outlook.com" 
+                           Foreground="{ThemeResource SystemControlBackgroundAccentBrush}">
+                    <Underline>
+                        wedchecker@outlook.com
+                    </Underline>
+                </Hyperlink>
+            </Bold>
+				</TextBlock>
+
+				<HyperlinkButton NavigateUri="https://wedchecker.wordpress.com/privacy-policy/" HorizontalAlignment="Center"
+                             Margin="20, 60, 20, 0">
+					<TextBlock FontSize="16" Foreground="{ThemeResource SystemControlBackgroundAccentBrush}"
+                           FontWeight="Light" FontFamily="Segoe UI" >
+                    <Underline>
+                        Privacy policy
+                    </Underline>
+					</TextBlock>
+				</HyperlinkButton>
+
+				<TextBlock Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" FontSize="13" HorizontalAlignment="Center" Margin="40, 50, 40, 0">
+            ©WedChecker, K.Todorov, 2015, All rights reserved
+				</TextBlock>
+			</StackPanel>
+		</ScrollViewer>
+	</Grid>
+</Page>
