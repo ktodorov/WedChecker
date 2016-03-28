@@ -10,12 +10,12 @@
 
     <StackPanel Orientation="Vertical">
         <Button Name="showMapGrid" Click="showMapGrid_Click" Content="Hide map" Grid.Row="1" 
-                HorizontalAlignment="Center" Style="{StaticResource ButtonClearStyle}"/>
+                HorizontalAlignment="Center" Style="{StaticResource ButtonClearStyle}" Margin="15"/>
 
         <Grid Name="mapGrid" Grid.Row="2" Visibility="Visible">
             <Border BorderBrush="{ThemeResource SystemAccentColor}" BorderThickness="1" Margin="9, 1" Grid.Row="2" />
-            <UserControls:MapView x:Name="locationMap" Zoom="10" ShowTraffic="False" Height="300" Grid.Row="2" 
-                              MapServiceToken="tPlo53-BRbJuec2d8hOzgw" Margin="10, 2"/>
+            <UserControls:MapView x:Name="locationMap" Zoom="10" ShowTraffic="False" Height="300" Grid.Row="2" MinWidth="400"
+                              MapServiceToken="3x7sD8YQmykxm6LPaNmU~wde0gmIGnmxZ4G9EIFjOMw~AmEtOeZSEVU7Tj2cQqXJQ2jgwMotiyvGNL9StUY-_7embt7wmWWAJGsFE5U0Ikft" Margin="10, 2"/>
             <Border Name="VerticalMapBorder" BorderBrush="{ThemeResource SystemAccentColor}" BorderThickness="1" HorizontalAlignment="Center" 
                 VerticalAlignment="Stretch" Margin="9, 1" Grid.Row="2"/>
             <Border Name="HorizontalMapBorder" BorderBrush="{ThemeResource SystemAccentColor}" BorderThickness="1" HorizontalAlignment="Stretch" 
@@ -23,20 +23,20 @@
 
             <ProgressRing Name="centerMapProgressRing" IsActive="False" />
         </Grid>
-        <Grid Name="mapControlsGrid" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Grid.Row="3" Margin="9, -8, 9, 0"
+        <Grid Name="mapControlsGrid" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Grid.Row="3" Margin="9, 0"
               Visibility="Visible">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
-            <Button Name="centerPinButton" Content="&#xE113;" FontFamily="Segoe UI Symbol"
+			<Button Name="centerPinButton" Content="&#xE113;" FontFamily="Segoe MDL2 Assets"
                     Style="{StaticResource ButtonClearStyle}" Click="centerPinButton_Click"
                     Grid.Column="0" HorizontalAlignment="Stretch"/>
-            <Button Name="pinAdressButton" Content="&#xE141;" FontFamily="Segoe UI Symbol"
+			<Button Name="pinAdressButton" Content="&#xE141;" FontFamily="Segoe MDL2 Assets"
                     Style="{StaticResource ButtonClearStyle}" Click="pinAdressButton_Click"
                     Grid.Column="1" HorizontalAlignment="Stretch" Margin="1, 0"/>
-            <Button Name="centerLocationButton" Content="&#xE10F;" FontFamily="Segoe UI Symbol"
+			<Button Name="centerLocationButton" Content="&#xE10F;" FontFamily="Segoe MDL2 Assets"
                     Style="{StaticResource ButtonClearStyle}" Click="centerLocationButton_Click"
                     Grid.Column="2" HorizontalAlignment="Stretch"/>
         </Grid>
