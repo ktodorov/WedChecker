@@ -107,6 +107,7 @@ namespace WedChecker.UserControls.Tasks
 			FireSizeChangedEvent();
 
 			connectedControlProgress.IsActive = false;
+			connectedControlProgress.Visibility = Visibility.Collapsed;
 		}
 
 		void editTask_Click(object sender, RoutedEventArgs e)

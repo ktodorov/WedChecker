@@ -326,7 +326,7 @@ namespace WedChecker
 		{
 			var rootWidth = LayoutRoot.ActualWidth;
 
-			var taskWidth = rootWidth - 6;
+			var taskWidth = rootWidth - 30;
 
 			if (rootWidth > 720)
 			{

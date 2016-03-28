@@ -16,72 +16,23 @@
 		</TransitionCollection>
 	</UserControl.Transitions>
 
-	<Border BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}" BorderThickness="1">
-		<StackPanel Name="mainPanel" Height="Auto" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+	<Border BorderBrush="{ThemeResource SystemAccentColor}" BorderThickness="1">
+		<StackPanel Name="mainPanel" Height="Auto" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" MinWidth="400"
                     Orientation="Vertical"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsTapEnabled="False">
 
-			<StackPanel.ChildrenTransitions>
+			<StackPanel.Transitions>
 				<TransitionCollection>
 					<EntranceThemeTransition />
 				</TransitionCollection>
-			</StackPanel.ChildrenTransitions>
+			</StackPanel.Transitions>
 
-			<Grid Height="40">
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
-				</Grid.RowDefinitions>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="50" />
-				</Grid.ColumnDefinitions>
 
+			<Border Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="0" Margin="15, 0" BorderThickness="0, 0, 0, 1" BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}">
 				<TextBlock Name="buttonTaskName" VerticalAlignment="Center"
-                        HorizontalAlignment="Center" Text="Task name"
-                        Grid.Column="0" Grid.Row="0" FontSize="25"
-                           Style="{StaticResource WedCheckerDisplayTextBlockStyle}" >
+							   Text="Task name" TextAlignment="Left" FontSize="17" 
+							   FontWeight="Normal" Padding="5, 7" TextWrapping="WrapWholeWords" >
 				</TextBlock>
-
-
-				<StackPanel Name="showTaskOptionsPanel" Grid.Row="0" Grid.Column="1" 
-                        VerticalAlignment="Stretch" HorizontalAlignment="Center">
-					<Button Name="showTaskOptions" Style="{StaticResource WedCheckerTextButtonStyle}"
-                            Content="&#xE09A;" FontFamily="Segoe UI Symbol" Background="Transparent" >
-						<Button.Flyout>
-							<Flyout x:Name="taskOptionsFlyout">
-								<StackPanel Name="taskOptionsPanel" Orientation="Vertical" HorizontalAlignment="Stretch">
-									<!--<Button Name="collapseTask" Background="Transparent" Click="collapseTask_Click" HorizontalAlignment="Stretch"
-                                            HorizontalContentAlignment="Left">
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
-                                            <TextBlock Text="&#xE1D9;" FontFamily="Segoe UI Symbol" FontSize="19"/>
-                                            <TextBlock Name="tbShowCollapse" Text="Collapse" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="19" 
-                                                       Foreground="Black" VerticalAlignment="Stretch"/>
-                                        </StackPanel>
-                                    </Button>-->
-
-									<Button Name="editTask" Background="Transparent" Click="editTask_Click" HorizontalAlignment="Stretch"
-                                            HorizontalContentAlignment="Left" Padding="10">
-										<StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
-											<TextBlock Text="&#xE104;" FontFamily="Segoe UI Symbol" FontSize="19"/>
-											<TextBlock Text="Edit" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="19" 
-                                                       Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Stretch" />
-										</StackPanel>
-									</Button>
-
-									<Button Name="deleteTask" Background="Transparent" Click="deleteTask_Click" HorizontalAlignment="Stretch"
-                                            HorizontalContentAlignment="Left" Padding="10">
-										<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-											<TextBlock Text="&#xE107;" FontFamily="Segoe UI Symbol" FontSize="19"/>
-											<TextBlock Text="Delete" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="19" 
-                                                       Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Stretch"/>
-										</StackPanel>
-									</Button>
-								</StackPanel>
-							</Flyout>
-						</Button.Flyout>
-					</Button>
-				</StackPanel>
-			</Grid>
+			</Border>
 
 			<ScrollViewer VerticalScrollBarVisibility="Auto" Name="contentScroll">
 				<StackPanel Name="childPanel" Orientation="Vertical">
@@ -99,26 +50,57 @@
 					<ProgressRing Name="connectedControlProgress" IsActive="False"/>
 
 					<TextBlock Name="tbTaskHeader" Style="{ThemeResource DisplayTextBlockStyle}"
-                               VerticalAlignment="Stretch" Padding="10"/>
+                               VerticalAlignment="Stretch" Padding="15, 10" TextWrapping="WrapWholeWords"/>
 
 					<StackPanel Name="spConnectedControl">
 					</StackPanel>
 				</StackPanel>
 			</ScrollViewer>
 
-			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="50">
-				<Button Name="saveTask" Content="Save" FontFamily="Segoe UI" FontWeight="Light"
-							Style="{ThemeResource ButtonClearStyle}" Width="80"
+			<Grid Background="{ThemeResource SystemControlBackgroundBaseLowBrush}" >
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="50">
+					<Button Name="saveTask" Content="Save" FontFamily="Segoe UI" FontWeight="Light"
+							Style="{ThemeResource ButtonClearStyle}" Width="80" Height="35"
 							VerticalAlignment="Center" HorizontalAlignment="Center"
 							Click="saveTask_Click" Margin="10, 0">
-				</Button>
+					</Button>
 
-				<Button Name="cancelTask" Content="Cancel" FontFamily="Segoe UI" FontWeight="Light"
-							Style="{ThemeResource ButtonClearStyle}" Background="Gray"
+					<Button Name="cancelTask" Content="Cancel" FontFamily="Segoe UI" FontWeight="Light"
+							Style="{ThemeResource ButtonClearStyle}" Background="Gray" Height="35"
 							VerticalAlignment="Center" HorizontalAlignment="Center"
 							Click="cancelTask_Click" Margin="10, 0">
+					</Button>
+				</StackPanel>
+
+				<Button Name="showTaskOptions" Style="{StaticResource WedCheckerTextButtonStyle}"
+                            Content="&#xE712;" FontFamily="Segoe MDL2 Assets" Background="Transparent" HorizontalAlignment="Right" 
+							Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontWeight="Bold" >
+					<Button.Flyout>
+						<Flyout x:Name="taskOptionsFlyout">
+							<StackPanel Name="taskOptionsPanel" Orientation="Vertical" HorizontalAlignment="Stretch">
+
+								<Button Name="editTask" Background="Transparent" Click="editTask_Click" HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Left" Padding="10">
+									<StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
+										<TextBlock Text="&#xE104;" FontFamily="Segoe MDL2 Assets" FontSize="19" VerticalAlignment="Center"/>
+										<TextBlock Text="Edit" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="19" 
+                                                       Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Stretch" />
+									</StackPanel>
+								</Button>
+
+								<Button Name="deleteTask" Background="Transparent" Click="deleteTask_Click" HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Left" Padding="10">
+									<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+										<TextBlock Text="&#xE107;" FontFamily="Segoe MDL2 Assets" FontSize="19" VerticalAlignment="Center"/>
+										<TextBlock Text="Delete" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="19" 
+                                                       Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Stretch"/>
+									</StackPanel>
+								</Button>
+							</StackPanel>
+						</Flyout>
+					</Button.Flyout>
 				</Button>
-			</StackPanel>
+			</Grid>
 		</StackPanel>
 	</Border>
 </UserControl>
