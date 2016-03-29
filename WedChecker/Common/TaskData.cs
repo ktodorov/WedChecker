@@ -21,17 +21,16 @@ namespace WedChecker.Common
         public static bool CreateTaskControl(Page currentPage, string populatedControl, TappedEventHandler tappedEvent = null)
         {
             var type = GetTaskType(populatedControl);
-            //BaseTaskControl taskControl = null;
-            //taskControl = CreateTaskControl(type);
+			var taskControl = CreateTaskControl(type);
 
-            //if (taskControl == null)
-            //{
-            //    return false;
-            //}
+			if (taskControl == null)
+			{
+				return false;
+			}
 
-            //AppData.InsertSerializableTask(taskControl);
+			//AppData.InsertSerializableTask(taskControl);
 
-            InsertTaskControl(currentPage, type, true, tappedEvent);
+			InsertTaskControl(currentPage, type, true, tappedEvent);
 
             return true;
         }
