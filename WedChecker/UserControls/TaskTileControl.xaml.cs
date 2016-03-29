@@ -6,6 +6,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using WedChecker.Common;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -115,19 +116,42 @@ namespace WedChecker.UserControls
 
 		private void EnabledChanged()
         {
-            var phoneBrush = Core.GetSystemAccentColor();
+			var disabledBackgroundBrush = "ButtonDisabledBackgroundThemeBrush";
+			var enabledBackgroundBrush = "SystemControlBackgroundBaseHighBrush";
+			var disabledForegroundBrush = "ButtonDisabledForegroundThemeBrush";
+			var enabledForegroundBrush = "SystemControlForegroundAccentBrush";
+			var enabledBorderBrush = "SystemControlForegroundAccentBrush";
+			var disabledBorderBrush = "ButtonDisabledForegroundThemeBrush";
 
-            if (IsEnabled)
+			if (!Application.Current.Resources.ContainsKey(disabledBackgroundBrush) || 
+				!Application.Current.Resources.ContainsKey(enabledBackgroundBrush) || 
+				!Application.Current.Resources.ContainsKey(disabledForegroundBrush) || 
+				!Application.Current.Resources.ContainsKey(enabledForegroundBrush) ||
+				!Application.Current.Resources.ContainsKey(enabledBorderBrush) ||
+				!Application.Current.Resources.ContainsKey(disabledBorderBrush))
+			{
+				return;
+			}
+
+			if (IsEnabled)
             {
-                tileGrid.Background = new SolidColorBrush(Windows.UI.Colors.White);
-                tbTaskTitle.Foreground = new SolidColorBrush(phoneBrush);
-            }
+				
+				var backgroundBrush = new SolidColorBrush((Application.Current.Resources[enabledBackgroundBrush] as SolidColorBrush).Color);
+				var foregroundBrush = new SolidColorBrush((Application.Current.Resources[enabledForegroundBrush] as SolidColorBrush).Color);
+				var borderBrush = new SolidColorBrush((Application.Current.Resources[enabledBorderBrush] as SolidColorBrush).Color);
+				tileGrid.Background = backgroundBrush;
+				tileBorder.BorderBrush = borderBrush;
+				tbTaskTitle.Foreground = foregroundBrush;
+			}
             else
-            {
-                phoneBrush.A = 85;
-                tileGrid.Background = new SolidColorBrush(phoneBrush);
-                tbTaskTitle.Foreground = new SolidColorBrush(Windows.UI.Colors.White);
-            }
+			{
+				var backgroundBrush = new SolidColorBrush((Application.Current.Resources[disabledBackgroundBrush] as SolidColorBrush).Color);
+				var foregroundBrush = new SolidColorBrush((Application.Current.Resources[disabledForegroundBrush] as SolidColorBrush).Color);
+				var borderBrush = new SolidColorBrush((Application.Current.Resources[disabledBorderBrush] as SolidColorBrush).Color);
+				tileGrid.Background = backgroundBrush;
+				tileBorder.BorderBrush = borderBrush;
+				tbTaskTitle.Foreground = foregroundBrush;
+			}
         }
     }
 }
