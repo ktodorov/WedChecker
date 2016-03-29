@@ -16,20 +16,26 @@
             <TextBlock Text="Bridesmaids" Style="{StaticResource WedCheckerFormTextBlockStyle}"/>
             <StackPanel Name="spBridesmaidsAccessories" Orientation="Vertical" Margin="15, 0">
             </StackPanel>
-            <Button Name="addBridesmaidsAccessoryButton" BorderThickness="0" Content="&#xE109; New accessory for the bridesmaids" 
-                VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Symbol" 
-                FontWeight="Light" FontSize="20" Foreground="{ThemeResource SystemAccentColor}"
-                Click="addBridesmaidsAccessoryButton_Click"/>
-        </StackPanel>
+            <Button Name="addBridesmaidsAccessoryButton" Click="addBridesmaidsAccessoryButton_Click" 
+					Style="{ThemeResource WedCheckerTransparentButton}">
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Style="{ThemeResource WedCheckerTransparentButtonSymbol}">&#xE109;</TextBlock>
+					<TextBlock Style="{ThemeResource WedCheckerTransparentButtonText}">New accessory for the bridesmaids</TextBlock>
+				</StackPanel>
+			</Button>
+		</StackPanel>
 
         <StackPanel Name="spGroomsmen">
             <TextBlock Text="Groomsmen" Style="{StaticResource WedCheckerFormTextBlockStyle}"/>
             <StackPanel Name="spGroomsmenAccessories" Orientation="Vertical" Margin="15, 0">
             </StackPanel>
-            <Button Name="addGroomsmenAccessoryButton" BorderThickness="0" Content="&#xE109; New accessory for the groomsmen" 
-                VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Symbol" 
-                FontWeight="Light" FontSize="20" Foreground="{ThemeResource SystemAccentColor}"
-                Click="addGroomsmenAccessoryButton_Click"/>
+            <Button Name="addGroomsmenAccessoryButton" Click="addGroomsmenAccessoryButton_Click"
+					Style="{ThemeResource WedCheckerTransparentButton}">
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Style="{ThemeResource WedCheckerTransparentButtonSymbol}">&#xE109;</TextBlock>
+					<TextBlock Style="{ThemeResource WedCheckerTransparentButtonText}">New accessory for the groomsmen</TextBlock>
+				</StackPanel>
+			</Button>
         </StackPanel>
     </StackPanel>
 </we:BaseTaskControl>

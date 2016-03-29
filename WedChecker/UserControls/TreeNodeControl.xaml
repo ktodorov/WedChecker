@@ -22,11 +22,11 @@
             <Button Name="collapseButton" BorderThickness="0" Grid.Column="0"
                     VerticalAlignment="Center" HorizontalAlignment="Stretch" 
                     Click="collapseButton_Click" HorizontalContentAlignment="Stretch"
-                    VerticalContentAlignment="Stretch">
+                    VerticalContentAlignment="Stretch" Background="Transparent">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch">
                     <TextBlock Name="tbNodeSymbol" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
-                               FontFamily="Segoe UI Symbol" Text="&#xE09B;" FontWeight="Bold"
+                               FontFamily="Segoe MDL2 Assets" Text="&#xE09B;" FontWeight="Bold"
                                VerticalAlignment="Center" Margin="5, 0"/>
                     <TextBlock Name="tbNodeName" Text="Node name" FontWeight="Bold"
                                Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
@@ -36,8 +36,8 @@
 
             <Button Name="addChildButton" BorderThickness="0" Grid.Column="1"
                     Content="&#xE109;" VerticalAlignment="Center" HorizontalAlignment="Center" 
-                    FontFamily="Segoe UI Symbol" FontSize="20" Foreground="{ThemeResource SystemAccentColor}"
-                    x:FieldModifier="Public"/>
+                    FontFamily="Segoe MDL2 Assets" FontSize="20" Foreground="{ThemeResource SystemAccentColor}"
+                    x:FieldModifier="Public" Background="Transparent"/>
         </Grid>
 
         <Border BorderThickness="1, 0, 0, 0" BorderBrush="Gray" Padding="5, 0, 0, 0"

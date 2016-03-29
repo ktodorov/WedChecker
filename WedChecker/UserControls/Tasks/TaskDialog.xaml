@@ -48,7 +48,7 @@
 						</GroupStyle.ContainerStyle>
 						<GroupStyle.HeaderTemplate>
 							<DataTemplate>
-								<TextBlock FontSize="20" Text="{Binding Title}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Margin="15,0,0,0"/>
+								<TextBlock FontSize="20" Text="{Binding Title}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" Margin="15,0,0,0"/>
 							</DataTemplate>
 						</GroupStyle.HeaderTemplate>
 						<GroupStyle.Panel>
@@ -68,7 +68,7 @@
 				<GridView.ItemTemplate>
 					<DataTemplate>
 						<TextBlock Margin="5" TextWrapping="NoWrap" Text="{Binding Title}" Width="100"
-								   FontSize="23" VerticalAlignment="Center" Foreground="{ThemeResource SystemAccentColor}"/>
+								   FontSize="23" VerticalAlignment="Center" Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
 					</DataTemplate>
 				</GridView.ItemTemplate>
 			</GridView>

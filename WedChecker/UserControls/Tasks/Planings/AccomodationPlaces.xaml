@@ -15,9 +15,12 @@
 
         <StackPanel Name="spPlaces" Grid.Row="0" Orientation="Vertical" Margin="15, 0">
         </StackPanel>
-        <Button Name="addPlaceButton" BorderThickness="0" Content="&#xE109; New accomodation place" 
-                VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Symbol" 
-                FontWeight="Light" FontSize="20" Foreground="{ThemeResource SystemAccentColor}"
-                Click="addPlaceButton_Click" Grid.Row="1"/>
-    </Grid>
+        <Button Name="addPlaceButton" Click="addPlaceButton_Click" Grid.Row="1"
+					Style="{ThemeResource WedCheckerTransparentButton}">
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Style="{ThemeResource WedCheckerTransparentButtonSymbol}">&#xE109;</TextBlock>
+				<TextBlock Style="{ThemeResource WedCheckerTransparentButtonText}">New accomodation place</TextBlock>
+			</StackPanel>
+		</Button>
+	</Grid>
 </we:BaseTaskControl>

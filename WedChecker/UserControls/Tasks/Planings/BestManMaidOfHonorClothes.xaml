@@ -16,20 +16,26 @@
             <TextBlock Text="Best man" Style="{StaticResource WedCheckerFormTextBlockStyle}"/>
             <StackPanel Name="spBestManClothes" Orientation="Vertical" Margin="15, 0">
             </StackPanel>
-            <Button Name="addBestManClothingButton" BorderThickness="0" Content="&#xE109; New clothing for the best man" 
-                VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Symbol" 
-                FontWeight="Light" FontSize="20" Foreground="{ThemeResource SystemAccentColor}"
-                Click="addBestManClothingButton_Click"/>
+            <Button Name="addBestManClothingButton" Click="addBestManClothingButton_Click"
+					Style="{ThemeResource WedCheckerTransparentButton}">
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Style="{ThemeResource WedCheckerTransparentButtonSymbol}">&#xE109;</TextBlock>
+					<TextBlock Style="{ThemeResource WedCheckerTransparentButtonText}">New clothing for the best man</TextBlock>
+				</StackPanel>
+			</Button>
         </StackPanel>
 
         <StackPanel Name="spMaidOfHonor">
             <TextBlock Text="Maid of honor" Style="{StaticResource WedCheckerFormTextBlockStyle}"/>
             <StackPanel Name="spMaidOfHonorClothes" Orientation="Vertical" Margin="15, 0">
             </StackPanel>
-            <Button Name="addMaidOfHonorClothingButton" BorderThickness="0" Content="&#xE109; New clothing for the maid of honor" 
-                VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Symbol" 
-                FontWeight="Light" FontSize="20" Foreground="{ThemeResource SystemAccentColor}"
-                Click="addMaidOfHonorClothingButton_Click"/>
+            <Button Name="addMaidOfHonorClothingButton" Click="addMaidOfHonorClothingButton_Click"
+					Style="{ThemeResource WedCheckerTransparentButton}">
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Style="{ThemeResource WedCheckerTransparentButtonSymbol}">&#xE109;</TextBlock>
+					<TextBlock Style="{ThemeResource WedCheckerTransparentButtonText}">New clothing for the maid of honor</TextBlock>
+				</StackPanel>
+			</Button>
         </StackPanel>
     </StackPanel>
 </we:BaseTaskControl>

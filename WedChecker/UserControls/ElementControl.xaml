@@ -19,6 +19,7 @@
                    Visibility="Collapsed"/>
         <Button Name="removeElementButton" x:FieldModifier="Public" Grid.Column="1" BorderThickness="0"
                 Content="&#xE10A;" VerticalAlignment="Center" HorizontalAlignment="Center" 
-                FontFamily="Segoe UI Symbol" FontSize="20" Foreground="{ThemeResource SystemAccentColor}"/>
+                FontFamily="Segoe MDL2 Assets" FontSize="20" Foreground="{ThemeResource SystemAccentColor}"
+				Background="Transparent"/>
     </Grid>
 </UserControl>

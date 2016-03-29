@@ -29,16 +29,16 @@
             </Grid.ColumnDefinitions>
             <Button Name="upDishButton" x:FieldModifier="Public" BorderThickness="0"
                 Content="&#xE018;" VerticalAlignment="Center" Grid.Column="0" HorizontalAlignment="Center"
-                FontFamily="Segoe UI Symbol" FontSize="20" Foreground="{ThemeResource SystemAccentColor}"/>
+                FontFamily="Segoe MDL2 Assets" Background="Transparent" FontSize="20" Foreground="{ThemeResource SystemAccentColor}"/>
             <Button Name="downDishButton" x:FieldModifier="Public" BorderThickness="0"
                 Content="&#xE019;" VerticalAlignment="Center" Grid.Column="1" HorizontalAlignment="Center"
-                FontFamily="Segoe UI Symbol" FontSize="20" Foreground="{ThemeResource SystemAccentColor}"/>
+                FontFamily="Segoe MDL2 Assets" Background="Transparent" FontSize="20" Foreground="{ThemeResource SystemAccentColor}"/>
             <Button Name="removeDishButton" x:FieldModifier="Public" BorderThickness="0"
                 Content="&#xE10A;" VerticalAlignment="Center" Grid.Column="2" HorizontalAlignment="Center"
-                FontFamily="Segoe UI Symbol" FontSize="20" Foreground="{ThemeResource SystemAccentColor}"/>
+                FontFamily="Segoe MDL2 Assets" Background="Transparent" FontSize="20" Foreground="{ThemeResource SystemAccentColor}"/>
             <Button Name="saveDishButton" x:FieldModifier="Public" Grid.Row="2" BorderThickness="0"
                 Content="&#xE105;" VerticalAlignment="Center" Grid.Column="3" HorizontalAlignment="Center"
-                FontFamily="Segoe UI Symbol" FontSize="20" Foreground="{ThemeResource SystemAccentColor}"/>
+                FontFamily="Segoe MDL2 Assets" Background="Transparent" FontSize="20" Foreground="{ThemeResource SystemAccentColor}"/>
         </Grid>
     </Grid>
 </UserControl>

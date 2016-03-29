@@ -13,9 +13,12 @@
     <StackPanel Orientation="Vertical">
         <StackPanel Name="spBrideClothes" Orientation="Vertical" Margin="15, 0">
         </StackPanel>
-        <Button Name="addClothingButton" BorderThickness="0" Content="&#xE109; New clothing" 
-                VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Symbol" 
-                FontWeight="Light" FontSize="20" Foreground="{ThemeResource SystemAccentColor}"
-                Click="addClothingButton_Click"/>
+        <Button Name="addClothingButton" Click="addClothingButton_Click"
+				Style="{ThemeResource WedCheckerTransparentButton}">
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Style="{ThemeResource WedCheckerTransparentButtonSymbol}">&#xE109;</TextBlock>
+				<TextBlock Style="{ThemeResource WedCheckerTransparentButtonText}">New clothing</TextBlock>
+			</StackPanel>
+		</Button>
     </StackPanel>
 </we:BaseTaskControl>

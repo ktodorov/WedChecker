@@ -13,9 +13,12 @@
     <StackPanel Orientation="Vertical">
         <StackPanel Name="spDocuments" Orientation="Vertical" Margin="15, 0">
         </StackPanel>
-        <Button Name="addDocumentButton" BorderThickness="0" Content="&#xE109; New document" 
-                VerticalAlignment="Center" HorizontalAlignment="Left" FontFamily="Segoe UI Symbol" 
-                FontWeight="Light" FontSize="20" Foreground="{ThemeResource SystemAccentColor}"
-                Click="addDocumentButton_Click"/>
+        <Button Name="addDocumentButton" Click="addDocumentButton_Click"
+				Style="{ThemeResource WedCheckerTransparentButton}">
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Style="{ThemeResource WedCheckerTransparentButtonSymbol}">&#xE109;</TextBlock>
+				<TextBlock Style="{ThemeResource WedCheckerTransparentButtonText}">New document</TextBlock>
+			</StackPanel>
+		</Button>
     </StackPanel>
 </we:BaseTaskControl>
