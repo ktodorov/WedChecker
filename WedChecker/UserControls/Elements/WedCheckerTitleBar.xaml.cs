@@ -50,6 +50,26 @@ namespace WedChecker.UserControls.Elements
 			}
 		}
 
+		private SolidColorBrush _deactivatedBackgroundBrush;
+		private SolidColorBrush deactivatedBackgroundBrush
+		{
+			get
+			{
+				if (_deactivatedBackgroundBrush == null)
+				{
+
+
+					var backgroundBrushName = "SystemControlBackgroundBaseHighBrush";
+					if (Application.Current.Resources.ContainsKey(backgroundBrushName))
+					{
+						_deactivatedBackgroundBrush = new SolidColorBrush((Application.Current.Resources[backgroundBrushName] as SolidColorBrush).Color);
+					}
+				}
+
+				return _deactivatedBackgroundBrush;
+			}
+		}
+
 		private SolidColorBrush _foregroundBrush;
 		private SolidColorBrush foregroundBrush
 		{
@@ -89,6 +109,7 @@ namespace WedChecker.UserControls.Elements
 				{
 					appTitleBar.ButtonBackgroundColor = Colors.Transparent;
 					appTitleBar.ButtonForegroundColor = Colors.White;
+					appTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 				}
 			}
 
@@ -105,7 +126,7 @@ namespace WedChecker.UserControls.Elements
 				}
 			}
 
-			Window.Current.SetTitleBar(mainToolbar);
+			Window.Current.SetTitleBar(MainTitleBar);
 
 			Window.Current.Activated += Current_Activated;
 
@@ -130,13 +151,12 @@ namespace WedChecker.UserControls.Elements
 
 		private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
 		{
-			titleBar.Height = sender.Height;
-			// right mask
+			TitleBar.Height = sender.Height;
 		}
 
 		private void CoreTitleBar_IsVisibleChanged(CoreApplicationViewTitleBar sender, object args)
 		{
-			titleBar.Visibility = sender.IsVisible ? Visibility.Visible : Visibility.Collapsed;
+			TitleBar.Visibility = sender.IsVisible ? Visibility.Visible : Visibility.Collapsed;
 		}
 
 		private void Current_Activated(object sender, WindowActivatedEventArgs e)
@@ -144,14 +164,14 @@ namespace WedChecker.UserControls.Elements
 			if (e.WindowActivationState != CoreWindowActivationState.Deactivated)
 			{
 				backButton.IsEnabled = true;
-				mainToolbar.Opacity = 1;
-				titleBar.Background = backgroundBrush;
+				MainTitleBar.Background = backgroundBrush;
+				MainTitleBar.Opacity = 1;
 			}
 			else
 			{
 				backButton.IsEnabled = false;
-				//mainToolbar.Opacity = 0.5;
-				titleBar.Background = new SolidColorBrush(Colors.White);
+				MainTitleBar.Background = deactivatedBackgroundBrush;
+				MainTitleBar.Opacity = 0.5;
 			}
 		}
 

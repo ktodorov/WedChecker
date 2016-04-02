@@ -7,35 +7,27 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-	<Grid VerticalAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundAccentBrush}"
-			  Name="titleBar" Height="32" HorizontalAlignment="Stretch">
+	<Grid Name="TitleBar" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition />
 		</Grid.ColumnDefinitions>
-
-		<Button Name="backButton" FontFamily="Segoe MDL2 Assets" Content="&#xE72B;" Background="{ThemeResource SystemControlBackgroundBaseMediumBrush}"
-					VerticalAlignment="Stretch" Width="50" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
-					Grid.Column="0" Click="backButton_Click" Visibility="Collapsed"/>
-
-		<Grid Name="mainToolbar" HorizontalAlignment="Stretch"  Grid.Column="1">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition />
-			</Grid.ColumnDefinitions>
-
+		<Button Name="backButton" FontFamily="Segoe MDL2 Assets" Content="&#xE72B;" 
+				Background="{ThemeResource SystemControlBackgroundBaseMediumBrush}"
+				VerticalAlignment="Stretch" Width="50" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
+				Click="backButton_Click" Visibility="Collapsed" Grid.Column="0"/>
+		<StackPanel x:Name="MainTitleBar" Orientation="Horizontal" Background="{ThemeResource SystemControlBackgroundAccentBrush}" 
+					VerticalAlignment="Stretch" Grid.Column="1">
 			<TextBlock Name="titleBlock" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" 
-								   FontSize="13" FontWeight="Bold" Margin="15, 0, 0, 0" Grid.Column="0">
+								   FontSize="13" FontWeight="Bold" Margin="15, 0, 0, 0">
 							WEDCHECKER
 			</TextBlock>
 			<TextBlock Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" FontFamily="Segoe MDL2 Assets "
-					   VerticalAlignment="Center" FontSize="10" Margin="5, 0, 0, 0" Grid.Column="1">&#xE00F;
+					   VerticalAlignment="Center" FontSize="10" Margin="5, 0, 0, 0">&#xE00F;
 			</TextBlock>
 			<TextBlock Name="subtitleBlock"  Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
-					   VerticalAlignment="Center" FontSize="13" Margin="5, 0, 0, 0" Grid.Column="2">HOME
+					   VerticalAlignment="Center" FontSize="13" Margin="5, 0, 0, 0">HOME
 			</TextBlock>
-		</Grid>
+		</StackPanel>
 	</Grid>
 </UserControl>
