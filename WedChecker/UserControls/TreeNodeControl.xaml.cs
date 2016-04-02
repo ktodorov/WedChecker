@@ -75,12 +75,12 @@ namespace WedChecker.UserControls
         {
             if (!Nodes.Any())
             {
-                tbNodeSymbol.Opacity = 0;
-            }
+				tbNodeSymbol.Opacity = 0;
+			}
             addChildButton.Visibility = Visibility.Collapsed;
-            collapseButton.SetValue(Grid.ColumnSpanProperty, 2);
+			collapseButton.SetValue(Grid.ColumnSpanProperty, 2);
 
-            if (applyForChildren)
+			if (applyForChildren)
             {
                 foreach (var node in Nodes)
                 {

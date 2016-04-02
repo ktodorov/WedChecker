@@ -2,11 +2,10 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WedChecker.Common;
-using System.Threading.Tasks;
 
 namespace WedChecker.UserControls.Tasks.Planings
 {
-    public partial class WeddingStyle : BaseTaskControl
+	public partial class WeddingStyle : BaseTaskControl
     {
         private string Style
         {
@@ -51,12 +50,6 @@ namespace WedChecker.UserControls.Tasks.Planings
             this.InitializeComponent();
         }
 
-        public WeddingStyle(string value)
-        {
-            this.InitializeComponent();
-            Style = value;
-        }
-
         public override void DisplayValues()
         {
             tbStyleDisplay.Text = Style;
@@ -67,8 +60,8 @@ namespace WedChecker.UserControls.Tasks.Planings
         public override void EditValues()
         {
             tbStyle.Text = tbStyleDisplay.Text;
-            tbStyle.Visibility = Visibility.Visible;
-            displayPanel.Visibility = Visibility.Collapsed;
+			tbStyle.Visibility = Visibility.Visible;
+			displayPanel.Visibility = Visibility.Collapsed;
         }
 
 

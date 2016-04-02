@@ -53,7 +53,7 @@ namespace WedChecker.UserControls.Tasks
 		public event RoutedEventHandler CancelClick;
 		public event SizeChangedEventHandler TaskSizeChanged;
 
-		public PopupTask(BaseTaskControl control, bool isNew, bool setVisible = false)
+		public PopupTask(BaseTaskControl control, bool isNew)
 		{
 			this.InitializeComponent();
 
@@ -74,19 +74,14 @@ namespace WedChecker.UserControls.Tasks
 
 				spConnectedControl.Children.Add(ConnectedTaskControl);
 
-				if (!isNew)
-				{
-					Task.WaitAll(DisplayConnectedTask(false));
-				}
-				else
-				{
-					EditConnectedTask();
-				}
-
-				if (setVisible)
-				{
-					spConnectedControl.Visibility = Visibility.Visible;
-				}
+				//if (!isNew)
+				//{
+				//	DisplayConnectedTask(false);
+				//}
+				//else
+				//{
+				//	EditConnectedTask();
+				//}
 
 				this.Loaded += PopupTask_Loaded;
 

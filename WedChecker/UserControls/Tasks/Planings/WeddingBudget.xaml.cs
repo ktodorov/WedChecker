@@ -3,11 +3,10 @@ using System.IO;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WedChecker.Common;
-using System.Threading.Tasks;
 
 namespace WedChecker.UserControls.Tasks.Planings
 {
-    public partial class WeddingBudget : BaseTaskControl
+	public partial class WeddingBudget : BaseTaskControl
     {
         private int Budget
         {
@@ -50,12 +49,6 @@ namespace WedChecker.UserControls.Tasks.Planings
         public WeddingBudget()
         {
             this.InitializeComponent();
-        }
-
-        public WeddingBudget(int value)
-        {
-            this.InitializeComponent();
-            Budget = value;
         }
 
         public override void DisplayValues()

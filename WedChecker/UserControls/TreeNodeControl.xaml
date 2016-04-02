@@ -25,18 +25,18 @@
                     VerticalContentAlignment="Stretch" Background="Transparent">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch">
-                    <TextBlock Name="tbNodeSymbol" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
-                               FontFamily="Segoe MDL2 Assets" Text="&#xE09B;" FontWeight="Bold"
+                    <TextBlock Name="tbNodeSymbol" Style="{ThemeResource WedCheckerTransparentButtonSymbol}"
+                               FontFamily="Segoe MDL2 Assets" Text="&#xE09B;" FontWeight="Bold" FontSize="20"
                                VerticalAlignment="Center" Margin="5, 0"/>
                     <TextBlock Name="tbNodeName" Text="Node name" FontWeight="Bold"
-                               Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
+                               Style="{ThemeResource WedCheckerTransparentButtonText}" FontSize="20"
                                VerticalAlignment="Center" Margin="0"/>
                 </StackPanel>
             </Button>
 
             <Button Name="addChildButton" BorderThickness="0" Grid.Column="1"
                     Content="&#xE109;" VerticalAlignment="Center" HorizontalAlignment="Center" 
-                    FontFamily="Segoe MDL2 Assets" FontSize="20" Foreground="{ThemeResource SystemAccentColor}"
+                    FontFamily="Segoe MDL2 Assets" FontSize="20" Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                     x:FieldModifier="Public" Background="Transparent"/>
         </Grid>
 
