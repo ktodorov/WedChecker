@@ -11,6 +11,7 @@ using WedChecker.Pages;
 using WedChecker.UserControls;
 using WedChecker.UserControls.Tasks;
 using WedChecker.UserControls.Tasks.Planings;
+using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -107,26 +108,26 @@ namespace WedChecker
 		}
 
 		private const string taskName = "RemainingTimeBackgroundTask";
-		private const string taskEntryPoint = "UniversalBackgroundTasks.RemainingTimeBackgroundTask";
+		private const string taskEntryPoint = "BackgroundTasks.RemainingTimeBackgroundTask";
 
 		private async Task RegisterBackgroundTask()
 		{
-			//var result = await BackgroundExecutionManager.RequestAccessAsync();
-			//if (result == BackgroundAccessStatus.AllowedMayUseActiveRealTimeConnectivity ||
-			//    result == BackgroundAccessStatus.AllowedWithAlwaysOnRealTimeConnectivity)
-			//{
-			//    foreach (var task in BackgroundTaskRegistration.AllTasks)
-			//    {
-			//        if (task.Value.Name == taskName)
-			//            task.Value.Unregister(true);
-			//    }
+			var result = await BackgroundExecutionManager.RequestAccessAsync();
+			if (result == BackgroundAccessStatus.AllowedMayUseActiveRealTimeConnectivity ||
+				result == BackgroundAccessStatus.AllowedWithAlwaysOnRealTimeConnectivity)
+			{
+				foreach (var task in BackgroundTaskRegistration.AllTasks)
+				{
+					if (task.Value.Name == taskName)
+						task.Value.Unregister(true);
+				}
 
-			//    BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder();
-			//    taskBuilder.Name = taskName;
-			//    taskBuilder.TaskEntryPoint = taskEntryPoint;
-			//    taskBuilder.SetTrigger(new TimeTrigger(15, false));
-			//    var registration = taskBuilder.Register();
-			//}
+				BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder();
+				taskBuilder.Name = taskName;
+				taskBuilder.TaskEntryPoint = taskEntryPoint;
+				taskBuilder.SetTrigger(new TimeTrigger(15, false));
+				var registration = taskBuilder.Register();
+			}
 		}
 
 		private void AddPopulatedControls(List<BaseTaskControl> populatedControls)
