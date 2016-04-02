@@ -9,11 +9,9 @@
     xmlns:TaskUserControls="using:WedChecker.UserControls.Tasks"
     xmlns:Elements="using:WedChecker.UserControls.Elements"
     mc:Ignorable="d"
-	RequestedTheme="Dark"
-    Background="{ThemeResource AppBarBackgroundThemeBrush}"
 	SizeChanged="Page_SizeChanged">
 
-	<Grid Name="mainGrid">
+	<Grid Name="mainGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
@@ -60,7 +58,7 @@
 			</SplitView.Pane>
 
 			<SplitView.Content>
-				<Grid Name="LayoutRoot" Height="Auto" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" SizeChanged="LayoutRoot_SizeChanged">
+				<Grid Name="LayoutRoot" Height="Auto" SizeChanged="LayoutRoot_SizeChanged">
 					<Grid.ChildrenTransitions>
 						<TransitionCollection>
 							<ReorderThemeTransition/>
