@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace WedChecker.Common
+namespace WedChecker.Exceptions
 {
     class WedCheckerInvalidDataException : Exception
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
+using WedChecker.Exceptions;
 using Windows.UI.Popups;
 
 namespace WedChecker.Extensions

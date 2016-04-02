@@ -107,7 +107,8 @@
     <Compile Include="Common\TaskCategories.cs" />
     <Compile Include="Common\TaskData.cs" />
     <Compile Include="Common\Tasks.cs" />
-    <Compile Include="Common\WedCheckerInvalidDataException.cs" />
+    <Compile Include="Exceptions\WedCheckerInvalidDataException.cs" />
+    <Compile Include="Exceptions\WedCheckerNavigationException.cs" />
     <Compile Include="Extensions\CommonExtensions.cs" />
     <Compile Include="Extensions\CompositeExtensions.cs" />
     <Compile Include="Extensions\ExceptionExtensions.cs" />

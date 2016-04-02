@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using WedChecker.Common;
+using WedChecker.Exceptions;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -114,8 +115,17 @@ namespace WedChecker.UserControls.Elements
 
 		private void WedCheckerTitleBar_BackRequested(object sender, BackRequestedEventArgs e)
 		{
-			e.Handled = true;
-			BackButtonClick?.Invoke(this, new RoutedEventArgs());
+			if (BackButtonClick != null)
+			{
+				try
+				{
+					BackButtonClick(this, new RoutedEventArgs());
+					e.Handled = true;
+				}
+				catch (WedCheckerNavigationException)
+				{
+				}
+			}
 		}
 
 		private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)

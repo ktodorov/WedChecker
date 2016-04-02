@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using WedChecker.Common;
+using WedChecker.Exceptions;
 using WedChecker.Pages;
 using WedChecker.UserControls;
 using WedChecker.UserControls.Tasks;
@@ -63,21 +64,9 @@ namespace WedChecker
 			{
 				Frame.GoBack();
 			}
-		}
-
-		private void MainPage_BackRequested(object sender, BackRequestedEventArgs e)
-		{
-			if (addTaskDialog.Visibility == Visibility.Visible)
+			else
 			{
-				appBar.Visibility = Visibility.Visible;
-				addTaskDialog.Visibility = Visibility.Collapsed;
-				mainTitleBar.SetBackButtonVisible(false);
-				e.Handled = true;
-			}
-			else if (Frame.CanGoBack)
-			{
-				Frame.GoBack();
-				e.Handled = true;
+				throw new WedCheckerNavigationException();
 			}
 		}
 
