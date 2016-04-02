@@ -33,7 +33,6 @@ namespace WedChecker.UserControls
 			set
 			{
 				SetValue(TaskCategoryProperty, value);
-				//tbTaskTitle.Text = value; //set the textbox content
 			}
 		}
 		public static DependencyProperty TaskCategoryProperty = DependencyProperty.Register("TaskCategory", typeof(TaskCategories), typeof(TaskTileControl), new PropertyMetadata(TaskCategories.Home));
@@ -61,24 +60,10 @@ namespace WedChecker.UserControls
 			set
 			{
 				SetValue(TaskNameProperty, value);
-				//tbTaskName.Text = value; //set the textbox content
 			}
 		}
 		public static DependencyProperty TaskNameProperty = DependencyProperty.Register("TaskName", typeof(string), typeof(TaskTileControl), new PropertyMetadata(""));
-		//public string TaskTitle
-		//{
-		//	get; set;
-		//}
-		//{
-		//    get
-		//    {
-		//        return tbTaskTitle.Text;
-		//    }
-		//    set
-		//    {
-		//        tbTaskTitle.Text = value.ToUpper();
-		//    }
-		//}
+
 
 		public string TaskImageUrl { get; set; }
 

@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:UserControls="using:WedChecker.UserControls"
     xmlns:TaskUserControls="using:WedChecker.UserControls.Tasks"
+    xmlns:Elements="using:WedChecker.UserControls.Elements"
     mc:Ignorable="d"
 	RequestedTheme="Dark"
     Background="{ThemeResource AppBarBackgroundThemeBrush}"
@@ -14,27 +15,11 @@
 
 	<Grid Name="mainGrid">
 		<Grid.RowDefinitions>
-			<RowDefinition Height="32" />
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		
-		<Grid VerticalAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" />
-			</Grid.ColumnDefinitions>
-			<TextBlock Name="titleBlock" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" 
-								   FontSize="13" FontWeight="Bold" Margin="15, 0, 0, 0" Grid.Column="0">
-							WEDCHECKER
-			</TextBlock>
-			<TextBlock Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" FontFamily="Segoe MDL2 Assets "
-					   VerticalAlignment="Center" FontSize="10" Margin="5, 0, 0, 0" Grid.Column="1">&#xE00F;
-			</TextBlock>
-			<TextBlock Name="subtitleBlock"  Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"
-					   VerticalAlignment="Center" FontSize="13" Margin="5, 0, 0, 0" Grid.Column="2">HOME
-			</TextBlock>
-		</Grid>
+
+		<Elements:WedCheckerTitleBar x:Name="mainTitleBar" Grid.Row="0" />
 
 		<SplitView x:Name="mainSplitView" DisplayMode="CompactOverlay"  IsPaneOpen="False"
                CompactPaneLength="50" OpenPaneLength="150" Grid.Row="1">

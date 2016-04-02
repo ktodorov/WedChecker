@@ -25,6 +25,18 @@ namespace WedChecker.Pages
 		public AboutPage()
 		{
 			this.InitializeComponent();
+
+			mainTitleBar.SetSubTitle("ABOUT");
+			mainTitleBar.SetBackButtonVisible(true);
+			mainTitleBar.BackButtonClick += MainTitleBar_BackButtonClick;
+		}
+
+		private void MainTitleBar_BackButtonClick(object sender, RoutedEventArgs e)
+		{
+			if (Frame.CanGoBack)
+			{
+				Frame.GoBack();
+			}
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)

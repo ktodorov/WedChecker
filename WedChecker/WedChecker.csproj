@@ -132,6 +132,9 @@
     <Compile Include="UserControls\ElementControl.xaml.cs">
       <DependentUpon>ElementControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Elements\WedCheckerTitleBar.xaml.cs">
+      <DependentUpon>WedCheckerTitleBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\FirstLaunchPopup.xaml.cs">
       <DependentUpon>FirstLaunchPopup.xaml</DependentUpon>
     </Compile>
@@ -347,6 +350,10 @@
     <Page Include="UserControls\ElementControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Elements\WedCheckerTitleBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\FirstLaunchPopup.xaml">
       <Generator>MSBuild:Compile</Generator>

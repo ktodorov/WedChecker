@@ -5,6 +5,7 @@
     xmlns:local="using:WedChecker.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:Elements="using:WedChecker.UserControls.Elements"
     mc:Ignorable="d"
 	RequestedTheme="Dark">
 
@@ -14,23 +15,7 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
-		<Grid VerticalAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" />
-			</Grid.ColumnDefinitions>
-			<TextBlock Name="titleBlock" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" 
-								   FontSize="13" FontWeight="Bold" Margin="15, 0, 0, 0" Grid.Column="0">
-							WEDCHECKER
-			</TextBlock>
-			<TextBlock Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" FontFamily="Segoe MDL2 Assets "
-					   VerticalAlignment="Center" FontSize="10" Margin="5, 0, 0, 0" Grid.Column="1">&#xE00F;
-			</TextBlock>
-			<TextBlock Name="subtitleBlock"  Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"
-					   VerticalAlignment="Center" FontSize="13" Margin="5, 0, 0, 0" Grid.Column="2">ABOUT
-			</TextBlock>
-		</Grid>
+		<Elements:WedCheckerTitleBar x:Name="mainTitleBar" Grid.Row="0" />
 
 		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
 			<StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">

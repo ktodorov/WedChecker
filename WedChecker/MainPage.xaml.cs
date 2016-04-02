@@ -35,10 +35,7 @@ namespace WedChecker
 	/// </summary>
 	public sealed partial class MainPage : Page
 	{
-		//private NavigationHelper navigationHelper;
-		//private ObservableDictionary defaultViewModel = new ObservableDictionary();
 		private DispatcherTimer dispatcherTimer = new DispatcherTimer();
-		//private CancellationTokenSource cts;
 		private bool FirstTimeLaunched = true;
 
 		public MainPage()
@@ -49,34 +46,23 @@ namespace WedChecker
 			dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
 			dispatcherTimer.Start();
 
-			SystemNavigationManager.GetForCurrentView().BackRequested += MainPage_BackRequested;
-
-			CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
-
-			//PC customization
-			if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.ApplicationView"))
-			{
-				var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-				if (titleBar != null)
-				{
-					titleBar.ButtonBackgroundColor = Colors.Transparent;
-					titleBar.ButtonForegroundColor = Colors.White;
-				}
-			}
-
-			//Mobile customization
-			if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
-			{
-				var statusBar = StatusBar.GetForCurrentView();
-				if (statusBar != null)
-				{
-					statusBar.BackgroundOpacity = 1;
-					statusBar.BackgroundColor = Colors.Black;
-					statusBar.ForegroundColor = Colors.White;
-				}
-			}
-
 			Loaded += MainPage_Loaded;
+
+			mainTitleBar.BackButtonClick += MainTitleBar_BackButtonClick;
+		}
+
+		private void MainTitleBar_BackButtonClick(object sender, RoutedEventArgs e)
+		{
+			if (addTaskDialog.Visibility == Visibility.Visible)
+			{
+				appBar.Visibility = Visibility.Visible;
+				addTaskDialog.Visibility = Visibility.Collapsed;
+				mainTitleBar.SetBackButtonVisible(false);
+			}
+			else if (Frame.CanGoBack)
+			{
+				Frame.GoBack();
+			}
 		}
 
 		private void MainPage_BackRequested(object sender, BackRequestedEventArgs e)
@@ -85,7 +71,7 @@ namespace WedChecker
 			{
 				appBar.Visibility = Visibility.Visible;
 				addTaskDialog.Visibility = Visibility.Collapsed;
-				SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+				mainTitleBar.SetBackButtonVisible(false);
 				e.Handled = true;
 			}
 			else if (Frame.CanGoBack)
@@ -199,7 +185,7 @@ namespace WedChecker
 		private void AddTaskButton_Click(object sender, RoutedEventArgs e)
 		{
 			addTaskDialog.Visibility = Visibility.Visible;
-			SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+			mainTitleBar.SetBackButtonVisible(true);
 			appBar.Visibility = Visibility.Collapsed;
 		}
 
@@ -385,7 +371,7 @@ namespace WedChecker
 			svBookings.Visibility = IsVisible(category == TaskCategories.Booking);
 			svPurchases.Visibility = IsVisible(category == TaskCategories.Purchase);
 
-			subtitleBlock.Text = category.ToString().ToUpper();
+			mainTitleBar.SetSubTitle(category.ToString().ToUpper());
 		}
 
 		private Visibility IsVisible(bool value)
