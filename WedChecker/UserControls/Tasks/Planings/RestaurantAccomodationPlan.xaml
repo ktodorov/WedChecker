@@ -12,7 +12,7 @@
             <TextBlock Text="How many tables do you want to have?"
                        Style="{StaticResource WedCheckerDisplayTextBlockStyle}"/>
             <TextBox Name="tbTablesCount" InputScope="Number" Width="100"
-                 Style="{StaticResource WedCheckerFormTextBoxStyle}" />
+                 Style="{StaticResource WedCheckerDefaultTextBox}" />
             <Button Name="confirmTablesCountButton" Content="Confirm"
                 Click="confirmTablesCountButton_Click" HorizontalAlignment="Center"
                 Style="{StaticResource ButtonClearStyle}"/>

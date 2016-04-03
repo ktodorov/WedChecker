@@ -92,19 +92,22 @@
 						</GridView>
 					</ScrollViewer>
 
-					<TaskUserControls:TaskDialog x:Name="addTaskDialog" TappedTile="TaskTile_Tapped" Visibility="Collapsed" />
-
 					<ProgressRing Name="loadControlsProgressRing" IsActive="False"/>
 
-					<Rectangle x:Name="rectBackgroundHide" Fill="Black" Visibility="Collapsed" Opacity="0.85" Tapped="rectBackgroundHide_Tapped">
-					</Rectangle>
 				</Grid>
 
 			</SplitView.Content>
 		</SplitView>
 
+		<TaskUserControls:TaskDialog x:Name="addTaskDialog" TappedTile="TaskTile_Tapped" Visibility="Collapsed" 
+									 Grid.Row="1" Padding="15" />
 
-		<Popup Name="taskPopup" IsOpen="False">
+		<Rectangle x:Name="rectBackgroundHide" Fill="Black" Opacity="0.75" Visibility="Collapsed"
+				   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1"
+				   Tapped="rectBackgroundHide_Tapped">
+		</Rectangle>
+		
+		<Popup Name="taskPopup" IsOpen="False" Grid.Row="1">
 			<Popup.Transitions>
 				<TransitionCollection>
 					<PopupThemeTransition />

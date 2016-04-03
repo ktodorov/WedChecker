@@ -13,7 +13,7 @@
             <ColumnDefinition Width="7*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <TextBox Name="tbElementName" Text="Test" Grid.Column="0" Style="{StaticResource WedCheckerFormTextBoxStyle}" 
+        <TextBox Name="tbElementName" Text="Test" Grid.Column="0" Style="{StaticResource WedCheckerDefaultTextBox}" 
                    FontFamily="Segoe UI Light" VerticalAlignment="Center" Margin="0" TextChanged="tbElementName_TextChanged"/>
         <TextBlock Name="tbDisplayElementName" Text="" Grid.Column="0" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"
                    Visibility="Collapsed"/>

@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
     <StackPanel VerticalAlignment="Center">
         <TextBox Name="tbBudget" InputScope="CurrencyAmountAndSymbol" Margin="20,0" TextChanged="tbBudget_TextChanged"
-                 Style="{StaticResource WedCheckerFormTextBoxStyle}"/>
+                 Style="{StaticResource WedCheckerDefaultTextBox}"/>
         <StackPanel Name="displayPanel" Visibility="Collapsed">
             <TextBlock Name="tbBudgetDisplay" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" TextAlignment="Center"/>
         </StackPanel>

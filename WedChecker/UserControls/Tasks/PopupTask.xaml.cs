@@ -41,7 +41,7 @@ namespace WedChecker.UserControls.Tasks
 			}
 		}
 
-		private bool InEditMode = false;
+		public bool InEditMode = false;
 		private bool TaskOptionsOpened = false;
 
 		public PopupTask()
@@ -70,23 +70,16 @@ namespace WedChecker.UserControls.Tasks
 				}
 
 				var header = control.GetType().GetProperty("DisplayHeader")?.GetValue(null, null).ToString();
-				displayHeader = header;
+				tbTaskHeader.Text = header;
 
 				spConnectedControl.Children.Add(ConnectedTaskControl);
-
-				//if (!isNew)
-				//{
-				//	DisplayConnectedTask(false);
-				//}
-				//else
-				//{
-				//	EditConnectedTask();
-				//}
 
 				this.Loaded += PopupTask_Loaded;
 
 				MaxWidth = Window.Current.Bounds.Width - 50;
-				MaxHeight = Window.Current.Bounds.Height;
+				MaxHeight = Window.Current.Bounds.Height - 100;
+
+				InEditMode = false;
 			}
 			catch (Exception ex)
 			{
@@ -109,6 +102,7 @@ namespace WedChecker.UserControls.Tasks
 		{
 			taskOptionsFlyout.Hide();
 			EditConnectedTask();
+			InEditMode = true;
 		}
 
 		private void EditConnectedTask()
@@ -136,12 +130,13 @@ namespace WedChecker.UserControls.Tasks
 			{
 				SaveClick(this, e);
 			}
+			InEditMode = false;
 		}
 
 		private async Task DisplayConnectedTask(bool shouldSave = true)
 		{
 			InEditMode = false;
-			tbTaskHeader.Text = displayHeader;// ConnectedTaskControl.DisplayHeader ?? string.Empty;
+			tbTaskHeader.Text = displayHeader;
 			editTask.Visibility = Visibility.Visible;
 			if (ConnectedTaskControl != null)
 			{
@@ -268,7 +263,7 @@ namespace WedChecker.UserControls.Tasks
 
 		public void ResizeContent(double windowWidth, double windowHeight)
 		{
-			contentScroll.MaxHeight = windowHeight - 180;
+			contentScroll.MaxHeight = windowHeight - 230;
 			contentScroll.MaxWidth = windowWidth - 50;
 		}
 

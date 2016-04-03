@@ -69,7 +69,7 @@
                     <TextBlock Name="tbError" FontSize="16" TextWrapping="WrapWholeWords" Margin="0, 0, 0, 5" 
                        Foreground="DarkRed" TextAlignment="Center" />
                     <TextBox Name="NameTextBox" Height="30" Margin="0" Width="300px"
-                         Style="{StaticResource WedCheckerFormTextBoxStyle}"/>
+                         Style="{StaticResource WedCheckerDefaultTextBox}"/>
 
                     <Button Name="SubmitButton" Content="Continue" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" 
                             Style="{StaticResource ButtonClearStyle}" Width="200" Margin="10" Click="SubmitButton_Click"/>

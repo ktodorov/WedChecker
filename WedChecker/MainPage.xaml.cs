@@ -219,10 +219,6 @@ namespace WedChecker
 				var windowWidth = Window.Current.Bounds.Width;
 				var windowHeight = Window.Current.Bounds.Height;
 
-				//Set our background rectangle to fill the entire window
-				rectBackgroundHide.Height = windowHeight;
-				rectBackgroundHide.Width = windowWidth;
-				rectBackgroundHide.Margin = new Thickness(0, 0, 0, 0);
 				rectBackgroundHide.Visibility = Visibility.Visible;
 
 				CalculateTaskSizes(windowWidth, windowHeight);
@@ -249,13 +245,21 @@ namespace WedChecker
 
 		private void rectBackgroundHide_Tapped(object sender, TappedRoutedEventArgs e)
 		{
-			HidePopupTask();
+			if (taskPopup.Child != null)
+			{
+				var popupTask = taskPopup.Child as PopupTask;
+				if (popupTask != null && !popupTask.InEditMode)
+				{
+					HidePopupTask();
+				}
+			}
 		}
 
 		private void HidePopupTask()
 		{
 			rectBackgroundHide.Visibility = Visibility.Collapsed;
 			taskPopup.IsOpen = false;
+			taskPopup.Child = null;
 			appBar.Visibility = Visibility.Visible;
 			mainSplitView.Pane.Visibility = Visibility.Visible;
 		}

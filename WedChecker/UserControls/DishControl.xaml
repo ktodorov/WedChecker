@@ -14,7 +14,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBox Name="tbDishName" x:FieldModifier="Public" Text="New dish" Style="{StaticResource WedCheckerFormTextBoxStyle}" 
+        <TextBox Name="tbDishName" x:FieldModifier="Public" Text="New dish" Style="{StaticResource WedCheckerDefaultTextBox}" 
                  Grid.Row="0" FontFamily="Segoe UI Light" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                  Margin="0" VerticalContentAlignment="Center" TextAlignment="Center" Padding="10" 
                  TextChanged="tbDishName_TextChanged"/>

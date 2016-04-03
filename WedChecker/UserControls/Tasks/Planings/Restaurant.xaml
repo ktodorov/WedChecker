@@ -10,19 +10,19 @@
     <StackPanel Orientation="Vertical">
         <TextBlock Name="tbNameHeader" Style="{StaticResource WedCheckerFormTextBlockStyle}">Name</TextBlock>
         <TextBlock Name="tbNameDisplay" Visibility="Collapsed" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"/>
-        <TextBox Name="tbName" Style="{StaticResource WedCheckerFormTextBoxStyle}"/>
+        <TextBox Name="tbName" Style="{StaticResource WedCheckerDefaultTextBox}"/>
 
         <TextBlock Name="tbAddressHeader" Style="{StaticResource WedCheckerFormTextBlockStyle}">Address</TextBlock>
         <TextBlock Name="tbAddressDisplay" Visibility="Collapsed" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"/>
-        <TextBox Name="tbAddress" Style="{StaticResource WedCheckerFormTextBoxStyle}"/>
+        <TextBox Name="tbAddress" Style="{StaticResource WedCheckerDefaultTextBox}"/>
 
         <TextBlock Name="tbPhoneHeader"  Style="{StaticResource WedCheckerFormTextBlockStyle}">Phone</TextBlock>
         <TextBlock Name="tbPhoneDisplay" Visibility="Collapsed" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"/>
-        <TextBox Name="tbPhone" Style="{StaticResource WedCheckerFormTextBoxStyle}"/>
+        <TextBox Name="tbPhone" Style="{StaticResource WedCheckerDefaultTextBox}"/>
 
         <TextBlock Name="tbNotesHeader"  Style="{StaticResource WedCheckerFormTextBlockStyle}">Notes</TextBlock>
         <TextBlock Name="tbNotesDisplay" Visibility="Collapsed" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"/>
-        <TextBox Name="tbNotes" Style="{StaticResource WedCheckerFormTextBoxStyle}"/>
+        <TextBox Name="tbNotes" Style="{StaticResource WedCheckerDefaultTextBox}"/>
 
     </StackPanel>
 </we:BaseTaskControl>
