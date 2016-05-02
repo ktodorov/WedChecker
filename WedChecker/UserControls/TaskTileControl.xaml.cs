@@ -1,25 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using WedChecker.Common;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI;
+﻿using WedChecker.Common;
+using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace WedChecker.UserControls
 {
-    public sealed partial class TaskTileControl : UserControl
+	public sealed partial class TaskTileControl : UserControl
     {
 		public event TappedEventHandler TileTapped;
 
@@ -102,10 +92,10 @@ namespace WedChecker.UserControls
 		private void EnabledChanged()
         {
 			var disabledBackgroundBrush = "ButtonDisabledBackgroundThemeBrush";
-			var enabledBackgroundBrush = "SystemControlBackgroundBaseHighBrush";
+			var enabledBackgroundBrush = "SystemControlBackgroundAccentBrush";
 			var disabledForegroundBrush = "ButtonDisabledForegroundThemeBrush";
-			var enabledForegroundBrush = "SystemControlForegroundAccentBrush";
-			var enabledBorderBrush = "SystemControlForegroundAccentBrush";
+			var enabledForegroundBrush = "SystemControlForegroundBaseHighBrush";
+			var enabledBorderBrush = "SystemControlForegroundBaseHighBrush";
 			var disabledBorderBrush = "ButtonDisabledForegroundThemeBrush";
 
 			if (!Application.Current.Resources.ContainsKey(disabledBackgroundBrush) || 
@@ -120,13 +110,13 @@ namespace WedChecker.UserControls
 
 			if (IsEnabled)
             {
-				
 				var backgroundBrush = new SolidColorBrush((Application.Current.Resources[enabledBackgroundBrush] as SolidColorBrush).Color);
 				var foregroundBrush = new SolidColorBrush((Application.Current.Resources[enabledForegroundBrush] as SolidColorBrush).Color);
 				var borderBrush = new SolidColorBrush((Application.Current.Resources[enabledBorderBrush] as SolidColorBrush).Color);
 				tileGrid.Background = backgroundBrush;
 				tileBorder.BorderBrush = borderBrush;
 				tbTaskTitle.Foreground = foregroundBrush;
+				tbTaskTitle.FontWeight = FontWeights.Bold;
 			}
             else
 			{
@@ -136,7 +126,8 @@ namespace WedChecker.UserControls
 				tileGrid.Background = backgroundBrush;
 				tileBorder.BorderBrush = borderBrush;
 				tbTaskTitle.Foreground = foregroundBrush;
+				tbTaskTitle.FontWeight = FontWeights.SemiLight;
 			}
-        }
+		}
     }
 }

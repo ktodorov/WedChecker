@@ -7,13 +7,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Border Name="tileBorder" BorderThickness="1" BorderBrush="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}">
+    <Border Name="tileBorder" BorderThickness="1" BorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}">
         <Grid Name="tileGrid" Height="130" Width="180" 
-          Background="{ThemeResource SystemControlBackgroundBaseHighBrush}">
+          Background="{ThemeResource SystemControlBackgroundAccentBrush}">
             <TextBlock Name="tbTaskTitle" Text="{Binding TaskTitle}" VerticalAlignment="Center" 
-                   HorizontalAlignment="Center" Margin="10" Padding="5"
-                   FontSize="17" FontWeight="SemiLight" Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                   TextWrapping="WrapWholeWords" TextAlignment="Center"/>
+					   HorizontalAlignment="Center" Margin="10" Padding="5"
+					   FontSize="17" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
+					   TextWrapping="WrapWholeWords" TextAlignment="Center" />
 
 			<TextBlock Name="tbTaskName" Visibility="Collapsed" />
 		</Grid>

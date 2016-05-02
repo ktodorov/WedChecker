@@ -1,40 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using WedChecker.Exceptions;
 using WedChecker.Pages;
 using WedChecker.UserControls;
 using WedChecker.UserControls.Tasks;
-using WedChecker.UserControls.Tasks.Planings;
 using Windows.ApplicationModel.Background;
-using Windows.ApplicationModel.Core;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
 using Windows.System;
-using Windows.UI;
-using Windows.UI.Core;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace WedChecker
 {
-	/// <summary>
-	/// An empty page that can be used on its own or navigated to within a Frame.
-	/// </summary>
 	public sealed partial class MainPage : Page
 	{
 		private DispatcherTimer dispatcherTimer = new DispatcherTimer();
@@ -90,7 +75,7 @@ namespace WedChecker
 			}
 			else
 			{
-				loadControlsProgressRing.IsActive = true;
+				mainTitleBar.ProgressActive = true;
 				var task = AppData.PopulateAddedControls();
 				await Task.WhenAll(task);
 				var controls = task.Result;
@@ -99,12 +84,18 @@ namespace WedChecker
 
 				tbGreetUser.Text = string.Format("Hello, {0}", Core.GetSetting("Name"));
 
-				loadControlsProgressRing.IsActive = false;
+				mainTitleBar.ProgressActive = false;
 			}
 
 			FirstTimeLaunched = false;
 
 			CalculateTaskSizes(Window.Current.Bounds.Width, Window.Current.Bounds.Height);
+
+			if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+			{
+				optionsPane.Children.Remove(HamburgerButton);
+				hamburgerDesktopPanel.Children.Add(HamburgerButton);
+			}
 		}
 
 		private const string taskName = "RemainingTimeBackgroundTask";
@@ -147,7 +138,6 @@ namespace WedChecker
 			appBar.Visibility = Visibility.Visible;
 			//mainPivot.Visibility = Visibility.Visible;
 			//mainPivot.SelectedIndex = 0;
-
 		}
 
 
@@ -197,6 +187,11 @@ namespace WedChecker
 		private void HamburgerButton_Click(object sender, RoutedEventArgs e)
 		{
 			mainSplitView.IsPaneOpen = !mainSplitView.IsPaneOpen;
+
+			if (mainSplitView.DisplayMode != SplitViewDisplayMode.CompactOverlay)
+			{
+				CalculateTaskSizes(Window.Current.Bounds.Width, Window.Current.Bounds.Height);
+			}
 		}
 
 		private void taskTapped(object sender, TappedRoutedEventArgs e)
@@ -295,19 +290,24 @@ namespace WedChecker
 		{
 			var columnsCount = 0;
 
-			columnsCount = (int)Math.Round(width / 300.0);
+			columnsCount = (int)Math.Round(width / 350.0);
 
 			rectBackgroundHide.Height = height;
 			rectBackgroundHide.Width = width;
 
-			RepopulateGridChildren(svPlanings, columnsCount);
-			RepopulateGridChildren(svPurchases, columnsCount);
-			RepopulateGridChildren(svBookings, columnsCount);
+			//RepopulateGridChildren(svPlanings, columnsCount);
+			//RepopulateGridChildren(svPurchases, columnsCount);
+			//RepopulateGridChildren(svBookings, columnsCount);
 		}
 
 		private void RepopulateGridChildren(ScrollViewer scrollViewer, int numberOfColumns)
 		{
-			var rootWidth = LayoutRoot.ActualWidth;
+			var rootWidth = Window.Current.Bounds.Width - mainSplitView.CompactPaneLength;
+
+			if (mainSplitView.IsPaneOpen)
+			{
+				rootWidth = Window.Current.Bounds.Width - mainSplitView.OpenPaneLength;
+			}
 
 			var taskWidth = rootWidth - 30;
 
@@ -366,6 +366,13 @@ namespace WedChecker
 			svPurchases.Visibility = IsVisible(category == TaskCategories.Purchase);
 
 			mainTitleBar.SetSubTitle(category.ToString().ToUpper());
+
+			if (Window.Current.Bounds.Width < 1024)
+			{
+				mainSplitView.IsPaneOpen = false;
+			}
+
+			SetActiveCategory(category);
 		}
 
 		private Visibility IsVisible(bool value)
@@ -376,6 +383,41 @@ namespace WedChecker
 			}
 
 			return Visibility.Collapsed;
+		}
+
+		private void SetActiveCategory(TaskCategories category)
+		{
+			var backgroundActiveCategoryBrushName = "SystemControlBackgroundBaseLowBrush";
+
+			if (!Application.Current.Resources.ContainsKey(backgroundActiveCategoryBrushName))
+			{
+				return;
+			}
+
+			var backgroundInactiveCategoryBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
+			var backgroundActiveCategoryBrush = new SolidColorBrush((Application.Current.Resources[backgroundActiveCategoryBrushName] as SolidColorBrush).Color);
+
+			spHomeMenu.Background = backgroundInactiveCategoryBrush;
+			spPlanningsMenu.Background = backgroundInactiveCategoryBrush;
+			spPurchasesMenu.Background = backgroundInactiveCategoryBrush;
+			spBookingsMenu.Background = backgroundInactiveCategoryBrush;
+
+			if (category == TaskCategories.Home)
+			{
+				spHomeMenu.Background = backgroundActiveCategoryBrush;
+			}
+			else if (category == TaskCategories.Booking)
+			{
+				spBookingsMenu.Background = backgroundActiveCategoryBrush;
+			}
+			else if (category == TaskCategories.Planing)
+			{
+				spPlanningsMenu.Background = backgroundActiveCategoryBrush;
+			}
+			else if (category == TaskCategories.Purchase)
+			{
+				spPurchasesMenu.Background = backgroundActiveCategoryBrush;
+			}
 		}
 
 		private void LayoutRoot_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -412,6 +454,28 @@ namespace WedChecker
 			}
 
 			popupTask.ResizeContent(windowWidth, windowHeight);
+		}
+
+		private void gridView_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			var width = Window.Current.Bounds.Width;
+
+			var columns = (int)Math.Round(width / 400.0);
+			if (width < 720)
+			{
+				columns = 1;
+			}
+
+			var gridView = sender as GridView;
+			if (gridView == null)
+			{
+				return;
+			}
+
+			var panel = (ItemsWrapGrid)gridView.ItemsPanelRoot;
+			var itemWidth = e.NewSize.Width / columns;
+			panel.ItemWidth = itemWidth;
+			panel.ItemHeight = panel.ItemWidth / 2;
 		}
 	}
 }

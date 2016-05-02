@@ -17,38 +17,82 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
-		<Elements:WedCheckerTitleBar x:Name="mainTitleBar" Grid.Row="0" />
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup>
+				<VisualState>
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="0" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="mainSplitView.DisplayMode" Value="CompactOverlay" />
+						<Setter Target="mainSplitView.IsPaneOpen" Value="False" />
+						<Setter Target="mainSplitView.CompactPaneLength" Value="0" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState>
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="720" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="mainSplitView.CompactPaneLength" Value="50" />
+						<Setter Target="optionsPane.Visibility" Value="Visible" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState>
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="1024" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="mainSplitView.DisplayMode" Value="CompactInline" />
+						<Setter Target="mainSplitView.IsPaneOpen" Value="True" />
+						<Setter Target="mainSplitView.CompactPaneLength" Value="50" />
+						<Setter Target="optionsPane.Visibility" Value="Visible" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
+
+		<StackPanel Grid.Column="0" Grid.Row="0" Name="hamburgerDesktopPanel">
+		</StackPanel>
+
+		<Elements:WedCheckerTitleBar x:Name="mainTitleBar" Grid.Row="0" Grid.Column="1" />
 
 		<SplitView x:Name="mainSplitView" DisplayMode="CompactOverlay"  IsPaneOpen="False"
-               CompactPaneLength="50" OpenPaneLength="150" Grid.Row="1">
+               CompactPaneLength="50" OpenPaneLength="150" Grid.Row="1" Grid.ColumnSpan="2">
 
 			<SplitView.Pane>
-				<StackPanel Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+				<StackPanel Name="optionsPane" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
 					<Button x:Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"
-                     Width="50" Height="50" Background="Transparent" Click="HamburgerButton_Click"/>
+                     Width="50" Height="50" Background="{ThemeResource SystemControlBackgroundAccentBrush}" Click="HamburgerButton_Click"/>
 
-					<StackPanel Orientation="Horizontal" Tapped="homeMenu_Tapped">
+					<StackPanel Orientation="Horizontal" Tapped="homeMenu_Tapped" Name="spHomeMenu" 
+								Background="{ThemeResource SystemControlBackgroundBaseLowBrush}">
 						<Button x:Name="homeMenuButton" FontFamily="Segoe MDL2 Assets" Content="&#xE80F;"
                     Width="50" Height="50" Background="Transparent" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"/>
 						<TextBlock Text="Home" FontSize="18" VerticalAlignment="Center" 
 								Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"/>
 					</StackPanel>
 
-					<StackPanel Orientation="Horizontal" Tapped="planningsMenu_Tapped">
+					<StackPanel Orientation="Horizontal" Tapped="planningsMenu_Tapped" Name="spPlanningsMenu">
 						<Button x:Name="planningsMenuButton" FontFamily="Segoe MDL2 Assets" Content="&#xE8C8;"
                     Width="50" Height="50" Background="Transparent" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"/>
 						<TextBlock Text="Plannings" FontSize="18" VerticalAlignment="Center" 
                                Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" />
 					</StackPanel>
 
-					<StackPanel Orientation="Horizontal" Tapped="purchasesMenu_Tapped">
+					<StackPanel Orientation="Horizontal" Tapped="purchasesMenu_Tapped" Name="spPurchasesMenu">
 						<Button x:Name="purchasesMenuButton" FontFamily="Segoe MDL2 Assets" Content="&#xE8EC;"
                         Width="50" Height="50" Background="Transparent" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"/>
 						<TextBlock Text="Purchases" FontSize="18" VerticalAlignment="Center" 
                                Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" />
 					</StackPanel>
 
-					<StackPanel Orientation="Horizontal" Tapped="bookingsMenu_Tapped">
+					<StackPanel Orientation="Horizontal" Tapped="bookingsMenu_Tapped" Name="spBookingsMenu">
 						<Button x:Name="bookingsMenuButton" FontFamily="Segoe MDL2 Assets" Content="&#xEA37;"
                         Width="50" Height="50" Background="Transparent" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"/>
 						<TextBlock Text="Bookings" FontSize="18" VerticalAlignment="Center" 
@@ -75,39 +119,62 @@
 						</ScrollViewer>
 					</StackPanel>
 
-					<ScrollViewer Name="svPurchases" Grid.Row="1" VerticalScrollBarVisibility="Auto" Visibility="Collapsed">
-						<GridView Name="gvPurchases" SelectionMode="None" Padding="10">
+					<ScrollViewer Name="svPurchases" Grid.Row="1" VerticalScrollBarVisibility="Auto" Visibility="Collapsed" Padding="10">
+						<GridView Name="gvPurchases" SelectionMode="None" SizeChanged="gridView_SizeChanged">
+							<GridView.ItemContainerStyle>
+								<Style TargetType="GridViewItem">
+									<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+									<Setter Property="HorizontalAlignment" Value="Stretch"/>
+									<Setter Property="VerticalContentAlignment" Value="Stretch"/>
+									<Setter Property="VerticalAlignment" Value="Stretch"/>
+									<Setter Property="Margin" Value="2" />
+								</Style>
+							</GridView.ItemContainerStyle>
 						</GridView>
 					</ScrollViewer>
 
 
-					<ScrollViewer Name="svPlanings" Grid.Row="1" VerticalScrollBarVisibility="Auto" Visibility="Collapsed">
-						<GridView Name="gvPlanings" HorizontalAlignment="Stretch" SelectionMode="None" Padding="10">
+					<ScrollViewer Name="svPlanings" Grid.Row="1" VerticalScrollBarVisibility="Auto" Visibility="Collapsed" Padding="10">
+						<GridView Name="gvPlanings" SelectionMode="None" SizeChanged="gridView_SizeChanged">
+							<GridView.ItemContainerStyle>
+								<Style TargetType="GridViewItem">
+									<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+									<Setter Property="HorizontalAlignment" Value="Stretch"/>
+									<Setter Property="VerticalContentAlignment" Value="Stretch"/>
+									<Setter Property="VerticalAlignment" Value="Stretch"/>
+									<Setter Property="Margin" Value="2" />
+								</Style>
+							</GridView.ItemContainerStyle>
 						</GridView>
 					</ScrollViewer>
 
 
-					<ScrollViewer Name="svBookings" Grid.Row="1" VerticalScrollBarVisibility="Auto" Visibility="Collapsed">
-						<GridView Name="gvBookings" SelectionMode="None" Padding="10" >
+					<ScrollViewer Name="svBookings" Grid.Row="1" VerticalScrollBarVisibility="Auto" Visibility="Collapsed" Padding="10">
+						<GridView Name="gvBookings" SelectionMode="None" SizeChanged="gridView_SizeChanged">
+							<GridView.ItemContainerStyle>
+								<Style TargetType="GridViewItem">
+									<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+									<Setter Property="HorizontalAlignment" Value="Stretch"/>
+									<Setter Property="VerticalContentAlignment" Value="Stretch"/>
+									<Setter Property="VerticalAlignment" Value="Stretch"/>
+									<Setter Property="Margin" Value="2" />
+								</Style>
+							</GridView.ItemContainerStyle>
 						</GridView>
 					</ScrollViewer>
-
-					<ProgressRing Name="loadControlsProgressRing" IsActive="False"/>
-
 				</Grid>
-
 			</SplitView.Content>
 		</SplitView>
 
 		<TaskUserControls:TaskDialog x:Name="addTaskDialog" TappedTile="TaskTile_Tapped" Visibility="Collapsed" 
-									 Grid.Row="1" Padding="15" />
+									 Grid.Row="1" Grid.ColumnSpan="2" Padding="15" />
 
 		<Rectangle x:Name="rectBackgroundHide" Fill="Black" Opacity="0.75" Visibility="Collapsed"
-				   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1"
+				   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.ColumnSpan="2"
 				   Tapped="rectBackgroundHide_Tapped">
 		</Rectangle>
-		
-		<Popup Name="taskPopup" IsOpen="False" Grid.Row="1">
+
+		<Popup Name="taskPopup" IsOpen="False" Grid.RowSpan="2" Grid.ColumnSpan="2">
 			<Popup.Transitions>
 				<TransitionCollection>
 					<PopupThemeTransition />

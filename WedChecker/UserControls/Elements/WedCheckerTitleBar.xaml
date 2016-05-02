@@ -14,7 +14,7 @@
 			<ColumnDefinition />
 		</Grid.ColumnDefinitions>
 		<Button Name="backButton" FontFamily="Segoe MDL2 Assets" Content="&#xE72B;" 
-				Background="{ThemeResource SystemControlBackgroundBaseMediumBrush}"
+				Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"
 				VerticalAlignment="Stretch" Width="50" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
 				Click="backButton_Click" Visibility="Collapsed" Grid.Column="0"/>
 		<StackPanel x:Name="MainTitleBar" Orientation="Horizontal" Background="{ThemeResource SystemControlBackgroundAccentBrush}" 
@@ -29,6 +29,7 @@
 			<TextBlock Name="subtitleBlock"  Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
 					   VerticalAlignment="Center" FontSize="13" Margin="5, 0, 0, 0">HOME
 			</TextBlock>
+			<ProgressRing Name="loadingProgress" Margin="20,0" Foreground="White" IsActive="False" />
 		</StackPanel>
 	</Grid>
 </UserControl>
