@@ -13,7 +13,9 @@ namespace WedChecker.UserControls
             this.InitializeComponent();
         }
 
-        async void SubmitButton_Click(object sender, RoutedEventArgs e)
+		public event EventHandler FinishedSubmitting;
+
+		async void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
             var writtenName = NameTextBox.Text;
             if (string.IsNullOrEmpty(writtenName))
@@ -38,24 +40,20 @@ namespace WedChecker.UserControls
         {
             var weddingDate = new DateTime(dpWeddingDate.Date.Year, dpWeddingDate.Date.Month, dpWeddingDate.Date.Day,
                                                tpWeddingDate.Time.Hours, tpWeddingDate.Time.Minutes, 0);
+
             Core.SetSetting("WeddingDate", weddingDate.ToString());
 
-            var layoutRoot = this.Parent as Grid;
-            var mainPivot = layoutRoot.FindName("mainPivot") as Pivot;
-            mainPivot.Visibility = Visibility.Visible;
-
-            var appBar = layoutRoot.FindName("appBar") as AppBar;
-            appBar.Visibility = Visibility.Visible;
-
-            var tbGreetUser = layoutRoot.FindName("tbGreetUser") as TextBlock;
-            tbGreetUser.Text = string.Format("Hello, {0}", Core.GetSetting("Name"));
-
-            var tbCountdownTimer = layoutRoot.FindName("tbCountdownTimer") as CountdownTimer;
-            tbCountdownTimer.UpdateTimeLeft();
-
-            popup.Visibility = Visibility.Collapsed;
-
             AppData.InsertRoamingSetting("FirstLaunch", false);
-        }
-    }
+
+			FinishedSubmitting?.Invoke(this, new EventArgs());
+		}
+
+		private void NameTextBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+		{
+			if (e.Key == Windows.System.VirtualKey.Enter)
+			{
+				SubmitButton_Click(SubmitButton, new RoutedEventArgs());
+			}
+		}
+	}
 }

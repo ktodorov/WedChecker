@@ -1,0 +1,41 @@
+﻿<Page
+    x:Class="WedChecker.Pages.WeddingDateChangePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WedChecker.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:Elements="using:WedChecker.UserControls.Elements"
+    mc:Ignorable="d">
+
+	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="32" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<Elements:WedCheckerTitleBar x:Name="mainTitleBar" Grid.Row="0" />
+
+		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="10">
+			<StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical">
+				<TextBlock Text="This is the currently saved wedding date"  Style="{ThemeResource WedCheckerFormTextBlockStyle}" />
+				<TextBlock Name="currentDateTextBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="19 August 2016"
+						   HorizontalAlignment="Center" Margin="0, 0, 0, 50"/>
+
+				<TextBlock Text="Change the date" Style="{ThemeResource WedCheckerFormTextBlockStyle}" />
+				<StackPanel Name="dateTimePickerPanel" Orientation="Vertical" HorizontalAlignment="Center">
+					<DatePicker Name="dpWeddingDate" Width="300" HorizontalAlignment="Center"
+                                VerticalAlignment="Center" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontWeight="Light"
+                                BorderBrush="{ThemeResource SystemAccentColor}" BorderThickness="1" Margin="10"/>
+
+					<TimePicker Name="tpWeddingDate" Width="300" HorizontalAlignment="Center" 
+                                VerticalAlignment="Center" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontWeight="Light"
+                                BorderBrush="{ThemeResource SystemAccentColor}" BorderThickness="1" Margin="10"/>
+
+					<Button Name="submitDateButton" Style="{ThemeResource ButtonClearStyle}" Content="Save" HorizontalAlignment="Center"
+							Width="150" Click="submitDateButton_Click"/>
+				</StackPanel>
+			</StackPanel>
+		</ScrollViewer>
+	</Grid>
+</Page>

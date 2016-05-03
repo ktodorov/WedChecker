@@ -74,28 +74,28 @@
 								Background="{ThemeResource SystemControlBackgroundBaseLowBrush}">
 						<Button x:Name="homeMenuButton" FontFamily="Segoe MDL2 Assets" Content="&#xE80F;"
                     Width="50" Height="50" Background="Transparent" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"/>
-						<TextBlock Text="Home" FontSize="18" VerticalAlignment="Center" 
+						<TextBlock Text="Home" FontSize="15" VerticalAlignment="Center" 
 								Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"/>
 					</StackPanel>
 
 					<StackPanel Orientation="Horizontal" Tapped="planningsMenu_Tapped" Name="spPlanningsMenu">
 						<Button x:Name="planningsMenuButton" FontFamily="Segoe MDL2 Assets" Content="&#xE8C8;"
                     Width="50" Height="50" Background="Transparent" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"/>
-						<TextBlock Text="Plannings" FontSize="18" VerticalAlignment="Center" 
+						<TextBlock Text="Plannings" FontSize="15" VerticalAlignment="Center" 
                                Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" />
 					</StackPanel>
 
 					<StackPanel Orientation="Horizontal" Tapped="purchasesMenu_Tapped" Name="spPurchasesMenu">
 						<Button x:Name="purchasesMenuButton" FontFamily="Segoe MDL2 Assets" Content="&#xE8EC;"
                         Width="50" Height="50" Background="Transparent" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"/>
-						<TextBlock Text="Purchases" FontSize="18" VerticalAlignment="Center" 
+						<TextBlock Text="Purchases" FontSize="15" VerticalAlignment="Center" 
                                Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" />
 					</StackPanel>
 
 					<StackPanel Orientation="Horizontal" Tapped="bookingsMenu_Tapped" Name="spBookingsMenu">
 						<Button x:Name="bookingsMenuButton" FontFamily="Segoe MDL2 Assets" Content="&#xEA37;"
                         Width="50" Height="50" Background="Transparent" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"/>
-						<TextBlock Text="Bookings" FontSize="18" VerticalAlignment="Center" 
+						<TextBlock Text="Bookings" FontSize="15" VerticalAlignment="Center" 
                                Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" />
 					</StackPanel>
 				</StackPanel>
@@ -188,7 +188,7 @@
                     Background="{ThemeResource AppBarBackgroundThemeBrush}" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" 
 					BorderThickness="1" BorderBrush="{ThemeResource AppBarBorderThemeBrush}">
 			<CommandBar.SecondaryCommands>
-				<!--<AppBarButton Label="settings" Click="SettingsPageButton_Click"/>-->
+				<AppBarButton Label="settings" Click="SettingsPageButton_Click"/>
 				<AppBarButton Label="about" Click="AboutPageButton_Click"/>
 				<AppBarButton Label="rate and review" Click="RateReviewButton_Click"/>
 			</CommandBar.SecondaryCommands>

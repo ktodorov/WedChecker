@@ -18,16 +18,16 @@
 				VerticalAlignment="Stretch" Width="50" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
 				Click="backButton_Click" Visibility="Collapsed" Grid.Column="0"/>
 		<StackPanel x:Name="MainTitleBar" Orientation="Horizontal" Background="{ThemeResource SystemControlBackgroundAccentBrush}" 
-					VerticalAlignment="Stretch" Grid.Column="1">
-			<TextBlock Name="titleBlock" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" 
+					VerticalAlignment="Center" Grid.Column="1">
+			<TextBlock Name="titleBlock" HorizontalAlignment="Left" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" 
 								   FontSize="13" FontWeight="Bold" Margin="15, 0, 0, 0">
 							WEDCHECKER
 			</TextBlock>
-			<TextBlock Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" FontFamily="Segoe MDL2 Assets "
+			<TextBlock Name="separatorBlock" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" FontFamily="Segoe MDL2 Assets "
 					   VerticalAlignment="Center" FontSize="10" Margin="5, 0, 0, 0">&#xE00F;
 			</TextBlock>
-			<TextBlock Name="subtitleBlock"  Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
-					   VerticalAlignment="Center" FontSize="13" Margin="5, 0, 0, 0">HOME
+			<TextBlock Name="subtitleBlock"  Foreground="DarkSlateGray"
+					   FontSize="13" Margin="5, 0, 0, 0" FontWeight="Bold">HOME
 			</TextBlock>
 			<ProgressRing Name="loadingProgress" Margin="20,0" Foreground="White" IsActive="False" />
 		</StackPanel>

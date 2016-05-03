@@ -1,0 +1,40 @@
+﻿<Page
+    x:Class="WedChecker.Pages.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WedChecker.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:Elements="using:WedChecker.UserControls.Elements"
+    mc:Ignorable="d">
+	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="32" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<Elements:WedCheckerTitleBar x:Name="mainTitleBar" Grid.Row="0" />
+
+		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="10">
+			<StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalAlignment="Center" VerticalAlignment="Center">
+				<Button Name="changeWeddingDateButton" Style="{ThemeResource ButtonClearStyle}" Content="Change wedding date" 
+						Click="changeWeddingDateButton_Click" />
+
+				<StackPanel Name="appThemePanel" Orientation="Vertical" Margin="0, 40, 0, 0">
+					<TextBlock Style="{ThemeResource WedCheckerFormTextBlockStyle}" TextAlignment="Center">
+						Theme appearance
+						<LineBreak/>
+						<Italic>(restart required)</Italic>
+					</TextBlock>
+
+					<RadioButton Name="rbLightTheme" Content="Light" Style="{ThemeResource WedCheckerRadioButtonDefaultStyle}"
+								 Checked="appThemeSelection_Checked" Tag="0"/>
+					<RadioButton Name="rbDarkTheme" Content="Dark" Style="{ThemeResource WedCheckerRadioButtonDefaultStyle}" 
+								 Checked="appThemeSelection_Checked" Tag="1"/>
+					<RadioButton Name="rbDefaultTheme" Content="System default" Style="{ThemeResource WedCheckerRadioButtonDefaultStyle}"
+								 Checked="appThemeSelection_Checked" Tag="2"/>
+				</StackPanel>
+			</StackPanel>
+		</ScrollViewer>
+	</Grid>
+</Page>

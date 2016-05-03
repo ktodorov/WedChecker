@@ -36,6 +36,8 @@ namespace WedChecker
 			Loaded += MainPage_Loaded;
 
 			mainTitleBar.BackButtonClick += MainTitleBar_BackButtonClick;
+
+			this.RequestedTheme = Core.GetElementTheme();
 		}
 
 		private void MainTitleBar_BackButtonClick(object sender, RoutedEventArgs e)
@@ -67,24 +69,11 @@ namespace WedChecker
 
 			if (Core.IsFirstLaunch())
 			{
-				mainSplitView.Visibility = Visibility.Collapsed;
-				var firstLaunchPopup = new FirstLaunchPopup();
-				firstLaunchPopup.VerticalAlignment = VerticalAlignment.Stretch;
-				Grid.SetRowSpan(firstLaunchPopup, 2);
-				mainGrid.Children.Add(firstLaunchPopup);
+				OpenFirstLaunchPopup();
 			}
 			else
 			{
-				mainTitleBar.ProgressActive = true;
-				var task = AppData.PopulateAddedControls();
-				await Task.WhenAll(task);
-				var controls = task.Result;
-				controls = controls.OrderBy(c => c.GetType().GetProperty("TaskName").GetValue(null, null).ToString()).ToList();
-				AddPopulatedControls(controls);
-
-				tbGreetUser.Text = string.Format("Hello, {0}", Core.GetSetting("Name"));
-
-				mainTitleBar.ProgressActive = false;
+				await UpdateTasks();
 			}
 
 			FirstTimeLaunched = false;
@@ -96,6 +85,45 @@ namespace WedChecker
 				optionsPane.Children.Remove(HamburgerButton);
 				hamburgerDesktopPanel.Children.Add(HamburgerButton);
 			}
+		}
+
+		private void OpenFirstLaunchPopup()
+		{
+			mainSplitView.Visibility = Visibility.Collapsed;
+			var firstLaunchPopup = new FirstLaunchPopup();
+			firstLaunchPopup.VerticalAlignment = VerticalAlignment.Stretch;
+			Grid.SetRow(firstLaunchPopup, 1);
+			Grid.SetColumnSpan(firstLaunchPopup, 2);
+			firstLaunchPopup.FinishedSubmitting += FirstLaunchPopup_FinishedSubmitting;
+			mainGrid.Children.Add(firstLaunchPopup);
+			mainTitleBar.RemoveSubTitle();
+		}
+
+		private async Task UpdateTasks()
+		{
+			mainTitleBar.ProgressActive = true;
+			var task = AppData.PopulateAddedControls();
+			await Task.WhenAll(task);
+			var controls = task.Result;
+			controls = controls.OrderBy(c => c.GetType().GetProperty("TaskName").GetValue(null, null).ToString()).ToList();
+			AddPopulatedControls(controls);
+
+			tbGreetUser.Text = string.Format("Hello, {0}", Core.GetSetting("Name"));
+
+			mainTitleBar.ProgressActive = false;
+		}
+
+		private async void FirstLaunchPopup_FinishedSubmitting(object sender, EventArgs e)
+		{
+			mainSplitView.Visibility = Visibility.Visible;
+			mainTitleBar.SetSubTitle("HOME");
+			tbCountdownTimer.UpdateTimeLeft();
+			appBar.Visibility = Visibility.Visible;
+
+			var firstLaunchPopup = sender as FirstLaunchPopup;
+			mainGrid.Children.Remove(firstLaunchPopup);
+
+			await UpdateTasks();
 		}
 
 		private const string taskName = "RemainingTimeBackgroundTask";
@@ -129,18 +157,9 @@ namespace WedChecker
 				TaskData.InsertTaskControl(this, type, false, taskTapped);
 			}
 
-			//var firstLaunchPopup = LayoutRoot.Children.OfType<FirstLaunchPopup>().FirstOrDefault();
-			//if (firstLaunchPopup != null)
-			//{
-			//    LayoutRoot.Children.Remove(firstLaunchPopup);
-			//}
 			addTaskDialog.Visibility = Visibility.Collapsed;
 			appBar.Visibility = Visibility.Visible;
-			//mainPivot.Visibility = Visibility.Visible;
-			//mainPivot.SelectedIndex = 0;
 		}
-
-
 
 		void dispatcherTimer_Tick(object sender, object e)
 		{
@@ -176,7 +195,7 @@ namespace WedChecker
 
 		private void SettingsPageButton_Click(object sender, RoutedEventArgs e)
 		{
-			//this.Frame.Navigate(typeof(SettingsPage));
+			this.Frame.Navigate(typeof(SettingsPage));
 		}
 
 		private async void RateReviewButton_Click(object sender, RoutedEventArgs e)

@@ -8,96 +8,103 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel x:Uid="popup" Name="popup" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" VerticalAlignment="Stretch">
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="720" />
-                    </VisualState.StateTriggers>
+	<StackPanel x:Uid="popup" Name="popup" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" VerticalAlignment="Stretch">
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup>
+				<VisualState>
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="720" />
+					</VisualState.StateTriggers>
 
-                    <VisualState.Setters>
-                        <Setter Target="dateTimePickerPanel.Orientation"
-                                Value="Horizontal" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
+					<VisualState.Setters>
+						<Setter Target="dateTimePickerPanel.Orientation" Value="Horizontal" />
+						<Setter Target="textBlocksPanel.Orientation" Value="Horizontal" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
 
-        <StackPanel.Transitions>
-            <TransitionCollection>
-                <EntranceThemeTransition />
-            </TransitionCollection>
-        </StackPanel.Transitions>
-        <StackPanel.ChildrenTransitions>
-            <TransitionCollection>
-                <EntranceThemeTransition />
-            </TransitionCollection>
-        </StackPanel.ChildrenTransitions>
+		<StackPanel.Transitions>
+			<TransitionCollection>
+				<EntranceThemeTransition />
+			</TransitionCollection>
+		</StackPanel.Transitions>
+		<StackPanel.ChildrenTransitions>
+			<TransitionCollection>
+				<EntranceThemeTransition />
+			</TransitionCollection>
+		</StackPanel.ChildrenTransitions>
 
-        <Grid VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
-            <Grid.ChildrenTransitions>
-                <TransitionCollection>
-                    <EntranceThemeTransition />
-                </TransitionCollection>
-            </Grid.ChildrenTransitions>
+		<Grid VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+			<Grid.ChildrenTransitions>
+				<TransitionCollection>
+					<EntranceThemeTransition />
+				</TransitionCollection>
+			</Grid.ChildrenTransitions>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="100" />
-            </Grid.ColumnDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="100" />
+			</Grid.ColumnDefinitions>
 
-            <TextBlock Name="HeaderDialogTextBlock" FontSize="20" TextWrapping="WrapWholeWords" 
+			<TextBlock Name="HeaderDialogTextBlock" FontSize="20" TextWrapping="WrapWholeWords" 
                        Style="{StaticResource TextBlockHeaderClearStyle}" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Margin="10"
                        Grid.Column="0">
                 Hello, Beautiful <LineBreak />
                 <Span FontSize="15">and welcome to the best wedding planner around here</Span>
-            </TextBlock>
-         
-            <Image Source="/SharedAssets/WedCheckerIcon.png" Grid.Column="1" Width="55" Height="55"/>
-        </Grid>
+			</TextBlock>
 
-        <Pivot Name="mainPivot" SelectedIndex="0" IsLocked="True">
-            <PivotItem Name="firstPivotItem" >
-                <StackPanel Name="firstStepPanel">
-                    <TextBlock Name="firstDialogTextBlock" FontSize="17" TextWrapping="WrapWholeWords" Margin="0, 0, 0, 30" 
+			<Image Source="/SharedAssets/WedCheckerIcon.png" Grid.Column="1" Width="55" Height="55"/>
+		</Grid>
+
+		<Pivot Name="mainPivot" SelectedIndex="0" IsLocked="True">
+			<PivotItem Name="firstPivotItem" >
+				<StackPanel Name="firstStepPanel">
+					<TextBlock Name="firstDialogTextBlock" FontSize="17" TextWrapping="WrapWholeWords" Margin="0, 0, 0, 30" 
                            Style="{StaticResource TextBlockClearStyle}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                                HorizontalAlignment="Center">
                     No doubt we will make a wonderful wedding. <LineBreak />Can I know your name first? <LineBreak />It will help me to know you better.
-                    </TextBlock>
+					</TextBlock>
 
-                    <TextBlock Name="tbError" FontSize="16" TextWrapping="WrapWholeWords" Margin="0, 0, 0, 5" 
+					<TextBlock Name="tbError" FontSize="16" TextWrapping="WrapWholeWords" Margin="0, 0, 0, 5" 
                        Foreground="DarkRed" TextAlignment="Center" />
-                    <TextBox Name="NameTextBox" Height="30" Margin="0" Width="300px"
-                         Style="{StaticResource WedCheckerDefaultTextBox}"/>
+					<TextBox Name="NameTextBox" Height="30" Margin="0" Width="300px"
+							 Style="{StaticResource WedCheckerDefaultTextBox}" KeyDown="NameTextBox_KeyDown"/>
 
-                    <Button Name="SubmitButton" Content="Continue" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" 
+					<Button Name="SubmitButton" Content="Continue" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" 
                             Style="{StaticResource ButtonClearStyle}" Width="200" Margin="10" Click="SubmitButton_Click"/>
-                </StackPanel>
-            </PivotItem>
-            <PivotItem Name="secondPivotItem">
-                <StackPanel Name="secondStepPanel">
-                    <TextBlock Name="secondDialogTextBlock" FontSize="17" TextWrapping="WrapWholeWords" Margin="0, 0, 0, 30"
-                           Style="{StaticResource TextBlockClearStyle}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" HorizontalAlignment="Center">
-                    Great!<LineBreak/>Okay, when is your wedding?
-                    </TextBlock>
+				</StackPanel>
+			</PivotItem>
+			<PivotItem Name="secondPivotItem">
+				<StackPanel Name="secondStepPanel">
+					<StackPanel Name="textBlocksPanel" Orientation="Vertical" HorizontalAlignment="Center">
+						<TextBlock Name="secondDialogFirstTextBlock" FontSize="17" TextWrapping="WrapWholeWords"
+								   Style="{StaticResource TextBlockClearStyle}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" HorizontalAlignment="Center">
+							Great!
+						</TextBlock>
+						<TextBlock Name="secondDialogSecondTextBlock" FontSize="17" TextWrapping="WrapWholeWords" Margin="0, 0, 0, 30"
+								   Style="{StaticResource TextBlockClearStyle}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" HorizontalAlignment="Center">
+							Okay, when is your wedding?
+						</TextBlock>
 
-                    <StackPanel Name="dateTimePickerPanel" Orientation="Vertical" HorizontalAlignment="Center">
-                    <DatePicker Name="dpWeddingDate" Width="300" HorizontalAlignment="Center"
+					</StackPanel>
+
+					<StackPanel Name="dateTimePickerPanel" Orientation="Vertical" HorizontalAlignment="Center">
+						<DatePicker Name="dpWeddingDate" Width="300" HorizontalAlignment="Center"
                                 VerticalAlignment="Center" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontWeight="Light"
                                 BorderBrush="{ThemeResource SystemAccentColor}" BorderThickness="1"
                                 Margin="10"/>
 
-                    <TimePicker Name="tpWeddingDate" Width="300" HorizontalAlignment="Center" 
+						<TimePicker Name="tpWeddingDate" Width="300" HorizontalAlignment="Center" 
                                 VerticalAlignment="Center" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontWeight="Light"
                                 BorderBrush="{ThemeResource SystemAccentColor}" BorderThickness="1"
                                 Margin="10"/>
-                    </StackPanel>
-                    
-                    <Button Name="DoneButton" Content="All done" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" 
+					</StackPanel>
+
+					<Button Name="DoneButton" Content="All done" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center" 
                             Style="{StaticResource ButtonClearStyle}" Width="200" Margin="10" Click="DoneButton_Click"/>
-                </StackPanel>
-            </PivotItem>
-        </Pivot>
-    </StackPanel>
+				</StackPanel>
+			</PivotItem>
+		</Pivot>
+	</StackPanel>
 </UserControl>

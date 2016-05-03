@@ -3,6 +3,7 @@ using WedChecker.UserControls.Tasks;
 using Windows.Networking.Connectivity;
 using Windows.Storage;
 using Windows.UI;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
 namespace WedChecker.Common
@@ -96,5 +97,39 @@ namespace WedChecker.Common
 
             return false;
         }
+
+		public static void UpdateAppTheme(AppTheme theme)
+		{
+			Core.SetSetting("AppTheme", (int)theme);
+		}
+
+		public static AppTheme GetAppTheme()
+		{
+			var themeNumber = Core.GetSetting("AppTheme") as int?;
+
+			if (themeNumber.HasValue)
+			{
+				return (AppTheme)themeNumber;
+			}
+			else
+			{
+				return AppTheme.SystemDefault;
+			}
+		}
+
+		public static ElementTheme GetElementTheme()
+		{
+			var theme = GetAppTheme();
+
+			switch (theme)
+			{
+				case AppTheme.Dark:
+					return ElementTheme.Dark;
+				case AppTheme.Light:
+					return ElementTheme.Light;
+				default:
+					return ElementTheme.Default;
+			}
+		}
     }
 }

@@ -20,8 +20,6 @@ namespace WedChecker.UserControls.Tasks
 			private set;
 		}
 
-		private string displayHeader;
-
 		public bool ConnectedControlVisible
 		{
 			get
@@ -136,7 +134,6 @@ namespace WedChecker.UserControls.Tasks
 		private async Task DisplayConnectedTask(bool shouldSave = true)
 		{
 			InEditMode = false;
-			tbTaskHeader.Text = displayHeader;
 			editTask.Visibility = Visibility.Visible;
 			if (ConnectedTaskControl != null)
 			{

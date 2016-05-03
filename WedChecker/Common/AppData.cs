@@ -14,6 +14,13 @@ using Windows.UI.Xaml.Controls;
 
 namespace WedChecker.Common
 {
+	public enum AppTheme
+	{
+		Light = 0,
+		Dark = 1,
+		SystemDefault = 2
+	}
+
     public static class AppData
     {
         private const string EOS_CONST = "$WedChecker_EndOfStream$";

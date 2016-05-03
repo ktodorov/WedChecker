@@ -14,7 +14,7 @@ namespace WedChecker.UserControls.Elements
 {
 	public sealed partial class WedCheckerTitleBar : UserControl
 	{
-		private bool isMobile = false;
+		public bool IsMobile = false;
 
 		public event RoutedEventHandler BackButtonClick;
 
@@ -103,7 +103,7 @@ namespace WedChecker.UserControls.Elements
 			//PC customization
 			if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.ApplicationView"))
 			{
-				isMobile = false;
+				IsMobile = false;
 				var appTitleBar = ApplicationView.GetForCurrentView().TitleBar;
 				if (appTitleBar != null)
 				{
@@ -117,7 +117,7 @@ namespace WedChecker.UserControls.Elements
 			if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
 			{
 				TitleBar.MinHeight = 50;
-				isMobile = true;
+				IsMobile = true;
 				var statusBar = StatusBar.GetForCurrentView();
 				if (statusBar != null)
 				{
@@ -179,6 +179,19 @@ namespace WedChecker.UserControls.Elements
 		public void SetSubTitle(string subtitle)
 		{
 			subtitleBlock.Text = subtitle;
+
+			if (subtitleBlock.Visibility == Visibility.Collapsed)
+			{
+				subtitleBlock.Visibility = Visibility.Visible;
+				separatorBlock.Visibility = Visibility.Visible;
+			}
+		}
+
+		public void RemoveSubTitle()
+		{
+			subtitleBlock.Text = string.Empty;
+			subtitleBlock.Visibility = Visibility.Collapsed;
+			separatorBlock.Visibility = Visibility.Collapsed;
 		}
 
 		private void backButton_Click(object sender, RoutedEventArgs e)
@@ -188,7 +201,7 @@ namespace WedChecker.UserControls.Elements
 
 		public void SetBackButtonVisible(bool visible)
 		{
-			backButton.Visibility = (visible && !isMobile) ? Visibility.Visible : Visibility.Collapsed;
+			backButton.Visibility = (visible && !IsMobile) ? Visibility.Visible : Visibility.Collapsed;
 			SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = visible ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
 		}
 	}

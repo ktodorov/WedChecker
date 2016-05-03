@@ -19,7 +19,8 @@
 		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
 			<StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 				<StackPanel Background="{ThemeResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Stretch">
-					<Image Source="/SharedAssets/WedCheckerIcon.png/" Margin="100, 30" HorizontalAlignment="Center"/>
+					<Image Source="/SharedAssets/WedCheckerIcon.png" Margin="100, 30" HorizontalAlignment="Center"
+						   MaxHeight="300"/>
 
 					<TextBlock Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" 
                        FontSize="30" FontWeight="Bold" Foreground="White" TextAlignment="Center"

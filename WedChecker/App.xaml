@@ -562,5 +562,9 @@
 			<Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundAccentBrush}"/>
 			<Setter Property="FontWeight" Value="Light" />
 		</Style>
+
+		<Style x:Key="WedCheckerRadioButtonDefaultStyle" TargetType="RadioButton">
+			<!--<Setter Property="FontSize" Value="20" />-->
+		</Style>
 	</Application.Resources>
 </Application>

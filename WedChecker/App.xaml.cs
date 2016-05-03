@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using WedChecker.Common;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -33,6 +34,12 @@ namespace WedChecker
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+			var appTheme = Core.GetAppTheme();
+			if (appTheme != AppTheme.SystemDefault)
+			{
+				this.RequestedTheme = (ApplicationTheme)((int)appTheme);
+			}
         }
 
         /// <summary>
