@@ -11,6 +11,7 @@ using WedChecker.UserControls.Tasks;
 using Windows.ApplicationModel.Background;
 using Windows.Foundation.Metadata;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -46,15 +47,8 @@ namespace WedChecker
 			{
 				appBar.Visibility = Visibility.Visible;
 				addTaskDialog.Visibility = Visibility.Collapsed;
+				HamburgerButton.Visibility = Visibility.Visible;
 				mainTitleBar.SetBackButtonVisible(false);
-			}
-			else if (Frame.CanGoBack)
-			{
-				Frame.GoBack();
-			}
-			else
-			{
-				throw new WedCheckerNavigationException();
 			}
 		}
 
@@ -79,12 +73,6 @@ namespace WedChecker
 			FirstTimeLaunched = false;
 
 			CalculateTaskSizes(Window.Current.Bounds.Width, Window.Current.Bounds.Height);
-
-			if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
-			{
-				optionsPane.Children.Remove(HamburgerButton);
-				hamburgerDesktopPanel.Children.Add(HamburgerButton);
-			}
 		}
 
 		private void OpenFirstLaunchPopup()
@@ -173,11 +161,15 @@ namespace WedChecker
 			{
 				addTaskDialog.Visibility = Visibility.Collapsed;
 				appBar.Visibility = Visibility.Visible;
+				HamburgerButton.Visibility = Visibility.Visible;
+				mainTitleBar.SetBackButtonVisible(false);
 
 				var taskCategory = addTaskDialog.TappedTaskCategory;
 				ChangeTaskCategory(taskCategory);
 
 				CalculateTaskSizes(Window.Current.Bounds.Width, Window.Current.Bounds.Height);
+
+				addTaskDialog.IsTileEnabled(addTaskDialog.TappedTaskName, false);
 			}
 		}
 
@@ -186,6 +178,7 @@ namespace WedChecker
 			addTaskDialog.Visibility = Visibility.Visible;
 			mainTitleBar.SetBackButtonVisible(true);
 			appBar.Visibility = Visibility.Collapsed;
+			HamburgerButton.Visibility = Visibility.Collapsed;
 		}
 
 		private void AboutPageButton_Click(object sender, RoutedEventArgs e)
@@ -305,18 +298,26 @@ namespace WedChecker
 			CalculateTaskSizes(e.NewSize.Width, e.NewSize.Height);
 		}
 
-		private void CalculateTaskSizes(double width, double height)
+		private async void CalculateTaskSizes(double width, double height)
 		{
-			var columnsCount = 0;
+			await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+			() =>
+				{
+					rectBackgroundHide.Height = height;
+					rectBackgroundHide.Width = width;
 
-			columnsCount = (int)Math.Round(width / 350.0);
-
-			rectBackgroundHide.Height = height;
-			rectBackgroundHide.Width = width;
-
-			//RepopulateGridChildren(svPlanings, columnsCount);
-			//RepopulateGridChildren(svPurchases, columnsCount);
-			//RepopulateGridChildren(svBookings, columnsCount);
+					if (Window.Current.Bounds.Width < 720 && optionsPane.Children.Contains(HamburgerButton))
+					{
+						optionsPane.Children.Remove(HamburgerButton);
+						hamburgerDesktopPanel.Children.Add(HamburgerButton);
+					}
+					else if (Window.Current.Bounds.Width > 720 && !optionsPane.Children.Contains(HamburgerButton))
+					{
+						hamburgerDesktopPanel.Children.Remove(HamburgerButton);
+						optionsPane.Children.Insert(0, HamburgerButton);
+					}
+				}
+			);
 		}
 
 		private void RepopulateGridChildren(ScrollViewer scrollViewer, int numberOfColumns)
@@ -377,21 +378,30 @@ namespace WedChecker
 			ChangeTaskCategory(TaskCategories.Home);
 		}
 
-		private void ChangeTaskCategory(TaskCategories category)
+		private async void ChangeTaskCategory(TaskCategories category)
 		{
-			spHome.Visibility = IsVisible(category == TaskCategories.Home);
-			svPlanings.Visibility = IsVisible(category == TaskCategories.Planing);
-			svBookings.Visibility = IsVisible(category == TaskCategories.Booking);
-			svPurchases.Visibility = IsVisible(category == TaskCategories.Purchase);
-
-			mainTitleBar.SetSubTitle(category.ToString().ToUpper());
-
 			if (Window.Current.Bounds.Width < 1024)
 			{
 				mainSplitView.IsPaneOpen = false;
 			}
 
+			mainTitleBar.ProgressActive = true;
+
 			SetActiveCategory(category);
+
+			await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+			() =>
+				{
+					mainTitleBar.SetSubTitle(category.ToString().ToUpper());
+
+					spHome.Visibility = IsVisible(category == TaskCategories.Home);
+					svPlanings.Visibility = IsVisible(category == TaskCategories.Planing);
+					svBookings.Visibility = IsVisible(category == TaskCategories.Booking);
+					svPurchases.Visibility = IsVisible(category == TaskCategories.Purchase);
+				}
+			);
+
+			mainTitleBar.ProgressActive = false;
 		}
 
 		private Visibility IsVisible(bool value)

@@ -119,7 +119,7 @@
 						</ScrollViewer>
 					</StackPanel>
 
-					<ScrollViewer Name="svPurchases" Grid.Row="1" VerticalScrollBarVisibility="Auto" Visibility="Collapsed" Padding="10">
+					<ScrollViewer Name="svPurchases" Grid.Row="1" VerticalScrollBarVisibility="Auto" Visibility="Collapsed" Padding="10, 0">
 						<GridView Name="gvPurchases" SelectionMode="None" SizeChanged="gridView_SizeChanged">
 							<GridView.ItemContainerStyle>
 								<Style TargetType="GridViewItem">
@@ -134,7 +134,7 @@
 					</ScrollViewer>
 
 
-					<ScrollViewer Name="svPlanings" Grid.Row="1" VerticalScrollBarVisibility="Auto" Visibility="Collapsed" Padding="10">
+					<ScrollViewer Name="svPlanings" Grid.Row="1" VerticalScrollBarVisibility="Auto" Visibility="Collapsed" Padding="10, 0">
 						<GridView Name="gvPlanings" SelectionMode="None" SizeChanged="gridView_SizeChanged">
 							<GridView.ItemContainerStyle>
 								<Style TargetType="GridViewItem">
@@ -149,7 +149,7 @@
 					</ScrollViewer>
 
 
-					<ScrollViewer Name="svBookings" Grid.Row="1" VerticalScrollBarVisibility="Auto" Visibility="Collapsed" Padding="10">
+					<ScrollViewer Name="svBookings" Grid.Row="1" VerticalScrollBarVisibility="Auto" Visibility="Collapsed" Padding="10, 0">
 						<GridView Name="gvBookings" SelectionMode="None" SizeChanged="gridView_SizeChanged">
 							<GridView.ItemContainerStyle>
 								<Style TargetType="GridViewItem">
@@ -169,7 +169,7 @@
 		<TaskUserControls:TaskDialog x:Name="addTaskDialog" TappedTile="TaskTile_Tapped" Visibility="Collapsed" 
 									 Grid.Row="1" Grid.ColumnSpan="2" Padding="15" />
 
-		<Rectangle x:Name="rectBackgroundHide" Fill="Black" Opacity="0.75" Visibility="Collapsed"
+		<Rectangle x:Name="rectBackgroundHide" Fill="{ThemeResource SystemControlBackgroundBaseMediumBrush}" Visibility="Collapsed"
 				   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.ColumnSpan="2"
 				   Tapped="rectBackgroundHide_Tapped">
 		</Rectangle>

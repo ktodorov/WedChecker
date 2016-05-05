@@ -29,7 +29,6 @@ namespace WedChecker.Pages
 
 			mainTitleBar.SetSubTitle("SETTINGS");
 			mainTitleBar.SetBackButtonVisible(true);
-			mainTitleBar.BackButtonClick += MainTitleBar_BackButtonClick;
 
 			LoadActiveTheme();
 
@@ -38,14 +37,6 @@ namespace WedChecker.Pages
 			if (!mainTitleBar.IsMobile)
 			{
 				rbDefaultTheme.Visibility = Visibility.Collapsed;
-			}
-		}
-
-		private void MainTitleBar_BackButtonClick(object sender, RoutedEventArgs e)
-		{
-			if (Frame.CanGoBack)
-			{
-				Frame.GoBack();
 			}
 		}
 

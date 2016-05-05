@@ -5,10 +5,11 @@
     xmlns:local="using:WedChecker.UserControls.Elements"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-	VerticalAlignment="Top">
+    mc:Ignorable="d" 
+	VerticalAlignment="Stretch"
+	SizeChanged="UserControl_SizeChanged">
 
-	<Grid Name="TitleBar" Background="{ThemeResource SystemControlBackgroundAccentBrush}" MinHeight="32" VerticalAlignment="Top">
+	<Grid Name="TitleBar" MinHeight="32" VerticalAlignment="Center" Background="{ThemeResource SystemControlBackgroundAccentBrush}" >
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition />
@@ -17,16 +18,21 @@
 				Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"
 				VerticalAlignment="Stretch" Width="50" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
 				Click="backButton_Click" Visibility="Collapsed" Grid.Column="0"/>
-		<StackPanel x:Name="MainTitleBar" Orientation="Horizontal" Background="{ThemeResource SystemControlBackgroundAccentBrush}" 
+		<StackPanel x:Name="MainTitleBar" Orientation="Horizontal"
 					VerticalAlignment="Center" Grid.Column="1">
+			<StackPanel.ChildrenTransitions>
+				<TransitionCollection>
+					<EdgeUIThemeTransition Edge="Left" />
+				</TransitionCollection>
+			</StackPanel.ChildrenTransitions>
 			<TextBlock Name="titleBlock" HorizontalAlignment="Left" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" 
-								   FontSize="13" FontWeight="Bold" Margin="15, 0, 0, 0">
+								   FontSize="13" FontWeight="Bold" Margin="15, 0, 0, 0" VerticalAlignment="Center">
 							WEDCHECKER
 			</TextBlock>
 			<TextBlock Name="separatorBlock" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" FontFamily="Segoe MDL2 Assets "
 					   VerticalAlignment="Center" FontSize="10" Margin="5, 0, 0, 0">&#xE00F;
 			</TextBlock>
-			<TextBlock Name="subtitleBlock"  Foreground="DarkSlateGray"
+			<TextBlock Name="subtitleBlock"  Foreground="DarkSlateGray" VerticalAlignment="Center"
 					   FontSize="13" Margin="5, 0, 0, 0" FontWeight="Bold">HOME
 			</TextBlock>
 			<ProgressRing Name="loadingProgress" Margin="20,0" Foreground="White" IsActive="False" />

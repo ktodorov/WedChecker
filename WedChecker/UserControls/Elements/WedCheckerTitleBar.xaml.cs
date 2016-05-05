@@ -1,4 +1,6 @@
-﻿using WedChecker.Exceptions;
+﻿using System;
+using WedChecker.Common;
+using WedChecker.Exceptions;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Metadata;
 using Windows.UI;
@@ -16,7 +18,7 @@ namespace WedChecker.UserControls.Elements
 	{
 		public bool IsMobile = false;
 
-		public event RoutedEventHandler BackButtonClick;
+		public EventHandler<RoutedEventArgs> BackButtonClick;
 
 		private SolidColorBrush _backgroundBrush;
 		private SolidColorBrush backgroundBrush
@@ -116,7 +118,6 @@ namespace WedChecker.UserControls.Elements
 			//Mobile customization
 			if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
 			{
-				TitleBar.MinHeight = 50;
 				IsMobile = true;
 				var statusBar = StatusBar.GetForCurrentView();
 				if (statusBar != null)
@@ -126,8 +127,8 @@ namespace WedChecker.UserControls.Elements
 					statusBar.ForegroundColor = foregroundBrush?.Color;
 				}
 			}
-
-			Window.Current.SetTitleBar(MainTitleBar);
+			
+			Window.Current.SetTitleBar(TitleBar);
 
 			Window.Current.Activated += Current_Activated;
 
@@ -137,16 +138,22 @@ namespace WedChecker.UserControls.Elements
 
 		private void WedCheckerTitleBar_BackRequested(object sender, BackRequestedEventArgs e)
 		{
-			if (BackButtonClick != null)
+			try
 			{
-				try
+				var page = this.FindAncestorByType<Page>();
+
+				if (page != null)
 				{
-					BackButtonClick(this, new RoutedEventArgs());
-					e.Handled = true;
+					if (page.Frame.CanGoBack)
+					{
+						page.Frame.GoBack();
+					}
+					BackButtonClick?.Invoke(this, new RoutedEventArgs());
 				}
-				catch (WedCheckerNavigationException)
-				{
-				}
+				e.Handled = true;
+			}
+			catch (WedCheckerNavigationException)
+			{
 			}
 		}
 
@@ -165,14 +172,14 @@ namespace WedChecker.UserControls.Elements
 			if (e.WindowActivationState != CoreWindowActivationState.Deactivated)
 			{
 				backButton.IsEnabled = true;
-				MainTitleBar.Background = backgroundBrush;
-				MainTitleBar.Opacity = 1;
+				TitleBar.Background = backgroundBrush;
+				TitleBar.Opacity = 1;
 			}
 			else
 			{
 				backButton.IsEnabled = false;
-				MainTitleBar.Background = deactivatedBackgroundBrush;
-				MainTitleBar.Opacity = 0.5;
+				TitleBar.Background = deactivatedBackgroundBrush;
+				TitleBar.Opacity = 0.5;
 			}
 		}
 
@@ -196,6 +203,13 @@ namespace WedChecker.UserControls.Elements
 
 		private void backButton_Click(object sender, RoutedEventArgs e)
 		{
+			var page = this.FindAncestorByType<Page>();
+
+			if (page != null && page.Frame.CanGoBack)
+			{
+				page.Frame.GoBack();
+			}
+
 			BackButtonClick?.Invoke(this, e);
 		}
 
@@ -203,6 +217,18 @@ namespace WedChecker.UserControls.Elements
 		{
 			backButton.Visibility = (visible && !IsMobile) ? Visibility.Visible : Visibility.Collapsed;
 			SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = visible ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
+		}
+
+		private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			if (Window.Current.Bounds.Width < 720)
+			{
+				TitleBar.MinHeight = 50;
+			}
+			else
+			{
+				TitleBar.MinHeight = 32;
+			}
 		}
 	}
 }

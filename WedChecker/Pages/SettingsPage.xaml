@@ -9,22 +9,23 @@
     mc:Ignorable="d">
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 		<Grid.RowDefinitions>
-			<RowDefinition Height="32" />
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
 		<Elements:WedCheckerTitleBar x:Name="mainTitleBar" Grid.Row="0" />
 
 		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="10">
-			<StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalAlignment="Center" VerticalAlignment="Center">
+			<StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+						Padding="20, 0">
 				<Button Name="changeWeddingDateButton" Style="{ThemeResource ButtonClearStyle}" Content="Change wedding date" 
-						Click="changeWeddingDateButton_Click" />
+						Click="changeWeddingDateButton_Click" HorizontalAlignment="Center" />
 
-				<StackPanel Name="appThemePanel" Orientation="Vertical" Margin="0, 40, 0, 0">
+				<Border BorderThickness="1" BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}" Margin="0, 25" />
+
+				<StackPanel Name="appThemePanel" Orientation="Vertical">
 					<TextBlock Style="{ThemeResource WedCheckerFormTextBlockStyle}" TextAlignment="Center">
 						Theme appearance
-						<LineBreak/>
-						<Italic>(restart required)</Italic>
 					</TextBlock>
 
 					<RadioButton Name="rbLightTheme" Content="Light" Style="{ThemeResource WedCheckerRadioButtonDefaultStyle}"

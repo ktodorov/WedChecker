@@ -54,16 +54,16 @@ namespace WedChecker.Common
 
 #endif
 
-        public static FrameworkElement FindAncestorByType(this FrameworkElement element, Type elementType)
+        public static TType FindAncestorByType<TType>(this FrameworkElement element) where TType : FrameworkElement
         {
             var parent = element.Parent as FrameworkElement;
 
-            while (parent != null && parent.GetType() != elementType)
+            while (parent != null && !(parent is TType))
             {
                 parent = parent.Parent as FrameworkElement;
             }
 
-            return parent;
+            return parent as TType;
         }
 
 		public static FrameworkElement FindAncestorByName(this FrameworkElement element, string elementName)

@@ -29,7 +29,6 @@ namespace WedChecker.Pages
 
 			mainTitleBar.SetSubTitle("SETTINGS");
 			mainTitleBar.SetBackButtonVisible(true);
-			mainTitleBar.BackButtonClick += MainTitleBar_BackButtonClick;
 
 			var weddingDateString = AppData.GetRoamingSetting<string>("WeddingDate");
 			if (string.IsNullOrEmpty(weddingDateString))
@@ -42,7 +41,7 @@ namespace WedChecker.Pages
 			{
 				weddingDate = Convert.ToDateTime(weddingDateString);
 
-				currentDateTextBlock.Text = weddingDate.ToString("HH:mm, dd MMMM, yyyy");
+				currentDateTextBlock.Text = weddingDate.ToString("dd MMMM, yyyy, HH:mm");
 
 				dpWeddingDate.Date = weddingDate.Date;
 				tpWeddingDate.Time = weddingDate.TimeOfDay;
@@ -53,14 +52,6 @@ namespace WedChecker.Pages
 			}
 
 			this.RequestedTheme = Core.GetElementTheme();
-		}
-
-		private void MainTitleBar_BackButtonClick(object sender, RoutedEventArgs e)
-		{
-			if (Frame.CanGoBack)
-			{
-				Frame.GoBack();
-			}
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -82,7 +73,7 @@ namespace WedChecker.Pages
 
 			Core.SetSetting("WeddingDate", weddingDate.ToString());
 
-			currentDateTextBlock.Text = weddingDate.ToString("HH:mm, dd MMMM, yyyy");
+			currentDateTextBlock.Text = weddingDate.ToString("dd MMMM, yyyy, HH:mm");
 
 			mainTitleBar.ProgressActive = false;
 		}

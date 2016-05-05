@@ -35,26 +35,34 @@
 			</Border>
 
 			<ScrollViewer VerticalScrollBarVisibility="Auto" Name="contentScroll">
-				<StackPanel Name="childPanel" Orientation="Vertical">
-					<StackPanel.Transitions>
+				<Grid Name="childPanel">
+					<Grid.Transitions>
 						<TransitionCollection>
 							<EntranceThemeTransition />
 						</TransitionCollection>
-					</StackPanel.Transitions>
-					<StackPanel.ChildrenTransitions>
+					</Grid.Transitions>
+					<Grid.ChildrenTransitions>
 						<TransitionCollection>
 							<EntranceThemeTransition />
 						</TransitionCollection>
-					</StackPanel.ChildrenTransitions>
+					</Grid.ChildrenTransitions>
 
-					<ProgressRing Name="connectedControlProgress" IsActive="False"/>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
 
+					<Grid Name="progressBackground" Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
+							   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.RowSpan="2" Visibility="Collapsed">
+						<ProgressRing Name="connectedControlProgress" IsActive="False" Grid.RowSpan="2" MinHeight="50" />
+					</Grid>
+					
 					<TextBlock Name="tbTaskHeader" Style="{ThemeResource DisplayTextBlockStyle}"
-                               VerticalAlignment="Stretch" Padding="15, 10" TextWrapping="WrapWholeWords"/>
+                               VerticalAlignment="Stretch" Padding="15, 10" TextWrapping="WrapWholeWords" Grid.Row="0"/>
 
-					<StackPanel Name="spConnectedControl">
+					<StackPanel Name="spConnectedControl" Grid.Row="1">
 					</StackPanel>
-				</StackPanel>
+				</Grid>
 			</ScrollViewer>
 
 			<Grid Background="{ThemeResource SystemControlBackgroundBaseLowBrush}" >

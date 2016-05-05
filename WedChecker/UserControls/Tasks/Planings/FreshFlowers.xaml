@@ -8,8 +8,8 @@
     xmlns:we="using:WedChecker.UserControls.Tasks"
     xmlns:UserControls="using:WedChecker.UserControls">
     <StackPanel VerticalAlignment="Center">
-        <TextBox Name="tbFreshFlowers" Height="200" Margin="20,0" TextChanged="tbFreshFlowers_TextChanged" 
-                 TextWrapping="Wrap" Style="{StaticResource WedCheckerFormTextBoxMultiLinesStyle}"/>
+        <TextBox Name="tbFreshFlowers" Margin="20,0" TextChanged="tbFreshFlowers_TextChanged" 
+                 Style="{StaticResource WedCheckerFormTextBoxMultiLinesStyle}"/>
         <StackPanel Name="displayPanel" Visibility="Collapsed">
             <TextBlock Name="tbFreshFlowersDisplay" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" TextAlignment="Center"/>
         </StackPanel>

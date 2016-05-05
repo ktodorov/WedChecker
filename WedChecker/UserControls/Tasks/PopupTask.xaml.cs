@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using WedChecker.Common;
+using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -63,14 +64,13 @@ namespace WedChecker.UserControls.Tasks
 				var taskName = control.GetType().GetProperty("TaskName")?.GetValue(null, null).ToString();
 				if (taskName != null)
 				{
-					buttonTaskName.Text = taskName; // TaskName.ToUpper();
+					buttonTaskName.Text = taskName;
 					this.Name = taskName;
 				}
 
 				var header = control.GetType().GetProperty("DisplayHeader")?.GetValue(null, null).ToString();
 				tbTaskHeader.Text = header;
 
-				spConnectedControl.Children.Add(ConnectedTaskControl);
 
 				this.Loaded += PopupTask_Loaded;
 
@@ -78,6 +78,7 @@ namespace WedChecker.UserControls.Tasks
 				MaxHeight = Window.Current.Bounds.Height - 100;
 
 				InEditMode = false;
+
 			}
 			catch (Exception ex)
 			{
@@ -87,24 +88,50 @@ namespace WedChecker.UserControls.Tasks
 
 		private async void PopupTask_Loaded(object sender, RoutedEventArgs e)
 		{
-			connectedControlProgress.IsActive = true;
+			ProgressRingActive(true);
 			await ConnectedTaskControl.DeserializeValues();
 
 			FireSizeChangedEvent();
 
-			connectedControlProgress.IsActive = false;
-			connectedControlProgress.Visibility = Visibility.Collapsed;
+
+			spConnectedControl.Children.Add(ConnectedTaskControl);
+
+			ProgressRingActive(false);
 		}
 
-		void editTask_Click(object sender, RoutedEventArgs e)
+		async void editTask_Click(object sender, RoutedEventArgs e)
 		{
 			taskOptionsFlyout.Hide();
-			EditConnectedTask();
+			ProgressRingActive(true);
+
+			await Task.Delay(TimeSpan.FromMilliseconds(1));
+			await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => EditConnectedTask());
+
 			InEditMode = true;
+
+			ProgressRingActive(false);
+		}
+
+		private void ProgressRingActive(bool active)
+		{
+			if (active)
+			{
+					progressBackground.Height = contentScroll.ActualHeight;
+				spConnectedControl.Visibility = Visibility.Collapsed;
+			}
+			else
+			{
+				spConnectedControl.Visibility = Visibility.Visible;
+			}
+
+			progressBackground.Visibility = active ? Visibility.Visible : Visibility.Collapsed;
+			connectedControlProgress.Visibility = active ? Visibility.Visible : Visibility.Collapsed;
+			connectedControlProgress.IsActive = active;
 		}
 
 		private void EditConnectedTask()
 		{
+
 			InEditMode = true;
 			tbTaskHeader.Text = ConnectedTaskControl.EditHeader ?? string.Empty;
 			editTask.Visibility = Visibility.Collapsed;
@@ -114,10 +141,12 @@ namespace WedChecker.UserControls.Tasks
 				{
 					ConnectedTaskControl.Visibility = Visibility.Visible;
 				}
+
 				ConnectedTaskControl.EditValues();
 			}
 
 			FireSizeChangedEvent();
+
 		}
 
 		private async void saveTask_Click(object sender, RoutedEventArgs e)
@@ -162,24 +191,21 @@ namespace WedChecker.UserControls.Tasks
 			await msgDialog.ShowAsync();
 		}
 
-		private void CommandHandler(IUICommand command)
+		private async void CommandHandler(IUICommand command)
 		{
 			var commandLabel = command.Label;
 			switch (commandLabel)
 			{
 				case "Delete":
-					DeleteTask();
-					if (CancelClick != null)
-					{
-						CancelClick(this, new RoutedEventArgs());
-					}
+					await DeleteTask();
+					CancelClick?.Invoke(this, new RoutedEventArgs());
 					break;
 				case "Cancel":
 					break;
 			}
 		}
 
-		private async void DeleteTask()
+		private async Task DeleteTask()
 		{
 			if (ConnectedTaskControl != null)
 			{
@@ -193,56 +219,63 @@ namespace WedChecker.UserControls.Tasks
 
 		private void EnableTaskTile()
 		{
-			var layoutRoot = this.FindAncestorByName("LayoutRoot") as Grid;
-
-			var svMain = layoutRoot.Children.OfType<ScrollViewer>().FirstOrDefault(sv => sv.Name == "svMain");
-			if (svMain == null)
+			var mainGrid = this.FindAncestorByName("mainGrid") as Grid;
+			if (mainGrid == null)
 			{
 				return;
 			}
 
-			var panel = svMain.Content as StackPanel;
-			if (panel == null)
+			var taskDialog = mainGrid.Children.OfType<TaskDialog>().FirstOrDefault();
+			if (taskDialog != null)
 			{
-				return;
-			}
-
-			var gridViews = panel.Children.OfType<GridView>().ToList();
-			foreach (var gridView in gridViews)
-			{
-				var tiles = gridView.Items.OfType<TaskTileControl>();
-				var tile = tiles.FirstOrDefault(t => t.Name == ConnectedTaskControl.TaskCode);
-
-				if (tile != null)
-				{
-					tile.IsEnabled = true;
-					return;
-				}
+				taskDialog.IsTileEnabled(ConnectedTaskControl.TaskCode, true);
 			}
 		}
 
 		private void DeletePopulatedTask()
 		{
-			var layoutRoot = this.FindAncestorByName("LayoutRoot") as Grid;
-
-			if (!DeleteFromElement(layoutRoot, "gvPlanings"))
+			var mainGrid = this.FindAncestorByName("mainGrid") as Grid;
+			if (mainGrid == null)
 			{
-				if (!DeleteFromElement(layoutRoot, "gvPurchases"))
+				return;
+			}
+
+			var mainSplitView = mainGrid.Children.OfType<SplitView>().FirstOrDefault(sv => sv.Name == "mainSplitView");
+			if (mainSplitView == null)
+			{
+				return;
+			}
+
+			var layoutRoot = mainSplitView.Content as Grid;
+			if (layoutRoot == null)
+			{
+				return;
+			}
+
+			if (!DeleteFromElement(layoutRoot, "svPlanings"))
+			{
+				if (!DeleteFromElement(layoutRoot, "svPurchases"))
 				{
-					DeleteFromElement(layoutRoot, "gvBookings");
+					DeleteFromElement(layoutRoot, "svBookings");
 				}
 			}
 		}
 
 		private bool DeleteFromElement(FrameworkElement parent, string name)
 		{
-			var element = parent.FindName(name) as GridView;
-			if (element != null)
+			var scrollViewer = parent.FindName(name) as ScrollViewer;
+			if (scrollViewer == null)
 			{
-				var populatedTask = element.Items.OfType<PopulatedTask>().FirstOrDefault(p => p.Name == this.Name);
+				return false;
+			}
+
+			var gridView = scrollViewer.Content as GridView;
+			if (gridView != null)
+			{
+				var populatedTask = gridView.Items.OfType<PopulatedTask>().FirstOrDefault(p => p.Name == this.Name);
 				if (populatedTask != null)
 				{
-					element.Items.Remove(populatedTask);
+					gridView.Items.Remove(populatedTask);
 					return true;
 				}
 			}

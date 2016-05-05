@@ -10,17 +10,20 @@
 
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 		<Grid.RowDefinitions>
-			<RowDefinition Height="32" />
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
 		<Elements:WedCheckerTitleBar x:Name="mainTitleBar" Grid.Row="0" />
 
 		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="10">
-			<StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical">
+			<StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical" HorizontalAlignment="Stretch"
+						VerticalAlignment="Center" Padding="20, 0">
 				<TextBlock Text="This is the currently saved wedding date"  Style="{ThemeResource WedCheckerFormTextBlockStyle}" />
 				<TextBlock Name="currentDateTextBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="19 August 2016"
-						   HorizontalAlignment="Center" Margin="0, 0, 0, 50"/>
+						   HorizontalAlignment="Center"/>
+
+				<Border BorderThickness="1" BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}" Margin="0, 25" />
 
 				<TextBlock Text="Change the date" Style="{ThemeResource WedCheckerFormTextBlockStyle}" />
 				<StackPanel Name="dateTimePickerPanel" Orientation="Vertical" HorizontalAlignment="Center">

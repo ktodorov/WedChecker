@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:we="using:WedChecker.UserControls.Tasks">
     <StackPanel VerticalAlignment="Center">
-        <TextBox Name="tbDecoration" TextChanged="tbDecoration_TextChanged" Style="{StaticResource WedCheckerFormTextBoxMultiLinesStyle}"/>
+		<TextBox Name="tbDecoration" TextChanged="tbDecoration_TextChanged" Style="{StaticResource WedCheckerFormTextBoxMultiLinesStyle}" />
         <StackPanel Name="displayPanel" Visibility="Collapsed">
             <TextBlock Name="tbDecorationDisplay" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" TextAlignment="Center"/>
         </StackPanel>

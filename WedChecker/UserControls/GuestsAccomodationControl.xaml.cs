@@ -239,7 +239,7 @@ namespace WedChecker.UserControls
 
         void deleteGuestFromPlaceButton_Click(object sender, RoutedEventArgs e)
         {
-            var contactControl = (sender as Button).FindAncestorByType(typeof(ContactControl)) as ContactControl;
+            var contactControl = (sender as Button).FindAncestorByType<ContactControl>();
             if (contactControl == null)
             {
                 return;

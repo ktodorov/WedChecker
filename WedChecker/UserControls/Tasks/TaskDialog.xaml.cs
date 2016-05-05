@@ -138,11 +138,18 @@ namespace WedChecker.UserControls.Tasks
 
 			TappedTaskName = tile.TaskName;
 
-			tile.IsEnabled = false;
+			//tile.IsEnabled = false;
 
-			if (TappedTile != null)
+			TappedTile?.Invoke(this, e);
+		}
+
+		public void IsTileEnabled(string taskName, bool enabled)
+		{
+			var tile = tasksList.FirstOrDefault(t => t.TaskName == taskName);
+
+			if (tile != null)
 			{
-				TappedTile(this, e);
+				tile.IsEnabled = enabled;
 			}
 		}
 	}

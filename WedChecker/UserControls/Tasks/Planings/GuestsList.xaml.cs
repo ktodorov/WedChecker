@@ -7,157 +7,159 @@ using Windows.UI.Xaml.Controls;
 using Windows.ApplicationModel.Contacts;
 using WedChecker.Common;
 using System.Threading.Tasks;
+using Windows.UI.Core;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace WedChecker.UserControls.Tasks.Planings
 {
-    public sealed partial class GuestsList : BaseTaskControl
-    {
-        public List<ContactControl> Guests
-        {
-            get
-            {
-                return spContacts.Children.OfType<ContactControl>().ToList();
-            }
-        }
+	public sealed partial class GuestsList : BaseTaskControl
+	{
+		public List<ContactControl> Guests
+		{
+			get
+			{
+				return spContacts.Children.OfType<ContactControl>().ToList();
+			}
+		}
 
-        public static new string TaskName
-        {
-            get
-            {
-                return "Guests list";
-            }
-        }
+		public static new string TaskName
+		{
+			get
+			{
+				return "Guests list";
+			}
+		}
 
-        public override string EditHeader
-        {
-            get
-            {
-                return "Here you can select the guests for your weddings";
-            }
-        }
+		public override string EditHeader
+		{
+			get
+			{
+				return "Here you can select the guests for your weddings";
+			}
+		}
 
-        public static new string DisplayHeader
-        {
-            get
-            {
-                return "These are the guests you have added so far";
-            }
-        }
+		public static new string DisplayHeader
+		{
+			get
+			{
+				return "These are the guests you have added so far";
+			}
+		}
 
-        public override string TaskCode
-        {
-            get
-            {
-                return TaskData.Tasks.GuestsList.ToString();
-            }
-        }
+		public override string TaskCode
+		{
+			get
+			{
+				return TaskData.Tasks.GuestsList.ToString();
+			}
+		}
 
-        public GuestsList()
-        {
-            this.InitializeComponent();
-        }
+		public GuestsList()
+		{
+			this.InitializeComponent();
+		}
 
-        public override void DisplayValues()
-        {
-            editPanel.Visibility = Visibility.Collapsed;
-            var guestControls = spContacts.Children.OfType<ContactControl>();
-            foreach (var guestControl in guestControls)
-            {
-                guestControl.DisplayValues();
-            }
-        }
+		public override void DisplayValues()
+		{
+			editPanel.Visibility = Visibility.Collapsed;
+			var guestControls = spContacts.Children.OfType<ContactControl>();
+			foreach (var guestControl in guestControls)
+			{
+				guestControl.DisplayValues();
+			}
+		}
 
-        public override void EditValues()
-        {
-            editPanel.Visibility = Visibility.Visible;
-            var guestControls = spContacts.Children.OfType<ContactControl>();
-            foreach (var guestControl in guestControls)
-            {
-                guestControl.EditValues();
-            }
-        }
+		public override void EditValues()
+		{
+			editPanel.Visibility = Visibility.Visible;
+			var guestControls = spContacts.Children.OfType<ContactControl>();
 
-        protected override void Serialize(BinaryWriter writer)
-        {
-            writer.Write(Guests.Count);
-            foreach (var guest in Guests)
-            {
-                guest.SerializeContact(writer);
-            }
-        }
+			foreach (var guestControl in guestControls)
+			{
+				guestControl.EditValues();
+			}
+		}
 
-        protected override void Deserialize(BinaryReader reader)
-        {
-            //Read in the number of records
-            var records = reader.ReadInt32();
+		protected override void Serialize(BinaryWriter writer)
+		{
+			writer.Write(Guests.Count);
+			foreach (var guest in Guests)
+			{
+				guest.SerializeContact(writer);
+			}
+		}
 
-            for (long i = 0; i < records; i++)
-            {
-                var contactControl = new ContactControl(true, true, true);
+		protected override void Deserialize(BinaryReader reader)
+		{
+			//Read in the number of records
+			var records = reader.ReadInt32();
 
-                contactControl.DeserializeContact(reader);
-                contactControl.OnDelete = deleteButton_Click;
+			for (long i = 0; i < records; i++)
+			{
+				var contactControl = new ContactControl(true, true, true);
 
-                spContacts.Children.Add(contactControl);
-            }
+				contactControl.DeserializeContact(reader);
+				contactControl.OnDelete = deleteButton_Click;
 
-            tbGuestsAdded.Text = string.Format("{0} guests added", Guests.Count);
-        }
+				spContacts.Children.Add(contactControl);
+			}
 
-        private async void selectContacts_Click(object sender, RoutedEventArgs e)
-        {
-            var picker = new ContactPicker();
-            picker.DesiredFieldsWithContactFieldType.Add(ContactFieldType.PhoneNumber);
-            var contacts = await picker.PickContactsAsync();
+			tbGuestsAdded.Text = string.Format("{0} guests added", Guests.Count);
+		}
 
-            if (contacts == null || !contacts.Any())
-            {
-                return;
-            }
+		private async void selectContacts_Click(object sender, RoutedEventArgs e)
+		{
+			var picker = new ContactPicker();
+			picker.DesiredFieldsWithContactFieldType.Add(ContactFieldType.PhoneNumber);
+			var contacts = await picker.PickContactsAsync();
 
-            foreach (var contact in contacts)
-            {
-                if (!Guests.Any(g => g.StoredContact.Id == contact.Id))
-                {
-                    var contactControl = new ContactControl(contact, null, true, true, true);
-                    contactControl.OnDelete = deleteButton_Click;
+			if (contacts == null || !contacts.Any())
+			{
+				return;
+			}
 
-                    spContacts.Children.Add(contactControl);
-                }
-            }
+			foreach (var contact in contacts)
+			{
+				if (!Guests.Any(g => g.StoredContact.Id == contact.Id))
+				{
+					var contactControl = new ContactControl(contact, null, true, true, true);
+					contactControl.OnDelete = deleteButton_Click;
 
-            tbGuestsAdded.Text = string.Format("{0} guests added", Guests.Count);
-        }
+					spContacts.Children.Add(contactControl);
+				}
+			}
 
-        protected override void SetLocalStorage()
-        {
-            var guestsContacts = Guests.Select(g => g.StoredContact).ToList();
-            AppData.SetStorage("GuestsList", guestsContacts);
-        }
+			tbGuestsAdded.Text = string.Format("{0} guests added", Guests.Count);
+		}
 
-        void deleteButton_Click(object sender, RoutedEventArgs e)
-        {
-            var contactControl = ((sender as Button).Parent as Grid).Parent as ContactControl;
-            DeleteGuest(contactControl.StoredContact.Id);
-        }
+		protected override void SetLocalStorage()
+		{
+			var guestsContacts = Guests.Select(g => g.StoredContact).ToList();
+			AppData.SetStorage("GuestsList", guestsContacts);
+		}
 
-        private void DeleteGuest(string id)
-        {
-            var guestToRemove = Guests.FirstOrDefault(g => g.StoredContact.Id == id);
+		void deleteButton_Click(object sender, RoutedEventArgs e)
+		{
+			var contactControl = ((sender as Button).Parent as Grid).Parent as ContactControl;
+			DeleteGuest(contactControl.StoredContact.Id);
+		}
 
-            if (guestToRemove != null)
-            {
-                spContacts.Children.Remove(guestToRemove);
-            }
-        }
+		private void DeleteGuest(string id)
+		{
+			var guestToRemove = Guests.FirstOrDefault(g => g.StoredContact.Id == id);
 
-        private void addNewContactButton_Click(object sender, RoutedEventArgs e)
-        {
-            var contactControl = new ContactControl(true, true, true);
-            contactControl.OnDelete = deleteButton_Click;
-            spContacts.Children.Add(contactControl);
-        }
-    }
+			if (guestToRemove != null)
+			{
+				spContacts.Children.Remove(guestToRemove);
+			}
+		}
+
+		private void addNewContactButton_Click(object sender, RoutedEventArgs e)
+		{
+			var contactControl = new ContactControl(true, true, true);
+			contactControl.OnDelete = deleteButton_Click;
+			spContacts.Children.Add(contactControl);
+		}
+	}
 }
