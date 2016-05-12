@@ -18,13 +18,8 @@
 				Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"
 				VerticalAlignment="Stretch" Width="50" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
 				Click="backButton_Click" Visibility="Collapsed" Grid.Column="0"/>
-		<StackPanel x:Name="MainTitleBar" Orientation="Horizontal"
-					VerticalAlignment="Center" Grid.Column="1">
-			<StackPanel.ChildrenTransitions>
-				<TransitionCollection>
-					<EdgeUIThemeTransition Edge="Left" />
-				</TransitionCollection>
-			</StackPanel.ChildrenTransitions>
+		<StackPanel x:Name="MainTitleBar" Orientation="Horizontal" Background="Transparent"
+					VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="1">
 			<TextBlock Name="titleBlock" HorizontalAlignment="Left" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" 
 								   FontSize="13" FontWeight="Bold" Margin="15, 0, 0, 0" VerticalAlignment="Center">
 							WEDCHECKER

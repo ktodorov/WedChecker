@@ -128,7 +128,7 @@ namespace WedChecker.UserControls.Elements
 				}
 			}
 			
-			Window.Current.SetTitleBar(TitleBar);
+			Window.Current.SetTitleBar(MainTitleBar);
 
 			Window.Current.Activated += Current_Activated;
 
