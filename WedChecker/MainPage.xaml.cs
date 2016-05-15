@@ -16,6 +16,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -59,7 +60,6 @@ namespace WedChecker
 				return;
 			}
 
-			await this.RegisterBackgroundTask();
 
 			if (Core.IsFirstLaunch())
 			{
@@ -74,6 +74,41 @@ namespace WedChecker
 
 			CalculateTaskSizes(Window.Current.Bounds.Width, Window.Current.Bounds.Height);
 		}
+
+		/// <summary>
+		/// Invoked when this page is about to be displayed in a Frame.
+		/// </summary>
+		/// <param name="e">Event data that describes how this page was reached.  The Parameter
+		/// property is typically used to configure the page.</param>
+		protected override void OnNavigatedTo(NavigationEventArgs e)
+		{
+			this.RegisterBackgroundTask();
+		}
+
+		private async void RegisterBackgroundTask()
+		{
+			var backgroundAccessStatus = await BackgroundExecutionManager.RequestAccessAsync();
+			if (backgroundAccessStatus == BackgroundAccessStatus.AllowedMayUseActiveRealTimeConnectivity ||
+				backgroundAccessStatus == BackgroundAccessStatus.AllowedWithAlwaysOnRealTimeConnectivity)
+			{
+				foreach (var task in BackgroundTaskRegistration.AllTasks)
+				{
+					if (task.Value.Name == taskName)
+					{
+						task.Value.Unregister(true);
+					}
+				}
+
+				BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder();
+				taskBuilder.Name = taskName;
+				taskBuilder.TaskEntryPoint = taskEntryPoint;
+				taskBuilder.SetTrigger(new TimeTrigger(15, false));
+				var registration = taskBuilder.Register();
+			}
+		}
+
+		private const string taskName = "RemainingTimeBackgroundProcess";
+		private const string taskEntryPoint = "TileUpdateBackgroundProcess.RemainingTimeBackgroundProcess";
 
 		private void OpenFirstLaunchPopup()
 		{
@@ -112,29 +147,6 @@ namespace WedChecker
 			mainGrid.Children.Remove(firstLaunchPopup);
 
 			await UpdateTasks();
-		}
-
-		private const string taskName = "RemainingTimeBackgroundTask";
-		private const string taskEntryPoint = "BackgroundTasks.RemainingTimeBackgroundTask";
-
-		private async Task RegisterBackgroundTask()
-		{
-			var result = await BackgroundExecutionManager.RequestAccessAsync();
-			if (result == BackgroundAccessStatus.AllowedMayUseActiveRealTimeConnectivity ||
-				result == BackgroundAccessStatus.AllowedWithAlwaysOnRealTimeConnectivity)
-			{
-				foreach (var task in BackgroundTaskRegistration.AllTasks)
-				{
-					if (task.Value.Name == taskName)
-						task.Value.Unregister(true);
-				}
-
-				BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder();
-				taskBuilder.Name = taskName;
-				taskBuilder.TaskEntryPoint = taskEntryPoint;
-				taskBuilder.SetTrigger(new TimeTrigger(15, false));
-				var registration = taskBuilder.Register();
-			}
 		}
 
 		private void AddPopulatedControls(List<BaseTaskControl> populatedControls)

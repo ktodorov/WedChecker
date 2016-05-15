@@ -94,6 +94,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Package.StoreAssociation.xml" />
+    <Content Include="Assets\BadgeLogo.scale-100.png" />
+    <Content Include="Assets\BadgeLogo.scale-125.png" />
+    <Content Include="Assets\BadgeLogo.scale-150.png" />
+    <Content Include="Assets\BadgeLogo.scale-200.png" />
+    <Content Include="Assets\BadgeLogo.scale-400.png" />
     <Content Include="Assets\Square150x150Logo.scale-100.png" />
     <Content Include="Assets\Square150x150Logo.scale-125.png" />
     <Content Include="Assets\Square150x150Logo.scale-150.png" />
@@ -360,7 +365,6 @@
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
@@ -635,9 +639,9 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BackgroundTasks\BackgroundTasks.csproj">
-      <Project>{0114ce93-e53a-4bf6-b10d-326f96394976}</Project>
-      <Name>BackgroundTasks</Name>
+    <ProjectReference Include="..\TileUpdateBackgroundProcess\TileUpdateBackgroundProcess.csproj">
+      <Project>{d6a87e41-1172-4f2c-a81d-86b601a01620}</Project>
+      <Name>TileUpdateBackgroundProcess</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
