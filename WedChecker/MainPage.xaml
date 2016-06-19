@@ -32,6 +32,10 @@
 						<Setter Target="mainSplitView.DisplayMode" Value="CompactOverlay" />
 						<Setter Target="mainSplitView.IsPaneOpen" Value="False" />
 						<Setter Target="mainSplitView.CompactPaneLength" Value="0" />
+						<Setter Target="taskPopup.(Grid.RowSpan)" Value="2" />
+						<Setter Target="taskPopup.(Grid.Row)" Value="0" />
+						<Setter Target="rectBackgroundHide.(Grid.RowSpan)" Value="2" />
+						<Setter Target="rectBackgroundHide.(Grid.Row)" Value="0" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState>
@@ -41,6 +45,10 @@
 					<VisualState.Setters>
 						<Setter Target="mainSplitView.CompactPaneLength" Value="50" />
 						<Setter Target="stackPane.Visibility" Value="Visible" />
+						<Setter Target="taskPopup.(Grid.RowSpan)" Value="1" />
+						<Setter Target="taskPopup.(Grid.Row)" Value="1" />
+						<Setter Target="rectBackgroundHide.(Grid.RowSpan)" Value="1" />
+						<Setter Target="rectBackgroundHide.(Grid.Row)" Value="1" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState>
@@ -52,6 +60,10 @@
 						<Setter Target="mainSplitView.IsPaneOpen" Value="True" />
 						<Setter Target="mainSplitView.CompactPaneLength" Value="50" />
 						<Setter Target="stackPane.Visibility" Value="Visible" />
+						<Setter Target="taskPopup.(Grid.RowSpan)" Value="1" />
+						<Setter Target="taskPopup.(Grid.Row)" Value="1" />
+						<Setter Target="rectBackgroundHide.(Grid.RowSpan)" Value="1" />
+						<Setter Target="rectBackgroundHide.(Grid.Row)" Value="1" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>

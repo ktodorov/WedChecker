@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using WedChecker.Common;
+using WedChecker.UserControls.Elements;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -73,9 +74,6 @@ namespace WedChecker.UserControls.Tasks
 
 
 				this.Loaded += PopupTask_Loaded;
-
-				MaxWidth = Window.Current.Bounds.Width - 50;
-				MaxHeight = Window.Current.Bounds.Height - 100;
 
 				InEditMode = false;
 
@@ -291,9 +289,15 @@ namespace WedChecker.UserControls.Tasks
 			}
 		}
 
-		public void ResizeContent(double windowWidth, double windowHeight)
+		public void ResizeContent(double windowWidth, double windowHeight, WedCheckerTitleBar titleBar)
 		{
-			contentScroll.MaxHeight = windowHeight - 230;
+			var popupHeaderHeight = buttonTaskName.ActualHeight;
+			var popupFooterHeight = commandGrid.ActualHeight; 
+			var margins = 10;
+
+			var removedHeight = margins + popupHeaderHeight + popupFooterHeight;
+
+			contentScroll.MaxHeight = windowHeight - (removedHeight);
 			contentScroll.MaxWidth = windowWidth - 50;
 		}
 

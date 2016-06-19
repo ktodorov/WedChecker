@@ -65,7 +65,7 @@
 				</Grid>
 			</ScrollViewer>
 
-			<Grid Background="{ThemeResource SystemControlBackgroundBaseLowBrush}" >
+			<Grid Name="commandGrid" Background="{ThemeResource SystemControlBackgroundBaseLowBrush}" >
 				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="50">
 					<Button Name="saveTask" Content="Save" FontFamily="Segoe UI" FontWeight="Light"
 							Style="{ThemeResource ButtonClearStyle}" Width="80" Height="35"

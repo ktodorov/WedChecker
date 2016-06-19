@@ -426,8 +426,15 @@ namespace WedChecker
 			double ActualHorizontalOffset = taskPopup.HorizontalOffset;
 			double ActualVerticalOffset = taskPopup.VerticalOffset;
 
-			var windowWidth = Window.Current.Bounds.Width;
-			var windowHeight = Window.Current.Bounds.Height;
+			var windowHeight = mainSplitView.ActualHeight;
+			var windowWidth = mainSplitView.ActualWidth;
+
+			if (windowWidth < 720)
+			{
+				windowHeight = windowHeight + mainTitleBar.ActualHeight;
+			}
+
+			popupTask.ResizeContent(windowWidth, windowHeight, mainTitleBar);
 
 			double NewHorizontalOffset = ((windowWidth - popupTask.ActualWidth) / 2);
 			double NewVerticalOffset = (windowHeight - popupTask.ActualHeight) / 2;
@@ -437,8 +444,6 @@ namespace WedChecker
 				taskPopup.HorizontalOffset = NewHorizontalOffset;
 				taskPopup.VerticalOffset = NewVerticalOffset;
 			}
-
-			popupTask.ResizeContent(windowWidth, windowHeight);
 		}
 
 		private void gridView_SizeChanged(object sender, SizeChangedEventArgs e)
