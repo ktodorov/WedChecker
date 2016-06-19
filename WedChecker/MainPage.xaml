@@ -40,7 +40,7 @@
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="mainSplitView.CompactPaneLength" Value="50" />
-						<Setter Target="optionsPane.Visibility" Value="Visible" />
+						<Setter Target="stackPane.Visibility" Value="Visible" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState>
@@ -51,53 +51,70 @@
 						<Setter Target="mainSplitView.DisplayMode" Value="CompactInline" />
 						<Setter Target="mainSplitView.IsPaneOpen" Value="True" />
 						<Setter Target="mainSplitView.CompactPaneLength" Value="50" />
-						<Setter Target="optionsPane.Visibility" Value="Visible" />
+						<Setter Target="stackPane.Visibility" Value="Visible" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
 		</VisualStateManager.VisualStateGroups>
 
-		<StackPanel Grid.Column="0" Grid.Row="0" Name="hamburgerDesktopPanel">
+		<StackPanel Grid.Column="0" Grid.Row="0" Name="hamburgerDesktopPanel" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
 		</StackPanel>
 
 		<Elements:WedCheckerTitleBar x:Name="mainTitleBar" Grid.Row="0" Grid.Column="1" />
 
 		<SplitView x:Name="mainSplitView" DisplayMode="CompactOverlay"  IsPaneOpen="False"
-               CompactPaneLength="50" OpenPaneLength="150" Grid.Row="1" Grid.ColumnSpan="2">
+               CompactPaneLength="50" OpenPaneLength="200" Grid.Row="1" Grid.ColumnSpan="2">
 
 			<SplitView.Pane>
-				<StackPanel Name="optionsPane" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
-					<Button x:Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"
-                     Width="50" Height="50" Background="{ThemeResource SystemControlBackgroundAccentBrush}" Click="HamburgerButton_Click"/>
+				<StackPanel Name="stackPane" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+					<Button Name="HamburgerButton" Content="&#xE700;" FontSize="20" Tapped="HamburgerButton_Tapped" 
+							Width="50" Height="50" HorizontalAlignment="Left" Background="Transparent"
+							FontFamily="Segoe MDL2 Assets" BorderThickness="0" />
 
-					<StackPanel Orientation="Horizontal" Tapped="homeMenu_Tapped" Name="spHomeMenu" 
-								Background="{ThemeResource SystemControlBackgroundBaseLowBrush}">
-						<Button x:Name="homeMenuButton" FontFamily="Segoe MDL2 Assets" Content="&#xE80F;"
-                    Width="50" Height="50" Background="Transparent" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"/>
-						<TextBlock Text="Home" FontSize="15" VerticalAlignment="Center" 
-								Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"/>
-					</StackPanel>
-
-					<StackPanel Orientation="Horizontal" Tapped="planningsMenu_Tapped" Name="spPlanningsMenu">
-						<Button x:Name="planningsMenuButton" FontFamily="Segoe MDL2 Assets" Content="&#xE8C8;"
-                    Width="50" Height="50" Background="Transparent" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"/>
-						<TextBlock Text="Plannings" FontSize="15" VerticalAlignment="Center" 
-                               Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" />
-					</StackPanel>
-
-					<StackPanel Orientation="Horizontal" Tapped="purchasesMenu_Tapped" Name="spPurchasesMenu">
-						<Button x:Name="purchasesMenuButton" FontFamily="Segoe MDL2 Assets" Content="&#xE8EC;"
-                        Width="50" Height="50" Background="Transparent" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"/>
-						<TextBlock Text="Purchases" FontSize="15" VerticalAlignment="Center" 
-                               Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" />
-					</StackPanel>
-
-					<StackPanel Orientation="Horizontal" Tapped="bookingsMenu_Tapped" Name="spBookingsMenu">
-						<Button x:Name="bookingsMenuButton" FontFamily="Segoe MDL2 Assets" Content="&#xEA37;"
-                        Width="50" Height="50" Background="Transparent" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}"/>
-						<TextBlock Text="Bookings" FontSize="15" VerticalAlignment="Center" 
-                               Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" />
-					</StackPanel>
+					<ListView Name="optionsListView" SelectionChanged="optionsListView_SelectionChanged"
+							  VerticalAlignment="Stretch" SelectedIndex="0">
+						<ListView.ItemContainerStyle>
+							<Style TargetType="ListViewItem">
+								<Setter Property="Padding" Value="0"/>
+								<Setter Property="Template">
+									<Setter.Value>
+										<ControlTemplate TargetType="ListViewItem">
+											<ListViewItemPresenter
+												ContentTransitions="{TemplateBinding ContentTransitions}"
+												SelectionCheckMarkVisualEnabled="True"
+												CheckBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+												CheckBoxBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
+												DragBackground="{ThemeResource ListViewItemDragBackgroundThemeBrush}"
+												DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}"
+												FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}"
+												FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}"
+												PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}"
+												PointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}"
+												PointerOverForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}"
+												SelectedBackground="{ThemeResource SystemControlBackgroundBaseLowBrush}"
+												SelectedForeground="{ThemeResource SystemControlHighlightAltBaseHighBrush}"
+												SelectedPointerOverBackground="{ThemeResource SystemControlBackgroundBaseLowBrush}"
+												PressedBackground="{ThemeResource SystemControlHighlightListMediumBrush}"
+												SelectedPressedBackground="{ThemeResource SystemControlBackgroundBaseLowBrush}"
+												DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
+												DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
+												ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
+												HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+												VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+												ContentMargin="{TemplateBinding Padding}"
+												CheckMode="Inline"/>
+										</ControlTemplate>
+									</Setter.Value>
+								</Setter>
+							</Style>
+						</ListView.ItemContainerStyle>
+						<ListView.Items>
+							<Elements:MetroDesignLanguageTextButton x:Name="spHomeMenu" IconContent="&#xE80F;" Text="Home" Tag="Home" />
+							<Elements:MetroDesignLanguageTextButton x:Name="spPlanningsMenu" IconContent="&#xE8C8;" Text="Plannings" Tag="Planing" />
+							<Elements:MetroDesignLanguageTextButton x:Name="spPurchasesMenu" IconContent="&#xE8EC;" Text="Purchases" Tag="Purchase" />
+							<Elements:MetroDesignLanguageTextButton x:Name="spBookingsMenu" IconContent="&#xEA37;" Text="Bookings" Tag="Booking" />
+						</ListView.Items>
+					</ListView>
 				</StackPanel>
 			</SplitView.Pane>
 

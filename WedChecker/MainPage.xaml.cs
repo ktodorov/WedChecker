@@ -7,6 +7,7 @@ using WedChecker.Common;
 using WedChecker.Exceptions;
 using WedChecker.Pages;
 using WedChecker.UserControls;
+using WedChecker.UserControls.Elements;
 using WedChecker.UserControls.Tasks;
 using Windows.ApplicationModel.Background;
 using Windows.Foundation.Metadata;
@@ -318,15 +319,15 @@ namespace WedChecker
 					rectBackgroundHide.Height = height;
 					rectBackgroundHide.Width = width;
 
-					if (Window.Current.Bounds.Width < 720 && optionsPane.Children.Contains(HamburgerButton))
+					if (Window.Current.Bounds.Width < 720 && stackPane.Children.Contains(HamburgerButton))
 					{
-						optionsPane.Children.Remove(HamburgerButton);
+						stackPane.Children.Remove(HamburgerButton);
 						hamburgerDesktopPanel.Children.Add(HamburgerButton);
 					}
-					else if (Window.Current.Bounds.Width > 720 && !optionsPane.Children.Contains(HamburgerButton))
+					else if (Window.Current.Bounds.Width > 720 && !stackPane.Children.Contains(HamburgerButton))
 					{
 						hamburgerDesktopPanel.Children.Remove(HamburgerButton);
-						optionsPane.Children.Insert(0, HamburgerButton);
+						stackPane.Children.Insert(0, HamburgerButton);
 					}
 				}
 			);
@@ -370,26 +371,6 @@ namespace WedChecker
 			}
 		}
 
-		private void purchasesMenu_Tapped(object sender, TappedRoutedEventArgs e)
-		{
-			ChangeTaskCategory(TaskCategories.Purchase);
-		}
-
-		private void planningsMenu_Tapped(object sender, TappedRoutedEventArgs e)
-		{
-			ChangeTaskCategory(TaskCategories.Planing);
-		}
-
-		private void bookingsMenu_Tapped(object sender, TappedRoutedEventArgs e)
-		{
-			ChangeTaskCategory(TaskCategories.Booking);
-		}
-
-		private void homeMenu_Tapped(object sender, TappedRoutedEventArgs e)
-		{
-			ChangeTaskCategory(TaskCategories.Home);
-		}
-
 		private async void ChangeTaskCategory(TaskCategories category)
 		{
 			if (Window.Current.Bounds.Width < 1024)
@@ -398,8 +379,6 @@ namespace WedChecker
 			}
 
 			mainTitleBar.ProgressActive = true;
-
-			SetActiveCategory(category);
 
 			await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
 			() =>
@@ -424,41 +403,6 @@ namespace WedChecker
 			}
 
 			return Visibility.Collapsed;
-		}
-
-		private void SetActiveCategory(TaskCategories category)
-		{
-			var backgroundActiveCategoryBrushName = "SystemControlBackgroundBaseLowBrush";
-
-			if (!Application.Current.Resources.ContainsKey(backgroundActiveCategoryBrushName))
-			{
-				return;
-			}
-
-			var backgroundInactiveCategoryBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
-			var backgroundActiveCategoryBrush = new SolidColorBrush((Application.Current.Resources[backgroundActiveCategoryBrushName] as SolidColorBrush).Color);
-
-			spHomeMenu.Background = backgroundInactiveCategoryBrush;
-			spPlanningsMenu.Background = backgroundInactiveCategoryBrush;
-			spPurchasesMenu.Background = backgroundInactiveCategoryBrush;
-			spBookingsMenu.Background = backgroundInactiveCategoryBrush;
-
-			if (category == TaskCategories.Home)
-			{
-				spHomeMenu.Background = backgroundActiveCategoryBrush;
-			}
-			else if (category == TaskCategories.Booking)
-			{
-				spBookingsMenu.Background = backgroundActiveCategoryBrush;
-			}
-			else if (category == TaskCategories.Planing)
-			{
-				spPlanningsMenu.Background = backgroundActiveCategoryBrush;
-			}
-			else if (category == TaskCategories.Purchase)
-			{
-				spPurchasesMenu.Background = backgroundActiveCategoryBrush;
-			}
 		}
 
 		private void LayoutRoot_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -517,6 +461,30 @@ namespace WedChecker
 			var itemWidth = e.NewSize.Width / columns;
 			panel.ItemWidth = itemWidth;
 			panel.ItemHeight = panel.ItemWidth / 2;
+		}
+
+		private void HamburgerButton_Tapped(object sender, TappedRoutedEventArgs e)
+		{
+			mainSplitView.IsPaneOpen = !mainSplitView.IsPaneOpen;
+
+			if (mainSplitView.DisplayMode != SplitViewDisplayMode.CompactOverlay)
+			{
+				CalculateTaskSizes(Window.Current.Bounds.Width, Window.Current.Bounds.Height);
+			}
+		}
+
+		private void optionsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			var selectedButton = e.AddedItems[0] as MetroDesignLanguageTextButton;
+
+			if (selectedButton.Tag == null)
+			{
+				return;
+			}
+
+			var category = (TaskCategories)Enum.Parse(typeof(TaskCategories), selectedButton.Tag.ToString());
+
+			ChangeTaskCategory(category);
 		}
 	}
 }

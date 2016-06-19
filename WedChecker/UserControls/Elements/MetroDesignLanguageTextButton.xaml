@@ -1,0 +1,17 @@
+﻿<UserControl
+    x:Class="WedChecker.UserControls.Elements.MetroDesignLanguageTextButton"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WedChecker.UserControls.Elements"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+	MinHeight="50" MinWidth="50">
+
+	<StackPanel Orientation="Horizontal">
+		<TextBlock x:Name="iconButton" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" Width="50"
+				   Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" TextAlignment="Center"/>
+		<TextBlock Name="buttonText" FontSize="15" VerticalAlignment="Center" 
+                   Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" />
+	</StackPanel>
+</UserControl>
