@@ -14,221 +14,227 @@ using Windows.UI.Xaml.Media;
 
 namespace WedChecker.UserControls.Elements
 {
-	public sealed partial class WedCheckerTitleBar : UserControl
-	{
-		public bool IsMobile = false;
+    public sealed partial class WedCheckerTitleBar : UserControl
+    {
+        public bool IsMobile = false;
 
-		public EventHandler<RoutedEventArgs> BackButtonClick;
+        public EventHandler<RoutedEventArgs> BackButtonClick;
 
-		private SolidColorBrush _backgroundBrush;
-		private SolidColorBrush backgroundBrush
-		{
-			get
-			{
-				if (_backgroundBrush == null)
-				{
-
-
-					var backgroundBrushName = "SystemControlBackgroundAccentBrush";
-					if (Application.Current.Resources.ContainsKey(backgroundBrushName))
-					{
-						_backgroundBrush = new SolidColorBrush((Application.Current.Resources[backgroundBrushName] as SolidColorBrush).Color);
-					}
-				}
-
-				return _backgroundBrush;
-			}
-		}
-
-		private SolidColorBrush _deactivatedBackgroundBrush;
-		private SolidColorBrush deactivatedBackgroundBrush
-		{
-			get
-			{
-				if (_deactivatedBackgroundBrush == null)
-				{
+        private SolidColorBrush _backgroundBrush;
+        private SolidColorBrush backgroundBrush
+        {
+            get
+            {
+                if (_backgroundBrush == null)
+                {
 
 
-					var backgroundBrushName = "SystemControlBackgroundBaseHighBrush";
-					if (Application.Current.Resources.ContainsKey(backgroundBrushName))
-					{
-						_deactivatedBackgroundBrush = new SolidColorBrush((Application.Current.Resources[backgroundBrushName] as SolidColorBrush).Color);
-					}
-				}
+                    var backgroundBrushName = "SystemControlBackgroundAccentBrush";
+                    if (Application.Current.Resources.ContainsKey(backgroundBrushName))
+                    {
+                        _backgroundBrush = new SolidColorBrush((Application.Current.Resources[backgroundBrushName] as SolidColorBrush).Color);
+                    }
+                }
 
-				return _deactivatedBackgroundBrush;
-			}
-		}
+                return _backgroundBrush;
+            }
+        }
 
-		private SolidColorBrush _foregroundBrush;
-		private SolidColorBrush foregroundBrush
-		{
-			get
-			{
-				if (_backgroundBrush == null)
-				{
+        private SolidColorBrush _deactivatedBackgroundBrush;
+        private SolidColorBrush deactivatedBackgroundBrush
+        {
+            get
+            {
+                if (_deactivatedBackgroundBrush == null)
+                {
 
 
-					var foregroundBrushName = "SystemControlBackgroundAccentBrush";
-					if (Application.Current.Resources.ContainsKey(foregroundBrushName))
-					{
-						_foregroundBrush = new SolidColorBrush((Application.Current.Resources[foregroundBrushName] as SolidColorBrush).Color);
-					}
-				}
+                    var backgroundBrushName = "SystemControlBackgroundBaseHighBrush";
+                    if (Application.Current.Resources.ContainsKey(backgroundBrushName))
+                    {
+                        _deactivatedBackgroundBrush = new SolidColorBrush((Application.Current.Resources[backgroundBrushName] as SolidColorBrush).Color);
+                    }
+                }
 
-				return _foregroundBrush;
-			}
-		}
+                return _deactivatedBackgroundBrush;
+            }
+        }
 
-		public bool ProgressActive
-		{
-			get
-			{
-				return loadingProgress.IsActive;
-			}
-			set
-			{
-				loadingProgress.IsActive = value;
-			}
-		}
+        private SolidColorBrush _foregroundBrush;
+        private SolidColorBrush foregroundBrush
+        {
+            get
+            {
+                if (_backgroundBrush == null)
+                {
 
-		public WedCheckerTitleBar()
-		{
-			this.InitializeComponent();
 
-			SystemNavigationManager.GetForCurrentView().BackRequested += WedCheckerTitleBar_BackRequested;
+                    var foregroundBrushName = "SystemControlBackgroundAccentBrush";
+                    if (Application.Current.Resources.ContainsKey(foregroundBrushName))
+                    {
+                        _foregroundBrush = new SolidColorBrush((Application.Current.Resources[foregroundBrushName] as SolidColorBrush).Color);
+                    }
+                }
 
-			var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+                return _foregroundBrush;
+            }
+        }
 
-			coreTitleBar.ExtendViewIntoTitleBar = true;
+        public bool ProgressActive
+        {
+            get
+            {
+                return loadingProgress.IsActive;
+            }
+            set
+            {
+                loadingProgress.IsActive = value;
+            }
+        }
 
-			//PC customization
-			if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.ApplicationView"))
-			{
-				IsMobile = false;
-				var appTitleBar = ApplicationView.GetForCurrentView().TitleBar;
-				if (appTitleBar != null)
-				{
-					appTitleBar.ButtonBackgroundColor = Colors.Transparent;
-					appTitleBar.ButtonForegroundColor = Colors.White;
-					appTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-				}
-			}
+        public WedCheckerTitleBar()
+        {
+            this.InitializeComponent();
 
-			//Mobile customization
-			if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
-			{
-				IsMobile = true;
-				var statusBar = StatusBar.GetForCurrentView();
-				if (statusBar != null)
-				{
-					statusBar.BackgroundOpacity = 1;
-					statusBar.BackgroundColor = backgroundBrush?.Color;
-					statusBar.ForegroundColor = foregroundBrush?.Color;
-				}
-			}
-			
-			Window.Current.SetTitleBar(MainTitleBar);
+            SystemNavigationManager.GetForCurrentView().BackRequested += WedCheckerTitleBar_BackRequested;
 
-			Window.Current.Activated += Current_Activated;
+            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
 
-			coreTitleBar.IsVisibleChanged += CoreTitleBar_IsVisibleChanged;
-			coreTitleBar.LayoutMetricsChanged += CoreTitleBar_LayoutMetricsChanged;
-		}
+            coreTitleBar.ExtendViewIntoTitleBar = true;
 
-		private void WedCheckerTitleBar_BackRequested(object sender, BackRequestedEventArgs e)
-		{
-			try
-			{
-				var page = this.FindAncestorByType<Page>();
+            //PC customization
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.ApplicationView"))
+            {
+                IsMobile = false;
+                var appTitleBar = ApplicationView.GetForCurrentView().TitleBar;
+                if (appTitleBar != null)
+                {
+                    appTitleBar.ButtonBackgroundColor = Colors.Transparent;
+                    appTitleBar.ButtonForegroundColor = Colors.White;
+                    appTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+                }
+            }
 
-				if (page != null)
-				{
-					if (page.Frame.CanGoBack)
-					{
-						page.Frame.GoBack();
-					}
-					BackButtonClick?.Invoke(this, new RoutedEventArgs());
-				}
-				e.Handled = true;
-			}
-			catch (WedCheckerNavigationException)
-			{
-			}
-		}
+            //Mobile customization
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            {
+                IsMobile = true;
+                var statusBar = StatusBar.GetForCurrentView();
+                if (statusBar != null)
+                {
+                    statusBar.BackgroundOpacity = 1;
+                    statusBar.BackgroundColor = backgroundBrush?.Color;
+                    statusBar.ForegroundColor = foregroundBrush?.Color;
+                }
+            }
 
-		private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
-		{
-			TitleBar.Height = sender.Height;
-		}
+            Window.Current.SetTitleBar(MainTitleBar);
 
-		private void CoreTitleBar_IsVisibleChanged(CoreApplicationViewTitleBar sender, object args)
-		{
-			TitleBar.Visibility = sender.IsVisible ? Visibility.Visible : Visibility.Collapsed;
-		}
+            Window.Current.Activated += Current_Activated;
 
-		private void Current_Activated(object sender, WindowActivatedEventArgs e)
-		{
-			if (e.WindowActivationState != CoreWindowActivationState.Deactivated)
-			{
-				backButton.IsEnabled = true;
-				TitleBar.Background = backgroundBrush;
-				TitleBar.Opacity = 1;
-			}
-			else
-			{
-				backButton.IsEnabled = false;
-				TitleBar.Background = deactivatedBackgroundBrush;
-				TitleBar.Opacity = 0.5;
-			}
-		}
+            coreTitleBar.IsVisibleChanged += CoreTitleBar_IsVisibleChanged;
+            coreTitleBar.LayoutMetricsChanged += CoreTitleBar_LayoutMetricsChanged;
+        }
 
-		public void SetSubTitle(string subtitle)
-		{
-			subtitleBlock.Text = subtitle;
+        private void WedCheckerTitleBar_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            try
+            {
+                var page = this.FindAncestorByType<Page>();
 
-			if (subtitleBlock.Visibility == Visibility.Collapsed)
-			{
-				subtitleBlock.Visibility = Visibility.Visible;
-				separatorBlock.Visibility = Visibility.Visible;
-			}
-		}
+                if (page != null)
+                {
+                    if (page.Frame.CanGoBack)
+                    {
+                        page.Frame.GoBack();
+                    }
+                    else if (BackButtonClick == null)
+                    {
+                        return;
+                    }
 
-		public void RemoveSubTitle()
-		{
-			subtitleBlock.Text = string.Empty;
-			subtitleBlock.Visibility = Visibility.Collapsed;
-			separatorBlock.Visibility = Visibility.Collapsed;
-		}
+                    BackButtonClick?.Invoke(this, new RoutedEventArgs());
+                }
+                e.Handled = true;
+            }
+            catch (WedCheckerNavigationException)
+            {
+                e.Handled = false;
+            }
+        }
 
-		private void backButton_Click(object sender, RoutedEventArgs e)
-		{
-			var page = this.FindAncestorByType<Page>();
+        private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
+        {
+            TitleBar.Height = sender.Height;
+        }
 
-			if (page != null && page.Frame.CanGoBack)
-			{
-				page.Frame.GoBack();
-			}
+        private void CoreTitleBar_IsVisibleChanged(CoreApplicationViewTitleBar sender, object args)
+        {
+            TitleBar.Visibility = sender.IsVisible ? Visibility.Visible : Visibility.Collapsed;
+        }
 
-			BackButtonClick?.Invoke(this, e);
-		}
+        private void Current_Activated(object sender, WindowActivatedEventArgs e)
+        {
+            if (e.WindowActivationState != CoreWindowActivationState.Deactivated)
+            {
+                backButton.IsEnabled = true;
+                TitleBar.Background = backgroundBrush;
+                TitleBar.Opacity = 1;
+            }
+            else
+            {
+                backButton.IsEnabled = false;
+                TitleBar.Background = deactivatedBackgroundBrush;
+                TitleBar.Opacity = 0.5;
+            }
+        }
 
-		public void SetBackButtonVisible(bool visible)
-		{
-			backButton.Visibility = (visible && !IsMobile) ? Visibility.Visible : Visibility.Collapsed;
-			SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = visible ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
-		}
+        public void SetSubTitle(string subtitle)
+        {
+            subtitleBlock.Text = subtitle;
 
-		private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
-		{
-			if (Window.Current.Bounds.Width < 720)
-			{
-				TitleBar.MinHeight = 50;
-			}
-			else
-			{
-				TitleBar.MinHeight = 32;
-			}
-		}
-	}
+            if (subtitleBlock.Visibility == Visibility.Collapsed)
+            {
+                subtitleBlock.Visibility = Visibility.Visible;
+                separatorBlock.Visibility = Visibility.Visible;
+            }
+        }
+
+        public void RemoveSubTitle()
+        {
+            subtitleBlock.Text = string.Empty;
+            subtitleBlock.Visibility = Visibility.Collapsed;
+            separatorBlock.Visibility = Visibility.Collapsed;
+        }
+
+        private void backButton_Click(object sender, RoutedEventArgs e)
+        {
+            var page = this.FindAncestorByType<Page>();
+
+            if (page != null && page.Frame.CanGoBack)
+            {
+                page.Frame.GoBack();
+            }
+
+            BackButtonClick?.Invoke(this, e);
+        }
+
+        public void SetBackButtonVisible(bool visible)
+        {
+            backButton.Visibility = (visible && !IsMobile) ? Visibility.Visible : Visibility.Collapsed;
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = visible ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
+        }
+
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (Window.Current.Bounds.Width < 720)
+            {
+                TitleBar.MinHeight = 50;
+            }
+            else
+            {
+                TitleBar.MinHeight = 32;
+            }
+        }
+    }
 }
