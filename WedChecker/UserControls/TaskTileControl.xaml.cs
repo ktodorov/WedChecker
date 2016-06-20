@@ -35,8 +35,8 @@ namespace WedChecker.UserControls
 			}
 			set
 			{
-				SetValue(TaskTitleProperty, value);
-				tbTaskTitle.Text = value; //set the textbox content
+				SetValue(TaskTitleProperty, value.ToUpper());
+				tbTaskTitle.Text = value.ToUpper(); //set the textbox content
 			}
 		}
 		public static DependencyProperty TaskTitleProperty = DependencyProperty.Register("TaskTitle", typeof(string), typeof(TaskTileControl), new PropertyMetadata(""));
@@ -111,7 +111,8 @@ namespace WedChecker.UserControls
 			if (IsEnabled)
             {
 				var backgroundBrush = new SolidColorBrush((Application.Current.Resources[enabledBackgroundBrush] as SolidColorBrush).Color);
-				var foregroundBrush = new SolidColorBrush((Application.Current.Resources[enabledForegroundBrush] as SolidColorBrush).Color);
+                //var foregroundBrush = new SolidColorBrush((Application.Current.Resources[enabledForegroundBrush] as SolidColorBrush).Color);
+                var foregroundBrush = new SolidColorBrush(Windows.UI.Colors.White);
 				var borderBrush = new SolidColorBrush((Application.Current.Resources[enabledBorderBrush] as SolidColorBrush).Color);
 				tileGrid.Background = backgroundBrush;
 				tileBorder.BorderBrush = borderBrush;

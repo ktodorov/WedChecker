@@ -152,5 +152,15 @@ namespace WedChecker.UserControls.Tasks
 				tile.IsEnabled = enabled;
 			}
 		}
-	}
+
+        private void tasksGridView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            ItemsWrapGrid appItemsPanel = (ItemsWrapGrid)tasksGridView.ItemsPanelRoot;
+
+            double optimizedWidth = 150.0;
+            double margin = 0.0;
+            var number = (int)e.NewSize.Width / (int)optimizedWidth;
+            appItemsPanel.ItemWidth = (e.NewSize.Width - margin) / (double)number;
+        }
+    }
 }

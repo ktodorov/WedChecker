@@ -19,7 +19,8 @@
 		<SemanticZoom.ZoomedInView>
 			<GridView Name="tasksGridView" ScrollViewer.IsHorizontalScrollChainingEnabled="False" 
 					  ScrollViewer.IsVerticalScrollChainingEnabled="False"  SelectionMode="None"
-					  ItemsSource="{Binding Source={StaticResource groupItemsViewSource}}">
+					  ItemsSource="{Binding Source={StaticResource groupItemsViewSource}}"
+                      SizeChanged="tasksGridView_SizeChanged">
 				<GridView.GroupStyle>
 					<GroupStyle>
 						<GroupStyle.ContainerStyle>

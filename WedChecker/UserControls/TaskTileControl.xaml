@@ -8,12 +8,12 @@
     mc:Ignorable="d">
 
     <Border Name="tileBorder" BorderThickness="1" BorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}">
-        <Grid Name="tileGrid" Height="130" Width="180" 
+        <Grid Name="tileGrid" Height="130" Width="150" 
           Background="{ThemeResource SystemControlBackgroundAccentBrush}">
             <TextBlock Name="tbTaskTitle" Text="{Binding TaskTitle}" VerticalAlignment="Center" 
 					   HorizontalAlignment="Center" Margin="10" Padding="5"
-					   FontSize="17" Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
-					   TextWrapping="WrapWholeWords" TextAlignment="Center" />
+					   FontSize="16" Foreground="White"
+					   TextWrapping="WrapWholeWords" TextAlignment="Center" FontWeight="Bold" />
 
 			<TextBlock Name="tbTaskName" Visibility="Collapsed" />
 		</Grid>
