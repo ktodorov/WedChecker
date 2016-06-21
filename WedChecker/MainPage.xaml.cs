@@ -10,7 +10,9 @@ using WedChecker.UserControls;
 using WedChecker.UserControls.Elements;
 using WedChecker.UserControls.Tasks;
 using Windows.ApplicationModel.Background;
+using Windows.Foundation;
 using Windows.Foundation.Metadata;
+using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -41,6 +43,18 @@ namespace WedChecker
             mainTitleBar.BackButtonClick += MainTitleBar_BackButtonClick;
 
             this.RequestedTheme = Core.GetElementTheme();
+
+            ApplicationData.Current.DataChanged += RoamingDataChanged;
+        }
+
+        private async void RoamingDataChanged(ApplicationData sender, object args)
+        {
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                async () =>
+                {
+                    await UpdateTasks();
+                }
+            );
         }
 
         private void MainTitleBar_BackButtonClick(object sender, RoutedEventArgs e)
@@ -138,10 +152,30 @@ namespace WedChecker
         private async Task UpdateTasks()
         {
             mainTitleBar.ProgressActive = true;
+
             var task = AppData.PopulateAddedControls();
             await Task.WhenAll(task);
             var controls = task.Result;
             controls = controls.OrderBy(c => c.GetType().GetProperty("TaskName").GetValue(null, null).ToString()).ToList();
+
+            var bookings = gvBookings.Items.OfType<PopulatedTask>().Where(p => !controls.Any(c => c.GetType() == p.ConnectedTaskControlType)).ToList();
+            foreach(var booking in bookings)
+            {
+                gvBookings.Items.Remove(booking);
+            }
+
+            var planings = gvPlanings.Items.OfType<PopulatedTask>().Where(p => !controls.Any(c => c.GetType() == p.ConnectedTaskControlType)).ToList();
+            foreach (var planing in planings)
+            {
+                gvPlanings.Items.Remove(planing);
+            }
+
+            var purchases = gvPurchases.Items.OfType<PopulatedTask>().Where(p => !controls.Any(c => c.GetType() == p.ConnectedTaskControlType)).ToList();
+            foreach (var purchase in purchases)
+            {
+                gvPurchases.Items.Remove(purchase);
+            }
+
             AddPopulatedControls(controls);
 
             tbGreetUser.Text = string.Format("Hello, {0}", Core.GetSetting("Name"));
@@ -167,11 +201,37 @@ namespace WedChecker
             foreach (var populatedControl in populatedControls)
             {
                 var type = populatedControl.GetType();
-                TaskData.InsertTaskControl(this, type, false, taskTapped);
+                if (!TaskAlreadyAdded(type))
+                {
+                    TaskData.InsertTaskControl(this, type, false, taskTapped);
+                }
             }
 
             addTaskDialog.Visibility = Visibility.Collapsed;
             appBar.Visibility = Visibility.Visible;
+        }
+
+        private bool TaskAlreadyAdded(Type taskType)
+        {
+            var bookings = gvBookings.Items.OfType<PopulatedTask>().Where(p => p.ConnectedTaskControlType == taskType).ToList();
+            if (bookings.Any())
+            {
+                return true;
+            }
+
+            var planings = gvPlanings.Items.OfType<PopulatedTask>().Where(p => p.ConnectedTaskControlType == taskType).ToList();
+            if (planings.Any())
+            {
+                return true;
+            }
+
+            var purchases = gvPurchases.Items.OfType<PopulatedTask>().Where(p => p.ConnectedTaskControlType == taskType).ToList();
+            if (purchases.Any())
+            {
+                return true;
+            }
+
+            return false;
         }
 
         void dispatcherTimer_Tick(object sender, object e)

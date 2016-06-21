@@ -44,7 +44,7 @@ namespace WedChecker.Common
 
         public static void SetSetting(string key, object value)
         {
-            LocalSettings.Values[key] = value;
+            //LocalSettings.Values[key] = value;
             RoamingSettings.Values[key] = value;
         }
 

@@ -21,23 +21,22 @@ namespace WedChecker.Common
         public static bool CreateTaskControl(Page currentPage, string populatedControl, TappedEventHandler tappedEvent = null)
         {
             var type = GetTaskType(populatedControl);
-			var taskControl = CreateTaskControl(type);
+            var taskControl = CreateTaskControl(type);
 
-			if (taskControl == null)
-			{
-				return false;
-			}
+            if (taskControl == null)
+            {
+                return false;
+            }
 
-			//AppData.InsertSerializableTask(taskControl);
+            //AppData.InsertSerializableTask(taskControl);
 
-			InsertTaskControl(currentPage, type, true, tappedEvent);
+            InsertTaskControl(currentPage, type, true, tappedEvent);
 
             return true;
         }
 
         public static void InsertTaskControl(Page currentPage, Type taskControlType, bool isNew = true, TappedEventHandler tappedEvent = null)
         {
-
             var pivotName = GetPivotNameFromType(taskControlType);//, mainPivot);
             var pivotStackPanel = currentPage.FindName(pivotName) as GridView;
 
@@ -47,11 +46,12 @@ namespace WedChecker.Common
                 newPopulatedTask.Tapped += tappedEvent;
             }
 
-            pivotStackPanel.Items.Add(newPopulatedTask);
-
-            //taskSelectionListView.Items.Insert(1, new PopulatedTask(taskControl, isNew));
+            if (!pivotStackPanel.Items.Contains(newPopulatedTask))
+            {
+                pivotStackPanel.Items.Add(newPopulatedTask);
+            }
         }
-        
+
         private static string GetPivotNameFromType(Type taskType, Pivot mainPivot = null)
         {
             var result = string.Empty;
@@ -137,9 +137,9 @@ namespace WedChecker.Common
 
         public static void DisableAddedTasks(GridView itemsControl)
         {
-			var items = itemsControl.Items;
+            var items = itemsControl.Items;
 
-			foreach (var item in items)
+            foreach (var item in items)
             {
                 if (!(item is TaskTileControl))
                 {

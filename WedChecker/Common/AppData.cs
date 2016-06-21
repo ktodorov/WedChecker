@@ -67,17 +67,14 @@ namespace WedChecker.Common
 
         public static void SetStorage(string key, object value)
         {
-            //if (LocalStorage.ContainsKey(key) && LocalStorage[key] == value)
-            //{
-            //    return;
-            //}
-
             LocalStorage[key] = value;
         }
 
         public async static Task<List<BaseTaskControl>> PopulateAddedControls()
         {
             var controls = new List<BaseTaskControl>();
+
+            AllTasks = new AddedTasks();
 
             var priorityControls = AllTasks.GetAllPriorityTasks();
             if (priorityControls != null)
