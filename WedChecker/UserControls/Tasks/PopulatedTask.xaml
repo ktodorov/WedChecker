@@ -25,6 +25,12 @@
 				   Style="{StaticResource WedCheckerDisplayTextBlockStyle}" Padding="10" Grid.Row="0" >
         </TextBlock>
 
+        <Grid Name="newTilePanel" Grid.Row="0" Visibility="Collapsed">
+            <Polygon Points="50,50 0,0, 50,00" Fill="{ThemeResource SystemControlBackgroundBaseHighBrush}" HorizontalAlignment="Right" />
+            <TextBlock Text="!" HorizontalAlignment="Right" Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                       Margin="10, 0" FontSize="25" FontWeight="Bold"/>
+        </Grid>
+
         <TextBlock Name="tbTaskHeader" Margin="0" VerticalAlignment="Center" Padding="20, 10"
                     TextAlignment="Center" TextWrapping="WrapWholeWords" Text="Task header"
                     Foreground="{ThemeResource SystemControlBackgroundBaseHighBrush}" Grid.Row="1"/>

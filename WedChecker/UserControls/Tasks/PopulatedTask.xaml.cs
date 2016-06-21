@@ -36,6 +36,11 @@ namespace WedChecker.UserControls.Tasks
 
 			var displayHeader = controlType.GetProperty("DisplayHeader")?.GetValue(null, null).ToString();
 			tbTaskHeader.Text = displayHeader;
+
+            if (isNew)
+            {
+                newTilePanel.Visibility = Visibility.Visible;
+            }
 		}
 	}
 }

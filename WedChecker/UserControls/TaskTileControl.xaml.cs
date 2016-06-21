@@ -13,7 +13,6 @@ namespace WedChecker.UserControls
     {
 		public event TappedEventHandler TileTapped;
 
-		public TaskCategories Category;
 		public TaskCategories TaskCategory
 		{
 			get

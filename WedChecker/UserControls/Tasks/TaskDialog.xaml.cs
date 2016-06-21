@@ -123,22 +123,20 @@ namespace WedChecker.UserControls.Tasks
 		{
 			var tile = sender as TaskTileControl;
 
-			if (tile.Category == TaskCategories.Booking)
+			if (tile.TaskCategory == TaskCategories.Booking)
 			{
 				TappedTaskCategory = TaskCategories.Booking;
 			}
-			else if (tile.Category == TaskCategories.Planing)
+			else if (tile.TaskCategory == TaskCategories.Planing)
 			{
 				TappedTaskCategory = TaskCategories.Planing;
 			}
-			else if (tile.Category == TaskCategories.Purchase)
+			else if (tile.TaskCategory == TaskCategories.Purchase)
 			{
 				TappedTaskCategory = TaskCategories.Purchase;
 			}
 
 			TappedTaskName = tile.TaskName;
-
-			//tile.IsEnabled = false;
 
 			TappedTile?.Invoke(this, e);
 		}

@@ -159,7 +159,7 @@ namespace WedChecker
             controls = controls.OrderBy(c => c.GetType().GetProperty("TaskName").GetValue(null, null).ToString()).ToList();
 
             var bookings = gvBookings.Items.OfType<PopulatedTask>().Where(p => !controls.Any(c => c.GetType() == p.ConnectedTaskControlType)).ToList();
-            foreach(var booking in bookings)
+            foreach (var booking in bookings)
             {
                 gvBookings.Items.Remove(booking);
             }
@@ -255,6 +255,21 @@ namespace WedChecker
                 CalculateTaskSizes(Window.Current.Bounds.Width, Window.Current.Bounds.Height);
 
                 addTaskDialog.IsTileEnabled(addTaskDialog.TappedTaskName, false);
+
+                PopulatedTask newPopulatedTask = null;
+                if (taskCategory == TaskCategories.Booking)
+                {
+                    newPopulatedTask = gvBookings.Items.OfType<PopulatedTask>().FirstOrDefault(p => p.ConnectedTaskControlType.Name == addTaskDialog.TappedTaskName);
+                }
+                else if (taskCategory == TaskCategories.Planing)
+                {
+                    newPopulatedTask = gvPlanings.Items.OfType<PopulatedTask>().FirstOrDefault(p => p.ConnectedTaskControlType.Name == addTaskDialog.TappedTaskName);
+                }
+                else if (taskCategory == TaskCategories.Purchase)
+                {
+                    newPopulatedTask = gvPurchases.Items.OfType<PopulatedTask>().FirstOrDefault(p => p.ConnectedTaskControlType.Name == addTaskDialog.TappedTaskName);
+                }
+                taskTapped(newPopulatedTask, new TappedRoutedEventArgs());
             }
         }
 
@@ -461,6 +476,8 @@ namespace WedChecker
                     svPlanings.Visibility = IsVisible(category == TaskCategories.Planing);
                     svBookings.Visibility = IsVisible(category == TaskCategories.Booking);
                     svPurchases.Visibility = IsVisible(category == TaskCategories.Purchase);
+
+                    optionsListView.SelectedIndex = (int)category;
                 }
             );
 

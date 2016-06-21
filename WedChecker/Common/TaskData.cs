@@ -28,8 +28,6 @@ namespace WedChecker.Common
                 return false;
             }
 
-            //AppData.InsertSerializableTask(taskControl);
-
             InsertTaskControl(currentPage, type, true, tappedEvent);
 
             return true;
