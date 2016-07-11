@@ -30,7 +30,6 @@
                            Style="{ThemeResource WedCheckerDisplayTextBlockStyle}"
                            FontSize="17" Foreground="{ThemeResource ApplicationForegroundThemeBrush}"/>
                 <TextBox Name="tbEditContactName"
-                         Visibility="Collapsed"
                          Style="{ThemeResource WedCheckerDefaultTextBox}"/>
                 <TextBlock Name="tbContactName" Visibility="Collapsed"
                            Text="" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}"/>
@@ -51,7 +50,7 @@
                                Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" FontSize="17">
                     </TextBlock>
                 </Grid>
-                <TextBox Name="tbEditContactEmails" Visibility="Collapsed"
+                <TextBox Name="tbEditContactEmails"
                              Style="{ThemeResource WedCheckerDefaultTextBox}" FontSize="17"/>
             </StackPanel>
 
@@ -69,7 +68,7 @@
                                Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" FontSize="17">
                     </TextBlock>
                 </Grid>
-                <TextBox Name="tbEditContactPhones" Visibility="Collapsed"
+                <TextBox Name="tbEditContactPhones" 
                          Style="{ThemeResource WedCheckerDefaultTextBox}" FontSize="17"/>
             </StackPanel>
 

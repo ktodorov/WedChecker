@@ -162,6 +162,54 @@ namespace WedChecker.UserControls
 			}
 		}
 
+		public bool IncludeName
+		{
+			get
+			{
+				return namePanel.Visibility == Visibility.Visible;
+			}
+			set
+			{
+				namePanel.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
+			}
+		}
+
+		public bool IncludeEmail
+		{
+			get
+			{
+				return emailsPanel.Visibility == Visibility.Visible;
+			}
+			set
+			{
+				emailsPanel.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
+			}
+		}
+
+		public bool IncludePhones
+		{
+			get
+			{
+				return phonesPanel.Visibility == Visibility.Visible;
+			}
+			set
+			{
+				phonesPanel.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
+			}
+		}
+
+		public bool IncludeAlongWith
+		{
+			get
+			{
+				return alongWithPanel.Visibility == Visibility.Visible;
+			}
+			set
+			{
+				alongWithPanel.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
+			}
+		}
+
 		public ContactControl()
 		{
 			this.InitializeComponent();
@@ -194,7 +242,6 @@ namespace WedChecker.UserControls
 
 			StoreContact(storedContact);
 
-			AdjustVisibility();
 			SetBackground();
 		}
 

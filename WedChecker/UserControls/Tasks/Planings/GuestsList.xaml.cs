@@ -141,7 +141,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
 		void deleteButton_Click(object sender, RoutedEventArgs e)
 		{
-			var contactControl = ((sender as Button).Parent as Grid).Parent as ContactControl;
+			var contactControl = (sender as FrameworkElement).FindAncestorByType<ContactControl>();
 			DeleteGuest(contactControl.StoredContact.Id);
 		}
 
@@ -158,6 +158,10 @@ namespace WedChecker.UserControls.Tasks.Planings
 		private void addNewContactButton_Click(object sender, RoutedEventArgs e)
 		{
 			var contactControl = new ContactControl(true, true, true);
+			contactControl.IncludeName = true;
+			contactControl.IncludePhones = true;
+			contactControl.IncludeEmail = true;
+			contactControl.IncludeAlongWith = true;
 			contactControl.OnDelete = deleteButton_Click;
 			spContacts.Children.Add(contactControl);
 		}
