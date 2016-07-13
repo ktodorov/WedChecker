@@ -23,7 +23,7 @@ namespace WedChecker.Common
             get
             {
                 return ApplicationData.Current.LocalFolder;
-            }
+            }   
         }
 
         public static ApplicationDataContainer RoamingSettings
@@ -63,7 +63,13 @@ namespace WedChecker.Common
         public static bool IsFirstLaunch()
         {
             var firstLaunch = AppData.GetRoamingSetting<bool?>("FirstLaunch");
-            return !firstLaunch.HasValue || firstLaunch.Value;
+            if (!firstLaunch.HasValue)
+            {
+                firstLaunch = AppData.GetRoamingSetting<bool?>("HighPriority");
+                return !firstLaunch.HasValue || firstLaunch.Value;
+            }
+
+            return firstLaunch.Value;
         }
 
         public static Color GetSystemAccentColor()
@@ -98,38 +104,38 @@ namespace WedChecker.Common
             return false;
         }
 
-		public static void UpdateAppTheme(AppTheme theme)
-		{
-			Core.SetSetting("AppTheme", (int)theme);
-		}
+        public static void UpdateAppTheme(AppTheme theme)
+        {
+            Core.SetSetting("AppTheme", (int)theme);
+        }
 
-		public static AppTheme GetAppTheme()
-		{
-			var themeNumber = Core.GetSetting("AppTheme") as int?;
+        public static AppTheme GetAppTheme()
+        {
+            var themeNumber = Core.GetSetting("AppTheme") as int?;
 
-			if (themeNumber.HasValue)
-			{
-				return (AppTheme)themeNumber;
-			}
-			else
-			{
-				return AppTheme.SystemDefault;
-			}
-		}
+            if (themeNumber.HasValue)
+            {
+                return (AppTheme)themeNumber;
+            }
+            else
+            {
+                return AppTheme.SystemDefault;
+            }
+        }
 
-		public static ElementTheme GetElementTheme()
-		{
-			var theme = GetAppTheme();
+        public static ElementTheme GetElementTheme()
+        {
+            var theme = GetAppTheme();
 
-			switch (theme)
-			{
-				case AppTheme.Dark:
-					return ElementTheme.Dark;
-				case AppTheme.Light:
-					return ElementTheme.Light;
-				default:
-					return ElementTheme.Default;
-			}
-		}
+            switch (theme)
+            {
+                case AppTheme.Dark:
+                    return ElementTheme.Dark;
+                case AppTheme.Light:
+                    return ElementTheme.Light;
+                default:
+                    return ElementTheme.Default;
+            }
+        }
     }
 }

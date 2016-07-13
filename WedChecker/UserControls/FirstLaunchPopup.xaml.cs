@@ -44,8 +44,9 @@ namespace WedChecker.UserControls
             Core.SetSetting("WeddingDate", weddingDate.ToString());
 
             AppData.InsertRoamingSetting("FirstLaunch", false);
+            AppData.InsertRoamingSetting("HighPriority", true);
 
-			FinishedSubmitting?.Invoke(this, new EventArgs());
+            FinishedSubmitting?.Invoke(this, new EventArgs());
 		}
 
 		private void NameTextBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)

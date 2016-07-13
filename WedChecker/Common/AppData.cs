@@ -109,6 +109,14 @@ namespace WedChecker.Common
             }
         }
 
+        public static void InsertLocalSetting(string setting, object value)
+        {
+            if (value != null)
+            {
+                Core.LocalSettings.Values[setting] = value;
+            }
+        }
+
         public static T GetRoamingSetting<T>(string setting)
         {
             if (Core.RoamingSettings.Values.ContainsKey(setting) && Core.RoamingSettings.Values[setting] is T)
@@ -118,5 +126,15 @@ namespace WedChecker.Common
 
             return default(T);
         }
-    }
+
+        public static T GetLocalSetting<T>(string setting)
+        {
+            if (Core.LocalSettings.Values.ContainsKey(setting) && Core.LocalSettings.Values[setting] is T)
+            {
+                return (T)Core.LocalSettings.Values[setting];
+            }
+
+            return default(T);
+        }
+}
 }

@@ -52,6 +52,16 @@ namespace WedChecker
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                 async () =>
                 {
+                    var firstLaunchPopup = this.FindName("firstLaunchPopup") as FirstLaunchPopup;
+                    if (firstLaunchPopup != null && firstLaunchPopup.Visibility == Visibility.Visible)
+                    {
+                        var highPriority = AppData.GetRoamingSetting<bool?>("HighPriority");
+                        if (highPriority.HasValue && highPriority.Value)
+                        {
+                            DoFirstLaunchPopupAfterFinishingLogic(firstLaunchPopup);
+                        }
+                    }
+
                     await UpdateTasks();
                 }
             );
@@ -141,10 +151,12 @@ namespace WedChecker
         {
             mainSplitView.Visibility = Visibility.Collapsed;
             var firstLaunchPopup = new FirstLaunchPopup();
+            firstLaunchPopup.Name = "firstLaunchPopup";
             firstLaunchPopup.VerticalAlignment = VerticalAlignment.Stretch;
             Grid.SetRow(firstLaunchPopup, 1);
             Grid.SetColumnSpan(firstLaunchPopup, 2);
             firstLaunchPopup.FinishedSubmitting += FirstLaunchPopup_FinishedSubmitting;
+            hamburgerDesktopPanel.Visibility = Visibility.Collapsed;
             mainGrid.Children.Add(firstLaunchPopup);
             mainTitleBar.RemoveSubTitle();
         }
@@ -183,15 +195,21 @@ namespace WedChecker
             mainTitleBar.ProgressActive = false;
         }
 
-        private async void FirstLaunchPopup_FinishedSubmitting(object sender, EventArgs e)
+        private void DoFirstLaunchPopupAfterFinishingLogic(FirstLaunchPopup firstLaunchPopup)
         {
             mainSplitView.Visibility = Visibility.Visible;
             mainTitleBar.SetSubTitle("HOME");
             tbCountdownTimer.UpdateTimeLeft();
             appBar.Visibility = Visibility.Visible;
+            hamburgerDesktopPanel.Visibility = Visibility.Visible;
 
-            var firstLaunchPopup = sender as FirstLaunchPopup;
             mainGrid.Children.Remove(firstLaunchPopup);
+        }
+
+        private async void FirstLaunchPopup_FinishedSubmitting(object sender, EventArgs e)
+        {
+            var firstLaunchPopup = sender as FirstLaunchPopup;
+            DoFirstLaunchPopupAfterFinishingLogic(firstLaunchPopup);
 
             await UpdateTasks();
         }
