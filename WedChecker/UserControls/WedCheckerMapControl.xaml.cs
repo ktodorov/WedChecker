@@ -120,5 +120,15 @@ namespace WedChecker.UserControls
                 mapControlsGrid.Visibility = Visibility.Visible;
             }
         }
-    }
+
+		private void zoomOutButton_Click(object sender, RoutedEventArgs e)
+		{
+			locationMap.Zoom -= 1;
+		}
+
+		private void zoomInButton_Click(object sender, RoutedEventArgs e)
+		{
+			locationMap.Zoom += 1;
+		}
+	}
 }

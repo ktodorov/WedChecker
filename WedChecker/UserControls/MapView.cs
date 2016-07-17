@@ -12,19 +12,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Shapes;
 using Windows.UI.Xaml.Media;
 
-#if WINDOWS_PHONE_APP
-using Windows.UI.Xaml.Controls.Maps;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Shapes;
-using Windows.UI.Xaml;
-using System;
-using System.Threading.Tasks;
-#elif WINDOWS_APP
-using Bing.Maps;
-using System;
-using System.Threading.Tasks;
-#endif
-
 namespace WedChecker.UserControls
 {
 	public class MapView : Grid, INotifyPropertyChanged
