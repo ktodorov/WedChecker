@@ -18,64 +18,101 @@ using Windows.UI.Xaml.Navigation;
 
 namespace WedChecker.Pages
 {
-	/// <summary>
-	/// An empty page that can be used on its own or navigated to within a Frame.
-	/// </summary>
-	public sealed partial class WeddingDateChangePage : Page
-	{
-		public WeddingDateChangePage()
-		{
-			this.InitializeComponent();
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    public sealed partial class WeddingDateChangePage : Page
+    {
+        public WeddingDateChangePage()
+        {
+            this.InitializeComponent();
 
-			mainTitleBar.SetSubTitle("SETTINGS");
-			mainTitleBar.SetBackButtonVisible(true);
+            mainTitleBar.SetSubTitle("SETTINGS");
+            mainTitleBar.SetBackButtonVisible(true);
 
-			var weddingDateString = AppData.GetRoamingSetting<string>("WeddingDate");
-			if (string.IsNullOrEmpty(weddingDateString))
-			{
-				return;
-			}
-			var weddingDate = new DateTime();
+            var weddingDate = GetSavedWeddingDate();
 
-			try
-			{
-				weddingDate = Convert.ToDateTime(weddingDateString);
+            if (weddingDate != null && weddingDate.HasValue)
+            {
+                currentDateTextBlock.Text = weddingDate.Value.ToString("dd MMMM, yyyy, HH:mm");
 
-				currentDateTextBlock.Text = weddingDate.ToString("dd MMMM, yyyy, HH:mm");
+                dpWeddingDate.Date = weddingDate.Value.Date;
+                tpWeddingDate.Time = weddingDate.Value.TimeOfDay;
+            }
 
-				dpWeddingDate.Date = weddingDate.Date;
-				tpWeddingDate.Time = weddingDate.TimeOfDay;
-			}
-			catch (FormatException)
-			{
-				return;
-			}
+            this.RequestedTheme = Core.GetElementTheme();
+        }
 
-			this.RequestedTheme = Core.GetElementTheme();
-		}
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+        }
 
-		protected override void OnNavigatedTo(NavigationEventArgs e)
-		{
-			base.OnNavigatedTo(e);
-		}
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+        }
 
-		protected override void OnNavigatedFrom(NavigationEventArgs e)
-		{
-			base.OnNavigatedFrom(e);
-		}
+        private DateTime? GetSavedWeddingDate()
+        {
+            var weddingDateString = AppData.GetRoamingSetting<string>("WeddingDate");
+            if (string.IsNullOrEmpty(weddingDateString))
+            {
+                return null;
+            }
+            var weddingDate = new DateTime();
 
-		private void submitDateButton_Click(object sender, RoutedEventArgs e)
-		{
-			mainTitleBar.ProgressActive = true;
+            try
+            {
+                weddingDate = Convert.ToDateTime(weddingDateString);
 
-			var weddingDate = new DateTime(dpWeddingDate.Date.Year, dpWeddingDate.Date.Month, dpWeddingDate.Date.Day,
-											   tpWeddingDate.Time.Hours, tpWeddingDate.Time.Minutes, 0);
+                return weddingDate;
+            }
+            catch (FormatException)
+            {
+                return null;
+            }
+        }
 
-			Core.SetSetting("WeddingDate", weddingDate.ToString());
+        private void submitDateButton_Click(object sender, RoutedEventArgs e)
+        {
+            tbError.Visibility = Visibility.Collapsed;
+            mainTitleBar.ProgressActive = true;
 
-			currentDateTextBlock.Text = weddingDate.ToString("dd MMMM, yyyy, HH:mm");
+            var weddingDate = new DateTime(dpWeddingDate.Date.Year, dpWeddingDate.Date.Month, dpWeddingDate.Date.Day,
+                                               tpWeddingDate.Time.Hours, tpWeddingDate.Time.Minutes, 0);
 
-			mainTitleBar.ProgressActive = false;
-		}
-	}
+            if (weddingDate < DateTime.Now)
+            {
+                tbError.Text = "Sorry, you can't set date which is already passed";
+                tbError.Visibility = Visibility.Visible;
+                mainTitleBar.ProgressActive = false;
+                return;
+            }
+
+            var savedWeddingDate = GetSavedWeddingDate();
+            if (savedWeddingDate.HasValue && savedWeddingDate == weddingDate)
+            {
+                tbError.Text = "This is already the saved date";
+                tbError.Visibility = Visibility.Visible;
+                mainTitleBar.ProgressActive = false;
+                return;
+            }
+
+            Core.SetSetting("WeddingDate", weddingDate.ToString());
+
+            currentDateTextBlock.Text = weddingDate.ToString("dd MMMM, yyyy, HH:mm");
+
+            // We can now notify the user again
+            AppData.InsertRoamingSetting("Days100Notified", false);
+            AppData.InsertRoamingSetting("Days50Notified", false);
+            AppData.InsertRoamingSetting("Days10Notified", false);
+            AppData.InsertRoamingSetting("Days1Notified", false);
+            AppData.InsertRoamingSetting("WeddingPassedNotified", false);
+
+            mainTitleBar.ProgressActive = false;
+
+            tbInfo.Visibility = Visibility.Visible;
+        }
+    }
 }

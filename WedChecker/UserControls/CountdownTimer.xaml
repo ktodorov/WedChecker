@@ -16,7 +16,7 @@
 
         <TextBlock Grid.Row="0" Text="You have" Margin="15, 0, 15, 20"
                        Style="{ThemeResource CountdownTimerTextStyle}" />
-        <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+        <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Name="timeLeftGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1.3*"/>
                 <ColumnDefinition Width="1*"/>

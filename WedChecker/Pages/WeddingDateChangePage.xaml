@@ -38,7 +38,13 @@
 					<Button Name="submitDateButton" Style="{ThemeResource ButtonClearStyle}" Content="Save" HorizontalAlignment="Center"
 							Width="150" Click="submitDateButton_Click"/>
 				</StackPanel>
-			</StackPanel>
+
+                <TextBlock Name="tbInfo" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="Date changed successfully!"
+                           Margin="25" TextAlignment="Center" Visibility="Collapsed"/>
+
+                <TextBlock Name="tbError" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="Sorry, you can't set date which is already passed."
+                           Margin="25" TextAlignment="Center" Foreground="DarkRed" Visibility="Collapsed" />
+            </StackPanel>
 		</ScrollViewer>
 	</Grid>
 </Page>

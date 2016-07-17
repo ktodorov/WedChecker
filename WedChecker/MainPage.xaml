@@ -143,7 +143,13 @@
 							<StackPanel Name="spMain" HorizontalAlignment="Center" VerticalAlignment="Center">
 								<TextBlock x:Name="tbGreetUser" TextWrapping="Wrap" Text="Hello" HorizontalAlignment="Center" 
                                        Foreground="{ThemeResource SystemAccentColor}" FontSize="20"/>
-								<UserControls:CountdownTimer Margin="0, 40, 0, 0" x:Name="tbCountdownTimer" />
+								<UserControls:CountdownTimer Margin="0, 40, 0, 0" x:Name="tbCountdownTimer" Visibility="Collapsed"
+                                                             WeddingPassed="tbCountdownTimer_WeddingPassed" />
+
+                                <TextBlock Name="tbWeddingPassed" Visibility="Collapsed" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" 
+                                           TextAlignment="Center" Margin="25">
+                                    WedChecker hopes you had a perfect wedding and wishes you a perfect future life!<LineBreak/>
+                                    You can still use the app to view your tasks</TextBlock>
 							</StackPanel>
 						</ScrollViewer>
 					</StackPanel>
@@ -210,6 +216,7 @@
 				</TransitionCollection>
 			</Popup.Transitions>
 		</Popup>
+        
 	</Grid>
 
 	<Page.BottomAppBar>

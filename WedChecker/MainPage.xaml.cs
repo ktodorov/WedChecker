@@ -10,11 +10,13 @@ using WedChecker.UserControls;
 using WedChecker.UserControls.Elements;
 using WedChecker.UserControls.Tasks;
 using Windows.ApplicationModel.Background;
+using Windows.Data.Xml.Dom;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
+using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -27,16 +29,11 @@ namespace WedChecker
 {
     public sealed partial class MainPage : Page
     {
-        private DispatcherTimer dispatcherTimer = new DispatcherTimer();
         private bool FirstTimeLaunched = true;
 
         public MainPage()
         {
             this.InitializeComponent();
-
-            dispatcherTimer.Tick += dispatcherTimer_Tick;
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
-            dispatcherTimer.Start();
 
             Loaded += MainPage_Loaded;
 
@@ -199,7 +196,7 @@ namespace WedChecker
         {
             mainSplitView.Visibility = Visibility.Visible;
             mainTitleBar.SetSubTitle("HOME");
-            tbCountdownTimer.UpdateTimeLeft();
+            //tbCountdownTimer.UpdateTimeLeft();
             appBar.Visibility = Visibility.Visible;
             hamburgerDesktopPanel.Visibility = Visibility.Visible;
 
@@ -250,11 +247,6 @@ namespace WedChecker
             }
 
             return false;
-        }
-
-        void dispatcherTimer_Tick(object sender, object e)
-        {
-            tbCountdownTimer.UpdateTimeLeft();
         }
 
         private void TaskTile_Tapped(object sender, TappedRoutedEventArgs e)
@@ -597,6 +589,12 @@ namespace WedChecker
             var category = (TaskCategories)Enum.Parse(typeof(TaskCategories), selectedButton.Tag.ToString());
 
             ChangeTaskCategory(category);
+        }
+
+        private void tbCountdownTimer_WeddingPassed(object sender, EventArgs e)
+        {
+            tbWeddingPassed.Visibility = Visibility.Visible;
+            tbCountdownTimer.Visibility = Visibility.Collapsed;
         }
     }
 }
