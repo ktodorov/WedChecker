@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using WedChecker.Common;
+using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -32,7 +33,12 @@ namespace WedChecker.Pages
 			mainTitleBar.BackButtonClick += MainTitleBar_BackButtonClick;
 
 			this.RequestedTheme = Core.GetElementTheme();
-		}
+
+            var appVersion = GetAppVersion();
+            tbAppVersion.Text = $"v {appVersion}";
+
+            currentYear.Text = DateTime.Now.Year.ToString();
+        }
 
 		private void MainTitleBar_BackButtonClick(object sender, RoutedEventArgs e)
 		{
@@ -51,5 +57,16 @@ namespace WedChecker.Pages
 		{
 			base.OnNavigatedFrom(e);
 		}
-	}
+        public static string GetAppVersion()
+        {
+
+            Package package = Package.Current;
+            PackageId packageId = package.Id;
+            PackageVersion version = packageId.Version;
+
+            var versionString = $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
+
+            return versionString;
+        }
+    }
 }

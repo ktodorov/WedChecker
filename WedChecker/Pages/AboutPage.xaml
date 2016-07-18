@@ -8,28 +8,28 @@
 	xmlns:Elements="using:WedChecker.UserControls.Elements"
     mc:Ignorable="d">
 
-	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-		<Elements:WedCheckerTitleBar x:Name="mainTitleBar" Grid.Row="0" />
+        <Elements:WedCheckerTitleBar x:Name="mainTitleBar" Grid.Row="0" />
 
-		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-			<StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-				<StackPanel Background="{ThemeResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Stretch">
-					<Image Source="/SharedAssets/WedCheckerIcon.png" Margin="100, 30" HorizontalAlignment="Center"
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                <StackPanel Background="{ThemeResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Stretch">
+                    <Image Source="/SharedAssets/WedCheckerIcon.png" Margin="100, 30" HorizontalAlignment="Center"
 						   MaxHeight="300"/>
 
-					<TextBlock Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" 
+                    <TextBlock Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" 
                        FontSize="30" FontWeight="Bold" Foreground="White" TextAlignment="Center"
                        Margin="0, 10" HorizontalAlignment="Center">
                 WedChecker
-					</TextBlock>
-				</StackPanel>
+                    </TextBlock>
+                </StackPanel>
 
-				<TextBlock Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" FontSize="20"
+                <TextBlock Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" FontSize="20"
                    HorizontalAlignment="Center" TextAlignment="Center" Margin="40, 30, 40, 0">
             This app was created by me, <LineBreak />
             <Bold>Konstantin Todorov</Bold> <LineBreak />
@@ -42,22 +42,25 @@
                     </Underline>
                 </Hyperlink>
             </Bold>
-				</TextBlock>
+                </TextBlock>
 
-				<HyperlinkButton NavigateUri="https://wedchecker.wordpress.com/privacy-policy/" HorizontalAlignment="Center"
+                <HyperlinkButton NavigateUri="https://wedchecker.wordpress.com/privacy-policy/" HorizontalAlignment="Center"
                              Margin="20, 60, 20, 0">
-					<TextBlock FontSize="16" Foreground="{ThemeResource SystemControlBackgroundAccentBrush}"
+                    <TextBlock FontSize="16" Foreground="{ThemeResource SystemControlBackgroundAccentBrush}"
                            FontWeight="Light" FontFamily="Segoe UI" >
                     <Underline>
                         Privacy policy
                     </Underline>
-					</TextBlock>
-				</HyperlinkButton>
+                    </TextBlock>
+                </HyperlinkButton>
 
-				<TextBlock Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" FontSize="13" HorizontalAlignment="Center" Margin="40, 50, 40, 0">
-            ©WedChecker, K.Todorov, 2015, All rights reserved
-				</TextBlock>
-			</StackPanel>
-		</ScrollViewer>
-	</Grid>
+                <TextBlock Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" FontSize="13" HorizontalAlignment="Center" Margin="40, 20, 40, 0">
+            ©WedChecker, K.Todorov, 2015 - <Run x:Name="currentYear"></Run>, All rights reserved
+                </TextBlock>
+                <TextBlock Name="tbAppVersion" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" FontSize="13" HorizontalAlignment="Center" Margin="40, 5, 40, 0">
+            v 0.0.0.0
+                </TextBlock>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
 </Page>
