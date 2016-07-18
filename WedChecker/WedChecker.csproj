@@ -156,6 +156,7 @@
     <Compile Include="Extensions\CompositeExtensions.cs" />
     <Compile Include="Extensions\ExceptionExtensions.cs" />
     <Compile Include="Helpers\AddedTasksHelper.cs" />
+    <Compile Include="Helpers\TasksOperationsHelper.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

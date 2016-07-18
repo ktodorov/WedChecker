@@ -14,305 +14,211 @@ using Windows.UI.Xaml.Media;
 
 namespace WedChecker.UserControls.Tasks
 {
-	public sealed partial class PopupTask : UserControl
-	{
-		public BaseTaskControl ConnectedTaskControl
-		{
-			get;
-			private set;
-		}
+    public sealed partial class PopupTask : UserControl
+    {
+        public BaseTaskControl ConnectedTaskControl
+        {
+            get;
+            private set;
+        }
 
-		public bool ConnectedControlVisible
-		{
-			get
-			{
-				return spConnectedControl.Visibility == Visibility.Visible;
-			}
-			set
-			{
-				if (value)
-				{
-					spConnectedControl.Visibility = Visibility.Visible;
-				}
-				else
-				{
-					spConnectedControl.Visibility = Visibility.Collapsed;
-				}
-			}
-		}
+        public bool ConnectedControlVisible
+        {
+            get
+            {
+                return spConnectedControl.Visibility == Visibility.Visible;
+            }
+            set
+            {
+                if (value)
+                {
+                    spConnectedControl.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    spConnectedControl.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
 
-		public bool InEditMode = false;
-		private bool TaskOptionsOpened = false;
+        public bool InEditMode = false;
 
-		public PopupTask()
-		{
-			this.InitializeComponent();
-		}
+        public PopupTask()
+        {
+            this.InitializeComponent();
+        }
 
-		public event RoutedEventHandler SaveClick;
-		public event RoutedEventHandler CancelClick;
-		public event SizeChangedEventHandler TaskSizeChanged;
+        public event RoutedEventHandler SaveClick;
+        public event RoutedEventHandler CancelClick;
+        public event SizeChangedEventHandler TaskSizeChanged;
 
-		public PopupTask(BaseTaskControl control, bool isNew)
-		{
-			this.InitializeComponent();
+        public EventHandler OnEdit;
+        public EventHandler OnDelete;
 
-			try
-			{
-				ConnectedTaskControl = control;
-				ConnectedTaskControl.Margin = new Thickness(10);
+        public PopupTask(BaseTaskControl control, bool isNew)
+        {
+            this.InitializeComponent();
 
-				var taskName = control.GetType().GetProperty("TaskName")?.GetValue(null, null).ToString();
-				if (taskName != null)
-				{
-					buttonTaskName.Text = taskName;
-					this.Name = taskName;
-				}
+            try
+            {
+                ConnectedTaskControl = control;
+                ConnectedTaskControl.Margin = new Thickness(10);
 
-				var header = control.GetType().GetProperty("DisplayHeader")?.GetValue(null, null).ToString();
-				tbTaskHeader.Text = header;
+                var taskName = control.GetType().GetProperty("TaskName")?.GetValue(null, null).ToString();
+                if (taskName != null)
+                {
+                    buttonTaskName.Text = taskName;
+                    this.Name = taskName;
+                }
 
-
-				this.Loaded += PopupTask_Loaded;
-
-				InEditMode = false;
-
-			}
-			catch (Exception ex)
-			{
-				var a = ex.Message;
-			}
-		}
-
-		private async void PopupTask_Loaded(object sender, RoutedEventArgs e)
-		{
-			ProgressRingActive(true);
-			await ConnectedTaskControl.DeserializeValues();
-
-			FireSizeChangedEvent();
+                var header = control.GetType().GetProperty("DisplayHeader")?.GetValue(null, null).ToString();
+                tbTaskHeader.Text = header;
 
 
-			spConnectedControl.Children.Add(ConnectedTaskControl);
+                this.Loaded += PopupTask_Loaded;
 
-			ProgressRingActive(false);
-		}
+                InEditMode = false;
+            }
+            catch (Exception ex)
+            {
+                var a = ex.Message;
+            }
+        }
 
-		async void editTask_Click(object sender, RoutedEventArgs e)
-		{
-			taskOptionsFlyout.Hide();
-			ProgressRingActive(true);
+        private async void PopupTask_Loaded(object sender, RoutedEventArgs e)
+        {
+            ProgressRingActive(true);
+            await ConnectedTaskControl.DeserializeValues();
 
-			await Task.Delay(TimeSpan.FromMilliseconds(1));
-			await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => EditConnectedTask());
+            FireSizeChangedEvent();
 
-			InEditMode = true;
 
-			ProgressRingActive(false);
-		}
+            spConnectedControl.Children.Add(ConnectedTaskControl);
 
-		private void ProgressRingActive(bool active)
-		{
-			if (active)
-			{
-					progressBackground.Height = contentScroll.ActualHeight;
-				spConnectedControl.Visibility = Visibility.Collapsed;
-			}
-			else
-			{
-				spConnectedControl.Visibility = Visibility.Visible;
-			}
+            ProgressRingActive(false);
+        }
 
-			progressBackground.Visibility = active ? Visibility.Visible : Visibility.Collapsed;
-			connectedControlProgress.Visibility = active ? Visibility.Visible : Visibility.Collapsed;
-			connectedControlProgress.IsActive = active;
-		}
+        void editTask_Click(object sender, RoutedEventArgs e)
+        {
+            taskOptionsFlyout.Hide();
+            OnEdit?.Invoke(this, new EventArgs());
+        }
 
-		private void EditConnectedTask()
-		{
+        public async Task Edit()
+        {
+            ProgressRingActive(true);
 
-			InEditMode = true;
-			tbTaskHeader.Text = ConnectedTaskControl.EditHeader ?? string.Empty;
-			editTask.Visibility = Visibility.Collapsed;
-			if (ConnectedTaskControl != null)
-			{
-				if (ConnectedTaskControl.Visibility == Visibility.Collapsed)
-				{
-					ConnectedTaskControl.Visibility = Visibility.Visible;
-				}
+            await Task.Delay(TimeSpan.FromMilliseconds(1));
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => EditConnectedTask());
 
-				ConnectedTaskControl.EditValues();
-			}
+            InEditMode = true;
 
-			FireSizeChangedEvent();
+            ProgressRingActive(false);
+        }
 
-		}
+        private void ProgressRingActive(bool active)
+        {
+            if (active)
+            {
+                progressBackground.Height = contentScroll.ActualHeight;
+                spConnectedControl.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                spConnectedControl.Visibility = Visibility.Visible;
+            }
 
-		private async void saveTask_Click(object sender, RoutedEventArgs e)
-		{
-			await DisplayConnectedTask();
+            progressBackground.Visibility = active ? Visibility.Visible : Visibility.Collapsed;
+            connectedControlProgress.Visibility = active ? Visibility.Visible : Visibility.Collapsed;
+            connectedControlProgress.IsActive = active;
+        }
 
-			if (SaveClick != null)
-			{
-				SaveClick(this, e);
-			}
-			InEditMode = false;
-		}
+        private void EditConnectedTask()
+        {
 
-		private async Task DisplayConnectedTask(bool shouldSave = true)
-		{
-			InEditMode = false;
-			editTask.Visibility = Visibility.Visible;
-			if (ConnectedTaskControl != null)
-			{
-				if (shouldSave)
-				{
-					await ConnectedTaskControl.SubmitValues();
-				}
-				ConnectedTaskControl.DisplayValues();
-			}
+            InEditMode = true;
+            tbTaskHeader.Text = ConnectedTaskControl.EditHeader ?? string.Empty;
+            editTask.Visibility = Visibility.Collapsed;
+            if (ConnectedTaskControl != null)
+            {
+                if (ConnectedTaskControl.Visibility == Visibility.Collapsed)
+                {
+                    ConnectedTaskControl.Visibility = Visibility.Visible;
+                }
 
-			FireSizeChangedEvent();
-		}
+                ConnectedTaskControl.EditValues();
+            }
 
-		private void tryAgainButton_Click(object sender, RoutedEventArgs e)
-		{
+            FireSizeChangedEvent();
+        }
 
-		}
+        private async void saveTask_Click(object sender, RoutedEventArgs e)
+        {
+            await DisplayConnectedTask();
 
-		private async void deleteTask_Click(object sender, RoutedEventArgs e)
-		{
-			var msgDialog = new MessageDialog("Are you sure you want to delete this task?", "Please confirm");
+            if (SaveClick != null)
+            {
+                SaveClick(this, e);
+            }
+            InEditMode = false;
+        }
 
-			msgDialog.Commands.Add(new UICommand("Delete", new UICommandInvokedHandler(CommandHandler)));
-			msgDialog.Commands.Add(new UICommand("Cancel", new UICommandInvokedHandler(CommandHandler)));
+        private async Task DisplayConnectedTask(bool shouldSave = true)
+        {
+            InEditMode = false;
+            editTask.Visibility = Visibility.Visible;
+            if (ConnectedTaskControl != null)
+            {
+                if (shouldSave)
+                {
+                    await ConnectedTaskControl.SubmitValues();
+                }
+                ConnectedTaskControl.DisplayValues();
+            }
 
-			await msgDialog.ShowAsync();
-		}
+            FireSizeChangedEvent();
+        }
 
-		private async void CommandHandler(IUICommand command)
-		{
-			var commandLabel = command.Label;
-			switch (commandLabel)
-			{
-				case "Delete":
-					await DeleteTask();
-					CancelClick?.Invoke(this, new RoutedEventArgs());
-					break;
-				case "Cancel":
-					break;
-			}
-		}
+        private void deleteTask_Click(object sender, RoutedEventArgs e)
+        {
+            OnDelete?.Invoke(this, new EventArgs());
+        }
 
-		private async Task DeleteTask()
-		{
-			if (ConnectedTaskControl != null)
-			{
-				await ConnectedTaskControl.DeleteValues();
+        public void Cancel()
+        {
+            CancelClick?.Invoke(this, new RoutedEventArgs());
+        }
 
-				EnableTaskTile();
 
-				DeletePopulatedTask();
-			}
-		}
+        private void cancelTask_Click(object sender, RoutedEventArgs e)
+        {
+            CancelClick?.Invoke(this, e);
+        }
 
-		private void EnableTaskTile()
-		{
-			var mainGrid = this.FindAncestorByName("mainGrid") as Grid;
-			if (mainGrid == null)
-			{
-				return;
-			}
+        public void ResizeContent(double windowWidth, double windowHeight, WedCheckerTitleBar titleBar)
+        {
+            var popupHeaderHeight = buttonTaskName.ActualHeight;
+            var popupFooterHeight = commandGrid.ActualHeight;
+            var margins = 10;
 
-			var taskDialog = mainGrid.Children.OfType<TaskDialog>().FirstOrDefault();
-			if (taskDialog != null)
-			{
-				taskDialog.IsTileEnabled(ConnectedTaskControl.TaskCode, true);
-			}
-		}
+            var removedHeight = margins + popupHeaderHeight + popupFooterHeight;
 
-		private void DeletePopulatedTask()
-		{
-			var mainGrid = this.FindAncestorByName("mainGrid") as Grid;
-			if (mainGrid == null)
-			{
-				return;
-			}
+            contentScroll.MaxHeight = windowHeight - (removedHeight);
+            contentScroll.MaxWidth = windowWidth - 50;
+        }
 
-			var mainSplitView = mainGrid.Children.OfType<SplitView>().FirstOrDefault(sv => sv.Name == "mainSplitView");
-			if (mainSplitView == null)
-			{
-				return;
-			}
+        private void FireSizeChangedEvent()
+        {
+            if (TaskSizeChanged != null)
+            {
+                var t = new RoutedEventArgs();
+                TaskSizeChanged(this, t as SizeChangedEventArgs);
+            }
+        }
 
-			var layoutRoot = mainSplitView.Content as Grid;
-			if (layoutRoot == null)
-			{
-				return;
-			}
-
-			if (!DeleteFromElement(layoutRoot, "svPlanings"))
-			{
-				if (!DeleteFromElement(layoutRoot, "svPurchases"))
-				{
-					DeleteFromElement(layoutRoot, "svBookings");
-				}
-			}
-		}
-
-		private bool DeleteFromElement(FrameworkElement parent, string name)
-		{
-			var scrollViewer = parent.FindName(name) as ScrollViewer;
-			if (scrollViewer == null)
-			{
-				return false;
-			}
-
-			var gridView = scrollViewer.Content as GridView;
-			if (gridView != null)
-			{
-				var populatedTask = gridView.Items.OfType<PopulatedTask>().FirstOrDefault(p => p.Name == this.Name);
-				if (populatedTask != null)
-				{
-					gridView.Items.Remove(populatedTask);
-					return true;
-				}
-			}
-
-			return false;
-		}
-
-		private void cancelTask_Click(object sender, RoutedEventArgs e)
-		{
-			if (CancelClick != null)
-			{
-				CancelClick(this, e);
-			}
-		}
-
-		public void ResizeContent(double windowWidth, double windowHeight, WedCheckerTitleBar titleBar)
-		{
-			var popupHeaderHeight = buttonTaskName.ActualHeight;
-			var popupFooterHeight = commandGrid.ActualHeight; 
-			var margins = 10;
-
-			var removedHeight = margins + popupHeaderHeight + popupFooterHeight;
-
-			contentScroll.MaxHeight = windowHeight - (removedHeight);
-			contentScroll.MaxWidth = windowWidth - 50;
-		}
-
-		private void FireSizeChangedEvent()
-		{
-			if (TaskSizeChanged != null)
-			{
-				var t = new RoutedEventArgs();
-				TaskSizeChanged(this, t as SizeChangedEventArgs);
-			}
-		}
-
-		private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
-		{
-			FireSizeChangedEvent();
-		}
-	}
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            FireSizeChangedEvent();
+        }
+    }
 }

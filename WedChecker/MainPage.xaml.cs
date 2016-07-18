@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using WedChecker.Exceptions;
+using WedChecker.Helpers;
 using WedChecker.Pages;
 using WedChecker.UserControls;
 using WedChecker.UserControls.Elements;
@@ -218,7 +219,7 @@ namespace WedChecker
                 var type = populatedControl.GetType();
                 if (!TaskAlreadyAdded(type))
                 {
-                    TaskData.InsertTaskControl(this, type, false, taskTapped);
+                    TaskData.InsertTaskControl(this, type, false, taskTapped, onTaskEdit, onTaskDelete);
                 }
             }
 
@@ -251,7 +252,7 @@ namespace WedChecker
 
         private void TaskTile_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            var created = TaskData.CreateTaskControl(this, addTaskDialog.TappedTaskName, taskTapped);
+            var created = TaskData.CreateTaskControl(this, addTaskDialog.TappedTaskName, taskTapped, onTaskEdit, onTaskDelete);
             if (created)
             {
                 addTaskDialog.Visibility = Visibility.Collapsed;
@@ -322,26 +323,97 @@ namespace WedChecker
 
             if (populatedTask != null)
             {
-                var baseTaskType = populatedTask.ConnectedTaskControlType;
-                var baseTaskControl = Activator.CreateInstance(baseTaskType) as BaseTaskControl;
-
-                var popupTask = new PopupTask(baseTaskControl, false);
-                popupTask.SaveClick += PopupTask_SaveClick;
-                popupTask.CancelClick += PopupTask_CancelClick;
-                popupTask.TaskSizeChanged += PopupTask_TaskSizeChanged;
-
-                appBar.Visibility = Visibility.Collapsed;
-                mainSplitView.Pane.Visibility = Visibility.Collapsed;
-
-                var windowWidth = Window.Current.Bounds.Width;
-                var windowHeight = Window.Current.Bounds.Height;
-
-                rectBackgroundHide.Visibility = Visibility.Visible;
-
-                CalculateTaskSizes(windowWidth, windowHeight);
+                var popupTask = CreatePopupTaskFromPopulatedTask(populatedTask);
 
                 taskPopup.Child = popupTask;
                 taskPopup.IsOpen = true;
+            }
+        }
+
+        private PopupTask CreatePopupTaskFromPopulatedTask(PopulatedTask populatedTask)
+        {
+            var baseTaskType = populatedTask.ConnectedTaskControlType;
+            var baseTaskControl = Activator.CreateInstance(baseTaskType) as BaseTaskControl;
+
+            var popupTask = new PopupTask(baseTaskControl, false);
+            popupTask.SaveClick += PopupTask_SaveClick;
+            popupTask.CancelClick += PopupTask_CancelClick;
+            popupTask.OnDelete += onTaskDelete;
+            popupTask.OnEdit += onTaskEdit;
+            popupTask.TaskSizeChanged += PopupTask_TaskSizeChanged;
+
+            appBar.Visibility = Visibility.Collapsed;
+            mainSplitView.Pane.Visibility = Visibility.Collapsed;
+
+            var windowWidth = Window.Current.Bounds.Width;
+            var windowHeight = Window.Current.Bounds.Height;
+
+            rectBackgroundHide.Visibility = Visibility.Visible;
+
+            CalculateTaskSizes(windowWidth, windowHeight);
+
+            taskPopup.Child = popupTask;
+            taskPopup.IsOpen = true;
+
+            return popupTask;
+        }
+
+        private async void onTaskEdit(object sender, EventArgs e)
+        {
+            var populatedTask = sender as PopulatedTask;
+            PopupTask popupTask = null;
+            if (sender is PopulatedTask)
+            {
+                popupTask = CreatePopupTaskFromPopulatedTask(populatedTask);
+            }
+            else if (sender is PopupTask)
+            {
+                popupTask = sender as PopupTask;
+            }
+
+            if (popupTask == null)
+            {
+                return;
+            }
+
+            await Task.Delay(TimeSpan.FromMilliseconds(100));
+            await popupTask.Edit();
+        }
+
+        private async void onTaskDelete(object sender, EventArgs e)
+        {
+            BaseTaskControl connectedControl;
+            if (sender is PopulatedTask)
+            {
+                var populatedTask = sender as PopulatedTask;
+                connectedControl = Activator.CreateInstance(populatedTask.ConnectedTaskControlType) as BaseTaskControl;
+                if (connectedControl == null)
+                {
+                    return;
+                }
+            }
+            else if (sender is PopupTask)
+            {
+                var popupTask = sender as PopupTask;
+                if (popupTask == null || popupTask.ConnectedTaskControl == null)
+                {
+                    return;
+                }
+
+                connectedControl = popupTask.ConnectedTaskControl;
+            }
+            else
+            {
+                return;
+            }
+
+            var frameworkSender = sender as FrameworkElement;
+
+            var deleted = await TasksOperationsHelper.DeleteTaskAsync(this, connectedControl);
+            if (sender is PopupTask && deleted)
+            {
+                var popupTask = sender as PopupTask;
+                popupTask.Cancel();
             }
         }
 

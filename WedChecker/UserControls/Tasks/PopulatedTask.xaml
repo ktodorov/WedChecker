@@ -8,19 +8,45 @@
 	VerticalAlignment="Stretch"
 	HorizontalAlignment="Stretch">
 
-    <Grid Name="mainPanel" Background="{ThemeResource SystemControlBackgroundBaseLowBrush}"
+
+    <Grid Name="mainPanel" Background="{ThemeResource SystemControlBackgroundBaseLowBrush}" RightTapped="mainPanel_RightTapped"
 		  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="1" BorderBrush="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}">
-		<Grid.ChildrenTransitions>
+        <FlyoutBase.AttachedFlyout>
+            <Flyout>
+                <StackPanel Name="taskOptionsPanel" Orientation="Vertical" HorizontalAlignment="Stretch">
+
+                    <Button Name="editTask" Background="Transparent" Click="editTask_Click" HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Left" Padding="10">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
+                            <TextBlock Text="&#xE104;" FontFamily="Segoe MDL2 Assets" FontSize="19" VerticalAlignment="Center"/>
+                            <TextBlock Text="Edit" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="19" 
+                                                       Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Stretch" />
+                        </StackPanel>
+                    </Button>
+
+                    <Button Name="deleteTask" Background="Transparent" Click="deleteTask_Click" HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Left" Padding="10">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="&#xE107;" FontFamily="Segoe MDL2 Assets" FontSize="19" VerticalAlignment="Center"/>
+                            <TextBlock Text="Delete" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="19" 
+                                                       Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Stretch"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Flyout>
+        </FlyoutBase.AttachedFlyout>
+
+        <Grid.ChildrenTransitions>
             <TransitionCollection>
                 <EntranceThemeTransition />
             </TransitionCollection>
         </Grid.ChildrenTransitions>
 
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
-		
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
         <TextBlock Name="buttonTaskName" HorizontalAlignment="Center" TextAlignment="Center" Text="TASK NAME" FontSize="17" FontWeight="Bold"
 				   Style="{StaticResource WedCheckerDisplayTextBlockStyle}" Padding="10" Grid.Row="0" >
         </TextBlock>

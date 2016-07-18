@@ -74,7 +74,7 @@
 
 		<Elements:WedCheckerTitleBar x:Name="mainTitleBar" Grid.Row="0" Grid.Column="1" />
 
-		<SplitView x:Name="mainSplitView" DisplayMode="CompactOverlay"  IsPaneOpen="False"
+		<SplitView Name="mainSplitView" DisplayMode="CompactOverlay"  IsPaneOpen="False"
                CompactPaneLength="50" OpenPaneLength="200" Grid.Row="1" Grid.ColumnSpan="2">
 
 			<SplitView.Pane>
@@ -216,6 +216,8 @@
 				</TransitionCollection>
 			</Popup.Transitions>
 		</Popup>
+        
+        
         
 	</Grid>
 
