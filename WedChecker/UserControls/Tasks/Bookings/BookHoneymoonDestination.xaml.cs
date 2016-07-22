@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WedChecker.Common;
@@ -7,7 +8,7 @@ using WedChecker.Common;
 
 namespace WedChecker.UserControls.Tasks.Bookings
 {
-    public sealed partial class BookHoneymoonDestination : BaseTaskControl
+    public sealed partial class BookHoneymoonDestination : BookTaskBaseControl
     {
 
         public static new string TaskName
@@ -42,40 +43,13 @@ namespace WedChecker.UserControls.Tasks.Bookings
             }
         }
 
-        public BookHoneymoonDestination()
+        protected override List<string> PredefinedItems
         {
-            this.InitializeComponent();
-        }
-
-        public BookHoneymoonDestination(bool booked)
-        {
-            this.InitializeComponent();
-
-            honeymoonDestinationBookedToggle.Toggled = booked;
-        }
-
-        public override void DisplayValues()
-        {
-            honeymoonDestinationBookedToggle.DisplayValues();
-        }
-
-        public override void EditValues()
-        {
-            honeymoonDestinationBookedToggle.EditValues();
-        }
-
-        protected override void Serialize(BinaryWriter writer)
-        {
-            var toggles = mainPanel.Children.OfType<ToggleControl>();
-            writer.Write(toggles.Count());
-            honeymoonDestinationBookedToggle.Serialize(writer);
-        }
-
-        protected override void Deserialize(BinaryReader reader)
-        {
-            var count = reader.ReadInt32();
-
-            honeymoonDestinationBookedToggle.Deserialize(reader);
+            get
+            {
+                var result = new List<string> { "Booked" };
+                return result;
+            }
         }
     }
 }

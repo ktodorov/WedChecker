@@ -10,6 +10,7 @@ using System.Linq;
 using WedChecker.UserControls;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Input;
+using System.Threading.Tasks;
 
 #if WINDOWS_PHONE_APP
 using Windows.Phone.UI.Input;
@@ -18,27 +19,25 @@ namespace WedChecker.Common
 {
     public static partial class TaskData
     {
-        public static bool CreateTaskControl(Page currentPage, string populatedControl, TappedEventHandler tappedEvent = null, EventHandler onTaskEdit = null, EventHandler onTaskDelete = null)
+        public static bool CreateTaskControl(Page currentPage, BaseTaskControl taskControl, TappedEventHandler tappedEvent = null, EventHandler onTaskEdit = null, EventHandler onTaskDelete = null)
         {
-            var type = GetTaskType(populatedControl);
-            var taskControl = CreateTaskControl(type);
-
             if (taskControl == null)
             {
                 return false;
             }
 
-            InsertTaskControl(currentPage, type, true, tappedEvent, onTaskEdit, onTaskDelete);
+            InsertTaskControl(currentPage, taskControl, true, tappedEvent, onTaskEdit, onTaskDelete);
 
             return true;
         }
 
-        public static void InsertTaskControl(Page currentPage, Type taskControlType, bool isNew = true, TappedEventHandler tappedEvent = null, EventHandler onTaskEdit = null, EventHandler onTaskDelete = null)
+        public static void InsertTaskControl(Page currentPage, BaseTaskControl taskControl, bool isNew = true, TappedEventHandler tappedEvent = null, EventHandler onTaskEdit = null, EventHandler onTaskDelete = null)
         {
-            var pivotName = GetPivotNameFromType(taskControlType);//, mainPivot);
+            var taskControlType = taskControl.GetType();
+            var pivotName = GetGridViewNameFromType(taskControlType);//, mainPivot);
             var pivotStackPanel = currentPage.FindName(pivotName) as GridView;
 
-            var newPopulatedTask = new PopulatedTask(taskControlType, isNew);
+            var newPopulatedTask = new PopulatedTask(taskControl, isNew);
             if (tappedEvent != null)
             {
                 newPopulatedTask.Tapped += tappedEvent;
@@ -58,11 +57,12 @@ namespace WedChecker.Common
             }
         }
 
-        private static string GetPivotNameFromType(Type taskType, Pivot mainPivot = null)
+        private static string GetGridViewNameFromType(Type taskType, Pivot mainPivot = null)
         {
             var result = string.Empty;
+            var taskCategory = Core.GetTaskCategory(taskType);
 
-            if (taskType.FullName.StartsWith("WedChecker.UserControls.Tasks.Bookings"))
+            if (taskCategory == TaskCategories.Booking)
             {
                 result = "gvBookings";
                 if (mainPivot != null)
@@ -70,7 +70,7 @@ namespace WedChecker.Common
                     mainPivot.SelectedIndex = 3;
                 }
             }
-            else if (taskType.FullName.StartsWith("WedChecker.UserControls.Tasks.Planings"))
+            else if (taskCategory == TaskCategories.Planing)
             {
                 result = "gvPlanings";
                 if (mainPivot != null)
@@ -78,17 +78,13 @@ namespace WedChecker.Common
                     mainPivot.SelectedIndex = 1;
                 }
             }
-            else if (taskType.FullName.StartsWith("WedChecker.UserControls.Tasks.Purchases"))
+            else if (taskCategory == TaskCategories.Purchase)
             {
                 result = "gvPurchases";
                 if (mainPivot != null)
                 {
                     mainPivot.SelectedIndex = 2;
                 }
-            }
-            else
-            {
-                throw new Exception("Could not recognize the task type");
             }
 
             return result;
@@ -123,7 +119,7 @@ namespace WedChecker.Common
             return type;
         }
 
-        private static BaseTaskControl CreateTaskControl(Type taskType)
+        public async static Task<BaseTaskControl> CreateTaskControlByType(Type taskType)
         {
             try
             {
@@ -136,7 +132,7 @@ namespace WedChecker.Common
                 UICommand okBtn = new UICommand("OK");
                 msgDialog.Commands.Add(okBtn);
 
-                msgDialog.ShowAsync();
+                await msgDialog.ShowAsync();
                 return null;
             }
         }

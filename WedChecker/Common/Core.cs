@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using WedChecker.UserControls.Tasks;
 using Windows.Networking.Connectivity;
 using Windows.Storage;
@@ -136,6 +137,30 @@ namespace WedChecker.Common
                 default:
                     return ElementTheme.Default;
             }
+        }
+
+        public static TaskCategories GetTaskCategory(Type taskType)
+        {
+            var result = TaskCategories.Home;
+
+            if (taskType.FullName.StartsWith("WedChecker.UserControls.Tasks.Bookings"))
+            {
+                result = TaskCategories.Booking;
+            }
+            else if (taskType.FullName.StartsWith("WedChecker.UserControls.Tasks.Planings"))
+            {
+                result = TaskCategories.Planing;
+            }
+            else if (taskType.FullName.StartsWith("WedChecker.UserControls.Tasks.Purchases"))
+            {
+                result = TaskCategories.Purchase;
+            }
+            else
+            {
+                throw new Exception("Could not recognize the task type");
+            }
+
+            return result;
         }
     }
 }

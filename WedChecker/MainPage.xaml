@@ -142,9 +142,11 @@
 						<ScrollViewer Name="svHome" VerticalScrollBarVisibility="Auto">
 							<StackPanel Name="spMain" HorizontalAlignment="Center" VerticalAlignment="Center">
 								<TextBlock x:Name="tbGreetUser" TextWrapping="Wrap" Text="Hello" HorizontalAlignment="Center" 
-                                       Foreground="{ThemeResource SystemAccentColor}" FontSize="20"/>
+                                       Foreground="{ThemeResource SystemAccentColor}" FontSize="20" Visibility="Collapsed"/>
 								<UserControls:CountdownTimer Margin="0, 40, 0, 0" x:Name="tbCountdownTimer" Visibility="Collapsed"
                                                              WeddingPassed="tbCountdownTimer_WeddingPassed" />
+
+                                <UserControls:TasksSummaryControl x:Name="tasksSummary" Margin="0, 30" HorizontalAlignment="Center" />
 
                                 <TextBlock Name="tbWeddingPassed" Visibility="Collapsed" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" 
                                            TextAlignment="Center" Margin="25">

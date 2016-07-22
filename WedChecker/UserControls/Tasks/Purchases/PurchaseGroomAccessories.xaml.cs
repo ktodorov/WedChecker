@@ -9,25 +9,22 @@ using WedChecker.Exceptions;
 
 namespace WedChecker.UserControls.Tasks.Purchases
 {
-    public sealed partial class PurchaseGroomAccessories : BaseTaskControl
+    public sealed partial class PurchaseGroomAccessories : PurchaseTaskBaseControl
     {
-        private List<string> _storedAccessories;
-
-        public List<string> StoredAccessories
+        protected override List<string> ItemsAppDataName
         {
             get
             {
-                if (_storedAccessories == null)
-                {
-                    _storedAccessories = AppData.GetStorage("GroomAccessories") as List<string>;
-                }
+                var result = new List<string> { "GroomAccessories" };
+                return result;
+            }
+        }
 
-                if (_storedAccessories == null || !_storedAccessories.Any())
-                {
-                    throw new WedCheckerInvalidDataException("You must first add groom accessories in order to mark them purchased after that!");
-                }
-
-                return _storedAccessories;
+        protected override string ItemsMissingExceptionText
+        {
+            get
+            {
+                return "You must first add groom accessories in order to mark them purchased after that!";
             }
         }
 
@@ -61,95 +58,6 @@ namespace WedChecker.UserControls.Tasks.Purchases
             {
                 return TaskData.Tasks.PurchaseGroomAccessories.ToString();
             }
-        }
-
-        public PurchaseGroomAccessories()
-        {
-            this.InitializeComponent();
-
-            foreach (var accessory in StoredAccessories)
-            {
-                var toggle = new ToggleControl();
-                toggle.Title = accessory;
-                AddToggle(toggle);
-            }
-        }
-
-        public PurchaseGroomAccessories(Dictionary<string, bool> accessories)
-        {
-            this.InitializeComponent();
-
-            foreach (var accessory in accessories)
-            {
-                var toggle = new ToggleControl(accessory.Key, accessory.Value);
-                AddToggle(toggle);
-            }
-
-            var remainingStoredAccessories = StoredAccessories.Where(sa => !accessories.Any(a => a.Key == sa));
-            foreach (var accessory in remainingStoredAccessories)
-            {
-                var toggle = new ToggleControl(accessory);
-                AddToggle(toggle);
-            }
-        }
-
-        public override void DisplayValues()
-        {
-            var toggles = mainPanel.Children.OfType<ToggleControl>();
-            foreach (var toggle in toggles)
-            {
-                toggle.DisplayValues();
-            }
-        }
-
-        public override void EditValues()
-        {
-            var toggles = mainPanel.Children.OfType<ToggleControl>();
-            foreach (var toggle in toggles)
-            {
-                toggle.EditValues();
-            }
-        }
-
-        protected override void Serialize(BinaryWriter writer)
-        {
-            var toggles = mainPanel.Children.OfType<ToggleControl>();
-            writer.Write(toggles.Count());
-            foreach (var toggle in toggles)
-            {
-                toggle.Serialize(writer);
-            }
-        }
-
-        protected override void Deserialize(BinaryReader reader)
-        {
-            var count = reader.ReadInt32();
-
-            for (var i = 0; i < count; i++)
-            {
-                var toggle = new ToggleControl();
-                toggle.Deserialize(reader);
-
-                AddToggle(toggle);
-            }
-        }
-
-        private void AddToggle(ToggleControl toggle)
-        {
-            if (!StoredAccessories.Contains(toggle.Title))
-            {
-                return;
-            }
-
-            var allToggles = mainPanel.Children.OfType<ToggleControl>();
-
-            if (allToggles.Any(t => t.Title == toggle.Title))
-            {
-                mainPanel.Children.OfType<ToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).Toggled = toggle.Toggled;
-                return;
-            }
-
-            mainPanel.Children.Add(toggle);
         }
     }
 }

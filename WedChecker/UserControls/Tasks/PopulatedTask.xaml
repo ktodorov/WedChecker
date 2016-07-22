@@ -5,6 +5,7 @@
     xmlns:local="using:WedChecker.UserControls.Tasks"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:uc="using:WedChecker.UserControls"
 	VerticalAlignment="Stretch"
 	HorizontalAlignment="Stretch">
 
@@ -45,6 +46,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <TextBlock Name="buttonTaskName" HorizontalAlignment="Center" TextAlignment="Center" Text="TASK NAME" FontSize="17" FontWeight="Bold"
@@ -60,5 +62,7 @@
         <TextBlock Name="tbTaskHeader" Margin="0" VerticalAlignment="Center" Padding="20, 10"
                     TextAlignment="Center" TextWrapping="WrapWholeWords" Text="Task header"
                     Foreground="{ThemeResource SystemControlBackgroundBaseHighBrush}" Grid.Row="1"/>
+
+        <uc:TaskSummaryControl x:Name="taskSummary" Grid.Row="2" HorizontalAlignment="Right" Margin="10, 0"/>
     </Grid>
 </UserControl>

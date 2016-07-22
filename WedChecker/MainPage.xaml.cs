@@ -168,19 +168,19 @@ namespace WedChecker
             var controls = task.Result;
             controls = controls.OrderBy(c => c.GetType().GetProperty("TaskName").GetValue(null, null).ToString()).ToList();
 
-            var bookings = gvBookings.Items.OfType<PopulatedTask>().Where(p => !controls.Any(c => c.GetType() == p.ConnectedTaskControlType)).ToList();
+            var bookings = gvBookings.Items.OfType<PopulatedTask>().Where(p => !controls.Any(c => c.GetType() == p.ConnectedTaskControl.GetType())).ToList();
             foreach (var booking in bookings)
             {
                 gvBookings.Items.Remove(booking);
             }
 
-            var planings = gvPlanings.Items.OfType<PopulatedTask>().Where(p => !controls.Any(c => c.GetType() == p.ConnectedTaskControlType)).ToList();
+            var planings = gvPlanings.Items.OfType<PopulatedTask>().Where(p => !controls.Any(c => c.GetType() == p.ConnectedTaskControl.GetType())).ToList();
             foreach (var planing in planings)
             {
                 gvPlanings.Items.Remove(planing);
             }
 
-            var purchases = gvPurchases.Items.OfType<PopulatedTask>().Where(p => !controls.Any(c => c.GetType() == p.ConnectedTaskControlType)).ToList();
+            var purchases = gvPurchases.Items.OfType<PopulatedTask>().Where(p => !controls.Any(c => c.GetType() == p.ConnectedTaskControl.GetType())).ToList();
             foreach (var purchase in purchases)
             {
                 gvPurchases.Items.Remove(purchase);
@@ -188,7 +188,10 @@ namespace WedChecker
 
             AddPopulatedControls(controls);
 
-            tbGreetUser.Text = string.Format("Hello, {0}", Core.GetSetting("Name"));
+            tbGreetUser.Text = $"Hello, {Core.GetSetting("Name")}";
+            tbGreetUser.Visibility = Visibility.Visible;
+
+            tasksSummary.LoadTasksData(controls);
 
             mainTitleBar.ProgressActive = false;
         }
@@ -197,7 +200,6 @@ namespace WedChecker
         {
             mainSplitView.Visibility = Visibility.Visible;
             mainTitleBar.SetSubTitle("HOME");
-            //tbCountdownTimer.UpdateTimeLeft();
             appBar.Visibility = Visibility.Visible;
             hamburgerDesktopPanel.Visibility = Visibility.Visible;
 
@@ -219,9 +221,11 @@ namespace WedChecker
                 var type = populatedControl.GetType();
                 if (!TaskAlreadyAdded(type))
                 {
-                    TaskData.InsertTaskControl(this, type, false, taskTapped, onTaskEdit, onTaskDelete);
+                    TaskData.InsertTaskControl(this, populatedControl, false, taskTapped, onTaskEdit, onTaskDelete);
                 }
             }
+
+            tasksSummary.LoadTasksData(populatedControls);
 
             addTaskDialog.Visibility = Visibility.Collapsed;
             appBar.Visibility = Visibility.Visible;
@@ -229,19 +233,19 @@ namespace WedChecker
 
         private bool TaskAlreadyAdded(Type taskType)
         {
-            var bookings = gvBookings.Items.OfType<PopulatedTask>().Where(p => p.ConnectedTaskControlType == taskType).ToList();
+            var bookings = gvBookings.Items.OfType<PopulatedTask>().Where(p => p.ConnectedTaskControl.GetType() == taskType).ToList();
             if (bookings.Any())
             {
                 return true;
             }
 
-            var planings = gvPlanings.Items.OfType<PopulatedTask>().Where(p => p.ConnectedTaskControlType == taskType).ToList();
+            var planings = gvPlanings.Items.OfType<PopulatedTask>().Where(p => p.ConnectedTaskControl.GetType() == taskType).ToList();
             if (planings.Any())
             {
                 return true;
             }
 
-            var purchases = gvPurchases.Items.OfType<PopulatedTask>().Where(p => p.ConnectedTaskControlType == taskType).ToList();
+            var purchases = gvPurchases.Items.OfType<PopulatedTask>().Where(p => p.ConnectedTaskControl.GetType() == taskType).ToList();
             if (purchases.Any())
             {
                 return true;
@@ -250,9 +254,39 @@ namespace WedChecker
             return false;
         }
 
-        private void TaskTile_Tapped(object sender, TappedRoutedEventArgs e)
+        private PopulatedTask GetPopulatedTaskByType(Type taskType)
         {
-            var created = TaskData.CreateTaskControl(this, addTaskDialog.TappedTaskName, taskTapped, onTaskEdit, onTaskDelete);
+            var bookingTask = gvBookings.Items.OfType<PopulatedTask>().FirstOrDefault(p => p.ConnectedTaskControl.GetType() == taskType);
+            if (bookingTask != null)
+            {
+                return bookingTask;
+            }
+
+            var planingTask = gvPlanings.Items.OfType<PopulatedTask>().FirstOrDefault(p => p.ConnectedTaskControl.GetType() == taskType);
+            if (planingTask != null)
+            {
+                return planingTask;
+            }
+
+            var purchaseTask = gvPurchases.Items.OfType<PopulatedTask>().FirstOrDefault(p => p.ConnectedTaskControl.GetType() == taskType);
+            if (purchaseTask != null)
+            {
+                return purchaseTask;
+            }
+
+            return null;
+        }
+
+        private async void TaskTile_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            var taskType = TaskData.GetTaskType(addTaskDialog.TappedTaskName);
+            var taskControl = await TaskData.CreateTaskControlByType(taskType);
+            if (taskControl == null)
+            {
+                return;
+            }
+
+            var created = TaskData.CreateTaskControl(this, taskControl, taskTapped, onTaskEdit, onTaskDelete);
             if (created)
             {
                 addTaskDialog.Visibility = Visibility.Collapsed;
@@ -270,17 +304,19 @@ namespace WedChecker
                 PopulatedTask newPopulatedTask = null;
                 if (taskCategory == TaskCategories.Booking)
                 {
-                    newPopulatedTask = gvBookings.Items.OfType<PopulatedTask>().FirstOrDefault(p => p.ConnectedTaskControlType.Name == addTaskDialog.TappedTaskName);
+                    newPopulatedTask = gvBookings.Items.OfType<PopulatedTask>().FirstOrDefault(p => p.ConnectedTaskControl.GetType().Name == addTaskDialog.TappedTaskName);
                 }
                 else if (taskCategory == TaskCategories.Planing)
                 {
-                    newPopulatedTask = gvPlanings.Items.OfType<PopulatedTask>().FirstOrDefault(p => p.ConnectedTaskControlType.Name == addTaskDialog.TappedTaskName);
+                    newPopulatedTask = gvPlanings.Items.OfType<PopulatedTask>().FirstOrDefault(p => p.ConnectedTaskControl.GetType().Name == addTaskDialog.TappedTaskName);
                 }
                 else if (taskCategory == TaskCategories.Purchase)
                 {
-                    newPopulatedTask = gvPurchases.Items.OfType<PopulatedTask>().FirstOrDefault(p => p.ConnectedTaskControlType.Name == addTaskDialog.TappedTaskName);
+                    newPopulatedTask = gvPurchases.Items.OfType<PopulatedTask>().FirstOrDefault(p => p.ConnectedTaskControl.GetType().Name == addTaskDialog.TappedTaskName);
                 }
                 taskTapped(newPopulatedTask, new TappedRoutedEventArgs());
+
+                tasksSummary.AddNewTaskInfo(taskControl);
             }
         }
 
@@ -332,7 +368,7 @@ namespace WedChecker
 
         private PopupTask CreatePopupTaskFromPopulatedTask(PopulatedTask populatedTask)
         {
-            var baseTaskType = populatedTask.ConnectedTaskControlType;
+            var baseTaskType = populatedTask.ConnectedTaskControl.GetType();
             var baseTaskControl = Activator.CreateInstance(baseTaskType) as BaseTaskControl;
 
             var popupTask = new PopupTask(baseTaskControl, false);
@@ -386,11 +422,13 @@ namespace WedChecker
             if (sender is PopulatedTask)
             {
                 var populatedTask = sender as PopulatedTask;
-                connectedControl = Activator.CreateInstance(populatedTask.ConnectedTaskControlType) as BaseTaskControl;
+                connectedControl = populatedTask.ConnectedTaskControl;
                 if (connectedControl == null)
                 {
                     return;
                 }
+
+                 populatedTask.RefreshTaskSummary(connectedControl);
             }
             else if (sender is PopupTask)
             {
@@ -401,6 +439,12 @@ namespace WedChecker
                 }
 
                 connectedControl = popupTask.ConnectedTaskControl;
+
+                var populatedTask = GetPopulatedTaskByType(connectedControl.GetType());
+                if (populatedTask != null)
+                {
+                     populatedTask.RefreshTaskSummary(connectedControl);
+                }
             }
             else
             {
@@ -415,6 +459,8 @@ namespace WedChecker
                 var popupTask = sender as PopupTask;
                 popupTask.Cancel();
             }
+
+            tasksSummary.RemoveTaskInfo(connectedControl);
         }
 
         private void PopupTask_TaskSizeChanged(object sender, SizeChangedEventArgs e)
@@ -430,6 +476,16 @@ namespace WedChecker
         private void PopupTask_SaveClick(object sender, RoutedEventArgs e)
         {
             HidePopupTask();
+
+            var popupTask = sender as PopupTask;
+            var updatedTask = popupTask.ConnectedTaskControl;
+            tasksSummary.UpdateTaskInfo(updatedTask);
+
+            var populatedTask = GetPopulatedTaskByType(updatedTask.GetType());
+            if (populatedTask != null)
+            {
+                populatedTask.RefreshTaskSummary(updatedTask);
+            }
         }
 
         private void rectBackgroundHide_Tapped(object sender, TappedRoutedEventArgs e)

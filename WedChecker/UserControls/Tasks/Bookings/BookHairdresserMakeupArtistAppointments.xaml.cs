@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WedChecker.Common;
@@ -7,7 +8,7 @@ using WedChecker.Common;
 
 namespace WedChecker.UserControls.Tasks.Bookings
 {
-    public sealed partial class BookHairdresserMakeupArtistAppointments : BaseTaskControl
+    public sealed partial class BookHairdresserMakeupArtistAppointments : BookTaskBaseControl
     {
         public static new string TaskName
         {
@@ -41,51 +42,12 @@ namespace WedChecker.UserControls.Tasks.Bookings
             }
         }
 
-        public BookHairdresserMakeupArtistAppointments()
+        protected override List<string> PredefinedItems
         {
-            this.InitializeComponent();
-        }
-
-        public override void DisplayValues()
-        {
-            hairdresserAppointmentsBookedToggle.DisplayValues();
-            makeupArtistAppointmentsBookedToggle.DisplayValues();
-        }
-
-        public override void EditValues()
-        {
-            hairdresserAppointmentsBookedToggle.EditValues();
-            makeupArtistAppointmentsBookedToggle.EditValues();
-        }
-
-        protected override void Serialize(BinaryWriter writer)
-        {
-            var toggles = mainPanel.Children.OfType<ToggleControl>();
-            writer.Write(toggles.Count());
-
-            writer.Write("Hairdresser");
-            hairdresserAppointmentsBookedToggle.Serialize(writer);
-
-            writer.Write("MakeupArtist");
-            makeupArtistAppointmentsBookedToggle.Serialize(writer);
-        }
-
-        protected override void Deserialize(BinaryReader reader)
-        {
-            var count = reader.ReadInt32();
-
-            for (int i = 0; i < count; i++)
+            get
             {
-                var type = reader.ReadString();
-
-                if (type == "Hairdresser")
-                {
-                    hairdresserAppointmentsBookedToggle.Deserialize(reader);
-                }
-                else if (type == "MakeupArtist")
-                {
-                    makeupArtistAppointmentsBookedToggle.Deserialize(reader);
-                }
+                var result = new List<string> { "Hairdresser", "Makeup Artist" };
+                return result;
             }
         }
     }

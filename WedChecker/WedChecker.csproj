@@ -155,8 +155,10 @@
     <Compile Include="Extensions\CommonExtensions.cs" />
     <Compile Include="Extensions\CompositeExtensions.cs" />
     <Compile Include="Extensions\ExceptionExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\AddedTasksHelper.cs" />
     <Compile Include="Helpers\TasksOperationsHelper.cs" />
+    <Compile Include="Interfaces\ICompletableTask.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -196,6 +198,12 @@
       <DependentUpon>GuestsAccomodationControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MapView.cs" />
+    <Compile Include="UserControls\TasksSummaryControl.xaml.cs">
+      <DependentUpon>TasksSummaryControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\TaskSummaryControl.xaml.cs">
+      <DependentUpon>TaskSummaryControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Tasks\BaseTaskControl.xaml.cs">
       <DependentUpon>BaseTaskControl.xaml</DependentUpon>
     </Compile>
@@ -207,6 +215,9 @@
     </Compile>
     <Compile Include="UserControls\Tasks\Bookings\BookHoneymoonDestination.xaml.cs">
       <DependentUpon>BookHoneymoonDestination.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tasks\Bookings\BookTaskBaseControl.xaml.cs">
+      <DependentUpon>BookTaskBaseControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Tasks\Bookings\BookMusicLayout.xaml.cs">
       <DependentUpon>BookMusicLayout.xaml</DependentUpon>
@@ -343,6 +354,9 @@
     <Compile Include="UserControls\Tasks\Purchases\PurchaseRings.xaml.cs">
       <DependentUpon>PurchaseRings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Tasks\Purchases\PurchaseTaskBaseControl.xaml.cs">
+      <DependentUpon>PurchaseTaskBaseControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Tasks\TaskDialog.xaml.cs">
       <DependentUpon>TaskDialog.xaml</DependentUpon>
     </Compile>
@@ -425,6 +439,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UserControls\TasksSummaryControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\TaskSummaryControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\Tasks\BaseTaskControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -440,6 +462,10 @@
     <Page Include="UserControls\Tasks\Bookings\BookHoneymoonDestination.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Bookings\BookTaskBaseControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\Tasks\Bookings\BookMusicLayout.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -620,6 +646,10 @@
     <Page Include="UserControls\Tasks\Purchases\PurchaseRings.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Tasks\Purchases\PurchaseTaskBaseControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\Tasks\TaskDialog.xaml">
       <SubType>Designer</SubType>

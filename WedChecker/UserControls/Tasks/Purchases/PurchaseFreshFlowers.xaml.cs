@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WedChecker.Common;
@@ -7,8 +8,16 @@ using WedChecker.Common;
 
 namespace WedChecker.UserControls.Tasks.Purchases
 {
-    public sealed partial class PurchaseFreshFlowers : BaseTaskControl
+    public sealed partial class PurchaseFreshFlowers : PurchaseTaskBaseControl
     {
+        protected override List<List<string>> PredefinedItems
+        {
+            get
+            {
+                var result = new List<List<string>> { new List<string> { "Purchased" } };
+                return result;
+            }
+        }
 
         public static new string TaskName
         {
@@ -40,42 +49,6 @@ namespace WedChecker.UserControls.Tasks.Purchases
             {
                 return TaskData.Tasks.PurchaseFreshFlowers.ToString();
             }
-        }
-
-        public PurchaseFreshFlowers()
-        {
-            this.InitializeComponent();
-        }
-
-        public PurchaseFreshFlowers(bool purchased)
-        {
-            this.InitializeComponent();
-
-            flowersPurchasedToggle.Toggled = true;
-        }
-
-        public override void DisplayValues()
-        {
-            flowersPurchasedToggle.DisplayValues();
-        }
-
-        public override void EditValues()
-        {
-            flowersPurchasedToggle.EditValues();
-        }
-
-        protected override void Serialize(BinaryWriter writer)
-        {
-            var toggles = mainPanel.Children.OfType<ToggleControl>();
-            writer.Write(toggles.Count());
-            flowersPurchasedToggle.Serialize(writer);
-        }
-
-        protected override void Deserialize(BinaryReader reader)
-        {
-            var count = reader.ReadInt32();
-
-            flowersPurchasedToggle.Deserialize(reader);
         }
     }
 }

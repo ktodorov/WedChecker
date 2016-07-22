@@ -112,7 +112,7 @@ namespace WedChecker.Helpers
             var gridView = scrollViewer.Content as GridView;
             if (gridView != null)
             {
-                var populatedTask = gridView.Items.OfType<PopulatedTask>().FirstOrDefault(p => p.ConnectedTaskControlType == taskControlType);
+                var populatedTask = gridView.Items.OfType<PopulatedTask>().FirstOrDefault(p => p.ConnectedTaskControl.GetType() == taskControlType);
                 if (populatedTask != null)
                 {
                     gridView.Items.Remove(populatedTask);

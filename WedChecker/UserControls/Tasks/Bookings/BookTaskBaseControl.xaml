@@ -1,11 +1,13 @@
-﻿<we:BookTaskBaseControl
-    x:Class="WedChecker.UserControls.Tasks.Bookings.BookMusicLayout"
+﻿<we:BaseTaskControl
+    x:Class="WedChecker.UserControls.Tasks.Bookings.BookTaskBaseControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:WedChecker.UserControls.Tasks.Bookings"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:we="using:WedChecker.UserControls.Tasks.Bookings"
-    xmlns:uc="using:WedChecker.UserControls"
+    xmlns:we="using:WedChecker.UserControls.Tasks"
     mc:Ignorable="d">
-</we:BookTaskBaseControl>
+
+    <StackPanel Name="mainPanel" Orientation="Vertical" HorizontalAlignment="Stretch">
+    </StackPanel>
+</we:BaseTaskControl>

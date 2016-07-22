@@ -1,22 +1,10 @@
-﻿<we:BaseTaskControl
+﻿<we:PurchaseTaskBaseControl
     x:Class="WedChecker.UserControls.Tasks.Purchases.PurchaseBAGAccessories"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:WedChecker.UserControls.Tasks.Purchases"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:we="using:WedChecker.UserControls.Tasks"
+    xmlns:we="using:WedChecker.UserControls.Tasks.Purchases"
     mc:Ignorable="d">
-
-    <StackPanel Name="mainPanel" Orientation="Vertical" HorizontalAlignment="Stretch">
-
-        <StackPanel Name="bridesmaidsPanel" Orientation="Vertical" HorizontalAlignment="Stretch" Margin="0, 0, 0, 10">
-            <TextBlock Text="Bridesmaids" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"/>
-        </StackPanel>
-
-        <StackPanel Name="groomsmenPanel" Orientation="Vertical" HorizontalAlignment="Stretch" Margin="0, 0, 0, 10">
-            <TextBlock Text="Groomsmen" Style="{StaticResource WedCheckerDisplayTextBlockStyle}"/>
-
-        </StackPanel>
-    </StackPanel>
-</we:BaseTaskControl>
+</we:PurchaseTaskBaseControl>
