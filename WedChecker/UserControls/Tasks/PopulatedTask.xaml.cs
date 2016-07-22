@@ -79,8 +79,13 @@ namespace WedChecker.UserControls.Tasks
             FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
         }
 
-        public void RefreshTaskSummary(BaseTaskControl taskControl)
+        public void RefreshTaskSummary(BaseTaskControl taskControl = null)
         {
+            if (taskControl == null)
+            {
+                taskControl = ConnectedTaskControl;
+            }
+
             taskSummary.RefreshTaskData(taskControl);
         }
     }

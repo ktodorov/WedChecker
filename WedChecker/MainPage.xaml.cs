@@ -60,7 +60,7 @@ namespace WedChecker
                         }
                     }
 
-                    await UpdateTasks();
+                    await UpdateTasks(true);
                 }
             );
         }
@@ -159,31 +159,53 @@ namespace WedChecker
             mainTitleBar.RemoveSubTitle();
         }
 
-        private async Task UpdateTasks()
+        private async Task UpdateTasks(bool alreadyCreated = false)
         {
             mainTitleBar.ProgressActive = true;
 
-            var task = AppData.PopulateAddedControls();
-            await Task.WhenAll(task);
-            var controls = task.Result;
+            var controls = await AppData.PopulateAddedControls();
             controls = controls.OrderBy(c => c.GetType().GetProperty("TaskName").GetValue(null, null).ToString()).ToList();
 
-            var bookings = gvBookings.Items.OfType<PopulatedTask>().Where(p => !controls.Any(c => c.GetType() == p.ConnectedTaskControl.GetType())).ToList();
-            foreach (var booking in bookings)
-            {
-                gvBookings.Items.Remove(booking);
-            }
 
-            var planings = gvPlanings.Items.OfType<PopulatedTask>().Where(p => !controls.Any(c => c.GetType() == p.ConnectedTaskControl.GetType())).ToList();
-            foreach (var planing in planings)
+            if (alreadyCreated)
             {
-                gvPlanings.Items.Remove(planing);
-            }
+                // Delete tasks which were deleted on other machine
+                var bookings = gvBookings.Items.OfType<PopulatedTask>().Where(p => !controls.Any(c => c.GetType() == p.ConnectedTaskControl.GetType())).ToList();
+                foreach (var booking in bookings)
+                {
+                    gvBookings.Items.Remove(booking);
+                }
 
-            var purchases = gvPurchases.Items.OfType<PopulatedTask>().Where(p => !controls.Any(c => c.GetType() == p.ConnectedTaskControl.GetType())).ToList();
-            foreach (var purchase in purchases)
-            {
-                gvPurchases.Items.Remove(purchase);
+                var planings = gvPlanings.Items.OfType<PopulatedTask>().Where(p => !controls.Any(c => c.GetType() == p.ConnectedTaskControl.GetType())).ToList();
+                foreach (var planing in planings)
+                {
+                    gvPlanings.Items.Remove(planing);
+                }
+
+                var purchases = gvPurchases.Items.OfType<PopulatedTask>().Where(p => !controls.Any(c => c.GetType() == p.ConnectedTaskControl.GetType())).ToList();
+                foreach (var purchase in purchases)
+                {
+                    gvPurchases.Items.Remove(purchase);
+                }
+
+                // Refresh the summary data for each remaining task
+                var remainingBookings = gvBookings.Items.OfType<PopulatedTask>().Except(bookings);
+                foreach (var remainingBooking in remainingBookings)
+                {
+                    remainingBooking.RefreshTaskSummary();
+                }
+
+                var remainingPlanings = gvPlanings.Items.OfType<PopulatedTask>().Except(planings);
+                foreach (var remainingPlaning in remainingPlanings)
+                {
+                    remainingPlaning.RefreshTaskSummary();
+                }
+
+                var remainingPurchases = gvPurchases.Items.OfType<PopulatedTask>().Except(purchases);
+                foreach (var remainingPurchase in remainingPurchases)
+                {
+                    remainingPurchase.RefreshTaskSummary();
+                }
             }
 
             AddPopulatedControls(controls);
@@ -428,7 +450,7 @@ namespace WedChecker
                     return;
                 }
 
-                 populatedTask.RefreshTaskSummary(connectedControl);
+                populatedTask.RefreshTaskSummary(connectedControl);
             }
             else if (sender is PopupTask)
             {
@@ -443,7 +465,7 @@ namespace WedChecker
                 var populatedTask = GetPopulatedTaskByType(connectedControl.GetType());
                 if (populatedTask != null)
                 {
-                     populatedTask.RefreshTaskSummary(connectedControl);
+                    populatedTask.RefreshTaskSummary(connectedControl);
                 }
             }
             else

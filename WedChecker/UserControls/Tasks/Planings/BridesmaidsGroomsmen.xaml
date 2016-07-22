@@ -9,10 +9,10 @@
     <StackPanel Orientation="Vertical">
         <TextBlock Text="Bridesmaids" Style="{StaticResource WedCheckerFormTextBlockStyle}"/>
         <Button Name="selectBridesmaids" Content="Select bridesmaids" Style="{StaticResource ButtonClearStyle}"
-                VerticalAlignment="Center" HorizontalAlignment="Center"
+                VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 , 2"
                 Click="selectBridesmaids_Click" Width="200"/>
         <Button Name="addNewBridesmaidButton" Content="Add bridesmaid" Style="{StaticResource ButtonClearStyle}"
-                VerticalAlignment="Center" HorizontalAlignment="Center"
+                VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 , 2"
                 Click="addNewBridesmaidButton_Click" Width="200"/>
         <StackPanel Name="spBridesmaids">
         </StackPanel>
@@ -21,10 +21,10 @@
 
         <TextBlock Text="Groomsmen" Style="{StaticResource WedCheckerFormTextBlockStyle}"/>
         <Button Name="selectGroomsmen" Content="Select groomsmen" Style="{StaticResource ButtonClearStyle}"
-                VerticalAlignment="Center" HorizontalAlignment="Center"
+                VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 , 2"
                 Click="selectGroomsmen_Click" Width="200"/>
         <Button Name="addNewGroomsmanButton" Content="Add groomsman" Style="{StaticResource ButtonClearStyle}"
-                VerticalAlignment="Center" HorizontalAlignment="Center"
+                VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 , 2"
                 Click="addNewGroomsmanButton_Click" Width="200"/>
         <StackPanel Name="spGroomsmen">
         </StackPanel>
