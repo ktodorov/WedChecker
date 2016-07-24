@@ -49,8 +49,8 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock Name="buttonTaskName" HorizontalAlignment="Center" TextAlignment="Center" Text="TASK NAME" FontSize="17" FontWeight="Bold"
-				   Style="{StaticResource WedCheckerDisplayTextBlockStyle}" Padding="10" Grid.Row="0" >
+        <TextBlock Name="buttonTaskName" HorizontalAlignment="Stretch" TextAlignment="Left" Text="TASK NAME" FontSize="17" FontWeight="Bold"
+				   Style="{StaticResource WedCheckerDisplayTextBlockStyle}" Padding="5" Grid.Row="0" >
         </TextBlock>
 
         <Grid Name="newTilePanel" Grid.Row="0" Visibility="Collapsed">
@@ -60,7 +60,7 @@
         </Grid>
 
         <TextBlock Name="tbTaskHeader" Margin="0" VerticalAlignment="Center" Padding="20, 10"
-                    TextAlignment="Center" TextWrapping="WrapWholeWords" Text="Task header"
+                    TextAlignment="Left" TextWrapping="WrapWholeWords" Text="Task header"
                     Foreground="{ThemeResource SystemControlBackgroundBaseHighBrush}" Grid.Row="1"/>
 
         <uc:TaskSummaryControl x:Name="taskSummary" Grid.Row="2" HorizontalAlignment="Right" Margin="10, 0"/>
