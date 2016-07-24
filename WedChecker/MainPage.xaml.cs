@@ -18,6 +18,7 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Notifications;
+using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -31,6 +32,26 @@ namespace WedChecker
     public sealed partial class MainPage : Page
     {
         private bool FirstTimeLaunched = true;
+        private string arguments;
+
+        public async void SwitchCategoryFromArguments(string givenArguments)
+        {
+            var taskCategory = TaskCategories.Home;
+            switch (arguments)
+            {
+                case "plannings":
+                    taskCategory = TaskCategories.Planing;
+                    break;
+                case "purchases":
+                    taskCategory = TaskCategories.Purchase;
+                    break;
+                case "bookings":
+                    taskCategory = TaskCategories.Booking;
+                    break;
+            }
+
+            ChangeTaskCategory(taskCategory);
+        }
 
         public MainPage()
         {
@@ -95,7 +116,6 @@ namespace WedChecker
                 return;
             }
 
-
             if (Core.IsFirstLaunch())
             {
                 OpenFirstLaunchPopup();
@@ -108,6 +128,11 @@ namespace WedChecker
             FirstTimeLaunched = false;
 
             CalculateTaskSizes(Window.Current.Bounds.Width, Window.Current.Bounds.Height);
+
+            if (!string.IsNullOrEmpty(arguments))
+            {
+                SwitchCategoryFromArguments(arguments);
+            }
         }
 
         /// <summary>
@@ -117,6 +142,11 @@ namespace WedChecker
         /// property is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            if (!string.IsNullOrEmpty(e.Parameter.ToString()))
+            {
+                arguments = e.Parameter.ToString();
+            }
+
             this.RegisterBackgroundTask();
         }
 
@@ -580,44 +610,6 @@ namespace WedChecker
             );
         }
 
-        private void RepopulateGridChildren(ScrollViewer scrollViewer, int numberOfColumns)
-        {
-            var rootWidth = Window.Current.Bounds.Width - mainSplitView.CompactPaneLength;
-
-            if (mainSplitView.IsPaneOpen)
-            {
-                rootWidth = Window.Current.Bounds.Width - mainSplitView.OpenPaneLength;
-            }
-
-            var taskWidth = rootWidth - 30;
-
-            if (rootWidth > 720)
-            {
-                taskWidth = ((rootWidth) / numberOfColumns) - (numberOfColumns * 4);
-            }
-
-            var taskHeight = taskWidth / 1.5;
-            if (rootWidth < 720)
-            {
-                taskHeight /= 2;
-            }
-
-            var grid = scrollViewer.Content as GridView;
-            if (grid == null)
-            {
-                return;
-            }
-
-            var gridName = grid.Name;
-            var tasks = grid.Items.OfType<PopulatedTask>();
-
-            foreach (var task in tasks)
-            {
-                task.Width = taskWidth;
-                task.Height = taskHeight;
-            }
-        }
-
         private async void ChangeTaskCategory(TaskCategories category)
         {
             if (Window.Current.Bounds.Width < 1024)
@@ -714,7 +706,12 @@ namespace WedChecker
             var panel = (ItemsWrapGrid)gridView.ItemsPanelRoot;
             var itemWidth = e.NewSize.Width / columns;
             panel.ItemWidth = itemWidth;
-            panel.ItemHeight = panel.ItemWidth / 2;
+            var newHeight = panel.ItemWidth / 2;
+            if (newHeight < 200)
+            {
+                newHeight = 200;
+            }
+            panel.ItemHeight = newHeight;
         }
 
         private void HamburgerButton_Tapped(object sender, TappedRoutedEventArgs e)
@@ -746,5 +743,20 @@ namespace WedChecker
             tbWeddingPassed.Visibility = Visibility.Visible;
             tbCountdownTimer.Visibility = Visibility.Collapsed;
         }
+
+        private static async Task SetupJumpList()
+        {
+            JumpList jumpList = await JumpList.LoadCurrentAsync();
+            jumpList.Items.Clear();
+
+            JumpListItem photoItem = JumpListItem.CreateWithArguments("photo", "Capture photo");
+            JumpListItem videoItem = JumpListItem.CreateWithArguments("video", "Capture video");
+
+            jumpList.Items.Add(photoItem);
+            jumpList.Items.Add(videoItem);
+
+            await jumpList.SaveAsync();
+        }
+
     }
 }

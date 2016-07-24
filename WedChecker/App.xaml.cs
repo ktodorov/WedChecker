@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using WedChecker.Common;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -42,12 +44,28 @@ namespace WedChecker
 			}
         }
 
+        private static async Task SetupJumpList()
+        {
+            JumpList jumpList = await JumpList.LoadCurrentAsync();
+            jumpList.Items.Clear();
+
+            JumpListItem plannings = JumpListItem.CreateWithArguments("plannings", "Plannings");
+            JumpListItem purchases = JumpListItem.CreateWithArguments("purchases", "Purchases");
+            JumpListItem bookings = JumpListItem.CreateWithArguments("bookings", "Bookings");
+
+            jumpList.Items.Add(plannings);
+            jumpList.Items.Add(purchases);
+            jumpList.Items.Add(bookings);
+
+            await jumpList.SaveAsync();
+        }
+
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
 
 #if DEBUG
@@ -77,12 +95,19 @@ namespace WedChecker
                 Window.Current.Content = rootFrame;
             }
 
+            await SetupJumpList();
+
             if (rootFrame.Content == null)
             {
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
                 rootFrame.Navigate(typeof(MainPage), e.Arguments);
+            }
+            else
+            {
+                var page = rootFrame.Content as MainPage;
+                page?.SwitchCategoryFromArguments(e.Arguments);
             }
             // Ensure the current window is active
             Window.Current.Activate();
