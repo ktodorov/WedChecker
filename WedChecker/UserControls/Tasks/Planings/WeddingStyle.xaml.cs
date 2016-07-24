@@ -3,6 +3,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WedChecker.Common;
 using System.Threading.Tasks;
+using System.Text;
 
 namespace WedChecker.UserControls.Tasks.Planings
 {
@@ -14,7 +15,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             set;
         }
 
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {
@@ -66,7 +67,7 @@ namespace WedChecker.UserControls.Tasks.Planings
         }
 
 
-        protected override void Serialize(BinaryWriter writer)
+        public override void Serialize(BinaryWriter writer)
         {
             var weddingStyle = tbStyle.Text;
             Style = weddingStyle;
@@ -74,7 +75,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             writer.Write(Style);
         }
 
-        protected override void Deserialize(BinaryReader reader)
+        public override void Deserialize(BinaryReader reader)
         {
             Style = reader.ReadString();
         }
@@ -82,6 +83,11 @@ namespace WedChecker.UserControls.Tasks.Planings
         private void tbStyle_TextChanged(object sender, TextChangedEventArgs e)
         {
             tbStyleDisplay.Text = tbStyle.Text;
+        }
+
+        protected override void LoadTaskDataAsText(StringBuilder sb)
+        {
+            sb.AppendLine(tbStyleDisplay.Text);
         }
     }
 }

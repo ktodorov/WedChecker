@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using Windows.UI.Xaml;
@@ -16,7 +17,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             set;
         }
 
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {
@@ -71,7 +72,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             honeymoonMap.EditValues();
         }
 
-        protected override void Serialize(BinaryWriter writer)
+        public override void Serialize(BinaryWriter writer)
         {
             var registryNotes = tbHoneymoonNotes.Text;
             HoneymoonNotes = registryNotes;
@@ -87,11 +88,11 @@ namespace WedChecker.UserControls.Tasks.Planings
             if (honeymoonMap.HasPinnedLocation())
             {
                 writer.Write("HoneymoonMap");
-                honeymoonMap.SerializeMapData(writer);
+                honeymoonMap.Serialize(writer);
             }
         }
 
-        protected override void Deserialize(BinaryReader reader)
+        public override void Deserialize(BinaryReader reader)
         {
             var objectsCount = reader.ReadInt32();
 
@@ -104,7 +105,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                 }
                 else if (type == "HoneymoonMap")
                 {
-                    honeymoonMap.DeserializeMapData(reader);
+                    honeymoonMap.Deserialize(reader);
                 }
             }
         }
@@ -129,6 +130,24 @@ namespace WedChecker.UserControls.Tasks.Planings
         private void tbHoneymoonNotes_TextChanged(object sender, TextChangedEventArgs e)
         {
             tbHoneymoonNotesDisplay.Text = tbHoneymoonNotes.Text;
+        }
+
+        protected override void LoadTaskDataAsText(StringBuilder sb)
+        {
+            var registryNotes = tbHoneymoonNotes.Text;
+
+            if (!string.IsNullOrEmpty(registryNotes))
+            {
+                sb.AppendLine("Notes:");
+                sb.AppendLine(registryNotes);
+            }
+
+            if (honeymoonMap.HasPinnedLocation())
+            {
+                sb.AppendLine("Pinned location:");
+                var mapLocationAsText = honeymoonMap.GetDataAsText();
+                sb.AppendLine(mapLocationAsText);
+            }
         }
     }
 }

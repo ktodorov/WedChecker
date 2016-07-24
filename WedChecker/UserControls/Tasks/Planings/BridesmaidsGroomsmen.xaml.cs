@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using Windows.ApplicationModel.Contacts;
@@ -31,7 +32,7 @@ namespace WedChecker.UserControls.Tasks.Planings
         }
 
 
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {
@@ -128,24 +129,24 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
-        protected override void Serialize(BinaryWriter writer)
+        public override void Serialize(BinaryWriter writer)
         {
             var bridesmaidContacts = spBridesmaids.Children.OfType<ContactControl>().ToList();
             writer.Write(bridesmaidContacts.Count);
             foreach (var bridesmaidContact in bridesmaidContacts)
             {
-                bridesmaidContact.SerializeContact(writer);
+                bridesmaidContact.Serialize(writer);
             }
 
             var groomsmenContacts = spGroomsmen.Children.OfType<ContactControl>().ToList();
             writer.Write(groomsmenContacts.Count);
             foreach (var groomsmanContact in groomsmenContacts)
             {
-                groomsmanContact.SerializeContact(writer);
+                groomsmanContact.Serialize(writer);
             }
         }
 
-        protected override void Deserialize(BinaryReader reader)
+        public override void Deserialize(BinaryReader reader)
         {
             //Read in the number of records
             var bridesmaidsCount = reader.ReadInt32();
@@ -153,7 +154,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             for (int i = 0; i < bridesmaidsCount; i++)
             {
                 var contactControl = new ContactControl();
-                contactControl.DeserializeContact(reader);
+                contactControl.Deserialize(reader);
                 contactControl.OnDelete = deleteBridesmaidButton_Click;
                 spBridesmaids.Children.Add(contactControl);
             }
@@ -162,7 +163,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             for (int i = 0; i < groomsmenCount; i++)
             {
                 var contactControl = new ContactControl();
-                contactControl.DeserializeContact(reader);
+                contactControl.Deserialize(reader);
                 contactControl.OnDelete = deleteGroomsmanButton_Click;
                 spGroomsmen.Children.Add(contactControl);
             }
@@ -261,6 +262,28 @@ namespace WedChecker.UserControls.Tasks.Planings
             var contactControl = new ContactControl(true);
             contactControl.OnDelete = deleteGroomsmanButton_Click;
             spGroomsmen.Children.Add(contactControl);
+        }
+
+        protected override void LoadTaskDataAsText(StringBuilder sb)
+        {
+            if (Groomsmen != null && Groomsmen.Any())
+            {
+                sb.AppendLine("Groomsmen:");
+                foreach (var groomsman in Groomsmen)
+                {
+                    var groomsmanAsText = groomsman.GetDataAsText();
+                    sb.AppendLine(groomsmanAsText);
+                }
+            }
+            if (Bridesmaids != null && Bridesmaids.Any())
+            {
+                sb.AppendLine("Bridesmaids:");
+                foreach (var bridesmaid in Bridesmaids)
+                {
+                    var bridesmaidAsText = bridesmaid.GetDataAsText();
+                    sb.AppendLine(bridesmaidAsText);
+                }
+            }
         }
     }
 }

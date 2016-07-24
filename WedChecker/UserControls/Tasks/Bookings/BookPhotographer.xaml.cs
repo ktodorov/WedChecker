@@ -11,7 +11,7 @@ namespace WedChecker.UserControls.Tasks.Bookings
     public sealed partial class BookPhotographer : BookTaskBaseControl
     {
 
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {

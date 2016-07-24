@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using Windows.UI.Xaml;
@@ -16,7 +17,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         private bool DishesChanged = false;
 
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {
@@ -77,7 +78,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             addDishButton.Visibility = Visibility.Visible;
         }
 
-        protected override void Serialize(BinaryWriter writer)
+        public override void Serialize(BinaryWriter writer)
         {
             var dishes = spDishes.Children.OfType<DishControl>();
             foreach (var dish in dishes)
@@ -93,7 +94,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             DishesChanged = false;
         }
 
-        protected override void Deserialize(BinaryReader reader)
+        public override void Deserialize(BinaryReader reader)
         {
             Dishes = new Dictionary<int, string>();
             var size = reader.ReadInt32();
@@ -241,6 +242,14 @@ namespace WedChecker.UserControls.Tasks.Planings
 
             AddDish(dishNumber, nextDish.Value);
             AddDish(nextDish.Key, dish.Title);
+        }
+
+        protected override void LoadTaskDataAsText(StringBuilder sb)
+        {
+            foreach (var dish in Dishes)
+            {
+                sb.AppendLine($" - {dish.Value}");
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using Windows.UI.Xaml;
@@ -12,7 +13,7 @@ namespace WedChecker.UserControls.Tasks.Planings
     {
         private string FlowersNotes { get; set; } = string.Empty;
 
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {
@@ -67,7 +68,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             flowersMap.EditValues();
         }
 
-        protected override void Serialize(BinaryWriter writer)
+        public override void Serialize(BinaryWriter writer)
         {
             var decoration = tbFreshFlowers.Text;
             if (FlowersNotes != decoration)
@@ -87,11 +88,11 @@ namespace WedChecker.UserControls.Tasks.Planings
             if (flowersMap.HasPinnedLocation())
             {
                 writer.Write("PinnedLocation");
-                flowersMap.SerializeMapData(writer);
+                flowersMap.Serialize(writer);
             }
         }
 
-        protected override void Deserialize(BinaryReader reader)
+        public override void Deserialize(BinaryReader reader)
         {
             var objectsCount = reader.ReadInt32();
 
@@ -105,7 +106,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                 }
                 else if (type == "PinnedLocation")
                 {
-                    flowersMap.DeserializeMapData(reader);
+                    flowersMap.Deserialize(reader);
                 }
             }
         }
@@ -130,6 +131,24 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
 
             return objectsCount;
+        }
+
+        protected override void LoadTaskDataAsText(StringBuilder sb)
+        {
+            var decoration = tbFreshFlowers.Text;
+          
+            if (!string.IsNullOrEmpty(decoration))
+            {
+                sb.AppendLine("Notes:");
+                sb.AppendLine(decoration);
+            }
+
+            if (flowersMap.HasPinnedLocation())
+            {
+                sb.AppendLine("Pinned location:");
+                var mapLocationAsText = flowersMap.GetDataAsText();
+                sb.AppendLine(mapLocationAsText);
+            }
         }
     }
 }

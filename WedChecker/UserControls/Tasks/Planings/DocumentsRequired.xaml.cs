@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using Windows.UI.Xaml;
@@ -16,7 +17,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         private bool DocumentsChanged = false;
 
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {
@@ -77,7 +78,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             addDocumentButton.Visibility = Visibility.Visible;
         }
 
-        protected override void Serialize(BinaryWriter writer)
+        public override void Serialize(BinaryWriter writer)
         {
             foreach (var document in spDocuments.Children.OfType<ElementControl>())
             {
@@ -92,7 +93,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             DocumentsChanged = false;
         }
 
-        protected override void Deserialize(BinaryReader reader)
+        public override void Deserialize(BinaryReader reader)
         {
             Documents = new Dictionary<int, string>();
             var size = reader.ReadInt32();
@@ -154,6 +155,19 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
 
             spDocuments.Children.Remove(document);
+        }
+
+        protected override void LoadTaskDataAsText(StringBuilder sb)
+        {
+            foreach (var document in spDocuments.Children.OfType<ElementControl>())
+            {
+                SaveDocument(document);
+            }
+
+            foreach (var document in Documents)
+            {
+                sb.AppendLine(document.Value);
+            }
         }
     }
 }

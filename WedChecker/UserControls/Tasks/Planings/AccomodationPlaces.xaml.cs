@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using Windows.Foundation;
@@ -25,7 +26,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         private bool PlacesChanged = false;
 
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {
@@ -86,7 +87,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             addPlaceButton.Visibility = Visibility.Visible;
         }
 
-        protected override void Serialize(BinaryWriter writer)
+        public override void Serialize(BinaryWriter writer)
         {
             foreach (var place in spPlaces.Children.OfType<ElementControl>())
             {
@@ -104,7 +105,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             PlacesChanged = false;
         }
 
-        protected override void Deserialize(BinaryReader reader)
+        public override void Deserialize(BinaryReader reader)
         {
             Places = new List<string>();
             var size = reader.ReadInt32();
@@ -188,6 +189,14 @@ namespace WedChecker.UserControls.Tasks.Planings
                     placeControl.Number = i;
                     spPlaces.Children.Insert(i, placeControl);
                 }
+            }
+        }
+
+        protected override void LoadTaskDataAsText(StringBuilder sb)
+        {
+            foreach (var place in Places)
+            {
+                sb.AppendLine(place);
             }
         }
     }

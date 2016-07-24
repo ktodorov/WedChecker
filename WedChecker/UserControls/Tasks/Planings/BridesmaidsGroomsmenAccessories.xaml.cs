@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using Windows.UI.Xaml;
@@ -18,7 +19,7 @@ namespace WedChecker.UserControls.Tasks.Planings
         private bool BridesmaidsAccessoriesChanged = false;
         private bool GroomsmenAccessoriesChanged = false;
 
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {
@@ -91,7 +92,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             addGroomsmenAccessoryButton.Visibility = Visibility.Visible;
         }
 
-        protected override void Serialize(BinaryWriter writer)
+        public override void Serialize(BinaryWriter writer)
         {
             var bridesmaidsElementChildren = spBridesmaidsAccessories.Children.OfType<ElementControl>();
             var groomsmenElementChildren = spGroomsmenAccessories.Children.OfType<ElementControl>();
@@ -132,7 +133,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
-        protected override void Deserialize(BinaryReader reader)
+        public override void Deserialize(BinaryReader reader)
         {
             BridesmaidsAccessories = new Dictionary<int, string>();
             GroomsmenAccessories = new Dictionary<int, string>();
@@ -278,6 +279,28 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
 
             spGroomsmenAccessories.Children.Remove(accessory);
+        }
+
+        protected override void LoadTaskDataAsText(StringBuilder sb)
+        {
+            if (GroomsmenAccessories != null && GroomsmenAccessories.Any())
+            {
+                sb.AppendLine("Groomsmen:");
+                foreach (var accessory in GroomsmenAccessories)
+                {
+                    sb.Append(" - ");
+                    sb.AppendLine(accessory.Value);
+                }
+            }
+            if (BridesmaidsAccessories != null && BridesmaidsAccessories.Any())
+            {
+                sb.AppendLine("Bridesmaids:");
+                foreach (var accessory in BridesmaidsAccessories)
+                {
+                    sb.Append(" - ");
+                    sb.AppendLine(accessory.Value);
+                }
+            }
         }
     }
 }

@@ -10,7 +10,7 @@ namespace WedChecker.UserControls.Tasks.Bookings
 {
     public sealed partial class BookHairdresserMakeupArtistAppointments : BookTaskBaseControl
     {
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {

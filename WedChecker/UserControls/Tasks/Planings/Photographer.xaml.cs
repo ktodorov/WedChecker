@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
 
@@ -10,7 +11,7 @@ namespace WedChecker.UserControls.Tasks.Planings
     {
         private bool FirstStart = true;
 
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {
@@ -57,14 +58,23 @@ namespace WedChecker.UserControls.Tasks.Planings
             ccPhotographer.EditValues();
         }
 
-        protected override void Serialize(BinaryWriter writer)
+        public override void Serialize(BinaryWriter writer)
         {
-            ccPhotographer.SerializeContact(writer);
+            ccPhotographer.Serialize(writer);
         }
 
-        protected override void Deserialize(BinaryReader reader)
+        public override void Deserialize(BinaryReader reader)
         {
-            ccPhotographer.DeserializeContact(reader);
+            ccPhotographer.Deserialize(reader);
+        }
+
+        protected override void LoadTaskDataAsText(StringBuilder sb)
+        {
+            if (ccPhotographer.IsStored)
+            {
+                var contactAsText = ccPhotographer.GetDataAsText();
+                sb.AppendLine(contactAsText);
+            }
         }
     }
 }

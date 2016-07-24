@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using Windows.ApplicationModel.Contacts;
@@ -13,7 +14,7 @@ namespace WedChecker.UserControls.Tasks.Planings
     {
         private List<string> StoredAccomodationPlaces = new List<string>();
 
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {
@@ -81,14 +82,14 @@ namespace WedChecker.UserControls.Tasks.Planings
             guestsPerHotel.EditValues();
         }
 
-        protected override void Serialize(BinaryWriter writer)
+        public override void Serialize(BinaryWriter writer)
         {
             writer.Write(1);
             writer.Write("GuestsPerHotel");
-            guestsPerHotel.SerializeData(writer);
+            guestsPerHotel.Serialize(writer);
         }
 
-        protected override void Deserialize(BinaryReader reader)
+        public override void Deserialize(BinaryReader reader)
         {
             var objectsCount = reader.ReadInt32();
 
@@ -98,9 +99,15 @@ namespace WedChecker.UserControls.Tasks.Planings
                 
                 if (type == "GuestsPerHotel")
                 {
-                    guestsPerHotel.DeserializeData(reader);
+                    guestsPerHotel.Deserialize(reader);
                 }
             }
+        }
+
+        protected override void LoadTaskDataAsText(StringBuilder sb)
+        {
+            var guestsAccomodationAsText = guestsPerHotel.GetDataAsText();
+            sb.AppendLine(guestsAccomodationAsText);
         }
     }
 }

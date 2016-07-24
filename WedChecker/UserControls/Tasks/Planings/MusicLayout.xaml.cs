@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using Windows.UI.Xaml;
@@ -12,7 +13,7 @@ namespace WedChecker.UserControls.Tasks.Planings
     {
         private string PlannedLayout { get; set; } = string.Empty;
 
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {
@@ -70,7 +71,7 @@ namespace WedChecker.UserControls.Tasks.Planings
         }
 
 
-        protected override void Serialize(BinaryWriter writer)
+        public override void Serialize(BinaryWriter writer)
         {
             var decoration = tbMusicLayout.Text;
             PlannedLayout = decoration;
@@ -78,7 +79,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             writer.Write(PlannedLayout);
         }
 
-        protected override void Deserialize(BinaryReader reader)
+        public override void Deserialize(BinaryReader reader)
         {
             PlannedLayout = reader.ReadString();
         }
@@ -86,6 +87,11 @@ namespace WedChecker.UserControls.Tasks.Planings
         private void tbMusicLayout_TextChanged(object sender, TextChangedEventArgs e)
         {
             tbMusicLayoutDisplay.Text = tbMusicLayout.Text;
+        }
+
+        protected override void LoadTaskDataAsText(StringBuilder sb)
+        {
+            sb.AppendLine(tbMusicLayoutDisplay.Text);
         }
     }
 }

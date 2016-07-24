@@ -8,6 +8,7 @@ using Windows.ApplicationModel.Contacts;
 using WedChecker.Common;
 using System.Threading.Tasks;
 using Windows.UI.Core;
+using System.Text;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -23,7 +24,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 			}
 		}
 
-		public static new string TaskName
+		public override string TaskName
 		{
 			get
 			{
@@ -81,16 +82,16 @@ namespace WedChecker.UserControls.Tasks.Planings
 			}
 		}
 
-		protected override void Serialize(BinaryWriter writer)
+		public override void Serialize(BinaryWriter writer)
 		{
 			writer.Write(Guests.Count);
 			foreach (var guest in Guests)
 			{
-				guest.SerializeContact(writer);
+				guest.Serialize(writer);
 			}
 		}
 
-		protected override void Deserialize(BinaryReader reader)
+		public override void Deserialize(BinaryReader reader)
 		{
 			//Read in the number of records
 			var records = reader.ReadInt32();
@@ -99,7 +100,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 			{
 				var contactControl = new ContactControl(true, true, true);
 
-				contactControl.DeserializeContact(reader);
+				contactControl.Deserialize(reader);
 				contactControl.OnDelete = deleteButton_Click;
 
 				spContacts.Children.Add(contactControl);
@@ -164,6 +165,15 @@ namespace WedChecker.UserControls.Tasks.Planings
 			contactControl.IncludeAlongWith = true;
 			contactControl.OnDelete = deleteButton_Click;
 			spContacts.Children.Add(contactControl);
-		}
-	}
+        }
+
+        protected override void LoadTaskDataAsText(StringBuilder sb)
+        {
+            foreach (var guest in Guests)
+            {
+                var contactAsText = guest.GetDataAsText();
+                sb.AppendLine(contactAsText);
+            }
+        }
+    }
 }

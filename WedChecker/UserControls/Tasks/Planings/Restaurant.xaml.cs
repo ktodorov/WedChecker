@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using Windows.UI.Xaml;
@@ -16,7 +17,7 @@ namespace WedChecker.UserControls.Tasks.Planings
         public string Notes { get; set; } = string.Empty;
 
 
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {
@@ -71,7 +72,7 @@ namespace WedChecker.UserControls.Tasks.Planings
         }
 
 
-        protected override void Serialize(BinaryWriter writer)
+        public override void Serialize(BinaryWriter writer)
         {
             RestaurantName = tbName.Text;
             tbNameDisplay.Text = RestaurantName;
@@ -91,7 +92,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             writer.Write(Notes);
         }
 
-        protected override void Deserialize(BinaryReader reader)
+        public override void Deserialize(BinaryReader reader)
         {
             RestaurantName = reader.ReadString();
             Address = reader.ReadString();
@@ -200,6 +201,19 @@ namespace WedChecker.UserControls.Tasks.Planings
             tbNotes.Visibility = Visibility.Visible;
             tbNotesDisplay.Visibility = Visibility.Collapsed;
             tbNotesHeader.Visibility = Visibility.Visible;
+        }
+
+        protected override void LoadTaskDataAsText(StringBuilder sb)
+        {
+            RestaurantName = tbName.Text;
+            Address = tbAddress.Text;
+            Phone = tbPhone.Text;
+            Notes = tbNotes.Text;
+
+            sb.AppendLine($"Name: {RestaurantName}");
+            sb.AppendLine($"Address: {Address}");
+            sb.AppendLine($"Phone: {Phone}");
+            sb.AppendLine($"Notes: {Notes}");
         }
     }
 }

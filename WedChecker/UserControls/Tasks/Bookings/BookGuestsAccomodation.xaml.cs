@@ -29,7 +29,7 @@ namespace WedChecker.UserControls.Tasks.Bookings
             }
         }
 
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {

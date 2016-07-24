@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using Windows.ApplicationModel.Contacts;
@@ -30,7 +31,7 @@ namespace WedChecker.UserControls.Tasks.Planings
         }
 
 
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {
@@ -93,7 +94,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             ccMaidOfHonor.EditValues();
         }
 
-        protected override void Serialize(BinaryWriter writer)
+        public override void Serialize(BinaryWriter writer)
         {
             var count = 0;
             if (BestMan != null)
@@ -110,16 +111,16 @@ namespace WedChecker.UserControls.Tasks.Planings
             if (BestMan != null)
             {
                 writer.Write("BestMan");
-                ccBestMan.SerializeContact(writer);
+                ccBestMan.Serialize(writer);
             }
             if (MaidOfHonor != null)
             {
                 writer.Write("MaidOfHonor");
-                ccMaidOfHonor.SerializeContact(writer);
+                ccMaidOfHonor.Serialize(writer);
             }
         }
 
-        protected override void Deserialize(BinaryReader reader)
+        public override void Deserialize(BinaryReader reader)
         {
             //Read in the number of records
             var records = reader.ReadInt32();
@@ -130,12 +131,28 @@ namespace WedChecker.UserControls.Tasks.Planings
 
                 if (type == "BestMan")
                 {
-                    ccBestMan.DeserializeContact(reader);
+                    ccBestMan.Deserialize(reader);
                 }
                 else if (type == "MaidOfHonor")
                 {
-                    ccMaidOfHonor.DeserializeContact(reader);
+                    ccMaidOfHonor.Deserialize(reader);
                 }
+            }
+        }
+
+        protected override void LoadTaskDataAsText(StringBuilder sb)
+        {
+            if (BestMan != null)
+            {
+                sb.AppendLine("Best man:");
+                var bestManAsText = ccBestMan.GetDataAsText();
+                sb.AppendLine(bestManAsText);
+            }
+            if (MaidOfHonor != null)
+            {
+                sb.AppendLine("Maid of honor:");
+                var maidOfHonorAsText = ccMaidOfHonor.GetDataAsText();
+                sb.AppendLine(maidOfHonorAsText);
             }
         }
     }

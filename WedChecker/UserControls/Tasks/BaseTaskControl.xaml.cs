@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using WedChecker.Extensions;
+using WedChecker.Interfaces;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
@@ -13,14 +14,14 @@ using Windows.UI.Xaml.Controls;
 
 namespace WedChecker.UserControls.Tasks
 {
-	public abstract partial class BaseTaskControl : UserControl
+	public abstract partial class BaseTaskControl : UserControl, IStorableTask
 	{
 		public BaseTaskControl()
 		{
 			this.InitializeComponent();
 		}
 
-		public static string TaskName { get; }
+		public virtual string TaskName { get; }
 		public virtual string EditHeader { get; }
 		public static string DisplayHeader { get; }
 		public virtual string TaskCode { get; }
@@ -29,24 +30,13 @@ namespace WedChecker.UserControls.Tasks
 
 		public bool PriorityTask;
 
-		public virtual void DisplayValues()
-		{
+        public abstract void DisplayValues();
 
-		}
+        public abstract void EditValues();
 
-		public virtual void EditValues()
-		{
+        public abstract void Serialize(BinaryWriter writer);
 
-		}
-
-		protected virtual void Serialize(BinaryWriter writer)
-		{
-
-		}
-
-		protected virtual void Deserialize(BinaryReader reader)
-		{
-		}
+        public abstract void Deserialize(BinaryReader reader);
 
 		protected virtual void SetLocalStorage()
 		{
@@ -138,5 +128,18 @@ namespace WedChecker.UserControls.Tasks
 				await ex.HandleException();
 			}
 		}
-	}
+
+        public string GetDataAsText()
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendLine(TaskName);
+
+            LoadTaskDataAsText(sb);
+
+            return sb.ToString();
+        }
+
+        protected abstract void LoadTaskDataAsText(StringBuilder sb);
+    }
 }

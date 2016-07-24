@@ -77,8 +77,8 @@
 							Style="{ThemeResource ButtonClearStyle}" Background="Gray" Height="35"
 							VerticalAlignment="Center" HorizontalAlignment="Center"
 							Click="cancelTask_Click" Margin="10, 0">
-					</Button>
-				</StackPanel>
+                    </Button>
+                </StackPanel>
 
 				<Button Name="showTaskOptions" Style="{StaticResource WedCheckerTextButtonStyle}"
                             Content="&#xE712;" FontFamily="Segoe MDL2 Assets" Background="Transparent" HorizontalAlignment="Right" 
@@ -94,17 +94,26 @@
 										<TextBlock Text="Edit" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="19" 
                                                        Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Stretch" />
 									</StackPanel>
-								</Button>
+                                </Button>
 
-								<Button Name="deleteTask" Background="Transparent" Click="deleteTask_Click" HorizontalAlignment="Stretch"
+                                <Button Name="shareTask" Background="Transparent" Click="shareTask_Click" HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Left" Padding="10">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="&#xE72D;" FontFamily="Segoe MDL2 Assets" FontSize="19" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Share" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="19" 
+                                                       Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Stretch"/>
+                                    </StackPanel>
+                                </Button>
+
+                                <Button Name="deleteTask" Background="Transparent" Click="deleteTask_Click" HorizontalAlignment="Stretch"
                                             HorizontalContentAlignment="Left" Padding="10">
 									<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
 										<TextBlock Text="&#xE107;" FontFamily="Segoe MDL2 Assets" FontSize="19" VerticalAlignment="Center"/>
 										<TextBlock Text="Delete" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="19" 
                                                        Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Stretch"/>
 									</StackPanel>
-								</Button>
-							</StackPanel>
+                                </Button>
+                            </StackPanel>
 						</Flyout>
 					</Button.Flyout>
 				</Button>

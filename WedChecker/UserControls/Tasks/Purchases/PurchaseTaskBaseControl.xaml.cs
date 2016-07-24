@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using WedChecker.Common;
 using WedChecker.Exceptions;
 using WedChecker.Extensions;
@@ -23,7 +24,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
 {
     public abstract partial class PurchaseTaskBaseControl : BaseTaskControl, ICompletableTask
     {
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {
@@ -130,6 +131,29 @@ namespace WedChecker.UserControls.Tasks.Purchases
             }
         }
 
+        public List<ToggleControl> Toggles
+        {
+            get
+            {
+                var toggles = new List<ToggleControl>();
+                if (hasCategories)
+                {
+                    var categoryPanels = ItemsPanel.Children.OfType<StackPanel>().ToList();
+
+                    foreach (var categoryPanel in categoryPanels)
+                    {
+                        toggles.AddRange(categoryPanel.Children.OfType<ToggleControl>().ToList());
+                    }
+                }
+                else
+                {
+                    toggles = ItemsPanel.Children.OfType<ToggleControl>().ToList();
+                }
+
+                return toggles;
+            }
+        }
+
         public PurchaseTaskBaseControl()
         {
             this.InitializeComponent();
@@ -162,55 +186,23 @@ namespace WedChecker.UserControls.Tasks.Purchases
 
         public override void DisplayValues()
         {
-            if (hasCategories)
+            var toggles = Toggles;
+            foreach (var toggle in toggles)
             {
-                var categoryPanels = ItemsPanel.Children.OfType<StackPanel>().ToList();
-
-                foreach (var categoryPanel in categoryPanels)
-                {
-                    var toggles = categoryPanel.Children.OfType<ToggleControl>();
-                    foreach (var toggle in toggles)
-                    {
-                        toggle.DisplayValues();
-                    }
-                }
-            }
-            else
-            {
-                var toggles = ItemsPanel.Children.OfType<ToggleControl>();
-                foreach (var toggle in toggles)
-                {
-                    toggle.DisplayValues();
-                }
+                toggle.DisplayValues();
             }
         }
 
         public override void EditValues()
         {
-            if (hasCategories)
+            var toggles = Toggles;
+            foreach (var toggle in toggles)
             {
-                var categoryPanels = ItemsPanel.Children.OfType<StackPanel>().ToList();
-
-                foreach (var categoryPanel in categoryPanels)
-                {
-                    var toggles = categoryPanel.Children.OfType<ToggleControl>();
-                    foreach (var toggle in toggles)
-                    {
-                        toggle.EditValues();
-                    }
-                }
-            }
-            else
-            {
-                var toggles = ItemsPanel.Children.OfType<ToggleControl>();
-                foreach (var toggle in toggles)
-                {
-                    toggle.EditValues();
-                }
+                toggle.EditValues();
             }
         }
 
-        protected override void Serialize(BinaryWriter writer)
+        public override void Serialize(BinaryWriter writer)
         {
             if (hasCategories)
             {
@@ -248,7 +240,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
             }
         }
 
-        protected override void Deserialize(BinaryReader reader)
+        public override void Deserialize(BinaryReader reader)
         {
             if (hasCategories)
             {
@@ -283,46 +275,16 @@ namespace WedChecker.UserControls.Tasks.Purchases
 
         public int GetCompletedItems()
         {
-            if (hasCategories)
-            {
-                var allPanels = ItemsPanel.Children.OfType<StackPanel>().ToList();
-                var completedTogglesCount = 0;
-
-                foreach (var categoryPanel in allPanels)
-                {
-                    var completedToggles = categoryPanel.Children.OfType<ToggleControl>().Where(t => t.Toggled);
-                    completedTogglesCount += completedToggles.Count();
-                }
-
-                return completedTogglesCount;
-            }
-            else
-            {
-                var completedToggles = ItemsPanel.Children.OfType<ToggleControl>().Where(t => t.Toggled);
-                return completedToggles.Count();
-            }
+            var toggles = Toggles;
+            var completedToggles = toggles.Where(t => t.Toggled);
+            return completedToggles.Count();
         }
 
         public int GetUncompletedItems()
         {
-            if (hasCategories)
-            {
-                var allPanels = ItemsPanel.Children.OfType<StackPanel>().ToList();
-                var uncompletedTogglesCount = 0;
-
-                foreach (var categoryPanel in allPanels)
-                {
-                    var uncompletedToggles = categoryPanel.Children.OfType<ToggleControl>().Where(t => !t.Toggled);
-                    uncompletedTogglesCount += uncompletedToggles.Count();
-                }
-
-                return uncompletedTogglesCount;
-            }
-            else
-            {
-                var uncompletedToggles = ItemsPanel.Children.OfType<ToggleControl>().Where(t => !t.Toggled);
-                return uncompletedToggles.Count();
-            }
+            var toggles = Toggles;
+            var completedToggles = toggles.Where(t => !t.Toggled);
+            return completedToggles.Count();
         }
 
         protected void AddCategory(string categoryName)
@@ -378,6 +340,16 @@ namespace WedChecker.UserControls.Tasks.Purchases
                 }
 
                 ItemsPanel.Children.Add(toggle);
+            }
+        }
+
+        protected override void LoadTaskDataAsText(StringBuilder sb)
+        {
+            var toggles = Toggles;
+            foreach (var toggle in toggles)
+            {
+                var toggleText = toggle.GetDataAsText();
+                sb.AppendLine(toggleText);
             }
         }
     }

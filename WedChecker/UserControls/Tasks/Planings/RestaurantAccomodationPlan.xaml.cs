@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using Windows.UI.Xaml;
@@ -14,7 +15,7 @@ namespace WedChecker.UserControls.Tasks.Planings
         private int TablesCount = 0;
         private const string TABLE_DISPLAY_NAME = "Table";
 
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {
@@ -88,7 +89,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             guestsPerTable.EditValues();
         }
 
-        protected override void Serialize(BinaryWriter writer)
+        public override void Serialize(BinaryWriter writer)
         {
             writer.Write(2);
 
@@ -96,10 +97,10 @@ namespace WedChecker.UserControls.Tasks.Planings
             writer.Write(TablesCount);
 
             writer.Write("GuestsPerTable");
-            guestsPerTable.SerializeData(writer);
+            guestsPerTable.Serialize(writer);
         }
 
-        protected override void Deserialize(BinaryReader reader)
+        public override void Deserialize(BinaryReader reader)
         {
             var objectsCount = reader.ReadInt32();
 
@@ -113,7 +114,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                 }
                 else if (type == "GuestsPerTable")
                 {
-                    guestsPerTable.DeserializeData(reader);
+                    guestsPerTable.Deserialize(reader);
                 }
             }
         }
@@ -152,6 +153,15 @@ namespace WedChecker.UserControls.Tasks.Planings
             spTables.Visibility = Visibility.Collapsed;
 
             guestsPerTable.Visibility = Visibility.Visible;
+        }
+
+        protected override void LoadTaskDataAsText(StringBuilder sb)
+        {
+            sb.AppendLine($"Tables count: {TablesCount}");
+
+            sb.AppendLine("Guests per table:");
+            var guestsAccomodationAsText = guestsPerTable.GetDataAsText();
+            sb.AppendLine(guestsAccomodationAsText);
         }
     }
 }

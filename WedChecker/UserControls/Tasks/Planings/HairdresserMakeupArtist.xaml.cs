@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
 
@@ -9,7 +10,7 @@ namespace WedChecker.UserControls.Tasks.Planings
     public sealed partial class HairdresserMakeupArtist : BaseTaskControl
     {
 
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {
@@ -58,7 +59,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             ccMakeupArtist.EditValues();
         }
 
-        protected override void Serialize(BinaryWriter writer)
+        public override void Serialize(BinaryWriter writer)
         {
             if (!ccHairdresser.IsStored && !ccMakeupArtist.IsStored)
             {
@@ -80,17 +81,17 @@ namespace WedChecker.UserControls.Tasks.Planings
             if (ccHairdresser.IsStored)
             {
                 writer.Write("Hairdresser");
-                ccHairdresser.SerializeContact(writer);
+                ccHairdresser.Serialize(writer);
             }
 
             if (ccMakeupArtist.IsStored)
             {
                 writer.Write("MakeupArtist");
-                ccMakeupArtist.SerializeContact(writer);
+                ccMakeupArtist.Serialize(writer);
             }
         }
 
-        protected override void Deserialize(BinaryReader reader)
+        public override void Deserialize(BinaryReader reader)
         {
             var storedContactsCount = reader.ReadInt32();
 
@@ -100,12 +101,29 @@ namespace WedChecker.UserControls.Tasks.Planings
 
                 if (contactType == "Hairdresser")
                 {
-                    ccHairdresser.DeserializeContact(reader);
+                    ccHairdresser.Deserialize(reader);
                 }
                 else if (contactType == "MakeupArtist")
                 {
-                    ccMakeupArtist.DeserializeContact(reader);
+                    ccMakeupArtist.Deserialize(reader);
                 }
+            }
+        }
+
+        protected override void LoadTaskDataAsText(StringBuilder sb)
+        {
+            if (ccHairdresser.IsStored)
+            {
+                sb.AppendLine("Hairdresser:");
+                var contactAsText = ccHairdresser.GetDataAsText();
+                sb.AppendLine(contactAsText);
+            }
+
+            if (ccMakeupArtist.IsStored)
+            {
+                sb.AppendLine("Makeup artist:");
+                var contactAsText = ccMakeupArtist.GetDataAsText();
+                sb.AppendLine(contactAsText);
             }
         }
     }

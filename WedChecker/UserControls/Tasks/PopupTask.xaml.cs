@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using WedChecker.UserControls.Elements;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -64,7 +65,7 @@ namespace WedChecker.UserControls.Tasks
                 ConnectedTaskControl = control;
                 ConnectedTaskControl.Margin = new Thickness(10);
 
-                var taskName = control.GetType().GetProperty("TaskName")?.GetValue(null, null).ToString();
+                var taskName = control.TaskName.ToString();
                 if (taskName != null)
                 {
                     buttonTaskName.Text = taskName;
@@ -83,6 +84,8 @@ namespace WedChecker.UserControls.Tasks
             {
                 var a = ex.Message;
             }
+
+            DataTransferManager.GetForCurrentView().DataRequested += MainPage_DataRequested;
         }
 
         private async void PopupTask_Loaded(object sender, RoutedEventArgs e)
@@ -219,6 +222,28 @@ namespace WedChecker.UserControls.Tasks
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             FireSizeChangedEvent();
+        }
+
+        private string TaskAsText;
+
+        private void shareTask_Click(object sender, RoutedEventArgs e)
+        {
+            TaskAsText = ConnectedTaskControl.GetDataAsText();
+
+            DataTransferManager.ShowShareUI();
+        }
+
+        void MainPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
+        {
+            if (!string.IsNullOrEmpty(TaskAsText))
+            {
+                args.Request.Data.SetText(TaskAsText);
+                args.Request.Data.Properties.Title = Windows.ApplicationModel.Package.Current.DisplayName;
+            }
+            else
+            {
+                args.Request.FailWithDisplayText("Nothing to share");
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using Windows.UI.Xaml;
@@ -16,7 +17,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         private bool ClothesChanged = false;
 
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {
@@ -78,7 +79,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             addClothingButton.Visibility = Visibility.Visible;
         }
 
-        protected override void Serialize(BinaryWriter writer)
+        public override void Serialize(BinaryWriter writer)
         {
             var childrenClothes = spGroomClothes.Children.OfType<ElementControl>();
             foreach (var clothing in childrenClothes)
@@ -94,7 +95,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             ClothesChanged = false;
         }
 
-        protected override void Deserialize(BinaryReader reader)
+        public override void Deserialize(BinaryReader reader)
         {
             Clothes = new Dictionary<int, string>();
             var size = reader.ReadInt32();
@@ -170,6 +171,18 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
 
             spGroomClothes.Children.Remove(clothing);
+        }
+
+        protected override void LoadTaskDataAsText(StringBuilder sb)
+        {
+            if (Clothes != null && Clothes.Any())
+            {
+                foreach (var cloth in Clothes)
+                {
+                    sb.Append(" - ");
+                    sb.AppendLine(cloth.Value);
+                }
+            }
         }
     }
 }

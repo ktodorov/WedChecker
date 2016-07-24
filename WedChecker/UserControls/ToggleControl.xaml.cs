@@ -1,4 +1,6 @@
 ﻿using System.IO;
+using System.Text;
+using WedChecker.Interfaces;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -7,7 +9,7 @@ using Windows.UI.Xaml.Media;
 
 namespace WedChecker.UserControls
 {
-    public sealed partial class ToggleControl : UserControl
+    public sealed partial class ToggleControl : UserControl, IStorableTask
     {
         public string Title
         {
@@ -77,6 +79,15 @@ namespace WedChecker.UserControls
         {
             Title = reader.ReadString();
             toggleSwitch.IsChecked = reader.ReadBoolean();
+        }
+
+        public string GetDataAsText()
+        {
+            var sb = new StringBuilder();
+            sb.Append($" - {Title} - ");
+            sb.AppendLine(Toggled ? "Yes" : "No");
+
+            return sb.ToString();
         }
     }
 }

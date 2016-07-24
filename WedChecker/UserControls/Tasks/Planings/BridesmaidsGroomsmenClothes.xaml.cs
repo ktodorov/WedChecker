@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using Windows.UI.Xaml;
@@ -18,7 +19,7 @@ namespace WedChecker.UserControls.Tasks.Planings
         private bool BridesmaidsClothesChanged = false;
         private bool GroomsmenClothesChanged = false;
 
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {
@@ -100,7 +101,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             addGroomsmenClothingButton.Visibility = Visibility.Visible;
         }
 
-        protected override void Serialize(BinaryWriter writer)
+        public override void Serialize(BinaryWriter writer)
         {
             var bridesmaidsElementChildren = spBridesmaidsClothes.Children.OfType<ElementControl>();
             var groomsmenElementChildren = spGroomsmenClothes.Children.OfType<ElementControl>();
@@ -141,7 +142,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
-        protected override void Deserialize(BinaryReader reader)
+        public override void Deserialize(BinaryReader reader)
         {
             BridesmaidsClothes = new Dictionary<int, string>();
             GroomsmenClothes = new Dictionary<int, string>();
@@ -286,6 +287,28 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
 
             spGroomsmenClothes.Children.Remove(clothing);
+        }
+
+        protected override void LoadTaskDataAsText(StringBuilder sb)
+        {
+            if (GroomsmenClothes != null && GroomsmenClothes.Any())
+            {
+                sb.AppendLine("Groomsmen:");
+                foreach (var cloth in GroomsmenClothes)
+                {
+                    sb.Append(" - ");
+                    sb.AppendLine(cloth.Value);
+                }
+            }
+            if (BridesmaidsClothes != null && BridesmaidsClothes.Any())
+            {
+                sb.AppendLine("Bridesmaids:");
+                foreach (var cloth in BridesmaidsClothes)
+                {
+                    sb.Append(" - ");
+                    sb.AppendLine(cloth.Value);
+                }
+            }
         }
     }
 }

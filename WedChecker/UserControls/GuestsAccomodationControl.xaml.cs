@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using WedChecker.Common;
+using WedChecker.Interfaces;
 using Windows.ApplicationModel.Contacts;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -11,7 +13,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace WedChecker.UserControls
 {
-    public sealed partial class GuestsAccomodationControl : UserControl
+    public sealed partial class GuestsAccomodationControl : UserControl, IStorableTask
     {
         private List<string> _storedPlaces;
         public List<string> StoredPlaces
@@ -139,7 +141,7 @@ namespace WedChecker.UserControls
                 nodeControl.EditValues();
             }
         }
-        public void SerializeData(BinaryWriter writer)
+        public void Serialize(BinaryWriter writer)
         {
             storedGuestsPanel.Visibility = Visibility.Collapsed;
             ActualizeContactInformation();
@@ -152,12 +154,12 @@ namespace WedChecker.UserControls
 
                 foreach (var guest in place.Value)
                 {
-                    guest.SerializeContact(writer);
+                    guest.Serialize(writer);
                 }
             }
         }
 
-        public void DeserializeData(BinaryReader reader)
+        public void Deserialize(BinaryReader reader)
         {
             //Read in the number of records
             var placesCount = reader.ReadInt32();
@@ -172,7 +174,7 @@ namespace WedChecker.UserControls
                 for (int j = 0; j < guestsCount; j++)
                 {
                     var contact = new ContactControl();
-                    contact.DeserializeContact(reader);
+                    contact.Deserialize(reader);
 
                     AddGuestForPlace(place, contact);
                 }
@@ -276,6 +278,28 @@ namespace WedChecker.UserControls
                 var nodeToRemove = treeViewPanel.Children.OfType<TreeNodeControl>().FirstOrDefault(tn => tn.NodeName == place);
                 treeViewPanel.Children.Remove(nodeToRemove);
             }
+        }
+
+        public string GetDataAsText()
+        {
+            ActualizeContactInformation();
+
+            var sb = new StringBuilder();
+            sb.AppendLine("Accomodation");
+
+            foreach (var place in GuestsPerPlaces)
+            {
+                sb.Append(" - ");
+                sb.AppendLine(place.Key); // Place name
+
+                foreach (var guest in place.Value)
+                {
+                    var contactAsText = guest.GetDataAsText();
+                    sb.AppendLine(contactAsText);
+                }
+            }
+
+            return sb.ToString();
         }
     }
 }

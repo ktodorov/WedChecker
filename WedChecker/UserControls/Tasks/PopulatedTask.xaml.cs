@@ -42,7 +42,7 @@ namespace WedChecker.UserControls.Tasks
 
             ConnectedTaskControl = control;
             var controlType = control.GetType();
-            var taskName = controlType.GetProperty("TaskName")?.GetValue(null, null).ToString();
+            var taskName = control.TaskName.ToString();
             if (taskName != null)
             {
                 buttonTaskName.Text = taskName.ToUpper();

@@ -159,6 +159,7 @@
     <Compile Include="Helpers\AddedTasksHelper.cs" />
     <Compile Include="Helpers\TasksOperationsHelper.cs" />
     <Compile Include="Interfaces\ICompletableTask.cs" />
+    <Compile Include="Interfaces\IStorableTask.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

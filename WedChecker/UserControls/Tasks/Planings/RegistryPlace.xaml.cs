@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using Windows.UI.Xaml;
@@ -16,7 +17,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             set;
         }
 
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {
@@ -71,7 +72,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             registryMap.EditValues();
         }
 
-        protected override void Serialize(BinaryWriter writer)
+        public override void Serialize(BinaryWriter writer)
         {
             var registryNotes = tbRegistryNotes.Text;
             RegistryNotes = registryNotes;
@@ -87,11 +88,11 @@ namespace WedChecker.UserControls.Tasks.Planings
             if (registryMap.HasPinnedLocation())
             {
                 writer.Write("RegistryMap");
-                registryMap.SerializeMapData(writer);
+                registryMap.Serialize(writer);
             }
         }
 
-        protected override void Deserialize(BinaryReader reader)
+        public override void Deserialize(BinaryReader reader)
         {
             var objectsCount = reader.ReadInt32();
 
@@ -105,7 +106,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                 }
                 else if (type == "RegistryMap")
                 {
-                    registryMap.DeserializeMapData(reader);
+                    registryMap.Deserialize(reader);
                 }
             }
         }
@@ -130,6 +131,24 @@ namespace WedChecker.UserControls.Tasks.Planings
         private void tbRegistryNotes_TextChanged(object sender, TextChangedEventArgs e)
         {
             tbRegistryNotesDisplay.Text = tbRegistryNotes.Text;
+        }
+
+        protected override void LoadTaskDataAsText(StringBuilder sb)
+        {
+            var registryNotes = tbRegistryNotes.Text;
+
+            if (!string.IsNullOrEmpty(registryNotes))
+            {
+                sb.AppendLine("Notes:");
+                sb.AppendLine(registryNotes);
+            }
+
+            if (registryMap.HasPinnedLocation())
+            {
+                sb.AppendLine("Pinned location:");
+                var mapLocationAsText = registryMap.GetDataAsText();
+                sb.AppendLine(mapLocationAsText);
+            }
         }
     }
 }

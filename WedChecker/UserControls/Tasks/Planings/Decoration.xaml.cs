@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using Windows.UI.Xaml;
@@ -12,7 +13,7 @@ namespace WedChecker.UserControls.Tasks.Planings
     {
         private string PlannedDecoration { get; set; } = string.Empty;
 
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {
@@ -70,7 +71,7 @@ namespace WedChecker.UserControls.Tasks.Planings
         }
 
 
-        protected override void Serialize(BinaryWriter writer)
+        public override void Serialize(BinaryWriter writer)
         {
             var decoration = tbDecoration.Text;
             PlannedDecoration = decoration;
@@ -78,7 +79,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             writer.Write(PlannedDecoration);
         }
 
-        protected override void Deserialize(BinaryReader reader)
+        public override void Deserialize(BinaryReader reader)
         {
             PlannedDecoration = reader.ReadString();
         }
@@ -96,6 +97,11 @@ namespace WedChecker.UserControls.Tasks.Planings
         private void tbDecoration_TextChanged(object sender, TextChangedEventArgs e)
         {
             tbDecorationDisplay.Text = tbDecoration.Text;
+        }
+
+        protected override void LoadTaskDataAsText(StringBuilder sb)
+        {
+            sb.AppendLine(tbDecoration.Text);
         }
     }
 }

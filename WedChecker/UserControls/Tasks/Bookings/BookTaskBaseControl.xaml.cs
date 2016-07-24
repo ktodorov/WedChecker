@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using WedChecker.Common;
 using WedChecker.Exceptions;
 using WedChecker.Interfaces;
@@ -13,7 +14,7 @@ namespace WedChecker.UserControls.Tasks.Bookings
 {
     public partial class BookTaskBaseControl : BaseTaskControl, ICompletableTask
     {
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {
@@ -133,7 +134,7 @@ namespace WedChecker.UserControls.Tasks.Bookings
             }
         }
 
-        protected override void Serialize(BinaryWriter writer)
+        public override void Serialize(BinaryWriter writer)
         {
             var toggles = ItemsPanel.Children.OfType<ToggleControl>();
             writer.Write(toggles.Count());
@@ -143,7 +144,7 @@ namespace WedChecker.UserControls.Tasks.Bookings
             }
         }
 
-        protected override void Deserialize(BinaryReader reader)
+        public override void Deserialize(BinaryReader reader)
         {
             var count = reader.ReadInt32();
 
@@ -184,6 +185,16 @@ namespace WedChecker.UserControls.Tasks.Bookings
             }
 
             ItemsPanel.Children.Add(toggle);
+        }
+
+        protected override void LoadTaskDataAsText(StringBuilder sb)
+        {
+            var toggles = ItemsPanel.Children.OfType<ToggleControl>().ToList();
+            foreach (var toggle in toggles)
+            {
+                var toggleText = toggle.GetDataAsText();
+                sb.AppendLine(toggleText);
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using WedChecker.Interfaces;
 using Windows.Devices.Geolocation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -8,7 +9,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace WedChecker.UserControls
 {
-    public sealed partial class WedCheckerMapControl : UserControl
+    public sealed partial class WedCheckerMapControl : UserControl, IStorableTask
     {
         private string _pinName;
         public string PinName
@@ -47,13 +48,13 @@ namespace WedChecker.UserControls
             HorizontalMapBorder.Visibility = Visibility.Visible;
         }
 
-        public void SerializeMapData(BinaryWriter writer)
+        public void Serialize(BinaryWriter writer)
         {
             writer.Write(locationMap.PinnedPlace.Latitude);
             writer.Write(locationMap.PinnedPlace.Longitude);
         }
 
-        public void DeserializeMapData(BinaryReader reader)
+        public void Deserialize(BinaryReader reader)
         {
             var latitude = reader.ReadDouble();
             var longitude = reader.ReadDouble();
@@ -130,5 +131,10 @@ namespace WedChecker.UserControls
 		{
 			locationMap.Zoom += 1;
 		}
+
+        public string GetDataAsText()
+        {
+            return string.Empty;
+        }
 	}
 }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
+using WedChecker.Interfaces;
 using Windows.ApplicationModel.Contacts;
 using Windows.UI;
 using Windows.UI.Core;
@@ -15,8 +17,8 @@ using Windows.UI.Xaml.Media;
 
 namespace WedChecker.UserControls
 {
-	public sealed partial class ContactControl : UserControl
-	{
+	public sealed partial class ContactControl : UserControl, IStorableTask
+    {
 		private Contact _storedContact;
 		public Contact StoredContact
 		{
@@ -480,7 +482,7 @@ namespace WedChecker.UserControls
 			return result;
 		}
 
-		public void SerializeContact(BinaryWriter writer)
+		public void Serialize(BinaryWriter writer)
 		{
 			if (IsEditable)
 			{
@@ -538,7 +540,7 @@ namespace WedChecker.UserControls
 			}
 		}
 
-		public void DeserializeContact(BinaryReader reader)
+		public void Deserialize(BinaryReader reader)
 		{
 			var contact = new Contact();
 
@@ -707,5 +709,38 @@ namespace WedChecker.UserControls
 		{
 			ClearContact();
 		}
+
+        public string GetDataAsText()
+        {
+            var sb = new StringBuilder();
+
+            if (StoredContact.FirstName != null)
+            {
+                sb.Append("First name: ");
+                sb.AppendLine(StoredContact.FirstName);
+            }
+            if (StoredContact.LastName != null)
+            {
+                sb.Append("Last name: ");
+                sb.AppendLine(StoredContact.LastName);
+            }
+            if (StoredContact.Emails.Any())
+            {
+                sb.Append("Email: ");
+                sb.AppendLine(StoredContact.Emails.FirstOrDefault().Address);
+            }
+            if (StoredContact.Phones.Any())
+            {
+                sb.Append("Phone: ");
+                sb.AppendLine(StoredContact.Phones.FirstOrDefault().Number);
+            }
+            if (StoredContact.Notes != null && ShowAlongWithPanel)
+            {
+                sb.Append("Along with: ");
+                sb.AppendLine(StoredContact.Notes);
+            }
+
+            return sb.ToString();
+        }
 	}
 }

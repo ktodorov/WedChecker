@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using Windows.Devices.Geolocation;
@@ -17,7 +18,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             set;
         }
 
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {
@@ -78,7 +79,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             religiousPlaceMap.EditValues();
         }
 
-        protected override void Serialize(BinaryWriter writer)
+        public override void Serialize(BinaryWriter writer)
         {
             var religiousNotes = tbReligiousNotes.Text;
             ReligiousNotes = religiousNotes;
@@ -94,11 +95,11 @@ namespace WedChecker.UserControls.Tasks.Planings
             if (religiousPlaceMap.HasPinnedLocation())
             {
                 writer.Write("ReligiousPlaceMap");
-                religiousPlaceMap.SerializeMapData(writer);
+                religiousPlaceMap.Serialize(writer);
             }
         }
 
-        protected override void Deserialize(BinaryReader reader)
+        public override void Deserialize(BinaryReader reader)
         {
             var objectsCount = reader.ReadInt32();
 
@@ -112,7 +113,7 @@ namespace WedChecker.UserControls.Tasks.Planings
                 }
                 else if (type == "ReligiousPlaceMap")
                 {
-                    religiousPlaceMap.DeserializeMapData(reader);
+                    religiousPlaceMap.Deserialize(reader);
                 }
             }
         }
@@ -137,6 +138,24 @@ namespace WedChecker.UserControls.Tasks.Planings
         private void tbReligiousNotes_TextChanged(object sender, TextChangedEventArgs e)
         {
             tbReligiousNotesDisplay.Text = tbReligiousNotes.Text;
+        }
+
+        protected override void LoadTaskDataAsText(StringBuilder sb)
+        {
+            var religiousNotes = tbReligiousNotes.Text;
+
+            if (!string.IsNullOrEmpty(religiousNotes))
+            {
+                sb.AppendLine("Notes:");
+                sb.AppendLine(religiousNotes);
+            }
+
+            if (religiousPlaceMap.HasPinnedLocation())
+            {
+                sb.AppendLine("Pinned location:");
+                var mapLocationAsText = religiousPlaceMap.GetDataAsText();
+                sb.AppendLine(mapLocationAsText);
+            }
         }
     }
 }

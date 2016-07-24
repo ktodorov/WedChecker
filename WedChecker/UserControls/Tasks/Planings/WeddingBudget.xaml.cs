@@ -4,6 +4,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using WedChecker.Common;
 using System.Threading.Tasks;
+using System.Text;
 
 namespace WedChecker.UserControls.Tasks.Planings
 {
@@ -15,7 +16,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             set;
         }
 
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {
@@ -67,7 +68,7 @@ namespace WedChecker.UserControls.Tasks.Planings
         }
 
 
-        protected override void Serialize(BinaryWriter writer)
+        public override void Serialize(BinaryWriter writer)
         {
             var weddingBudget = tbBudget.Text;
             Budget = Convert.ToInt32(weddingBudget);
@@ -77,7 +78,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             writer.Write(Budget);
         }
 
-        protected override void Deserialize(BinaryReader reader)
+        public override void Deserialize(BinaryReader reader)
         {
             var objectsCount = reader.ReadInt32();
 
@@ -94,6 +95,11 @@ namespace WedChecker.UserControls.Tasks.Planings
         private void tbBudget_TextChanged(object sender, TextChangedEventArgs e)
         {
             tbBudgetDisplay.Text = tbBudget.Text;
+        }
+
+        protected override void LoadTaskDataAsText(StringBuilder sb)
+        {
+            sb.AppendLine(tbBudgetDisplay.Text);
         }
     }
 }

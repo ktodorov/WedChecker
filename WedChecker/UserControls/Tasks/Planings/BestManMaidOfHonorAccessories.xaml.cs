@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using Windows.UI.Xaml;
@@ -18,7 +19,7 @@ namespace WedChecker.UserControls.Tasks.Planings
         private bool BestManAccessoriesChanged = false;
         private bool MaidOfHonorAccessoriesChanged = false;
 
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {
@@ -100,7 +101,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             addMaidOfHonorAccessoryButton.Visibility = Visibility.Visible;
         }
 
-        protected override void Serialize(BinaryWriter writer)
+        public override void Serialize(BinaryWriter writer)
         {
             var bestManElementChildren = spBestManAccessories.Children.OfType<ElementControl>();
             var maidOfHonorElementChildren = spMaidOfHonorAccessories.Children.OfType<ElementControl>();
@@ -141,7 +142,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
         }
 
-        protected override void Deserialize(BinaryReader reader)
+        public override void Deserialize(BinaryReader reader)
         {
             BestManAccessories = new Dictionary<int, string>();
             MaidOfHonorAccessories = new Dictionary<int, string>();
@@ -286,6 +287,28 @@ namespace WedChecker.UserControls.Tasks.Planings
             }
 
             spMaidOfHonorAccessories.Children.Remove(accessory);
+        }
+
+        protected override void LoadTaskDataAsText(StringBuilder sb)
+        {
+            if (BestManAccessories != null && BestManAccessories.Any())
+            {
+                sb.AppendLine("Best man:");
+                foreach (var accessory in BestManAccessories)
+                {
+                    sb.Append(" - ");
+                    sb.AppendLine(accessory.Value);
+                }
+            }
+            if (MaidOfHonorAccessories != null && MaidOfHonorAccessories.Any())
+            {
+                sb.AppendLine("Maid of honor:");
+                foreach (var accessory in MaidOfHonorAccessories)
+                {
+                    sb.Append(" - ");
+                    sb.AppendLine(accessory.Value);
+                }
+            }
         }
     }
 }

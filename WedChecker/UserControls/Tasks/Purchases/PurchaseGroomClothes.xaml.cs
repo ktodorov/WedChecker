@@ -28,7 +28,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
             }
         }
 
-        public static new string TaskName
+        public override string TaskName
         {
             get
             {

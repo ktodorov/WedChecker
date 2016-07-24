@@ -194,7 +194,7 @@ namespace WedChecker
             mainTitleBar.ProgressActive = true;
 
             var controls = await AppData.PopulateAddedControls();
-            controls = controls.OrderBy(c => c.GetType().GetProperty("TaskName").GetValue(null, null).ToString()).ToList();
+            controls = controls.OrderBy(c => c.TaskName.ToString()).ToList();
 
 
             if (alreadyCreated)
