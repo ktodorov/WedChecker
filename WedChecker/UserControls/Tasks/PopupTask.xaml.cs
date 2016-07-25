@@ -58,6 +58,7 @@ namespace WedChecker.UserControls.Tasks
         public EventHandler OnEdit;
         public EventHandler OnDelete;
         public EventHandler OnShare;
+        public EventHandler OnExport;
 
         public PopupTask(BaseTaskControl control, bool isNew)
         {
@@ -239,6 +240,11 @@ namespace WedChecker.UserControls.Tasks
             {
                 Cancel();
             }
+        }
+
+        private void exportTask_Click(object sender, RoutedEventArgs e)
+        {
+            OnExport?.Invoke(this, new EventArgs());
         }
     }
 }

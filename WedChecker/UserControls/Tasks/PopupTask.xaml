@@ -106,6 +106,15 @@
                                     </StackPanel>
                                 </Button>
 
+                                <Button Name="exportTask" Background="Transparent" Click="exportTask_Click" HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Left" Padding="10">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="&#xE8DE;" FontFamily="Segoe MDL2 Assets" FontSize="19" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Export" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" FontSize="19" 
+                                                       Foreground="{ThemeResource ApplicationForegroundThemeBrush}" VerticalAlignment="Stretch"/>
+                                    </StackPanel>
+                                </Button>
+
                                 <Button Name="deleteTask" Background="Transparent" Click="deleteTask_Click" HorizontalAlignment="Stretch"
                                             HorizontalContentAlignment="Left" Padding="10">
 									<StackPanel Orientation="Horizontal" VerticalAlignment="Center">

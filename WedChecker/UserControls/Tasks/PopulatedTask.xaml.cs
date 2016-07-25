@@ -23,6 +23,7 @@ namespace WedChecker.UserControls.Tasks
         public EventHandler OnEdit;
         public EventHandler OnDelete;
         public EventHandler OnShare;
+        public EventHandler OnExport;
 
         public string DisplayHeader
         {
@@ -93,6 +94,11 @@ namespace WedChecker.UserControls.Tasks
         private void shareTask_Click(object sender, RoutedEventArgs e)
         {
             OnShare?.Invoke(this, new EventArgs());
+        }
+
+        private void exportTask_Click(object sender, RoutedEventArgs e)
+        {
+            OnExport?.Invoke(this, new EventArgs());
         }
     }
 }

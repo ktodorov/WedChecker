@@ -282,7 +282,7 @@ namespace WedChecker
                 var type = populatedControl.GetType();
                 if (!TaskAlreadyAdded(type))
                 {
-                    TaskData.InsertTaskControl(this, populatedControl, false, taskTapped, onTaskEdit, onTaskDelete, onTaskShare);
+                    TaskData.InsertTaskControl(this, populatedControl, false, taskTapped, onTaskEdit, onTaskDelete, onTaskShare, onTaskExport);
                 }
             }
 
@@ -347,7 +347,7 @@ namespace WedChecker
                 return;
             }
 
-            var created = TaskData.CreateTaskControl(this, taskControl, taskTapped, onTaskEdit, onTaskDelete, onTaskShare);
+            var created = TaskData.CreateTaskControl(this, taskControl, taskTapped, onTaskEdit, onTaskDelete, onTaskShare, onTaskExport);
             if (created)
             {
                 addTaskDialog.Visibility = Visibility.Collapsed;
@@ -438,6 +438,7 @@ namespace WedChecker
             popupTask.OnDelete += onTaskDelete;
             popupTask.OnEdit += onTaskEdit;
             popupTask.OnShare += onTaskShare;
+            popupTask.OnExport += onTaskExport;
             popupTask.TaskSizeChanged += PopupTask_TaskSizeChanged;
 
             appBar.Visibility = Visibility.Collapsed;
@@ -527,18 +528,7 @@ namespace WedChecker
 
         private void onTaskShare(object sender, EventArgs e)
         {
-            BaseTaskControl connectedControl = null;
-            if (sender is PopulatedTask)
-            {
-                var populatedTask = sender as PopulatedTask;
-                connectedControl = populatedTask.ConnectedTaskControl;
-            }
-            else if (sender is PopupTask)
-            {
-                var popupTask = sender as PopupTask;
-                connectedControl = popupTask.ConnectedTaskControl;
-            }
-
+            var connectedControl = GetTaskControlFromSenderControl(sender);
             if (connectedControl == null)
             {
                 return;
@@ -547,6 +537,35 @@ namespace WedChecker
             textForShare = connectedControl.GetDataAsText();
 
             DataTransferManager.ShowShareUI();
+        }
+
+        private void onTaskExport(object sender, EventArgs e)
+        {
+            var connectedControl = GetTaskControlFromSenderControl(sender);
+            if (connectedControl == null)
+            {
+                return;
+            }
+
+            connectedControl.ExportDataAsTextFile();
+        }
+
+        private BaseTaskControl GetTaskControlFromSenderControl(object sender)
+        {
+            BaseTaskControl connectedControl = null;
+
+            if (sender is PopulatedTask)
+            {
+                var populatedTask = sender as PopulatedTask;
+                connectedControl = populatedTask?.ConnectedTaskControl;
+            }
+            else if (sender is PopupTask)
+            {
+                var popupTask = sender as PopupTask;
+                connectedControl = popupTask?.ConnectedTaskControl;
+            }
+
+            return connectedControl;
         }
 
         private void PopupTask_TaskSizeChanged(object sender, SizeChangedEventArgs e)
