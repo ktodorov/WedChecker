@@ -9,7 +9,8 @@
     xmlns:TaskUserControls="using:WedChecker.UserControls.Tasks"
     xmlns:Elements="using:WedChecker.UserControls.Elements"
     mc:Ignorable="d"
-	SizeChanged="Page_SizeChanged">
+	SizeChanged="Page_SizeChanged"
+    KeyDown="Page_KeyDown">
 
 	<Grid Name="mainGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 		<Grid.RowDefinitions>

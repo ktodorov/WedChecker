@@ -777,5 +777,13 @@ namespace WedChecker
             tbWeddingPassed.Visibility = Visibility.Visible;
             tbCountdownTimer.Visibility = Visibility.Collapsed;
         }
+
+        private void Page_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Escape)
+            {
+                PopupTask_CancelClick(null, new RoutedEventArgs());
+            }
+        }
     }
 }

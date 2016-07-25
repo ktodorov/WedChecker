@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using WedChecker.Common;
 using WedChecker.UserControls.Elements;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
@@ -156,12 +158,15 @@ namespace WedChecker.UserControls.Tasks
 
         private async void saveTask_Click(object sender, RoutedEventArgs e)
         {
+            await Save();
+        }
+
+        public async Task Save()
+        {
             await DisplayConnectedTask();
 
-            if (SaveClick != null)
-            {
-                SaveClick(this, e);
-            }
+            SaveClick?.Invoke(this, new RoutedEventArgs());
+
             InEditMode = false;
         }
 
@@ -226,6 +231,14 @@ namespace WedChecker.UserControls.Tasks
         private void shareTask_Click(object sender, RoutedEventArgs e)
         {
             OnShare?.Invoke(this, new EventArgs());
+        }
+
+        private void UserControl_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Escape)
+            {
+                Cancel();
+            }
         }
     }
 }

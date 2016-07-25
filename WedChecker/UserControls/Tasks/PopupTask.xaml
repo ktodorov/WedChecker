@@ -8,7 +8,8 @@
     mc:Ignorable="d"
     HorizontalAlignment="Center"
     VerticalAlignment="Center"
-	SizeChanged="UserControl_SizeChanged">
+	SizeChanged="UserControl_SizeChanged"
+    KeyDown="UserControl_KeyDown">
 
 	<UserControl.Transitions>
 		<TransitionCollection>
