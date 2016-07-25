@@ -55,6 +55,7 @@ namespace WedChecker.UserControls.Tasks
 
         public EventHandler OnEdit;
         public EventHandler OnDelete;
+        public EventHandler OnShare;
 
         public PopupTask(BaseTaskControl control, bool isNew)
         {
@@ -84,8 +85,6 @@ namespace WedChecker.UserControls.Tasks
             {
                 var a = ex.Message;
             }
-
-            DataTransferManager.GetForCurrentView().DataRequested += MainPage_DataRequested;
         }
 
         private async void PopupTask_Loaded(object sender, RoutedEventArgs e)
@@ -224,26 +223,9 @@ namespace WedChecker.UserControls.Tasks
             FireSizeChangedEvent();
         }
 
-        private string TaskAsText;
-
         private void shareTask_Click(object sender, RoutedEventArgs e)
         {
-            TaskAsText = ConnectedTaskControl.GetDataAsText();
-
-            DataTransferManager.ShowShareUI();
-        }
-
-        void MainPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
-        {
-            if (!string.IsNullOrEmpty(TaskAsText))
-            {
-                args.Request.Data.SetText(TaskAsText);
-                args.Request.Data.Properties.Title = Windows.ApplicationModel.Package.Current.DisplayName;
-            }
-            else
-            {
-                args.Request.FailWithDisplayText("Nothing to share");
-            }
+            OnShare?.Invoke(this, new EventArgs());
         }
     }
 }

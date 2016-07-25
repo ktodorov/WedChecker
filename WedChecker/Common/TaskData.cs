@@ -19,7 +19,8 @@ namespace WedChecker.Common
 {
     public static partial class TaskData
     {
-        public static bool CreateTaskControl(Page currentPage, BaseTaskControl taskControl, TappedEventHandler tappedEvent = null, EventHandler onTaskEdit = null, EventHandler onTaskDelete = null)
+        public static bool CreateTaskControl(Page currentPage, BaseTaskControl taskControl, TappedEventHandler tappedEvent = null, 
+                                             EventHandler onTaskEdit = null, EventHandler onTaskDelete = null, EventHandler onTaskShare = null)
         {
             if (taskControl == null)
             {
@@ -31,7 +32,8 @@ namespace WedChecker.Common
             return true;
         }
 
-        public static void InsertTaskControl(Page currentPage, BaseTaskControl taskControl, bool isNew = true, TappedEventHandler tappedEvent = null, EventHandler onTaskEdit = null, EventHandler onTaskDelete = null)
+        public static void InsertTaskControl(Page currentPage, BaseTaskControl taskControl, bool isNew = true, TappedEventHandler tappedEvent = null,
+                                             EventHandler onTaskEdit = null, EventHandler onTaskDelete = null, EventHandler onTaskShare = null)
         {
             var taskControlType = taskControl.GetType();
             var pivotName = GetGridViewNameFromType(taskControlType);//, mainPivot);
@@ -49,6 +51,10 @@ namespace WedChecker.Common
             if (onTaskDelete != null)
             {
                 newPopulatedTask.OnDelete += onTaskDelete;
+            }
+            if (onTaskShare != null)
+            {
+                newPopulatedTask.OnShare += onTaskShare;
             }
 
             if (!pivotStackPanel.Items.Contains(newPopulatedTask))

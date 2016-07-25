@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using WedChecker.Exceptions;
@@ -11,18 +10,13 @@ using WedChecker.UserControls;
 using WedChecker.UserControls.Elements;
 using WedChecker.UserControls.Tasks;
 using Windows.ApplicationModel.Background;
-using Windows.Data.Xml.Dom;
-using Windows.Foundation;
-using Windows.Foundation.Metadata;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using Windows.UI.Notifications;
-using Windows.UI.StartScreen;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -33,6 +27,34 @@ namespace WedChecker
     {
         private bool FirstTimeLaunched = true;
         private string arguments;
+        private string textForShare;
+
+        public MainPage()
+        {
+            this.InitializeComponent();
+
+            Loaded += MainPage_Loaded;
+
+            mainTitleBar.BackButtonClick += MainTitleBar_BackButtonClick;
+
+            this.RequestedTheme = Core.GetElementTheme();
+
+            ApplicationData.Current.DataChanged += RoamingDataChanged;
+            DataTransferManager.GetForCurrentView().DataRequested += MainPage_DataRequested;
+        }
+
+        void MainPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
+        {
+            if (!string.IsNullOrEmpty(textForShare))
+            {
+                args.Request.Data.SetText(textForShare);
+                args.Request.Data.Properties.Title = Windows.ApplicationModel.Package.Current.DisplayName;
+            }
+            else
+            {
+                args.Request.FailWithDisplayText("Nothing to share");
+            }
+        }
 
         public async void SwitchCategoryFromArguments(string givenArguments)
         {
@@ -51,19 +73,6 @@ namespace WedChecker
             }
 
             ChangeTaskCategory(taskCategory);
-        }
-
-        public MainPage()
-        {
-            this.InitializeComponent();
-
-            Loaded += MainPage_Loaded;
-
-            mainTitleBar.BackButtonClick += MainTitleBar_BackButtonClick;
-
-            this.RequestedTheme = Core.GetElementTheme();
-
-            ApplicationData.Current.DataChanged += RoamingDataChanged;
         }
 
         private async void RoamingDataChanged(ApplicationData sender, object args)
@@ -273,7 +282,7 @@ namespace WedChecker
                 var type = populatedControl.GetType();
                 if (!TaskAlreadyAdded(type))
                 {
-                    TaskData.InsertTaskControl(this, populatedControl, false, taskTapped, onTaskEdit, onTaskDelete);
+                    TaskData.InsertTaskControl(this, populatedControl, false, taskTapped, onTaskEdit, onTaskDelete, onTaskShare);
                 }
             }
 
@@ -338,7 +347,7 @@ namespace WedChecker
                 return;
             }
 
-            var created = TaskData.CreateTaskControl(this, taskControl, taskTapped, onTaskEdit, onTaskDelete);
+            var created = TaskData.CreateTaskControl(this, taskControl, taskTapped, onTaskEdit, onTaskDelete, onTaskShare);
             if (created)
             {
                 addTaskDialog.Visibility = Visibility.Collapsed;
@@ -428,6 +437,7 @@ namespace WedChecker
             popupTask.CancelClick += PopupTask_CancelClick;
             popupTask.OnDelete += onTaskDelete;
             popupTask.OnEdit += onTaskEdit;
+            popupTask.OnShare += onTaskShare;
             popupTask.TaskSizeChanged += PopupTask_TaskSizeChanged;
 
             appBar.Visibility = Visibility.Collapsed;
@@ -513,6 +523,30 @@ namespace WedChecker
             }
 
             tasksSummary.RemoveTaskInfo(connectedControl);
+        }
+
+        private void onTaskShare(object sender, EventArgs e)
+        {
+            BaseTaskControl connectedControl = null;
+            if (sender is PopulatedTask)
+            {
+                var populatedTask = sender as PopulatedTask;
+                connectedControl = populatedTask.ConnectedTaskControl;
+            }
+            else if (sender is PopupTask)
+            {
+                var popupTask = sender as PopupTask;
+                connectedControl = popupTask.ConnectedTaskControl;
+            }
+
+            if (connectedControl == null)
+            {
+                return;
+            }
+
+            textForShare = connectedControl.GetDataAsText();
+
+            DataTransferManager.ShowShareUI();
         }
 
         private void PopupTask_TaskSizeChanged(object sender, SizeChangedEventArgs e)
@@ -743,20 +777,5 @@ namespace WedChecker
             tbWeddingPassed.Visibility = Visibility.Visible;
             tbCountdownTimer.Visibility = Visibility.Collapsed;
         }
-
-        private static async Task SetupJumpList()
-        {
-            JumpList jumpList = await JumpList.LoadCurrentAsync();
-            jumpList.Items.Clear();
-
-            JumpListItem photoItem = JumpListItem.CreateWithArguments("photo", "Capture photo");
-            JumpListItem videoItem = JumpListItem.CreateWithArguments("video", "Capture video");
-
-            jumpList.Items.Add(photoItem);
-            jumpList.Items.Add(videoItem);
-
-            await jumpList.SaveAsync();
-        }
-
     }
 }

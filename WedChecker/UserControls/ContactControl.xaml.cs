@@ -734,7 +734,7 @@ namespace WedChecker.UserControls
                 sb.Append("Phone: ");
                 sb.AppendLine(StoredContact.Phones.FirstOrDefault().Number);
             }
-            if (StoredContact.Notes != null && ShowAlongWithPanel)
+            if (!string.IsNullOrEmpty(StoredContact.Notes) && ShowAlongWithPanel)
             {
                 sb.Append("Along with: ");
                 sb.AppendLine(StoredContact.Notes);

@@ -154,6 +154,40 @@ namespace WedChecker.UserControls.Tasks.Purchases
             }
         }
 
+        public Dictionary<string, List<ToggleControl>> TogglesByCategories
+        {
+            get
+            {
+                var result = new Dictionary<string, List<ToggleControl>>();
+                if (hasCategories)
+                {
+                    var categoryPanels = ItemsPanel.Children.OfType<StackPanel>().ToList();
+
+                    foreach (var categoryPanel in categoryPanels)
+                    {
+                        var categoryNameBlock = categoryPanel.Children.OfType<TextBlock>().FirstOrDefault();
+                        var categoryName = categoryNameBlock.Text;
+                        var toggles = categoryPanel.Children.OfType<ToggleControl>().ToList();
+                        if (!result.ContainsKey(categoryName))
+                        {
+                            result.Add(categoryName, toggles);
+                        }
+                        else
+                        {
+                            result[categoryName].AddRange(toggles);
+                        }
+                    }
+                }
+                else
+                {
+                    var toggles = ItemsPanel.Children.OfType<ToggleControl>().ToList();
+                    result.Add(string.Empty, toggles);
+                }
+
+                return result;
+            }
+        }
+
         public PurchaseTaskBaseControl()
         {
             this.InitializeComponent();
@@ -345,11 +379,20 @@ namespace WedChecker.UserControls.Tasks.Purchases
 
         protected override void LoadTaskDataAsText(StringBuilder sb)
         {
-            var toggles = Toggles;
-            foreach (var toggle in toggles)
+            var togglesByCategories = TogglesByCategories;
+            foreach (var toggleCategory in togglesByCategories)
             {
-                var toggleText = toggle.GetDataAsText();
-                sb.AppendLine(toggleText);
+                if (!string.IsNullOrEmpty(toggleCategory.Key))
+                {
+                    sb.AppendLine(toggleCategory.Key);
+                }
+
+                var toggles = toggleCategory.Value;
+                foreach (var toggle in toggles)
+                {
+                    var toggleText = toggle.GetDataAsText();
+                    sb.Append(toggleText);
+                }
             }
         }
     }
