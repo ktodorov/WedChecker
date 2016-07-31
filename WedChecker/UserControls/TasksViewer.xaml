@@ -1,0 +1,23 @@
+﻿<UserControl
+    x:Class="WedChecker.UserControls.TasksViewer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WedChecker.UserControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer Name="svTasks" VerticalScrollBarVisibility="Auto" Padding="10, 0" >
+        <GridView Name="gvTasks" SelectionMode="None" SizeChanged="gvTasks_SizeChanged">
+            <GridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalAlignment" Value="Stretch"/>
+                    <Setter Property="Margin" Value="2" />
+                </Style>
+            </GridView.ItemContainerStyle>
+        </GridView>
+    </ScrollViewer>
+</UserControl>

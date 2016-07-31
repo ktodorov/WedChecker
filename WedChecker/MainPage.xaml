@@ -139,7 +139,8 @@
                         </TransitionCollection>
                     </Grid.ChildrenTransitions>
 
-                    <ScrollViewer Name="svHome" VerticalScrollBarVisibility="Auto">
+                    <Frame x:Name="contentFrame" />
+                    <!--<ScrollViewer Name="svHome" VerticalScrollBarVisibility="Auto">
                         <StackPanel Name="spHome" Orientation="Vertical" VerticalAlignment="Center">
                             <StackPanel Name="spMain" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <TextBlock x:Name="tbGreetUser" TextWrapping="Wrap" Text="Hello" HorizontalAlignment="Center" 
@@ -157,49 +158,11 @@
                         </StackPanel>
                     </ScrollViewer>
 
-                    <ScrollViewer Name="svPurchases" Grid.Row="1" VerticalScrollBarVisibility="Auto" Visibility="Collapsed" Padding="10, 0">
-                        <GridView Name="gvPurchases" SelectionMode="None" SizeChanged="gridView_SizeChanged">
-                            <GridView.ItemContainerStyle>
-                                <Style TargetType="GridViewItem">
-                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                                    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-                                    <Setter Property="VerticalAlignment" Value="Stretch"/>
-                                    <Setter Property="Margin" Value="2" />
-                                </Style>
-                            </GridView.ItemContainerStyle>
-                        </GridView>
-                    </ScrollViewer>
+                    <UserControls:TasksViewer Grid.Row="1" x:Name="tvPurchases" Visibility="Collapsed" />
 
+                    <UserControls:TasksViewer Grid.Row="1" x:Name="tvPlannings" Visibility="Collapsed" />
 
-                    <ScrollViewer Name="svPlanings" Grid.Row="1" VerticalScrollBarVisibility="Auto" Visibility="Collapsed" Padding="10, 0">
-                        <GridView Name="gvPlanings" SelectionMode="None" SizeChanged="gridView_SizeChanged">
-                            <GridView.ItemContainerStyle>
-                                <Style TargetType="GridViewItem">
-                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                                    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-                                    <Setter Property="VerticalAlignment" Value="Stretch"/>
-                                    <Setter Property="Margin" Value="2" />
-                                </Style>
-                            </GridView.ItemContainerStyle>
-                        </GridView>
-                    </ScrollViewer>
-
-
-                    <ScrollViewer Name="svBookings" Grid.Row="1" VerticalScrollBarVisibility="Auto" Visibility="Collapsed" Padding="10, 0">
-                        <GridView Name="gvBookings" SelectionMode="None" SizeChanged="gridView_SizeChanged">
-                            <GridView.ItemContainerStyle>
-                                <Style TargetType="GridViewItem">
-                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                                    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-                                    <Setter Property="VerticalAlignment" Value="Stretch"/>
-                                    <Setter Property="Margin" Value="2" />
-                                </Style>
-                            </GridView.ItemContainerStyle>
-                        </GridView>
-                    </ScrollViewer>
+                    <UserControls:TasksViewer Grid.Row="1" x:Name="tvBookings" Visibility="Collapsed" />-->
                 </Grid>
             </SplitView.Content>
         </SplitView>
@@ -207,21 +170,20 @@
         <TaskUserControls:TaskDialog x:Name="addTaskDialog" TappedTile="TaskTile_Tapped" Visibility="Collapsed" 
 									 Grid.Row="1" Grid.ColumnSpan="2" Padding="15" />
 
+
+
         <Rectangle x:Name="rectBackgroundHide" Fill="{ThemeResource SystemControlBackgroundBaseMediumBrush}" Visibility="Collapsed"
-				   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.ColumnSpan="2"
+				   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
 				   Tapped="rectBackgroundHide_Tapped">
         </Rectangle>
 
-        <Popup Name="taskPopup" IsOpen="False" Grid.RowSpan="2" Grid.ColumnSpan="2">
+        <Popup Name="taskPopup" IsOpen="False">
             <Popup.Transitions>
                 <TransitionCollection>
                     <PopupThemeTransition />
                 </TransitionCollection>
             </Popup.Transitions>
         </Popup>
-
-
-
     </Grid>
 
     <Page.BottomAppBar>

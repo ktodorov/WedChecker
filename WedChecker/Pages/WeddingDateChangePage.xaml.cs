@@ -41,6 +41,13 @@ namespace WedChecker.Pages
             }
 
             this.RequestedTheme = Core.GetElementTheme();
+
+            this.Loaded += WeddingDateChangePage_Loaded;
+        }
+
+        private void WeddingDateChangePage_Loaded(object sender, RoutedEventArgs e)
+        {
+            Core.CurrentTitleBar = mainTitleBar;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

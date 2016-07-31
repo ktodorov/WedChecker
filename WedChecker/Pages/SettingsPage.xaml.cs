@@ -38,9 +38,16 @@ namespace WedChecker.Pages
 			{
 				rbDefaultTheme.Visibility = Visibility.Collapsed;
 			}
+
+            this.Loaded += SettingsPage_Loaded;
 		}
 
-		protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void SettingsPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            Core.CurrentTitleBar = mainTitleBar;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
 			base.OnNavigatedTo(e);
 		}

@@ -38,9 +38,16 @@ namespace WedChecker.Pages
             tbAppVersion.Text = $"v {appVersion}";
 
             currentYear.Text = DateTime.Now.Year.ToString();
+
+            this.Loaded += AboutPage_Loaded;
         }
 
-		private void MainTitleBar_BackButtonClick(object sender, RoutedEventArgs e)
+        private void AboutPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            Core.CurrentTitleBar = mainTitleBar;
+        }
+
+        private void MainTitleBar_BackButtonClick(object sender, RoutedEventArgs e)
 		{
 			if (Frame.CanGoBack)
 			{

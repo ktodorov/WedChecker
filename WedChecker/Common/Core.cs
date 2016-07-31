@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using WedChecker.UserControls.Elements;
 using WedChecker.UserControls.Tasks;
 using Windows.Networking.Connectivity;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
 
@@ -41,6 +43,19 @@ namespace WedChecker.Common
             get
             {
                 return ApplicationData.Current.RoamingFolder;
+            }
+        }
+
+        private static WedCheckerTitleBar _currentTitleBar;
+        public static WedCheckerTitleBar CurrentTitleBar
+        {
+            get
+            {
+                return _currentTitleBar;
+            }
+            set
+            {
+                _currentTitleBar = value;
             }
         }
 

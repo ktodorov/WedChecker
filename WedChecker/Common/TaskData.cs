@@ -11,6 +11,7 @@ using WedChecker.UserControls;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Input;
 using System.Threading.Tasks;
+using WedChecker.Pages;
 
 #if WINDOWS_PHONE_APP
 using Windows.Phone.UI.Input;
@@ -19,55 +20,6 @@ namespace WedChecker.Common
 {
     public static partial class TaskData
     {
-        public static bool CreateTaskControl(Page currentPage, BaseTaskControl taskControl, TappedEventHandler tappedEvent = null, 
-                                             EventHandler onTaskEdit = null, EventHandler onTaskDelete = null, EventHandler onTaskShare = null,
-                                             EventHandler onTaskExport = null)
-        {
-            if (taskControl == null)
-            {
-                return false;
-            }
-
-            InsertTaskControl(currentPage, taskControl, true, tappedEvent, onTaskEdit, onTaskDelete);
-
-            return true;
-        }
-
-        public static void InsertTaskControl(Page currentPage, BaseTaskControl taskControl, bool isNew = true, TappedEventHandler tappedEvent = null,
-                                             EventHandler onTaskEdit = null, EventHandler onTaskDelete = null, EventHandler onTaskShare = null,
-                                             EventHandler onTaskExport = null)
-        {
-            var taskControlType = taskControl.GetType();
-            var pivotName = GetGridViewNameFromType(taskControlType);//, mainPivot);
-            var pivotStackPanel = currentPage.FindName(pivotName) as GridView;
-
-            var newPopulatedTask = new PopulatedTask(taskControl, isNew);
-            if (tappedEvent != null)
-            {
-                newPopulatedTask.Tapped += tappedEvent;
-            }
-            if (onTaskEdit != null)
-            {
-                newPopulatedTask.OnEdit += onTaskEdit;
-            }
-            if (onTaskDelete != null)
-            {
-                newPopulatedTask.OnDelete += onTaskDelete;
-            }
-            if (onTaskShare != null)
-            {
-                newPopulatedTask.OnShare += onTaskShare;
-            }
-            if (onTaskExport != null)
-            {
-                newPopulatedTask.OnExport += onTaskExport;
-            }
-
-            if (!pivotStackPanel.Items.Contains(newPopulatedTask))
-            {
-                pivotStackPanel.Items.Add(newPopulatedTask);
-            }
-        }
 
         private static string GetGridViewNameFromType(Type taskType, Pivot mainPivot = null)
         {
@@ -76,7 +28,7 @@ namespace WedChecker.Common
 
             if (taskCategory == TaskCategories.Booking)
             {
-                result = "gvBookings";
+                result = "tvBookings";
                 if (mainPivot != null)
                 {
                     mainPivot.SelectedIndex = 3;
@@ -84,7 +36,7 @@ namespace WedChecker.Common
             }
             else if (taskCategory == TaskCategories.Planing)
             {
-                result = "gvPlanings";
+                result = "tvPlannings";
                 if (mainPivot != null)
                 {
                     mainPivot.SelectedIndex = 1;
@@ -92,7 +44,7 @@ namespace WedChecker.Common
             }
             else if (taskCategory == TaskCategories.Purchase)
             {
-                result = "gvPurchases";
+                result = "tvPurchases";
                 if (mainPivot != null)
                 {
                     mainPivot.SelectedIndex = 2;

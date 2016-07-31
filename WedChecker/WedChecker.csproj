@@ -161,17 +161,25 @@
     <Compile Include="Infrastructure\Convertors\AlongWithConvertor.cs" />
     <Compile Include="Infrastructure\Convertors\EmailAddressConvertor.cs" />
     <Compile Include="Infrastructure\Convertors\PhoneNumberConvertor.cs" />
+    <Compile Include="Infrastructure\Params.cs" />
     <Compile Include="Infrastructure\WedCheckerContact.cs" />
     <Compile Include="Interfaces\ICompletableTask.cs" />
     <Compile Include="Interfaces\IStorableTask.cs" />
+    <Compile Include="Interfaces\IUpdateableTasks.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\HomePage.xaml.cs">
+      <DependentUpon>HomePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\TasksViewPage.xaml.cs">
+      <DependentUpon>TasksViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\WeddingDateChangePage.xaml.cs">
       <DependentUpon>WeddingDateChangePage.xaml</DependentUpon>
@@ -208,6 +216,9 @@
     </Compile>
     <Compile Include="UserControls\TaskSummaryControl.xaml.cs">
       <DependentUpon>TaskSummaryControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\TasksViewer.xaml.cs">
+      <DependentUpon>TasksViewer.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Tasks\BaseTaskControl.xaml.cs">
       <DependentUpon>BaseTaskControl.xaml</DependentUpon>
@@ -404,7 +415,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\HomePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\TasksViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -449,6 +468,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\TaskSummaryControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\TasksViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

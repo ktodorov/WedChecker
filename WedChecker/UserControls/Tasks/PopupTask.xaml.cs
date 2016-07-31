@@ -203,7 +203,7 @@ namespace WedChecker.UserControls.Tasks
             CancelClick?.Invoke(this, e);
         }
 
-        public void ResizeContent(double windowWidth, double windowHeight, WedCheckerTitleBar titleBar)
+        public void ResizeContent(double windowWidth, double windowHeight)
         {
             var popupHeaderHeight = buttonTaskName.ActualHeight;
             var popupFooterHeight = commandGrid.ActualHeight;
