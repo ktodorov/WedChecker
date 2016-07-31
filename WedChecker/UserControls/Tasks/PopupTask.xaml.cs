@@ -211,8 +211,9 @@ namespace WedChecker.UserControls.Tasks
 
             var removedHeight = margins + popupHeaderHeight + popupFooterHeight;
 
-            contentScroll.MaxHeight = windowHeight - (removedHeight);
-            contentScroll.MaxWidth = windowWidth - 50;
+            var maxHeight = (windowHeight - removedHeight);
+            var maxWidth = windowWidth - 50;
+            SetContentMaxHeightWidth(maxHeight, maxWidth);
         }
 
         private void FireSizeChangedEvent()
@@ -245,6 +246,21 @@ namespace WedChecker.UserControls.Tasks
         private void exportTask_Click(object sender, RoutedEventArgs e)
         {
             OnExport?.Invoke(this, new EventArgs());
+        }
+
+        private void SetContentMaxHeightWidth(double maxHeight, double maxWidth)
+        {
+            contentScroll.MaxWidth = maxWidth;
+
+            if (ConnectedTaskControl.HasOwnScrollViewer)
+            {
+                maxHeight -= tbTaskHeader.ActualHeight + 20; // 20 for the margins
+                ConnectedTaskControl.SetOwnScrollViewerHeight(maxHeight, maxWidth);
+            }
+            else
+            {
+                contentScroll.MaxHeight = maxHeight;
+            }
         }
     }
 }

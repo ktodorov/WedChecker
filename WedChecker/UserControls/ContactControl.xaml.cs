@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
+using WedChecker.Infrastructure;
 using WedChecker.Interfaces;
 using Windows.ApplicationModel.Contacts;
 using Windows.UI;
@@ -17,16 +19,18 @@ using Windows.UI.Xaml.Media;
 
 namespace WedChecker.UserControls
 {
-	public sealed partial class ContactControl : UserControl, IStorableTask
+	public sealed partial class ContactControl : UserControl, IStorableTask, INotifyPropertyChanged
     {
-		private Contact _storedContact;
-		public Contact StoredContact
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
+		private WedCheckerContact _storedContact;
+		public WedCheckerContact StoredContact
 		{
 			get
 			{
 				if (_storedContact == null)
 				{
-					_storedContact = new Contact();
+					_storedContact = new WedCheckerContact();
 				}
 
 				return _storedContact;
@@ -35,8 +39,15 @@ namespace WedChecker.UserControls
 			private set
 			{
 				_storedContact = value;
-			}
-		}
+                this.DataContext = StoredContact;
+                NotifyPropertyChanged("StoredContact");
+            }
+        }
+
+        private void NotifyPropertyChanged(String info)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+        }
 
 		public RoutedEventHandler OnDelete
 		{
@@ -234,234 +245,136 @@ namespace WedChecker.UserControls
 			SetBackground();
 		}
 
-		public ContactControl(Contact storedContact, string alongWith = null, bool editAlongWith = false, bool isEditable = false, bool isReplaceable = false)
+		public ContactControl(Contact contact, string alongWith = null, bool editAlongWith = false, bool isEditable = false, bool isReplaceable = false)
 		{
 			this.InitializeComponent();
-
-			IsEditable = isEditable;
+            IsEditable = isEditable;
 			EditAlongWith = editAlongWith;
 			IsReplaceable = isReplaceable;
 
-			StoreContact(storedContact);
-
 			SetBackground();
-		}
 
-		public void StoreContact(Contact contact)
-		{
-			ClearAllFields();
+            StoreContact(contact);
 
-			if (IsEditable && string.IsNullOrEmpty(contact.Id))
-			{
-				contact.Id = Guid.NewGuid().ToString();
-			}
-
-			if (string.IsNullOrEmpty(contact.Id))
-			{
-				return;
-			}
-
-			StoredContact = contact;
-
-			tbId.Text = StoredContact.Id;
-
-			if (!string.IsNullOrEmpty(StoredContact.FirstName) || !string.IsNullOrEmpty(StoredContact.LastName))
-			{
-				tbContactName.Text = $"{StoredContact.FirstName} {StoredContact.LastName}";
-				tbEditContactName.Text = $"{StoredContact.FirstName} {StoredContact.LastName}";
-			}
-
-			if (StoredContact.Emails.Count > 0)
-			{
-				var emails = string.Empty;
-
-				foreach (var email in StoredContact.Emails)
-				{
-					emails += $"{email.Address}";
-				}
-
-				var hyperlinkText = CreateNewHyperlink($"mailto:{emails}", emails);
-				tbContactEmails.Inlines.Clear();
-				tbContactEmails.Inlines.Add(hyperlinkText);
-				tbEditContactEmails.Text = emails;
-			}
-
-			if (StoredContact.Phones.Count > 0)
-			{
-				var phones = string.Empty;
-
-				foreach (var phone in StoredContact.Phones)
-				{
-					phones += $"{phone.Number}";
-				}
-
-				var hyperlinkText = CreateNewHyperlink($"tel:{phones}", phones);
-				tbContactPhones.Inlines.Clear();
-				tbContactPhones.Inlines.Add(hyperlinkText);
-				tbEditContactPhones.Text = phones;
-			}
-
-			if (!string.IsNullOrEmpty(StoredContact.Notes))
-			{
-				tbAlongWith.Text = StoredContact.Notes;
-				tbCheckboxTextDisplay.Text = StoredContact.Notes;
-			}
-
-			AdjustVisibility();
-		}
-
-		private void ClearAllFields()
-		{
-			tbId.Text = string.Empty;
-			tbEditContactName.Text = string.Empty;
-			tbContactName.Text = string.Empty;
-			tbContactEmails.Text = string.Empty;
-			tbEditContactEmails.Text = string.Empty;
-			tbContactPhones.Text = string.Empty;
-			tbEditContactPhones.Text = string.Empty;
-			tbCheckboxTextDisplay.Text = string.Empty;
-			tbAlongWith.Text = string.Empty;
-
+            EditValues();
 		}
 
 		public void ClearContact()
 		{
 			StoredContact = null;
-			ClearAllFields();
-
-			AdjustVisibility();
 
 			EditValues();
 		}
 
 		public void DisplayValues()
-		{
-			AdjustVisibility();
+        {
+            phonesPanel.Visibility = Visibility.Visible;
+            emailsPanel.Visibility = Visibility.Visible;
 
-			tbContactNameDisplay.Visibility = Visibility.Collapsed;
-			tbEditContactEmails.Visibility = Visibility.Collapsed;
-			tbEditContactName.Visibility = Visibility.Collapsed;
-			tbEditContactPhones.Visibility = Visibility.Collapsed;
+            tbContactNameDisplay.Visibility = Visibility.Collapsed;
+            tbEditContactEmails.Visibility = Visibility.Collapsed;
+            tbEditContactName.Visibility = Visibility.Collapsed;
+            tbEditContactPhones.Visibility = Visibility.Collapsed;
 
-			tbContactEmails.Visibility = Visibility.Visible;
-			tbContactName.Visibility = Visibility.Visible;
-			tbContactPhones.Visibility = Visibility.Visible;
+            if (StoredContact.Emails.Any())
+            {
+                tbContactEmails.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                emailsPanel.Visibility = Visibility.Collapsed;
+            }
 
-			deleteButton.Visibility = Visibility.Collapsed;
-			tbCheckboxText.Visibility = Visibility.Collapsed;
-			tbAlongWith.Visibility = Visibility.Collapsed;
+            if (StoredContact.Phones.Any())
+            {
+                tbContactPhones.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                phonesPanel.Visibility = Visibility.Collapsed;
+            }
+            
+            if (!string.IsNullOrEmpty(StoredContact.FullName))
+            {
+                tbContactName.Visibility = Visibility.Visible;
+            }
 
-			if (!string.IsNullOrEmpty(tbCheckboxTextDisplay.Text))
-			{
-				tbCheckboxTextDisplay.Visibility = Visibility.Visible;
-			}
-			else
-			{
-				tbCheckboxTextDisplay.Visibility = Visibility.Collapsed;
-			}
+            deleteButton.Visibility = Visibility.Collapsed;
+            tbAlongWithText.Visibility = Visibility.Collapsed;
+            tbAlongWith.Visibility = Visibility.Collapsed;
 
-			selectContactButton.Visibility = Visibility.Collapsed;
-		}
+            if (!string.IsNullOrEmpty(StoredContact.Notes))
+            {
+                tbAlongWithDisplay.Visibility = Visibility.Visible;
+            }
+
+            selectContactButton.Visibility = Visibility.Collapsed;
+        }
 
 		public void EditValues()
 		{
-			AdjustVisibility(IsEditable);
+            phonesPanel.Visibility = Visibility.Visible;
+            emailsPanel.Visibility = Visibility.Visible;
 
-			if (IsReplaceable)
-			{
-				selectContactButton.Visibility = Visibility.Visible;
-			}
+            if (IsReplaceable)
+            {
+                selectContactButton.Visibility = Visibility.Visible;
+            }
 
-			if (IsEditable)
-			{
-				tbContactNameDisplay.Visibility = Visibility.Visible;
-				tbEditContactEmails.Visibility = Visibility.Visible;
-				tbEditContactName.Visibility = Visibility.Visible;
-				tbEditContactPhones.Visibility = Visibility.Visible;
+            if (IsEditable)
+            {
+                tbContactNameDisplay.Visibility = Visibility.Visible;
+                tbEditContactEmails.Visibility = Visibility.Visible;
+                tbEditContactName.Visibility = Visibility.Visible;
+                tbEditContactPhones.Visibility = Visibility.Visible;
 
+                tbContactEmails.Visibility = Visibility.Collapsed;
+                tbContactName.Visibility = Visibility.Collapsed;
+                tbContactPhones.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                tbContactNameDisplay.Visibility = Visibility.Collapsed;
+                tbEditContactEmails.Visibility = Visibility.Collapsed;
+                tbEditContactName.Visibility = Visibility.Collapsed;
+                tbEditContactPhones.Visibility = Visibility.Collapsed;
 
-				tbContactEmails.Visibility = Visibility.Collapsed;
-				tbContactName.Visibility = Visibility.Collapsed;
-				tbContactPhones.Visibility = Visibility.Collapsed;
-			}
+                tbContactName.Visibility = Visibility.Visible;
 
-			if (EditAlongWith)
-			{
-				tbCheckboxText.Visibility = Visibility.Visible;
-				tbAlongWith.Visibility = Visibility.Visible;
-				tbCheckboxTextDisplay.Visibility = Visibility.Collapsed;
-			}
+                if (!StoredContact.Emails.Any())
+                {
+                    emailsPanel.Visibility = Visibility.Collapsed;
+                }
 
-			var namesEntered = (!string.IsNullOrEmpty(StoredContact.FirstName) || !string.IsNullOrEmpty(StoredContact.LastName));
-			if (!namesEntered)
-			{
-				return;
-			}
+                if (!StoredContact.Phones.Any())
+                {
+                    phonesPanel.Visibility = Visibility.Collapsed;
+                }
+            }
 
-			deleteButton.Visibility = Visibility.Visible;
-		}
+            tbAlongWithDisplay.Visibility = Visibility.Collapsed;
+            if (EditAlongWith)
+            {
+                tbAlongWithText.Visibility = Visibility.Visible;
+                tbAlongWith.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                tbAlongWithText.Visibility = Visibility.Collapsed;
+                tbAlongWith.Visibility = Visibility.Collapsed;
+                if (!IsEditable)
+                {
+                    tbAlongWithDisplay.Visibility = Visibility.Collapsed;
+                }
+            }
 
-		private void AdjustVisibility(bool setAllVisible = false)
-		{
-			var namesEntered = (!string.IsNullOrEmpty(StoredContact.FirstName) || !string.IsNullOrEmpty(StoredContact.LastName));
+            if (string.IsNullOrEmpty(StoredContact.FullName))
+            {
+                return;
+            }
 
-			if (namesEntered ||
-				setAllVisible)
-			{
-				tbContactName.Visibility = Visibility.Visible;
-			}
-			else
-			{
-				tbContactName.Visibility = Visibility.Collapsed;
-			}
-
-			if (StoredContact.Emails.Count > 0 || setAllVisible)
-			{
-				emailsPanel.Visibility = Visibility.Visible;
-			}
-			else
-			{
-				emailsPanel.Visibility = Visibility.Collapsed;
-			}
-
-			if (StoredContact.Phones.Count > 0 || setAllVisible)
-			{
-				phonesPanel.Visibility = Visibility.Visible;
-			}
-			else
-			{
-				phonesPanel.Visibility = Visibility.Collapsed;
-			}
-
-			if (!ShowAlongWithPanel || (!ShowAlongWithPanel && string.IsNullOrEmpty(StoredContact.Notes)))
-			{
-				alongWithPanel.Visibility = Visibility.Collapsed;
-			}
-			else if (namesEntered)
-			{
-				alongWithPanel.Visibility = Visibility.Visible;
-
-				var alongWith = 0;
-				if (int.TryParse(StoredContact.Notes, out alongWith))
-				{
-					tbCheckboxTextDisplay.Visibility = Visibility.Visible;
-					tbCheckboxTextDisplay.Text = $"Along with {StoredContact.Notes.ToString()} other";
-				}
-
-				if (EditAlongWith)
-				{
-					tbCheckboxTextDisplay.Visibility = Visibility.Collapsed;
-
-					tbCheckboxText.Visibility = Visibility.Visible;
-					tbAlongWith.Visibility = Visibility.Visible;
-				}
-				else
-				{
-					tbAlongWith.Visibility = Visibility.Collapsed;
-					tbCheckboxText.Visibility = Visibility.Collapsed;
-				}
-			}
-		}
+            deleteButton.Visibility = Visibility.Visible;
+        }
 
 		private int GetFilledFields()
 		{
@@ -484,13 +397,7 @@ namespace WedChecker.UserControls
 
 		public void Serialize(BinaryWriter writer)
 		{
-			if (IsEditable)
-			{
-				SaveFields();
-			}
-
 			var filledFields = GetFilledFields();
-
 			if (filledFields == 0)
 			{
 				return;
@@ -520,7 +427,7 @@ namespace WedChecker.UserControls
 				writer.Write("Notes");
 				writer.Write(StoredContact.Notes);
 			}
-			if (StoredContact.Emails.Count > 0)
+			if (StoredContact.Emails.Any())
 			{
 				writer.Write("Emails");
 				writer.Write(StoredContact.Emails.Count);
@@ -529,7 +436,7 @@ namespace WedChecker.UserControls
 					writer.Write(email.Address);
 				}
 			}
-			if (StoredContact.Phones.Count > 0)
+			if (StoredContact.Phones.Any())
 			{
 				writer.Write("Phones");
 				writer.Write(StoredContact.Phones.Count);
@@ -542,7 +449,7 @@ namespace WedChecker.UserControls
 
 		public void Deserialize(BinaryReader reader)
 		{
-			var contact = new Contact();
+			StoredContact = new WedCheckerContact();
 
 			var fieldsToCollect = reader.ReadInt32();
 
@@ -559,16 +466,16 @@ namespace WedChecker.UserControls
 				switch (readString)
 				{
 					case "Id":
-						contact.Id = reader.ReadString();
+						StoredContact.Id = reader.ReadString();
 						break;
 					case "FirstName":
-						contact.FirstName = reader.ReadString();
+						StoredContact.FirstName = reader.ReadString();
 						break;
 					case "LastName":
-						contact.LastName = reader.ReadString();
+						StoredContact.LastName = reader.ReadString();
 						break;
 					case "Notes":
-						contact.Notes = reader.ReadString();
+						StoredContact.Notes = reader.ReadString();
 						break;
 					case "Emails":
 						var emailsCount = reader.ReadInt32();
@@ -576,8 +483,10 @@ namespace WedChecker.UserControls
 						{
 							var email = new ContactEmail();
 							email.Address = reader.ReadString();
-							contact.Emails.Add(email);
-						}
+							StoredContact.Emails.Add(email);
+                            StoredContact.Email = email;
+                            StoredContact.EmailAddress = email.Address;
+                        }
 						break;
 					case "Phones":
 						var phonesCount = reader.ReadInt32();
@@ -585,74 +494,12 @@ namespace WedChecker.UserControls
 						{
 							var phone = new ContactPhone();
 							phone.Number = reader.ReadString();
-							contact.Phones.Add(phone);
-						}
+							StoredContact.Phones.Add(phone);
+                            StoredContact.Phone = phone;
+                            StoredContact.PhoneNumber = phone.Number;
+                        }
 						break;
 				}
-			}
-
-			StoreContact(contact);
-		}
-
-		private void SaveFields()
-		{
-			// Id
-			if (string.IsNullOrEmpty(StoredContact.Id))
-			{
-				StoredContact.Id = Guid.NewGuid().ToString();
-			}
-
-			// Name
-			tbContactName.Text = tbEditContactName.Text;
-			var names = tbEditContactName.Text.Split(' ');
-			var lastName = names.LastOrDefault();
-			var firstName = string.Empty;
-
-			for (int i = 0; i < names.Length - 1; i++)
-			{
-				firstName += names[i];
-			}
-
-			StoredContact.FirstName = firstName;
-			StoredContact.LastName = lastName;
-
-			// Emails
-			var hyperlinkText = CreateNewHyperlink($"mailto:{tbEditContactEmails.Text}", tbEditContactEmails.Text);
-			tbContactEmails.Inlines.Clear();
-			tbContactEmails.Inlines.Add(hyperlinkText);
-
-			StoredContact.Emails.Clear();
-
-			if (!string.IsNullOrEmpty(tbEditContactEmails.Text))
-			{
-				var email = new ContactEmail();
-				email.Address = tbEditContactEmails.Text;
-
-				StoredContact.Emails.Add(email);
-			}
-
-			// Phones
-			hyperlinkText = CreateNewHyperlink($"tel:{tbEditContactPhones.Text}", tbEditContactPhones.Text);
-			tbContactPhones.Inlines.Clear();
-			tbContactPhones.Inlines.Add(hyperlinkText);
-			StoredContact.Phones.Clear();
-
-			if (!string.IsNullOrEmpty(tbEditContactPhones.Text))
-			{
-				var phone = new ContactPhone();
-				phone.Number = tbEditContactPhones.Text;
-
-				StoredContact.Phones.Add(phone);
-			}
-
-			// Notes
-			StoredContact.Notes = string.Empty;
-			tbCheckboxTextDisplay.Text = string.Empty;
-
-			if (!string.IsNullOrEmpty(tbAlongWith.Text))
-			{
-				StoredContact.Notes = tbAlongWith.Text;
-				tbCheckboxTextDisplay.Text = $"Along with {StoredContact.Notes.ToString()} other";
 			}
 		}
 
@@ -680,35 +527,20 @@ namespace WedChecker.UserControls
 				return;
 			}
 
-			StoreContact(contact);
+            StoredContact = new WedCheckerContact(contact);
 
 			EditValues();
-		}
-
-		private Hyperlink CreateNewHyperlink(string navigateUri, string text)
-		{
-			var currentAccentColorHex = Core.GetSystemAccentColor();
-
-			// Navigate URI
-			var hyperlinkText = new Hyperlink();
-			hyperlinkText.NavigateUri = new Uri(navigateUri);
-
-			// Inline text
-			var line = new Run();
-			line.Text = text;
-			hyperlinkText.Inlines.Add(line);
-
-			// Foreground
-			SolidColorBrush backColor = new SolidColorBrush(currentAccentColorHex);
-			hyperlinkText.Foreground = backColor;
-
-			return hyperlinkText;
 		}
 
 		private void DeleteButton_Click(object sender, RoutedEventArgs e)
 		{
 			ClearContact();
 		}
+
+        public void StoreContact(Contact contact)
+        {
+            StoredContact = new WedCheckerContact(contact);
+        }
 
         public string GetDataAsText()
         {
@@ -742,5 +574,10 @@ namespace WedChecker.UserControls
 
             return sb.ToString();
         }
-	}
+
+        public override string ToString()
+        {
+            return StoredContact.FullName;
+        }
+    }
 }

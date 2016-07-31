@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using WedChecker.Common;
+using WedChecker.Infrastructure;
 using WedChecker.Interfaces;
 using Windows.ApplicationModel.Contacts;
 using Windows.UI.Xaml;
@@ -53,13 +54,13 @@ namespace WedChecker.UserControls
 
         private void InitializeStoredInfo()
         {
-            var storedGuests = AppData.GetStorage("GuestsList") as List<Contact>;
+            var storedGuests = AppData.GetStorage("GuestsList") as List<WedCheckerContact>;
             if (storedGuests == null)
             {
                 throw new Exception("No guests added. You must first add them from the Guest List planning task.");
             }
 
-            StoredGuests.AddRange(storedGuests);
+            StoredGuests.AddRange(storedGuests.Select(c => c.ToContact()));
         }
 
         private void AddChildButton_Click(object sender, RoutedEventArgs e)

@@ -36,6 +36,66 @@ namespace WedChecker.UserControls
             {
                 return childNodesPanel.Children.ToList();
             }
+            set
+            {
+                childNodesPanel.Children.Clear();
+                if (value == null)
+                {
+                    return;
+                }
+
+                foreach (var node in value)
+                {
+                    childNodesPanel.Children.Add(node);
+                }
+            }
+        }
+
+        private bool _isAddable = true;
+        public bool IsAddable
+        {
+            get
+            {
+                return _isAddable;
+            }
+            set
+            {
+                if (_isAddable == value)
+                {
+                    return;
+                }
+
+                if (value)
+                {
+                    addChildButton.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    addChildButton.Visibility = Visibility.Collapsed;
+                }
+
+                _isAddable = value;
+            }
+        }
+
+        private bool _opened = false;
+        public bool Opened
+        {
+            get
+            {
+                return _opened;
+            }
+            set
+            {
+                if (_opened == value)
+                {
+                    return;
+                }
+
+                _opened = value;
+
+                ToggleNodesVisibility(value);
+            }
         }
 
         public TreeNodeControl()
@@ -59,12 +119,17 @@ namespace WedChecker.UserControls
 
         private void collapseButton_Click(object sender, RoutedEventArgs e)
         {
-            if (childNodesPanel.Visibility == Visibility.Visible)
+            ToggleNodesVisibility();
+        }
+
+        private void ToggleNodesVisibility(bool? value = null)
+        {
+            if ((!value.HasValue && childNodesPanel.Visibility == Visibility.Visible) || (value.HasValue && !value.Value))
             {
                 tbNodeSymbol.Text = "\uE09B";
                 childNodesPanel.Visibility = Visibility.Collapsed;
             }
-            else
+            else if (!value.HasValue || value.Value)
             {
                 tbNodeSymbol.Text = "\uE09D";
                 childNodesPanel.Visibility = Visibility.Visible;
@@ -97,7 +162,10 @@ namespace WedChecker.UserControls
         public void EditValues(bool applyForChildren = true)
         {
             tbNodeSymbol.Opacity = 1;
-            addChildButton.Visibility = Visibility.Visible;
+            if (IsAddable)
+            {
+                addChildButton.Visibility = Visibility.Visible;
+            }
             collapseButton.SetValue(Grid.ColumnSpanProperty, 1);
 
             if (applyForChildren)

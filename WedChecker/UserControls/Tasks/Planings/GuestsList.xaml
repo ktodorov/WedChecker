@@ -5,15 +5,25 @@
     xmlns:local="using:WedChecker.UserControls.Tasks"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:we="using:WedChecker.UserControls.Tasks">
+    xmlns:we="using:WedChecker.UserControls.Tasks"
+    xmlns:uc="using:WedChecker.UserControls">
 
-    <Grid>
+    <UserControl.Resources>
+        <CollectionViewSource x:Name="contactItemsViewSource" IsSourceGrouped="true" ItemsPath="ContactControls"/>
+    </UserControl.Resources>
+
+    <Grid Name="mainGuestsGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <StackPanel Name="editPanel" Grid.Row="0" Orientation="Vertical">
+
+        <uc:TreeNodeControl x:Name="editPanelTreeNode" NodeName="Edit panel" IsAddable="False" Opened="True">
+        </uc:TreeNodeControl>
+
+        <StackPanel Name="editPanel" Orientation="Vertical">
             <TextBlock Text="Select guests from your contact list and let us import them here" 
                    Style="{StaticResource WedCheckerDisplayTextBlockStyle}"/>
             <Button Name="selectContacts" Content="Select" Style="{StaticResource ButtonClearStyle}"
@@ -27,10 +37,59 @@
                 VerticalAlignment="Center" HorizontalAlignment="Center"
                 Click="addNewContactButton_Click" Width="200"/>
         </StackPanel>
-        <TextBlock Name="tbGuestsAdded" Grid.Row="1" TextAlignment="Center" Margin="0, 0, 0, 10"
+
+        <TextBlock Name="tbGuestsAdded" Grid.Row="2" TextAlignment="Center" Margin="0, 0, 0, 10"
                    Style="{StaticResource SubheaderTextBlockStyle}" FontSize="13"/>
 
-        <StackPanel Name="spContacts" Grid.Row="2">
-        </StackPanel>
+        <!--<StackPanel Name="spContacts" Grid.Row="2">
+        </StackPanel>-->
+
+        <SemanticZoom Name="semanticZoom" ViewChangeStarted="SemanticZoom_ViewChangeStarted" Grid.Row="3" VerticalAlignment="Top">
+            <SemanticZoom.ZoomedInView>
+                <ListView Name="tasksGridView" SelectionMode="None" 
+					  Loaded="tasksGridView_Loaded" ItemsSource="{Binding Source={StaticResource contactItemsViewSource}}"
+                          ScrollViewer.IsVerticalRailEnabled="True" ScrollViewer.IsVerticalScrollChainingEnabled="True"
+                          SizeChanged="tasksGridView_SizeChanged">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListViewItem">
+                                        <ContentPresenter />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+
+                    <ListView.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.ContainerStyle>
+                                <Style TargetType="GroupItem">
+                                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                </Style>
+                            </GroupStyle.ContainerStyle>
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock FontSize="20" Text="{Binding Title}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" Margin="15,0,0,0"/>
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                        </GroupStyle>
+                    </ListView.GroupStyle>
+                </ListView>
+            </SemanticZoom.ZoomedInView>
+
+            <SemanticZoom.ZoomedOutView>
+                <GridView Name="ZoomedOutGridView" VerticalAlignment="Center" HorizontalAlignment="Center" SelectionMode="None">
+                    <GridView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Margin="5" TextWrapping="NoWrap" Text="{Binding Title}"
+								   FontSize="23" VerticalAlignment="Center" Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+            </SemanticZoom.ZoomedOutView>
+        </SemanticZoom>
     </Grid>
 </we:BaseTaskControl>

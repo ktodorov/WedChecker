@@ -69,28 +69,6 @@ namespace WedChecker.UserControls.Tasks.Planings
             this.InitializeComponent();
         }
 
-        public BridesmaidsGroomsmen(List<KeyValuePair<string, Contact>> contacts)
-        {
-            this.InitializeComponent();
-            var bridesmaids = contacts.Where(c => c.Key == "Bridesmaid")?.Select(c => c.Value);
-            var groomsmen = contacts.Where(c => c.Key == "Groomsman")?.Select(c => c.Value);
-            foreach (var bridesmaid in bridesmaids)
-            {
-                var bridesmaidControl = new ContactControl(bridesmaid);
-                bridesmaidControl.OnDelete = deleteBridesmaidButton_Click;
-                bridesmaidControl.Visibility = Visibility.Visible;
-                spBridesmaids.Children.Add(bridesmaidControl);
-            }
-
-            foreach (var groomsman in groomsmen)
-            {
-                var groomsmanControl = new ContactControl(groomsman);
-                groomsmanControl.OnDelete = deleteGroomsmanButton_Click;
-                groomsmanControl.Visibility = Visibility.Visible;
-                spGroomsmen.Children.Add(groomsmanControl);
-            }
-        }
-
         public override void DisplayValues()
         {
             selectBridesmaids.Visibility = Visibility.Collapsed;
@@ -153,7 +131,7 @@ namespace WedChecker.UserControls.Tasks.Planings
 
             for (int i = 0; i < bridesmaidsCount; i++)
             {
-                var contactControl = new ContactControl();
+                var contactControl = new ContactControl(isEditable: true);
                 contactControl.Deserialize(reader);
                 contactControl.OnDelete = deleteBridesmaidButton_Click;
                 spBridesmaids.Children.Add(contactControl);
@@ -162,7 +140,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             var groomsmenCount = reader.ReadInt32();
             for (int i = 0; i < groomsmenCount; i++)
             {
-                var contactControl = new ContactControl();
+                var contactControl = new ContactControl(isEditable: true);
                 contactControl.Deserialize(reader);
                 contactControl.OnDelete = deleteGroomsmanButton_Click;
                 spGroomsmen.Children.Add(contactControl);
@@ -218,7 +196,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             {
                 if (!Bridesmaids.Any(c => c.StoredContact.Id == contact.Id))
                 {
-                    var contactControl = new ContactControl(contact);
+                    var contactControl = new ContactControl(contact, isEditable: true);
                     contactControl.OnDelete = deleteBridesmaidButton_Click;
 
                     spBridesmaids.Children.Add(contactControl);
@@ -242,7 +220,7 @@ namespace WedChecker.UserControls.Tasks.Planings
             {
                 if (!Groomsmen.Any(c => c.StoredContact.Id == contact.Id))
                 {
-                    var contactControl = new ContactControl(contact);
+                    var contactControl = new ContactControl(contact, isEditable: true);
                     contactControl.OnDelete = deleteGroomsmanButton_Click;
 
                     spGroomsmen.Children.Add(contactControl);
@@ -252,14 +230,14 @@ namespace WedChecker.UserControls.Tasks.Planings
 
         private void addNewBridesmaidButton_Click(object sender, RoutedEventArgs e)
         {
-            var contactControl = new ContactControl(true);
+            var contactControl = new ContactControl(isEditable: true);
             contactControl.OnDelete = deleteBridesmaidButton_Click;
             spBridesmaids.Children.Add(contactControl);
         }
 
         private void addNewGroomsmanButton_Click(object sender, RoutedEventArgs e)
         {
-            var contactControl = new ContactControl(true);
+            var contactControl = new ContactControl(isEditable: true);
             contactControl.OnDelete = deleteGroomsmanButton_Click;
             spGroomsmen.Children.Add(contactControl);
         }

@@ -158,6 +158,10 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\AddedTasksHelper.cs" />
     <Compile Include="Helpers\TasksOperationsHelper.cs" />
+    <Compile Include="Infrastructure\Convertors\AlongWithConvertor.cs" />
+    <Compile Include="Infrastructure\Convertors\EmailAddressConvertor.cs" />
+    <Compile Include="Infrastructure\Convertors\PhoneNumberConvertor.cs" />
+    <Compile Include="Infrastructure\WedCheckerContact.cs" />
     <Compile Include="Interfaces\ICompletableTask.cs" />
     <Compile Include="Interfaces\IStorableTask.cs" />
     <Compile Include="MainPage.xaml.cs">

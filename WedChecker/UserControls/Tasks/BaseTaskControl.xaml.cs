@@ -10,6 +10,7 @@ using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Popups;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
@@ -28,7 +29,13 @@ namespace WedChecker.UserControls.Tasks
         public static string DisplayHeader { get; }
         public virtual string TaskCode { get; }
 
+        public virtual bool HasOwnScrollViewer { get { return false; } }
+
         public string ErrorMessage { get; set; }
+
+        public virtual void SetOwnScrollViewerHeight(double maxHeight, double maxWidth)
+        {
+        }
 
         public bool PriorityTask;
 

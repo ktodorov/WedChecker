@@ -28,7 +28,8 @@
 			</StackPanel.Transitions>
 
 
-			<Border Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="0" Margin="15, 0" BorderThickness="0, 0, 0, 1" BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}">
+			<Border Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="0" Margin="15, 0" BorderThickness="0, 0, 0, 1" 
+                    BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}">
 				<TextBlock Name="buttonTaskName" VerticalAlignment="Center"
 							   Text="Task name" TextAlignment="Left" FontSize="17" 
 							   FontWeight="Normal" Padding="5, 7" TextWrapping="WrapWholeWords" >

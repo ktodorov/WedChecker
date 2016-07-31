@@ -5,8 +5,15 @@
     xmlns:local="using:WedChecker.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:conv="using:WedChecker.Infrastructure.Convertors"
     mc:Ignorable="d" Height="Auto">
 
+    <UserControl.Resources>
+        <conv:EmailAddressConvertor x:Name="EmailAddressConvertor"/>
+        <conv:PhoneNumberConvertor x:Name="PhoneNumberConvertor" />
+        <conv:AlongWithConvertor x:Name="AlongWithConvertor" />
+    </UserControl.Resources>
+    
     <Border Name="mainBorder" Margin="6, 3" Padding="0, 0" BorderThickness="1">
         <StackPanel Height="Auto" VerticalAlignment="Center" Orientation="Vertical">
 
@@ -21,23 +28,22 @@
                     Visibility="Collapsed" Margin="0, 5" MinWidth="90"/>
 
             <!-- Id -->
-            <TextBlock Name="tbId" Visibility="Collapsed"/>
+            <TextBlock Name="tbId" Visibility="Collapsed" Text="{Binding Id}"/>
 
             <!-- Name -->
-
-			<StackPanel Name="namePanel" Orientation="Vertical" Margin="0, 5">
-                <TextBlock Name="tbContactNameDisplay" Text="Name" 
+            <StackPanel Name="namePanel" Orientation="Vertical" Margin="0, 5">
+                <TextBlock Name="tbContactNameDisplay"
                            Style="{ThemeResource WedCheckerDisplayTextBlockStyle}"
-                           FontSize="17" Foreground="{ThemeResource ApplicationForegroundThemeBrush}"/>
-                <TextBox Name="tbEditContactName"
+                           FontSize="17" Foreground="{ThemeResource ApplicationForegroundThemeBrush}"
+                           Text="Name"/>
+                <TextBox Name="tbEditContactName" Text="{Binding Path=FullName, Mode=TwoWay}"
                          Style="{ThemeResource WedCheckerDefaultTextBox}"/>
                 <TextBlock Name="tbContactName" Visibility="Collapsed"
-                           Text="" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}"/>
+                           Text="{Binding Path=FullName, Mode=TwoWay}" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}"/>
             </StackPanel>
 
-
             <!-- Emails -->
-			<StackPanel Name="emailsPanel" Orientation="Vertical" Margin="0, 5">
+            <StackPanel Name="emailsPanel" Orientation="Vertical" Margin="0, 5">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*" />
@@ -46,16 +52,19 @@
                     <TextBlock Text="Email"  Grid.Column="0"
                                Style="{ThemeResource WedCheckerDisplayTextBlockStyle}"
                                FontSize="17" Foreground="{ThemeResource ApplicationForegroundThemeBrush}"/>
-                    <TextBlock Name="tbContactEmails"  Grid.Column="1" Margin="0"
+                    <TextBlock Name="tbContactEmails"  Grid.Column="1" Margin="0" 
                                Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" FontSize="17">
+                        <Hyperlink NavigateUri="{Binding Path=EmailAddress, Converter={StaticResource EmailAddressConvertor}}">
+                            <Run Text="{Binding Path=EmailAddress}" />
+                        </Hyperlink>
                     </TextBlock>
                 </Grid>
-                <TextBox Name="tbEditContactEmails"
+                <TextBox Name="tbEditContactEmails" Text="{Binding Path=EmailAddress, Mode=TwoWay}"
                              Style="{ThemeResource WedCheckerDefaultTextBox}" FontSize="17"/>
             </StackPanel>
 
             <!-- Phones -->
-			<StackPanel Name="phonesPanel" Orientation="Vertical" Margin="0, 5">
+            <StackPanel Name="phonesPanel" Orientation="Vertical" Margin="0, 5">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*" />
@@ -64,23 +73,28 @@
                     <TextBlock Text="Phone"  Grid.Column="0"
                                Style="{ThemeResource WedCheckerDisplayTextBlockStyle}"
                                FontSize="17" Foreground="{ThemeResource ApplicationForegroundThemeBrush}"/>
-                    <TextBlock Name="tbContactPhones" Grid.Column="1" Margin="0"
+                    <!--Content="{Binding Path=PhoneNumber, Mode=TwoWay, Converter={StaticResource PhoneNumberConvertor}}"-->
+                    <TextBlock Name="tbContactPhones" Grid.Column="1" Margin="0" 
                                Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" FontSize="17">
+                        <Hyperlink NavigateUri="{Binding Path=PhoneNumber, Converter={StaticResource PhoneNumberConvertor}}">
+                            <Run Text="{Binding Path=PhoneNumber}" />
+                        </Hyperlink>
                     </TextBlock>
                 </Grid>
-                <TextBox Name="tbEditContactPhones" 
+                <TextBox Name="tbEditContactPhones" Text="{Binding Path=PhoneNumber, Mode=TwoWay}"
                          Style="{ThemeResource WedCheckerDefaultTextBox}" FontSize="17"/>
             </StackPanel>
 
             <!-- Along with -->
-			<StackPanel Name="alongWithPanel" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0, 5">
-                <TextBlock Name="tbCheckboxText" TextAlignment="Right" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}"
+            <StackPanel Name="alongWithPanel" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0, 5">
+                <TextBlock Name="tbAlongWithText" TextAlignment="Right" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}"
                        Text="Along with" VerticalAlignment="Center" FontSize="15" Margin="25, 0, 0, 0"
                        Foreground="{ThemeResource ApplicationForegroundThemeBrush}"/>
-                <TextBlock Name="tbCheckboxTextDisplay" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}"
+                <TextBlock Name="tbAlongWithDisplay" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}"
                        Visibility="Collapsed" VerticalAlignment="Center" FontSize="13" Margin="25, 0, 0, 0"
-                       Foreground="{ThemeResource ApplicationForegroundThemeBrush}"/>
-                <TextBox Name="tbAlongWith" InputScope="Number" VerticalAlignment="Center"
+                       Foreground="{ThemeResource ApplicationForegroundThemeBrush}"
+                           Text="{Binding Path=Notes, Converter={StaticResource AlongWithConvertor}}"/>
+                <TextBox Name="tbAlongWith" InputScope="Number" VerticalAlignment="Center" Text="{Binding Path=Notes}"
                      Style="{ThemeResource WedCheckerDefaultTextBox}" Margin="10, 0"/>
             </StackPanel>
 

@@ -9,162 +9,251 @@ using WedChecker.Common;
 using System.Threading.Tasks;
 using Windows.UI.Core;
 using System.Text;
+using WedChecker.Extensions;
+using System.Collections.ObjectModel;
+using Windows.UI.Xaml.Data;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace WedChecker.UserControls.Tasks.Planings
 {
-	public sealed partial class GuestsList : BaseTaskControl
-	{
-		public List<ContactControl> Guests
-		{
-			get
-			{
-				return spContacts.Children.OfType<ContactControl>().ToList();
-			}
-		}
+    public class ContactCategory
+    {
+        public char? Title { get; set; }
+        public List<ContactControl> ContactControls { get; set; }
+    }
 
-		public override string TaskName
-		{
-			get
-			{
-				return "Guests list";
-			}
-		}
+    public sealed partial class GuestsList : BaseTaskControl
+    {
+        public List<ContactControl> Guests
+        {
+            get
+            {
+                return contactsList;
+            }
+        }
 
-		public override string EditHeader
-		{
-			get
-			{
-				return "Here you can select the guests for your weddings";
-			}
-		}
+        public override string TaskName
+        {
+            get
+            {
+                return "Guests list";
+            }
+        }
 
-		public static new string DisplayHeader
-		{
-			get
-			{
-				return "These are the guests you have added so far";
-			}
-		}
+        public override string EditHeader
+        {
+            get
+            {
+                return "Here you can select the guests for your weddings";
+            }
+        }
 
-		public override string TaskCode
-		{
-			get
-			{
-				return TaskData.Tasks.GuestsList.ToString();
-			}
-		}
+        public static new string DisplayHeader
+        {
+            get
+            {
+                return "These are the guests you have added so far";
+            }
+        }
 
-		public GuestsList()
-		{
-			this.InitializeComponent();
-		}
+        public override string TaskCode
+        {
+            get
+            {
+                return TaskData.Tasks.GuestsList.ToString();
+            }
+        }
 
-		public override void DisplayValues()
-		{
-			editPanel.Visibility = Visibility.Collapsed;
-			var guestControls = spContacts.Children.OfType<ContactControl>();
-			foreach (var guestControl in guestControls)
-			{
-				guestControl.DisplayValues();
-			}
-		}
+        public override bool HasOwnScrollViewer
+        {
+            get
+            {
+                return true;
+            }
+        }
 
-		public override void EditValues()
-		{
-			editPanel.Visibility = Visibility.Visible;
-			var guestControls = spContacts.Children.OfType<ContactControl>();
+        public GuestsList()
+        {
+            this.InitializeComponent();
+            contactsList = new List<ContactControl>();
 
-			foreach (var guestControl in guestControls)
-			{
-				guestControl.EditValues();
-			}
-		}
+            mainGuestsGrid.Children.Remove(editPanel);
+            editPanelTreeNode.Nodes = new List<UIElement> { editPanel };
+        }
 
-		public override void Serialize(BinaryWriter writer)
-		{
-			writer.Write(Guests.Count);
-			foreach (var guest in Guests)
-			{
-				guest.Serialize(writer);
-			}
-		}
 
-		public override void Deserialize(BinaryReader reader)
-		{
-			//Read in the number of records
-			var records = reader.ReadInt32();
+        List<ContactControl> contactsList;
+        ObservableCollection<ContactCategory> contactCategoryList;
 
-			for (long i = 0; i < records; i++)
-			{
-				var contactControl = new ContactControl(true, true, true);
+        private void GroupContacts()
+        {
+            contactItemsViewSource.Source = null;
+            contactCategoryList = new ObservableCollection<ContactCategory>();
 
-				contactControl.Deserialize(reader);
-				contactControl.OnDelete = deleteButton_Click;
+            var taskGroups = contactsList.OrderBy(c => c.StoredContact?.FullName.FirstLetter()).GroupBy(c => c.StoredContact?.FullName.FirstLetter());
+            foreach (var item in taskGroups)
+            {
+                contactCategoryList.Add(new ContactCategory() { Title = item.Key.ToString().FirstLetter(), ContactControls = item.ToList<ContactControl>() });
+            }
 
-				spContacts.Children.Add(contactControl);
-			}
+            contactItemsViewSource.Source = contactCategoryList;
+            ZoomedOutGridView.ItemsSource = contactCategoryList;
+        }
 
-			tbGuestsAdded.Text = string.Format("{0} guests added", Guests.Count);
-		}
+        private void SemanticZoom_ViewChangeStarted(object sender, SemanticZoomViewChangedEventArgs e)
+        {
+            if (ZoomedOutGridView != null && ZoomedOutGridView.Items != null && tasksGridView != null && tasksGridView.Items != null)
+            {
+                tasksGridView.ScrollIntoView(tasksGridView.Items[0], ScrollIntoViewAlignment.Default);
+                if (e.IsSourceZoomedInView == false)
+                {
+                    var index = 0;
+                    var sourceItem = e.SourceItem.Item as ContactCategory;
+                    var category = sourceItem.Title;
+                    if (tasksGridView.Items != null)
+                    {
+                        var item = tasksGridView.Items[index] as ContactControl;
+                        while (item == null || item.StoredContact.FullName.FirstLetter() != category)
+                        {
+                            index++;
+                            item = tasksGridView.Items[index] as ContactControl;
+                        }
 
-		private async void selectContacts_Click(object sender, RoutedEventArgs e)
-		{
-			var picker = new ContactPicker();
-			picker.DesiredFieldsWithContactFieldType.Add(ContactFieldType.PhoneNumber);
-			var contacts = await picker.PickContactsAsync();
+                        e.DestinationItem.Item = item;
+                    }
+                }
+            }
+        }
 
-			if (contacts == null || !contacts.Any())
-			{
-				return;
-			}
+        public override void DisplayValues()
+        {
+            editPanelTreeNode.Visibility = Visibility.Collapsed;
 
-			foreach (var contact in contacts)
-			{
-				if (!Guests.Any(g => g.StoredContact.Id == contact.Id))
-				{
-					var contactControl = new ContactControl(contact, null, true, true, true);
-					contactControl.OnDelete = deleteButton_Click;
+            foreach (var guestControl in contactsList)
+            {
+                guestControl.DisplayValues();
+            }
+        }
 
-					spContacts.Children.Add(contactControl);
-				}
-			}
+        public override void EditValues()
+        {
+            editPanelTreeNode.Visibility = Visibility.Visible;
 
-			tbGuestsAdded.Text = string.Format("{0} guests added", Guests.Count);
-		}
+            foreach (var guestControl in contactsList)
+            {
+                guestControl.EditValues();
+            }
+        }
 
-		protected override void SetLocalStorage()
-		{
-			var guestsContacts = Guests.Select(g => g.StoredContact).ToList();
-			AppData.SetStorage("GuestsList", guestsContacts);
-		}
+        public override void Serialize(BinaryWriter writer)
+        {
+            writer.Write(Guests.Count);
+            foreach (var guest in Guests)
+            {
+                guest.Serialize(writer);
+            }
+        }
 
-		void deleteButton_Click(object sender, RoutedEventArgs e)
-		{
-			var contactControl = (sender as FrameworkElement).FindAncestorByType<ContactControl>();
-			DeleteGuest(contactControl.StoredContact.Id);
-		}
+        public override void Deserialize(BinaryReader reader)
+        {
+            //Read in the number of records
+            var records = reader.ReadInt32();
 
-		private void DeleteGuest(string id)
-		{
-			var guestToRemove = Guests.FirstOrDefault(g => g.StoredContact.Id == id);
+            for (long i = 0; i < records; i++)
+            {
+                var contactControl = new ContactControl(true, true, true);
 
-			if (guestToRemove != null)
-			{
-				spContacts.Children.Remove(guestToRemove);
-			}
-		}
+                contactControl.Deserialize(reader);
+                contactControl.OnDelete = deleteButton_Click;
 
-		private void addNewContactButton_Click(object sender, RoutedEventArgs e)
-		{
-			var contactControl = new ContactControl(true, true, true);
-			contactControl.IncludeName = true;
-			contactControl.IncludePhones = true;
-			contactControl.IncludeEmail = true;
-			contactControl.IncludeAlongWith = true;
-			contactControl.OnDelete = deleteButton_Click;
-			spContacts.Children.Add(contactControl);
+                contactsList.Add(contactControl);
+            }
+
+            tbGuestsAdded.Text = string.Format("{0} guests added", Guests.Count);
+
+            GroupContacts();
+        }
+
+        private async void selectContacts_Click(object sender, RoutedEventArgs e)
+        {
+            var picker = new ContactPicker();
+            picker.DesiredFieldsWithContactFieldType.Add(ContactFieldType.PhoneNumber);
+            var contacts = await picker.PickContactsAsync();
+
+            if (contacts == null || !contacts.Any())
+            {
+                return;
+            }
+
+            AddNewContacts(contacts);
+           
+            tbGuestsAdded.Text = string.Format("{0} guests added", Guests.Count);
+        }
+
+        protected override void SetLocalStorage()
+        {
+            var guestsContacts = Guests.Select(g => g.StoredContact).ToList();
+            AppData.SetStorage("GuestsList", guestsContacts);
+        }
+
+        void deleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            var contactControl = (sender as FrameworkElement).FindAncestorByType<ContactControl>();
+            DeleteGuest(contactControl.StoredContact.Id);
+        }
+
+        private void DeleteGuest(string id)
+        {
+            var guestToRemove = Guests.FirstOrDefault(g => g.StoredContact.Id == id);
+            if (guestToRemove == null)
+            {
+                return;
+            }
+
+            contactsList.Remove(guestToRemove);
+            var matchingContactCategory = contactCategoryList.FirstOrDefault(cc => cc.ContactControls.Any(c => c.StoredContact.Id == guestToRemove.StoredContact.Id));
+            if (matchingContactCategory != null)
+            {
+                matchingContactCategory.ContactControls.Remove(guestToRemove);
+                GroupContacts();
+            }
+        }
+
+        private void addNewContactButton_Click(object sender, RoutedEventArgs e)
+        {
+            var contactControl = new ContactControl(true, true, true);
+            contactControl.IncludeName = true;
+            contactControl.IncludePhones = true;
+            contactControl.IncludeEmail = true;
+            contactControl.IncludeAlongWith = true;
+            contactControl.OnDelete = deleteButton_Click;
+
+            AddNewContactControl(contactControl);
+        }
+        
+        private void AddNewContactControl(ContactControl contactControl)
+        {
+            contactsList.Add(contactControl);
+
+            GroupContacts();
+        }
+        private void AddNewContacts(IList<Contact> contacts)
+        {
+            var addedContactControls = new List<ContactControl>();
+            foreach (var contact in contacts)
+            {
+                if (!Guests.Any(g => g.StoredContact.Id == contact.Id))
+                {
+                    var contactControl = new ContactControl(contact, null, true, true, true);
+                    contactControl.OnDelete = deleteButton_Click;
+
+                    contactsList.Add(contactControl);
+                    addedContactControls.Add(contactControl);
+                }
+            }
+
+            GroupContacts();
         }
 
         protected override void LoadTaskDataAsText(StringBuilder sb)
@@ -174,6 +263,30 @@ namespace WedChecker.UserControls.Tasks.Planings
                 var contactAsText = guest.GetDataAsText();
                 sb.AppendLine(contactAsText);
             }
+        }
+
+        private void RecalculateContactWidth()
+        {
+            var parentWidth = tasksGridView.ActualWidth;
+            contactsList.ForEach(c => c.Width = parentWidth);
+        }
+
+        private void tasksGridView_Loaded(object sender, RoutedEventArgs e)
+        {
+            RecalculateContactWidth();
+        }
+
+        private void tasksGridView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            RecalculateContactWidth();
+        }
+
+        public override void SetOwnScrollViewerHeight(double maxHeight, double maxWidth)
+        {
+            maxHeight -= editPanelTreeNode.ActualHeight + tbGuestsAdded.ActualHeight + 10;
+
+            semanticZoom.MaxHeight = maxHeight;
+            semanticZoom.MaxWidth = maxWidth;
         }
     }
 }

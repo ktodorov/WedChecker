@@ -19,14 +19,14 @@ namespace WedChecker.UserControls.Tasks.Planings
         {
             get
             {
-                return ccBestMan.StoredContact;
+                return ccBestMan.StoredContact.ToContact();
             }
         }
         private Contact MaidOfHonor
         {
             get
             {
-                return ccMaidOfHonor.StoredContact;
+                return ccMaidOfHonor.StoredContact.ToContact();
             }
         }
 

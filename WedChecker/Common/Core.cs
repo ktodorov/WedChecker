@@ -5,6 +5,7 @@ using Windows.Networking.Connectivity;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media;
 
 namespace WedChecker.Common
@@ -161,6 +162,26 @@ namespace WedChecker.Common
             }
 
             return result;
+        }
+
+        public static Hyperlink CreateNewHyperlink(string navigateUri, string text)
+        {
+            var currentAccentColorHex = Core.GetSystemAccentColor();
+
+            // Navigate URI
+            var hyperlinkText = new Hyperlink();
+            hyperlinkText.NavigateUri = new Uri(navigateUri);
+
+            // Inline text
+            var line = new Run();
+            line.Text = text;
+            hyperlinkText.Inlines.Add(line);
+
+            // Foreground
+            SolidColorBrush backColor = new SolidColorBrush(currentAccentColorHex);
+            hyperlinkText.Foreground = backColor;
+
+            return hyperlinkText;
         }
     }
 }

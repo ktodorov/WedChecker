@@ -44,5 +44,10 @@ namespace WedChecker.Extensions
 
             return 0;
         }
+
+        public static char? FirstLetter(this string text)
+        {
+            return string.IsNullOrEmpty(text) ? (char?)null : text[0];
+        }
     }
 }
