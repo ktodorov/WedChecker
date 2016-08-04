@@ -18,6 +18,14 @@ using Windows.Phone.UI.Input;
 #endif
 namespace WedChecker.Common
 {
+    public enum TaskSortingType
+    {
+        ByName,
+        ByNameReversed,
+        OldestFirst,
+        NewestFirst
+    }
+
     public static partial class TaskData
     {
 

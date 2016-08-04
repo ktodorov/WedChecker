@@ -67,6 +67,11 @@ namespace WedChecker.UserControls
             return false;
         }
 
+        public void ClearTasks()
+        {
+            gvTasks.Items.Clear();
+        }
+
         public PopulatedTask GetPopulatedTaskByType(Type taskType)
         {
             var task = gvTasks.Items.OfType<PopulatedTask>().FirstOrDefault(p => p.ConnectedTaskControl.GetType() == taskType);

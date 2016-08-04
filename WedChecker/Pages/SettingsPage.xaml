@@ -35,7 +35,18 @@
 					<RadioButton Name="rbDefaultTheme" Content="System default" Style="{ThemeResource WedCheckerRadioButtonDefaultStyle}"
 								 Checked="appThemeSelection_Checked" Tag="2"/>
 				</StackPanel>
-			</StackPanel>
+                
+                <Border BorderThickness="1" BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}" Margin="0, 25" />
+
+                <StackPanel Name="tasksSortingPanel" Orientation="Vertical">
+                    <TextBlock Style="{ThemeResource WedCheckerFormTextBlockStyle}" TextAlignment="Center">
+						Preferable tasks sorting
+                    </TextBlock>
+
+                    <ComboBox Name="cbTasksSorting" HorizontalAlignment="Left" SelectionChanged="cbTasksSorting_SelectionChanged"
+                              ItemsSource="{x:Bind sortingTypes}" ></ComboBox>
+                </StackPanel>
+            </StackPanel>
 		</ScrollViewer>
 	</Grid>
 </Page>

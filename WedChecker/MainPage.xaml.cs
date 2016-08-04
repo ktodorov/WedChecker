@@ -359,13 +359,11 @@ namespace WedChecker
 
         private void AboutPageButton_Click(object sender, RoutedEventArgs e)
         {
-            Core.CurrentMainPage = this;
             this.Frame.Navigate(typeof(AboutPage));
         }
 
         private void SettingsPageButton_Click(object sender, RoutedEventArgs e)
         {
-            Core.CurrentMainPage = this;
             this.Frame.Navigate(typeof(SettingsPage));
         }
 
@@ -408,8 +406,8 @@ namespace WedChecker
             double ActualHorizontalOffset = taskPopup.HorizontalOffset;
             double ActualVerticalOffset = taskPopup.VerticalOffset;
 
-            double NewHorizontalOffset = ((LayoutRoot.ActualWidth - popupTask.ActualWidth) / 2);
-            double NewVerticalOffset = (LayoutRoot.ActualHeight - popupTask.ActualHeight) / 2;
+            double NewHorizontalOffset = ((contentFrame.ActualWidth - popupTask.ActualWidth) / 2);
+            double NewVerticalOffset = (contentFrame.ActualHeight - popupTask.ActualHeight) / 2;
 
             if (ActualHorizontalOffset != NewHorizontalOffset || ActualVerticalOffset != NewVerticalOffset)
             {

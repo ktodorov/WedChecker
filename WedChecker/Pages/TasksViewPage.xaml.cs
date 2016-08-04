@@ -72,12 +72,18 @@ namespace WedChecker.Pages
             this.Loaded += TasksViewPage_Loaded;
         }
 
-        private async void TasksViewPage_Loaded(object sender, RoutedEventArgs e)
+        private void TasksViewPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            var storedSortType = AppData.GetRoamingSetting<int>("TaskSortType");
+            var sortType = (TaskSortingType)storedSortType;
+            LoadTasks(sortType);
+        }
+
+        private async void LoadTasks(TaskSortingType sortingType = TaskSortingType.ByName)
         {
             var controls = await AppData.PopulateAddedControls();
-            controls = controls.OrderBy(c => c.TaskName.ToString()).ToList();
 
-            AddPopulatedControls(controls);
+            AddPopulatedControls(controls, sortingType);
 
             var currentTitleBar = Core.CurrentTitleBar;
             if (currentTitleBar != null)
@@ -119,9 +125,25 @@ namespace WedChecker.Pages
             return false;
         }
 
-        public void AddPopulatedControls(List<BaseTaskControl> populatedControls)
+        public void AddPopulatedControls(List<BaseTaskControl> populatedControls, TaskSortingType sortingType = TaskSortingType.ByName)
         {
             var currentTypeControls = populatedControls.Where(t => Core.GetTaskCategory(t.GetType()) == TasksCategory).ToList();
+            if (sortingType == TaskSortingType.ByName)
+            {
+                currentTypeControls = currentTypeControls.OrderBy(c => c.TaskName.ToString()).ToList();
+            }
+            else if (sortingType == TaskSortingType.ByNameReversed)
+            {
+                currentTypeControls = currentTypeControls.OrderByDescending(c => c.TaskName.ToString()).ToList();
+            }
+            else if (sortingType == TaskSortingType.OldestFirst)
+            {
+                currentTypeControls = currentTypeControls.OrderBy(c => c.CreatedOn).ToList();
+            }
+            else if (sortingType == TaskSortingType.NewestFirst)
+            {
+                currentTypeControls = currentTypeControls.OrderByDescending(c => c.CreatedOn).ToList();
+            }
 
             foreach (var populatedControl in currentTypeControls)
             {

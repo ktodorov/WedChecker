@@ -39,6 +39,8 @@ namespace WedChecker.UserControls.Tasks
 
         public bool PriorityTask;
 
+        public DateTime CreatedOn;
+
         public abstract void DisplayValues();
 
         public abstract void EditValues();
@@ -77,6 +79,8 @@ namespace WedChecker.UserControls.Tasks
                         return;
                     }
                 }
+
+                CreatedOn = File.GetCreationTime(file.Path);
 
                 SetLocalStorage();
 
