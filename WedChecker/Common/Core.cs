@@ -59,6 +59,19 @@ namespace WedChecker.Common
             }
         }
 
+        private static Page _currentMainPage;
+        public static Page CurrentMainPage
+        {
+            get
+            {
+                return _currentMainPage;
+            }
+            set
+            {
+                _currentMainPage = value;
+            }
+        }
+
         public static void SetSetting(string key, object value)
         {
             //LocalSettings.Values[key] = value;

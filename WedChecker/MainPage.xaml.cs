@@ -47,6 +47,8 @@ namespace WedChecker
             }
         }
 
+        public List<Page> FrameContents = new List<Page>();
+
         public IUpdateableTasks CurrentContentPage
         {
             get
@@ -357,11 +359,13 @@ namespace WedChecker
 
         private void AboutPageButton_Click(object sender, RoutedEventArgs e)
         {
+            Core.CurrentMainPage = this;
             this.Frame.Navigate(typeof(AboutPage));
         }
 
         private void SettingsPageButton_Click(object sender, RoutedEventArgs e)
         {
+            Core.CurrentMainPage = this;
             this.Frame.Navigate(typeof(SettingsPage));
         }
 
@@ -459,18 +463,29 @@ namespace WedChecker
 
                     if (category == TaskCategories.Home)
                     {
-                        contentFrame.Navigate(typeof(HomePage));
+                        if (FrameContents.OfType<HomePage>().Any())
+                        {
+                            contentFrame.Content = FrameContents.OfType<HomePage>().FirstOrDefault();
+                        }
+                        else
+                        {
+                            contentFrame.Navigate(typeof(HomePage));
+                            FrameContents.Add(CurrentContentPage as HomePage);
+                        }
+                    }
+                    else if (FrameContents.OfType<TasksViewPage>().Any(p => p.TasksCategory == category))
+                    {
+                        contentFrame.Content = FrameContents.OfType<TasksViewPage>().FirstOrDefault(p => p.TasksCategory == category);
                     }
                     else
                     {
                         contentFrame.Navigate(typeof(TasksViewPage), new Params() { CurrentPage = this, Category = category });
+                        FrameContents.Add(CurrentContentPage as TasksViewPage);
                     }
 
                     optionsListView.SelectedIndex = (int)category;
                 }
             );
-
-            mainTitleBar.ProgressActive = false;
         }
 
         private Visibility IsVisible(bool value)

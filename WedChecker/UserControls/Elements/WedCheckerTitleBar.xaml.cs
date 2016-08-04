@@ -222,7 +222,7 @@ namespace WedChecker.UserControls.Elements
         public void SetBackButtonVisible(bool visible)
         {
             backButton.Visibility = (visible && !IsMobile) ? Visibility.Visible : Visibility.Collapsed;
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = visible ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
+            //SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = visible ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
         }
 
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)

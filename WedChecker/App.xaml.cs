@@ -50,8 +50,11 @@ namespace WedChecker
             jumpList.Items.Clear();
 
             JumpListItem plannings = JumpListItem.CreateWithArguments("plannings", "Plannings");
+            plannings.Logo = new Uri("ms-appx:///Assets/Square44x44Logo.scale-100.png");
             JumpListItem purchases = JumpListItem.CreateWithArguments("purchases", "Purchases");
+            purchases.Logo = new Uri("ms-appx:///Assets/Square44x44Logo.scale-100.png");
             JumpListItem bookings = JumpListItem.CreateWithArguments("bookings", "Bookings");
+            bookings.Logo = new Uri("ms-appx:///Assets/Square44x44Logo.scale-100.png");
 
             jumpList.Items.Add(plannings);
             jumpList.Items.Add(purchases);

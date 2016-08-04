@@ -44,6 +44,12 @@ namespace WedChecker.Pages
         {
             var controls = await AppData.PopulateAddedControls();
             UpdateTasks(controls);
+
+            var currentTitleBar = Core.CurrentTitleBar;
+            if (currentTitleBar != null)
+            {
+                currentTitleBar.ProgressActive = false;
+            }
         }
 
         private void tbCountdownTimer_WeddingPassed(object sender, EventArgs e)

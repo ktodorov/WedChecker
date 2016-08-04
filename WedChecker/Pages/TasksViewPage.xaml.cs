@@ -78,6 +78,12 @@ namespace WedChecker.Pages
             controls = controls.OrderBy(c => c.TaskName.ToString()).ToList();
 
             AddPopulatedControls(controls);
+
+            var currentTitleBar = Core.CurrentTitleBar;
+            if (currentTitleBar != null)
+            {
+                currentTitleBar.ProgressActive = false;
+            }
         }
 
         public TasksViewPage(TaskCategories category, MainPage parent)
