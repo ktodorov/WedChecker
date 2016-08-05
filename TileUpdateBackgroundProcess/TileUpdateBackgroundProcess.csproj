@@ -108,6 +108,8 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommonData.cs" />
+    <Compile Include="NotificationBackgroundProcess.cs" />
     <Compile Include="RemainingTimeBackgroundProcess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

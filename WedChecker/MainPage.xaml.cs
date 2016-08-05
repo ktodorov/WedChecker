@@ -116,6 +116,47 @@ namespace WedChecker
             DataTransferManager.GetForCurrentView().DataRequested += MainPage_DataRequested;
         }
 
+        private async void MainPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (!FirstTimeLaunched)
+            {
+                return;
+            }
+
+            if (Core.IsFirstLaunch())
+            {
+                OpenFirstLaunchPopup();
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(arguments))
+                {
+                    SwitchCategoryFromArguments(arguments);
+                }
+                else
+                {
+                    var category = AppData.GetLocalSetting<int?>("CurrentCategory");
+                    if (category.HasValue)
+                    {
+                        await ChangeTaskCategory((TaskCategories)category.Value);
+                        AppData.RemoveLocalSetting("CurrentCategory");
+                    }
+                    else
+                    {
+                        await ChangeTaskCategory(TaskCategories.Home);
+                    }
+                }
+
+                await UpdateTasks();
+            }
+
+            FirstTimeLaunched = false;
+
+            CalculateTaskSizes(Window.Current.Bounds.Width, Window.Current.Bounds.Height);
+
+            Core.CurrentTitleBar = mainTitleBar;
+        }
+
         void MainPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
             if (!string.IsNullOrEmpty(AppData.TextForShare))
@@ -194,47 +235,6 @@ namespace WedChecker
             }
         }
 
-        private async void MainPage_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (!FirstTimeLaunched)
-            {
-                return;
-            }
-
-            if (Core.IsFirstLaunch())
-            {
-                OpenFirstLaunchPopup();
-            }
-            else
-            {
-                if (!string.IsNullOrEmpty(arguments))
-                {
-                    SwitchCategoryFromArguments(arguments);
-                }
-                else
-                {
-                    var category = AppData.GetLocalSetting<int?>("CurrentCategory");
-                    if (category.HasValue)
-                    {
-                        await ChangeTaskCategory((TaskCategories)category.Value);
-                        AppData.RemoveLocalSetting("CurrentCategory");
-                    }
-                    else
-                    {
-                        await ChangeTaskCategory(TaskCategories.Home);
-                    }
-                }
-
-                await UpdateTasks();
-            }
-
-            FirstTimeLaunched = false;
-
-            CalculateTaskSizes(Window.Current.Bounds.Width, Window.Current.Bounds.Height);
-
-            Core.CurrentTitleBar = mainTitleBar;
-        }
-
         /// <summary>
         /// Invoked when this page is about to be displayed in a Frame.
         /// </summary>
@@ -248,6 +248,7 @@ namespace WedChecker
             }
 
             this.RegisterBackgroundTask();
+            this.RegisterNotificationBackgroundTask();
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -256,6 +257,10 @@ namespace WedChecker
 
             AppData.InsertLocalSetting("CurrentCategory", (int)CurrentPageCategory);
         }
+
+
+        private const string taskName = "RemainingTimeBackgroundProcess";
+        private const string taskEntryPoint = "TileUpdateBackgroundProcess.RemainingTimeBackgroundProcess";
 
         private async void RegisterBackgroundTask()
         {
@@ -279,8 +284,32 @@ namespace WedChecker
             }
         }
 
-        private const string taskName = "RemainingTimeBackgroundProcess";
-        private const string taskEntryPoint = "TileUpdateBackgroundProcess.RemainingTimeBackgroundProcess";
+
+        private const string notificationsTaskName = "NotificationBackgroundProcess";
+        private const string notificationsTaskEntryPoint = "TileUpdateBackgroundProcess.NotificationBackgroundProcess";
+
+        private async void RegisterNotificationBackgroundTask()
+        {
+            var backgroundAccessStatus = await BackgroundExecutionManager.RequestAccessAsync();
+            if (backgroundAccessStatus == BackgroundAccessStatus.AllowedMayUseActiveRealTimeConnectivity ||
+                backgroundAccessStatus == BackgroundAccessStatus.AllowedWithAlwaysOnRealTimeConnectivity)
+            {
+                foreach (var task in BackgroundTaskRegistration.AllTasks)
+                {
+                    if (task.Value.Name == notificationsTaskName)
+                    {
+                        task.Value.Unregister(true);
+                    }
+                }
+
+                BackgroundTaskBuilder taskBuilder = new BackgroundTaskBuilder();
+                taskBuilder.Name = notificationsTaskName;
+                taskBuilder.TaskEntryPoint = notificationsTaskEntryPoint;
+                taskBuilder.SetTrigger(new TimeTrigger(1500, false));
+                var registration = taskBuilder.Register();
+            }
+        }
+
 
         private void OpenFirstLaunchPopup()
         {

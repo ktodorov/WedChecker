@@ -33,6 +33,11 @@
         </uap:InitialRotationPreference>
       </uap:VisualElements>
       <Extensions>
+        <Extension Category="windows.backgroundTasks" EntryPoint="TileUpdateBackgroundProcess.NotificationBackgroundProcess">
+          <BackgroundTasks>
+            <Task Type="timer" />
+          </BackgroundTasks>
+        </Extension>
         <Extension Category="windows.backgroundTasks" EntryPoint="TileUpdateBackgroundProcess.RemainingTimeBackgroundProcess">
           <BackgroundTasks>
             <Task Type="timer" />
