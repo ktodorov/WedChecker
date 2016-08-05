@@ -25,6 +25,8 @@ namespace WedChecker.Pages
     /// </summary>
     public sealed partial class HomePage : Page, IUpdateableTasks
     {
+        public EventHandler PageLoaded;
+
         public TaskCategories TasksCategory
         {
             get
@@ -45,11 +47,13 @@ namespace WedChecker.Pages
             var controls = await AppData.PopulateAddedControls();
             UpdateTasks(controls);
 
-            var currentTitleBar = Core.CurrentTitleBar;
-            if (currentTitleBar != null)
-            {
-                currentTitleBar.ProgressActive = false;
-            }
+            //var currentTitleBar = Core.CurrentTitleBar;
+            //if (currentTitleBar != null)
+            //{
+            //    currentTitleBar.ProgressActive = false;
+            //}
+
+            PageLoaded?.Invoke(this, new EventArgs());
         }
 
         private void tbCountdownTimer_WeddingPassed(object sender, EventArgs e)

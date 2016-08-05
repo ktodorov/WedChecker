@@ -71,13 +71,13 @@ namespace WedChecker.Common
             LocalStorage[key] = value;
         }
 
-        public async static Task<List<BaseTaskControl>> PopulateAddedControls()
+        public async static Task<List<BaseTaskControl>> PopulateAddedControls(TaskCategories? category = null)
         {
             var controls = new List<BaseTaskControl>();
 
             AllTasks = new AddedTasks();
 
-            var priorityControls = AllTasks.GetAllPriorityTasks();
+            var priorityControls = AllTasks.GetAllPriorityTasks(category);
             if (priorityControls != null)
             {
                 foreach (var priorityControl in priorityControls)
@@ -88,7 +88,7 @@ namespace WedChecker.Common
                 }
             }
 
-            var nonPriorityControls = AllTasks.GetAllNonPriorityTasks();
+            var nonPriorityControls = AllTasks.GetAllNonPriorityTasks(category);
             if (nonPriorityControls != null)
             {
                 foreach (var nonPriorityControl in nonPriorityControls)

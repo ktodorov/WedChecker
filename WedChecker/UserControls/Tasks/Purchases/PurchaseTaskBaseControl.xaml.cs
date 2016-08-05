@@ -289,7 +289,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
                         var toggle = new ToggleControl();
                         toggle.Deserialize(reader);
 
-                        var categoryPosition = CategoryNames.IndexOf(type);
+                        var categoryPosition = FindIndex(type);
                         AddToggle(toggle, categoryPosition);
                     }
                 }
@@ -305,6 +305,13 @@ namespace WedChecker.UserControls.Tasks.Purchases
                     AddToggle(toggle);
                 }
             }
+        }
+
+        public int FindIndex(string category)
+        {
+            var categories = CategoryNames.Select(c => c.SeparateCamelCase().ToLower()).ToList();
+            var index = categories.IndexOf(category.SeparateCamelCase().ToLower());
+            return index;
         }
 
         public int GetCompletedItems()

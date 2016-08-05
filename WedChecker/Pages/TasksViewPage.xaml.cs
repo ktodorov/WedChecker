@@ -34,6 +34,7 @@ namespace WedChecker.Pages
     public sealed partial class TasksViewPage : Page, IUpdateableTasks
     {
         private MainPage parentPage;
+        public EventHandler PageLoaded;
 
         public TasksViewer AttachedTasksViewer
         {
@@ -64,31 +65,18 @@ namespace WedChecker.Pages
 
             tasksViewer.TasksCategory = category;
             parentPage = parent;
-            //tasksViewer.ParentPage = parent;
         }
 
         private void TasksViewPage_Loaded(object sender, RoutedEventArgs e)
         {
             LoadTasks();
+
+            PageLoaded?.Invoke(this, new EventArgs());
         }
 
-        public void ClearTasks()
+        private void LoadTasks()
         {
-            tasksViewer.ClearTasks();
-        }
-
-        private async void LoadTasks()
-        {
-            var controls = await AppData.PopulateAddedControls();
-
-            tasksViewer.ClearTasks();
-            AddPopulatedControls(controls);
-
-            var currentTitleBar = Core.CurrentTitleBar;
-            if (currentTitleBar != null)
-            {
-                currentTitleBar.ProgressActive = false;
-            }
+            tasksViewer.PopulateTasks();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -103,12 +91,6 @@ namespace WedChecker.Pages
         public void UpdateTasks(List<BaseTaskControl> controls)
         {
             tasksViewer.UpdateTasks(controls);
-        }
-
-        public void AddPopulatedControls(List<BaseTaskControl> populatedControls)
-        {
-            var currentTypeControls = populatedControls.Where(t => Core.GetTaskCategory(t.GetType()) == TasksCategory).ToList();
-            tasksViewer.AddTasks(currentTypeControls);
         }
 
         public async Task<bool> CreateTask(string taskName)

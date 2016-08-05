@@ -26,21 +26,40 @@ namespace WedChecker.UserControls
     {
         public TaskCategories TasksCategory;
 
+        private int columns;
+        private double taskHeight;
+
         public MainPage ParentPage
         {
-            get;set;
+            get; set;
+        }
+
+        public List<PopulatedTask> Tasks
+        {
+            get
+            {
+                return gvTasks.Items.OfType<PopulatedTask>().ToList();
+            }
         }
 
         public TasksViewer()
         {
             this.InitializeComponent();
         }
-
         public TasksViewer(TaskCategories category)
         {
             this.InitializeComponent();
 
             TasksCategory = category;
+        }
+
+        public async void PopulateTasks()
+        {
+            if (!Tasks.Any())
+            {
+                var controls = await AppData.PopulateAddedControls(TasksCategory);
+                AddTasks(controls);
+            }
         }
 
         public void AddTask(PopulatedTask task)
@@ -113,7 +132,7 @@ namespace WedChecker.UserControls
         {
             var width = Window.Current.Bounds.Width;
 
-            var columns = (int)Math.Round(width / 400.0);
+            columns = (int)Math.Round(width / 400.0);
             if (width < 720)
             {
                 columns = 1;
@@ -128,12 +147,12 @@ namespace WedChecker.UserControls
             var panel = (ItemsWrapGrid)gridView.ItemsPanelRoot;
             var itemWidth = e.NewSize.Width / columns;
             panel.ItemWidth = itemWidth;
-            var newHeight = panel.ItemWidth / 2;
-            if (newHeight < 200)
+            taskHeight = panel.ItemWidth / 2;
+            if (taskHeight < 200)
             {
-                newHeight = 200;
+                taskHeight = 200;
             }
-            panel.ItemHeight = newHeight;
+            panel.ItemHeight = taskHeight;
         }
 
         private List<BaseTaskControl> OrderTasks(List<BaseTaskControl> tasks)
@@ -194,7 +213,11 @@ namespace WedChecker.UserControls
             newPopulatedTask.OnShare += onTaskShare;
             newPopulatedTask.OnExport += onTaskExport;
 
-            AddTask(newPopulatedTask);
+            var taskType = taskControl.GetType();
+            if (!ContainsTask(taskType))
+            {
+                AddTask(newPopulatedTask);
+            }
         }
 
         #region Task Events
@@ -406,15 +429,28 @@ namespace WedChecker.UserControls
             var currentTasks = gvTasks.Items.OfType<PopulatedTask>().Select(pt => pt.ConnectedTaskControl).ToList();
 
             var changedTask = currentTasks.FirstOrDefault(c => c.TaskCode == task.TaskCode);
+            var oldIndex = currentTasks.IndexOf(changedTask);
             currentTasks.Remove(changedTask);
             currentTasks.Add(task);
             var orderedTasks = OrderTasks(currentTasks);
 
             var newIndex = orderedTasks.IndexOf(task);
+            if (newIndex == oldIndex)
+            {
+                return;
+            }
 
             var populatedTask = gvTasks.Items.OfType<PopulatedTask>().FirstOrDefault(p => p.ConnectedTaskControl.TaskCode == task.TaskCode);
             gvTasks.Items.Remove(populatedTask);
             gvTasks.Items.Insert(newIndex, populatedTask);
+
+            var verticalOffset = 0.0;
+            if (newIndex > 0)
+            {
+                verticalOffset = (newIndex / columns) * taskHeight;
+            }
+
+            svTasks.ChangeView(null, verticalOffset, null);
         }
     }
 }

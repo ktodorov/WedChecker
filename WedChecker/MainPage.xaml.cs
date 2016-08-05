@@ -300,11 +300,13 @@ namespace WedChecker
         {
             mainTitleBar.ProgressActive = true;
 
-            var controls = await AppData.PopulateAddedControls();
-            controls = controls.OrderBy(c => c.TaskName.ToString()).ToList();
+            //var controls = await AppData.PopulateAddedControls();
+            //controls = controls.OrderBy(c => c.TaskName.ToString()).ToList();
 
-            AddPopulatedControls(controls);
+            //AddPopulatedControls(controls);
 
+            addTaskDialog.Visibility = Visibility.Collapsed;
+            appBar.Visibility = Visibility.Visible;
             mainTitleBar.ProgressActive = false;
         }
 
@@ -332,10 +334,10 @@ namespace WedChecker
             {
                 CurrentContentPage.UpdateTasks(populatedControls);
             }
-            else
-            {
-                (CurrentContentPage as TasksViewPage).AddPopulatedControls(populatedControls);
-            }
+            //else
+            //{
+            //    (CurrentContentPage as TasksViewPage).AddPopulatedControls(populatedControls);
+            //}
 
             addTaskDialog.Visibility = Visibility.Collapsed;
             appBar.Visibility = Visibility.Visible;
@@ -464,11 +466,10 @@ namespace WedChecker
                 return;
             }
 
-            // If we have tasks, we clear them before storing the page so we won't 
-            if (CurrentPageCategory != TaskCategories.Home)
-            {
-                (CurrentContentPage as TasksViewPage).ClearTasks();
-            }
+            //if (CurrentPageCategory != TaskCategories.Home)
+            //{
+            //    (CurrentContentPage as TasksViewPage).ClearTasks();
+            //}
 
             if (Window.Current.Bounds.Width < 1024)
             {
@@ -477,6 +478,7 @@ namespace WedChecker
 
 
             mainTitleBar.ProgressActive = true;
+            optionsListView.IsEnabled = false;
 
             await Task.Delay(TimeSpan.FromMilliseconds(100));
 
@@ -497,22 +499,33 @@ namespace WedChecker
                             contentFrame.Navigate(typeof(HomePage));
                             FrameContents.Add(CurrentContentPage as Page);
                         }
-                    }
-                    else if (FrameContents.OfType<TasksViewPage>().Any(p => p.TasksCategory == category))
-                    {
-                        var storedPage = FrameContents.OfType<TasksViewPage>().FirstOrDefault(p => p.TasksCategory == category);
-                        contentFrame.Content = storedPage;
+                        (CurrentContentPage as HomePage).PageLoaded += CurrentContentPage_PageLoaded;
                     }
                     else
                     {
-                        contentFrame.Navigate(typeof(TasksViewPage), new Params() { CurrentPage = this, Category = category });
-                    FrameContents.Add(CurrentContentPage as Page);
+                        if (FrameContents.OfType<TasksViewPage>().Any(p => p.TasksCategory == category))
+                        {
+                            var storedPage = FrameContents.OfType<TasksViewPage>().FirstOrDefault(p => p.TasksCategory == category);
+                            contentFrame.Content = storedPage;
+                        }
+                        else
+                        {
+                            contentFrame.Navigate(typeof(TasksViewPage), new Params() { CurrentPage = this, Category = category });
+                            FrameContents.Add(CurrentContentPage as Page);
+                        }
+
+                        (CurrentContentPage as TasksViewPage).PageLoaded += CurrentContentPage_PageLoaded;
                     }
-
-
-                    optionsListView.SelectedIndex = (int)category;
                 }
             );
+
+            optionsListView.SelectedIndex = (int)category;
+        }
+
+        private void CurrentContentPage_PageLoaded(object sender, EventArgs e)
+        {
+            optionsListView.IsEnabled = true;
+            mainTitleBar.ProgressActive = false;
         }
 
         private Visibility IsVisible(bool value)
