@@ -300,11 +300,6 @@ namespace WedChecker
         {
             mainTitleBar.ProgressActive = true;
 
-            //var controls = await AppData.PopulateAddedControls();
-            //controls = controls.OrderBy(c => c.TaskName.ToString()).ToList();
-
-            //AddPopulatedControls(controls);
-
             addTaskDialog.Visibility = Visibility.Collapsed;
             appBar.Visibility = Visibility.Visible;
             mainTitleBar.ProgressActive = false;
@@ -326,21 +321,6 @@ namespace WedChecker
             DoFirstLaunchPopupAfterFinishingLogic(firstLaunchPopup);
 
             await UpdateTasks();
-        }
-
-        private void AddPopulatedControls(List<BaseTaskControl> populatedControls)
-        {
-            if (CurrentPageCategory == TaskCategories.Home)
-            {
-                CurrentContentPage.UpdateTasks(populatedControls);
-            }
-            //else
-            //{
-            //    (CurrentContentPage as TasksViewPage).AddPopulatedControls(populatedControls);
-            //}
-
-            addTaskDialog.Visibility = Visibility.Collapsed;
-            appBar.Visibility = Visibility.Visible;
         }
 
         private async void TaskTile_Tapped(object sender, TappedRoutedEventArgs e)
@@ -410,28 +390,6 @@ namespace WedChecker
             }
         }
 
-        private void taskPopup_LayoutUpdated(object sender, object e)
-        {
-            if (taskPopup.Child == null || !(taskPopup.Child is PopupTask))
-            {
-                return;
-            }
-
-            var popupTask = taskPopup.Child as PopupTask;
-
-            double ActualHorizontalOffset = taskPopup.HorizontalOffset;
-            double ActualVerticalOffset = taskPopup.VerticalOffset;
-
-            double NewHorizontalOffset = ((contentFrame.ActualWidth - popupTask.ActualWidth) / 2);
-            double NewVerticalOffset = (contentFrame.ActualHeight - popupTask.ActualHeight) / 2;
-
-            if (ActualHorizontalOffset != NewHorizontalOffset || ActualVerticalOffset != NewVerticalOffset)
-            {
-                taskPopup.HorizontalOffset = NewHorizontalOffset;
-                taskPopup.VerticalOffset = NewVerticalOffset;
-            }
-        }
-
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             CalculateTaskSizes(e.NewSize.Width, e.NewSize.Height);
@@ -466,16 +424,10 @@ namespace WedChecker
                 return;
             }
 
-            //if (CurrentPageCategory != TaskCategories.Home)
-            //{
-            //    (CurrentContentPage as TasksViewPage).ClearTasks();
-            //}
-
             if (Window.Current.Bounds.Width < 1024)
             {
                 mainSplitView.IsPaneOpen = false;
             }
-
 
             mainTitleBar.ProgressActive = true;
             optionsListView.IsEnabled = false;
@@ -528,52 +480,6 @@ namespace WedChecker
             mainTitleBar.ProgressActive = false;
         }
 
-        private Visibility IsVisible(bool value)
-        {
-            if (value)
-            {
-                return Visibility.Visible;
-            }
-
-            return Visibility.Collapsed;
-        }
-
-        private void LayoutRoot_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            if (CurrentPageCategory != TaskCategories.Home)
-            {
-                var page = CurrentContentPage as TasksViewPage;
-                ResizePopup();
-            }
-        }
-
-        private void gridView_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            var width = Window.Current.Bounds.Width;
-
-            var columns = (int)Math.Round(width / 400.0);
-            if (width < 720)
-            {
-                columns = 1;
-            }
-
-            var gridView = sender as GridView;
-            if (gridView == null)
-            {
-                return;
-            }
-
-            var panel = (ItemsWrapGrid)gridView.ItemsPanelRoot;
-            var itemWidth = e.NewSize.Width / columns;
-            panel.ItemWidth = itemWidth;
-            var newHeight = panel.ItemWidth / 2;
-            if (newHeight < 200)
-            {
-                newHeight = 200;
-            }
-            panel.ItemHeight = newHeight;
-        }
-
         private void HamburgerButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             mainSplitView.IsPaneOpen = !mainSplitView.IsPaneOpen;
@@ -606,11 +512,6 @@ namespace WedChecker
             }
         }
 
-        private void TasksViewPageSaveClicked()
-        {
-            //tasksSummary.UpdateTaskInfo(updatedTask);
-        }
-
         public void HidePopupTask()
         {
             rectBackgroundHide.Visibility = Visibility.Collapsed;
@@ -620,7 +521,6 @@ namespace WedChecker
             appBar.Visibility = Visibility.Visible;
             mainSplitView.Pane.Visibility = Visibility.Visible;
         }
-
 
         public void ResizePopup()
         {
@@ -656,6 +556,16 @@ namespace WedChecker
                 taskPopup.HorizontalOffset = NewHorizontalOffset;
                 taskPopup.VerticalOffset = NewVerticalOffset;
             }
+        }
+
+        private void contentFrame_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            ResizePopup();
+        }
+
+        private void rectBackgroundHide_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            ResizePopup();
         }
     }
 }

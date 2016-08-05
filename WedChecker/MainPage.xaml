@@ -132,7 +132,7 @@
             </SplitView.Pane>
 
             <SplitView.Content>
-                    <Frame x:Name="contentFrame" />
+                    <Frame x:Name="contentFrame" SizeChanged="contentFrame_SizeChanged"/>
             </SplitView.Content>
         </SplitView>
 
@@ -141,10 +141,11 @@
 
         <Rectangle x:Name="rectBackgroundHide" Fill="{ThemeResource SystemControlBackgroundBaseMediumBrush}" Visibility="Collapsed"
 				   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-				   Tapped="rectBackgroundHide_Tapped">
+				   Tapped="rectBackgroundHide_Tapped" SizeChanged="rectBackgroundHide_SizeChanged"
+                   Grid.RowSpan="2" Grid.ColumnSpan="2">
         </Rectangle>
 
-        <Popup Name="taskPopup" IsOpen="False">
+        <Popup Name="taskPopup" IsOpen="False" Grid.RowSpan="2" Grid.ColumnSpan="2">
             <Popup.Transitions>
                 <TransitionCollection>
                     <PopupThemeTransition />

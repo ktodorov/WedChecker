@@ -153,6 +153,8 @@ namespace WedChecker.UserControls
                 taskHeight = 200;
             }
             panel.ItemHeight = taskHeight;
+
+            ParentPage.ResizePopup();
         }
 
         private List<BaseTaskControl> OrderTasks(List<BaseTaskControl> tasks)
