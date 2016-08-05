@@ -567,5 +567,15 @@ namespace WedChecker
         {
             ResizePopup();
         }
+
+        private void ShareAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            TasksOperationsHelper.ShareAllTasks();
+        }
+
+        private void ExportAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            TasksOperationsHelper.ExportAllTasks();
+        }
     }
 }

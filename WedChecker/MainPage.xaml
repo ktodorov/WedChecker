@@ -168,6 +168,8 @@
                 <AppBarButton Label="settings" Click="SettingsPageButton_Click"/>
                 <AppBarButton Label="about" Click="AboutPageButton_Click"/>
                 <AppBarButton Label="rate and review" Click="RateReviewButton_Click"/>
+                <AppBarButton Label="share all tasks" Click="ShareAppBarButton_Click"/>
+                <AppBarButton Label="export all tasks" Click="ExportAppBarButton_Click"/>
             </CommandBar.SecondaryCommands>
             <AppBarButton Icon="Add" IsCompact="False" Label="Add task" Click="AddTaskButton_Click" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" />
         </CommandBar>

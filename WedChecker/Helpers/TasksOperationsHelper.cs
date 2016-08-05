@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using WedChecker.Common;
 using WedChecker.UserControls;
 using WedChecker.UserControls.Tasks;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -68,6 +71,73 @@ namespace WedChecker.Helpers
             if (taskDialog != null)
             {
                 taskDialog.IsTileEnabled(taskControl.TaskCode, true);
+            }
+        }
+
+        public static async void ShareAllTasks()
+        {
+            var allControls = await AppData.PopulateAddedControls();
+
+            var text = new StringBuilder();
+
+            foreach (var control in allControls)
+            {
+                text.AppendLine("----------------------------------------------------------");
+                var controlText = control.GetDataAsText();
+                text.Append(controlText);
+                text.AppendLine("----------------------------------------------------------");
+            }
+
+            AppData.TextForShare = text.ToString();
+
+            DataTransferManager.ShowShareUI();
+        }
+
+        public static async void ExportAllTasks()
+        {
+            var allControls = await AppData.PopulateAddedControls();
+
+            var text = new StringBuilder();
+
+            foreach (var control in allControls)
+            {
+                text.AppendLine("----------------------------------------------------------");
+                var controlText = control.GetDataAsText();
+                text.Append(controlText);
+                text.AppendLine("----------------------------------------------------------");
+            }
+
+            var savePicker = new FileSavePicker();
+            savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+            savePicker.FileTypeChoices.Add("Plain Text", new List<string>() { ".txt" });
+            savePicker.SuggestedFileName = "WedChecker export";
+
+            var file = await savePicker.PickSaveFileAsync();
+            if (file == null)
+            {
+                return;
+            }
+
+            // Prevent updates to the remote version of the file until
+            // we finish making changes and call CompleteUpdatesAsync.
+            CachedFileManager.DeferUpdates(file);
+
+            // write to file
+            await FileIO.WriteTextAsync(file, text.ToString());
+
+            // Let Windows know that we're finished changing the file so
+            // the other app can update the remote version of the file.
+            // Completing updates may require Windows to ask for user input.
+            Windows.Storage.Provider.FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
+            if (status == Windows.Storage.Provider.FileUpdateStatus.Complete)
+            {
+                var dialog = new MessageDialog("File saved", "Success");
+                await dialog.ShowAsync();
+            }
+            else
+            {
+                var dialog = new MessageDialog("File could not be saved", "Something happened");
+                await dialog.ShowAsync();
             }
         }
     }
