@@ -454,5 +454,11 @@ namespace WedChecker.UserControls
 
             svTasks.ChangeView(null, verticalOffset, null);
         }
+
+        public void RemoveTask(BaseTaskControl task)
+        {
+            var taskToRemove = Tasks.FirstOrDefault(pt => pt.ConnectedTaskControl.TaskCode == task.TaskCode);
+            gvTasks.Items.Remove(taskToRemove);
+        }
     }
 }

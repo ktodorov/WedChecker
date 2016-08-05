@@ -48,17 +48,17 @@ namespace WedChecker.Helpers
         {
             if (taskControl != null)
             {
-                EnableTaskTile(tasksViewer, taskControl);
+                EnableTaskTile(tasksViewer.ParentPage, taskControl);
 
-                DeletePopulatedTask(tasksViewer, taskControl);
+                tasksViewer.RemoveTask(taskControl);
 
                 await taskControl.DeleteValues();
             }
         }
 
-        private static void EnableTaskTile(TasksViewer tasksViewer, BaseTaskControl taskControl)
+        private static void EnableTaskTile(MainPage page, BaseTaskControl taskControl)
         {
-            var mainGrid = tasksViewer.FindName("mainGrid") as Grid;
+            var mainGrid = page.FindName("mainGrid") as Grid;
             if (mainGrid == null)
             {
                 return;
@@ -69,59 +69,6 @@ namespace WedChecker.Helpers
             {
                 taskDialog.IsTileEnabled(taskControl.TaskCode, true);
             }
-        }
-
-        private static void DeletePopulatedTask(TasksViewer tasksViewer, BaseTaskControl taskControl)
-        {
-            var mainGrid = tasksViewer.FindName("mainGrid") as Grid;
-            if (mainGrid == null)
-            {
-                return;
-            }
-
-            var mainSplitView = mainGrid.Children.OfType<SplitView>().FirstOrDefault(sv => sv.Name == "mainSplitView");
-            if (mainSplitView == null)
-            {
-                return;
-            }
-
-            var layoutRoot = mainSplitView.Content as Grid;
-            if (layoutRoot == null)
-            {
-                return;
-            }
-
-            var taskControlType = taskControl.GetType();
-
-            if (!DeleteFromElement(layoutRoot, "svPlanings", taskControlType))
-            {
-                if (!DeleteFromElement(layoutRoot, "svPurchases", taskControlType))
-                {
-                    DeleteFromElement(layoutRoot, "svBookings", taskControlType);
-                }
-            }
-        }
-
-        private static bool DeleteFromElement(FrameworkElement parent, string name, Type taskControlType)
-        {
-            var scrollViewer = parent.FindName(name) as ScrollViewer;
-            if (scrollViewer == null)
-            {
-                return false;
-            }
-
-            var gridView = scrollViewer.Content as GridView;
-            if (gridView != null)
-            {
-                var populatedTask = gridView.Items.OfType<PopulatedTask>().FirstOrDefault(p => p.ConnectedTaskControl.GetType() == taskControlType);
-                if (populatedTask != null)
-                {
-                    gridView.Items.Remove(populatedTask);
-                    return true;
-                }
-            }
-
-            return false;
         }
     }
 }
