@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using WedChecker.Interfaces;
 using Windows.Devices.Geolocation;
 using Windows.UI.Xaml;
@@ -134,7 +135,15 @@ namespace WedChecker.UserControls
 
         public string GetDataAsText()
         {
-            return string.Empty;
+            var sb = new StringBuilder();
+
+            if (HasPinnedLocation())
+            {
+                sb.AppendLine($" - Latitude: {locationMap.PinnedPlace.Latitude}");
+                sb.AppendLine($" - Longitude: {locationMap.PinnedPlace.Longitude}");
+            }
+
+            return sb.ToString();
         }
     }
 }
