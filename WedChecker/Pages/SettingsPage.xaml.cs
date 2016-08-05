@@ -31,12 +31,26 @@ namespace WedChecker.Pages
             return Name;
         }
     }
+    class SortingOrder
+    {
+        public TaskSortingOrder Order;
+        public int Value;
+        public string Name;
+
+        public override string ToString()
+        {
+            return Name;
+        }
+    }
+
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class SettingsPage : Page
 	{
 		ObservableCollection<SortingType> sortingTypes = new ObservableCollection<SortingType>();
+		ObservableCollection<SortingOrder> sortingOrderings = new ObservableCollection<SortingOrder>();
+
         public SettingsPage()
 		{
 			this.InitializeComponent();
@@ -60,19 +74,36 @@ namespace WedChecker.Pages
         {
             Core.CurrentTitleBar = mainTitleBar;
 
-            var enumValues = Enum.GetValues(typeof(TaskSortingType));
+            LoadSortingData();
+        }
 
-            foreach (var enumValue in enumValues)
+        private void LoadSortingData()
+        {
+            // Task sort type
+            var typeEnumValues = Enum.GetValues(typeof(TaskSortingType));
+
+            sortingTypes.Clear();
+            foreach (var enumValue in typeEnumValues)
             {
                 var sortingType = new SortingType() { Type = (TaskSortingType)enumValue, Value = (int)enumValue, Name = ((TaskSortingType)enumValue).ToString().SeparateCamelCase() };
 
                 sortingTypes.Add(sortingType);
             }
 
-            var orderedTypes = sortingTypes.OrderBy(lt => lt.Name);
-            sortingTypes = new ObservableCollection<SortingType>(orderedTypes);
-
             cbTasksSorting.SelectedIndex = AppData.GetRoamingSetting<int>("TaskSortType");
+
+            // Task sort order
+            var orderEnumValues = Enum.GetValues(typeof(TaskSortingOrder));
+
+            sortingOrderings.Clear();
+            foreach (var enumValue in orderEnumValues)
+            {
+                var sortingOrder = new SortingOrder() { Order = (TaskSortingOrder)enumValue, Value = (int)enumValue, Name = ((TaskSortingOrder)enumValue).ToString().SeparateCamelCase() };
+
+                sortingOrderings.Add(sortingOrder);
+            }
+
+            cbTasksOrdering.SelectedIndex = AppData.GetRoamingSetting<int>("TaskSortOrder");
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -130,7 +161,17 @@ namespace WedChecker.Pages
 			var themeNumber = Convert.ToInt32(button.Tag);
 			var appTheme = (AppTheme)themeNumber;
 
-			Core.UpdateAppTheme(appTheme);
+            var currentAppTheme = Core.GetAppTheme();
+            if (appTheme == AppTheme.SystemDefault && currentAppTheme != appTheme)
+            {
+                restartRequiredBlock.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                restartRequiredBlock.Visibility = Visibility.Collapsed;
+            }
+
+            Core.UpdateAppTheme(appTheme);
 
 			this.RequestedTheme = Core.GetElementTheme();
 		}
@@ -138,6 +179,11 @@ namespace WedChecker.Pages
         private void cbTasksSorting_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             AppData.InsertRoamingSetting("TaskSortType", cbTasksSorting.SelectedIndex);
+        }
+
+        private void cbTasksOrdering_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            AppData.InsertRoamingSetting("TaskSortOrder", cbTasksOrdering.SelectedIndex);
         }
     }
 }

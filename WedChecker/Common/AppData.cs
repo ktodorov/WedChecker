@@ -26,6 +26,7 @@ namespace WedChecker.Common
         private const string EOS_CONST = "$WedChecker_EndOfStream$";
         private const string EOS_SEPARATOR = "$WedChecker_Separator$";
         public const string GLOBAL_SEPARATOR = "$WedChecker_GlobalAppDataSeparator$";
+        public static string TextForShare;
 
         private static Dictionary<string, object> _localStorage;
         public static Dictionary<string, object> LocalStorage
@@ -136,5 +137,21 @@ namespace WedChecker.Common
 
             return default(T);
         }
-}
+
+        public static void RemoveRoamingSetting(string setting)
+        {
+            if (Core.RoamingSettings.Values.ContainsKey(setting))
+            {
+                Core.RoamingSettings.Values.Remove(setting);
+            }
+        }
+
+        public static void RemoveLocalSetting(string setting)
+        {
+            if (Core.LocalSettings.Values.ContainsKey(setting))
+            {
+                Core.LocalSettings.Values.Remove(setting);
+            }
+        }
+    }
 }

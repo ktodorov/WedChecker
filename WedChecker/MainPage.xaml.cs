@@ -29,7 +29,6 @@ namespace WedChecker
 {
     public sealed partial class MainPage : Page
     {
-        public string TextForShare;
         private bool FirstTimeLaunched = true;
         private string arguments;
 
@@ -37,7 +36,7 @@ namespace WedChecker
         {
             get
             {
-                var page = contentFrame.Content as IUpdateableTasks;
+                var page = contentFrame?.Content as IUpdateableTasks;
                 if (page != null)
                 {
                     return page.TasksCategory;
@@ -53,7 +52,7 @@ namespace WedChecker
         {
             get
             {
-                var page = contentFrame.Content as IUpdateableTasks;
+                var page = contentFrame?.Content as IUpdateableTasks;
                 if (page != null)
                 {
                     return page;
@@ -119,9 +118,9 @@ namespace WedChecker
 
         void MainPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
-            if (!string.IsNullOrEmpty(TextForShare))
+            if (!string.IsNullOrEmpty(AppData.TextForShare))
             {
-                args.Request.Data.SetText(TextForShare);
+                args.Request.Data.SetText(AppData.TextForShare);
                 args.Request.Data.Properties.Title = Windows.ApplicationModel.Package.Current.DisplayName;
             }
             else
@@ -208,17 +207,30 @@ namespace WedChecker
             }
             else
             {
+                if (!string.IsNullOrEmpty(arguments))
+                {
+                    SwitchCategoryFromArguments(arguments);
+                }
+                else
+                {
+                    var category = AppData.GetLocalSetting<int?>("CurrentCategory");
+                    if (category.HasValue)
+                    {
+                        await ChangeTaskCategory((TaskCategories)category.Value);
+                        AppData.RemoveLocalSetting("CurrentCategory");
+                    }
+                    else
+                    {
+                        await ChangeTaskCategory(TaskCategories.Home);
+                    }
+                }
+
                 await UpdateTasks();
             }
 
             FirstTimeLaunched = false;
 
             CalculateTaskSizes(Window.Current.Bounds.Width, Window.Current.Bounds.Height);
-
-            if (!string.IsNullOrEmpty(arguments))
-            {
-                SwitchCategoryFromArguments(arguments);
-            }
 
             Core.CurrentTitleBar = mainTitleBar;
         }
@@ -241,6 +253,8 @@ namespace WedChecker
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
+
+            AppData.InsertLocalSetting("CurrentCategory", (int)CurrentPageCategory);
         }
 
         private async void RegisterBackgroundTask()
@@ -445,10 +459,22 @@ namespace WedChecker
 
         private async Task ChangeTaskCategory(TaskCategories category)
         {
+            if (CurrentPageCategory == category && contentFrame != null && contentFrame.Content != null)
+            {
+                return;
+            }
+
+            // If we have tasks, we clear them before storing the page so we won't 
+            if (CurrentPageCategory != TaskCategories.Home)
+            {
+                (CurrentContentPage as TasksViewPage).ClearTasks();
+            }
+
             if (Window.Current.Bounds.Width < 1024)
             {
                 mainSplitView.IsPaneOpen = false;
             }
+
 
             mainTitleBar.ProgressActive = true;
 
@@ -463,23 +489,26 @@ namespace WedChecker
                     {
                         if (FrameContents.OfType<HomePage>().Any())
                         {
-                            contentFrame.Content = FrameContents.OfType<HomePage>().FirstOrDefault();
+                            var storedPage = FrameContents.OfType<HomePage>().FirstOrDefault();
+                            contentFrame.Content = storedPage;
                         }
                         else
                         {
                             contentFrame.Navigate(typeof(HomePage));
-                            FrameContents.Add(CurrentContentPage as HomePage);
+                            FrameContents.Add(CurrentContentPage as Page);
                         }
                     }
                     else if (FrameContents.OfType<TasksViewPage>().Any(p => p.TasksCategory == category))
                     {
-                        contentFrame.Content = FrameContents.OfType<TasksViewPage>().FirstOrDefault(p => p.TasksCategory == category);
+                        var storedPage = FrameContents.OfType<TasksViewPage>().FirstOrDefault(p => p.TasksCategory == category);
+                        contentFrame.Content = storedPage;
                     }
                     else
                     {
                         contentFrame.Navigate(typeof(TasksViewPage), new Params() { CurrentPage = this, Category = category });
-                        FrameContents.Add(CurrentContentPage as TasksViewPage);
+                    FrameContents.Add(CurrentContentPage as Page);
                     }
+
 
                     optionsListView.SelectedIndex = (int)category;
                 }
@@ -501,7 +530,7 @@ namespace WedChecker
             if (CurrentPageCategory != TaskCategories.Home)
             {
                 var page = CurrentContentPage as TasksViewPage;
-                page.ResizePopup();
+                ResizePopup();
             }
         }
 
@@ -577,6 +606,43 @@ namespace WedChecker
 
             appBar.Visibility = Visibility.Visible;
             mainSplitView.Pane.Visibility = Visibility.Visible;
+        }
+
+
+        public void ResizePopup()
+        {
+            if (taskPopup.Child == null || !(taskPopup.Child is PopupTask))
+            {
+                return;
+            }
+
+            var popupTask = taskPopup.Child as PopupTask;
+            if (popupTask == null)
+            {
+                return;
+            }
+
+            double ActualHorizontalOffset = taskPopup.HorizontalOffset;
+            double ActualVerticalOffset = taskPopup.VerticalOffset;
+
+            var windowHeight = mainSplitView.ActualHeight;
+            var windowWidth = mainSplitView.ActualWidth;
+
+            if (windowWidth < 720)
+            {
+                windowHeight = windowHeight + mainTitleBar.ActualHeight;
+            }
+
+            popupTask.ResizeContent(windowWidth, windowHeight);
+
+            double NewHorizontalOffset = ((windowWidth - popupTask.ActualWidth) / 2);
+            double NewVerticalOffset = (windowHeight - popupTask.ActualHeight) / 2;
+
+            if (ActualHorizontalOffset != NewHorizontalOffset || ActualVerticalOffset != NewVerticalOffset)
+            {
+                taskPopup.HorizontalOffset = NewHorizontalOffset;
+                taskPopup.VerticalOffset = NewVerticalOffset;
+            }
         }
     }
 }

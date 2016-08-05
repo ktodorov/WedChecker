@@ -13,18 +13,36 @@
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
-		<Elements:WedCheckerTitleBar x:Name="mainTitleBar" Grid.Row="0" />
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="spMain.HorizontalAlignment" Value="Stretch" />
+                        <Setter Target="spMain.Width" Value="Auto" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="spMain.HorizontalAlignment" Value="Left" />
+                        <Setter Target="spMain.Width" Value="500" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Elements:WedCheckerTitleBar x:Name="mainTitleBar" Grid.Row="0" />
 
 		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="10">
-			<StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Center"
-						Padding="20, 0">
-				<Button Name="changeWeddingDateButton" Style="{ThemeResource ButtonClearStyle}" Content="Change wedding date" 
-						Click="changeWeddingDateButton_Click" HorizontalAlignment="Center" />
-
-				<Border BorderThickness="1" BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}" Margin="0, 25" />
-
+			<StackPanel Name="spMain" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalAlignment="Left" 
+                        VerticalAlignment="Top" Padding="20, 0">
 				<StackPanel Name="appThemePanel" Orientation="Vertical">
-					<TextBlock Style="{ThemeResource WedCheckerFormTextBlockStyle}" TextAlignment="Center">
+                    <TextBlock Style="{ThemeResource WedCheckerHeaderTextBlockStyle}" TextAlignment="Left" Margin="0, 15">
 						Theme appearance
 					</TextBlock>
 
@@ -34,18 +52,37 @@
 								 Checked="appThemeSelection_Checked" Tag="1"/>
 					<RadioButton Name="rbDefaultTheme" Content="System default" Style="{ThemeResource WedCheckerRadioButtonDefaultStyle}"
 								 Checked="appThemeSelection_Checked" Tag="2"/>
+
+                    <TextBlock Name="restartRequiredBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" 
+                               Foreground="DarkRed" Margin="0, 10" Visibility="Collapsed">
+                        Restart required for the changes to apply
+                    </TextBlock>
 				</StackPanel>
                 
                 <Border BorderThickness="1" BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}" Margin="0, 25" />
 
                 <StackPanel Name="tasksSortingPanel" Orientation="Vertical">
-                    <TextBlock Style="{ThemeResource WedCheckerFormTextBlockStyle}" TextAlignment="Center">
-						Preferable tasks sorting
+                    <TextBlock Style="{ThemeResource WedCheckerHeaderTextBlockStyle}" TextAlignment="Left" Margin="0, 5">
+						Task sorting
                     </TextBlock>
 
-                    <ComboBox Name="cbTasksSorting" HorizontalAlignment="Left" SelectionChanged="cbTasksSorting_SelectionChanged"
-                              ItemsSource="{x:Bind sortingTypes}" ></ComboBox>
+                    <TextBlock Style="{ThemeResource WedCheckerSubHeaderTextBlockStyle}" TextAlignment="Left">
+						This is how your tasks will be sorted
+                    </TextBlock>
+
+                    <ComboBox Name="cbTasksSorting" HorizontalAlignment="Stretch" SelectionChanged="cbTasksSorting_SelectionChanged"
+                              ItemsSource="{x:Bind sortingTypes}" Margin="0, 10"></ComboBox>
+
+                    <ComboBox Name="cbTasksOrdering" HorizontalAlignment="Stretch" SelectionChanged="cbTasksOrdering_SelectionChanged"
+                              ItemsSource="{x:Bind sortingOrderings}" Margin="0, 10"></ComboBox>
                 </StackPanel>
+                
+                <Border BorderThickness="1" BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}" Margin="0, 25" />
+
+                <Button Name="changeWeddingDateButton" Style="{ThemeResource ButtonClearStyle}" Content="Change wedding date" 
+						Click="changeWeddingDateButton_Click" HorizontalAlignment="Left" />
+
+
             </StackPanel>
 		</ScrollViewer>
 	</Grid>

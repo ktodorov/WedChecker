@@ -9,6 +9,6 @@
     mc:Ignorable="d">
 
     <Grid>
-        <uc:TasksViewer x:Name="tasksViewer"  />
+        <uc:TasksViewer x:Name="tasksViewer" ParentPage="{x:Bind parentPage}" />
     </Grid>
 </Page>

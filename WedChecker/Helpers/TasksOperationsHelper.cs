@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
+using WedChecker.UserControls;
 using WedChecker.UserControls.Tasks;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -14,7 +15,7 @@ namespace WedChecker.Helpers
 {
     public class TasksOperationsHelper
     {
-        public static async Task<bool> DeleteTaskAsync(Page pageCalled, BaseTaskControl taskControl)
+        public static async Task<bool> DeleteTaskAsync(TasksViewer tasksViewer, BaseTaskControl taskControl)
         {
             var msgDialog = new MessageDialog("Are you sure you want to delete this task?", "Please confirm");
             msgDialog.Commands.Add(new UICommand("Delete")
@@ -33,7 +34,7 @@ namespace WedChecker.Helpers
 
             if ((int)result.Id == 0)
             {
-                await DeleteTask(pageCalled, taskControl);
+                await DeleteTask(tasksViewer, taskControl);
             }
             else
             {
@@ -43,21 +44,21 @@ namespace WedChecker.Helpers
             return true;
         }
 
-        private static async Task DeleteTask(Page pageCalled, BaseTaskControl taskControl)
+        private static async Task DeleteTask(TasksViewer tasksViewer, BaseTaskControl taskControl)
         {
             if (taskControl != null)
             {
-                EnableTaskTile(pageCalled, taskControl);
+                EnableTaskTile(tasksViewer, taskControl);
 
-                DeletePopulatedTask(pageCalled, taskControl);
+                DeletePopulatedTask(tasksViewer, taskControl);
 
                 await taskControl.DeleteValues();
             }
         }
 
-        private static void EnableTaskTile(Page pageCalled, BaseTaskControl taskControl)
+        private static void EnableTaskTile(TasksViewer tasksViewer, BaseTaskControl taskControl)
         {
-            var mainGrid = pageCalled.FindName("mainGrid") as Grid;
+            var mainGrid = tasksViewer.FindName("mainGrid") as Grid;
             if (mainGrid == null)
             {
                 return;
@@ -70,9 +71,9 @@ namespace WedChecker.Helpers
             }
         }
 
-        private static void DeletePopulatedTask(Page pageCalled, BaseTaskControl taskControl)
+        private static void DeletePopulatedTask(TasksViewer tasksViewer, BaseTaskControl taskControl)
         {
-            var mainGrid = pageCalled.FindName("mainGrid") as Grid;
+            var mainGrid = tasksViewer.FindName("mainGrid") as Grid;
             if (mainGrid == null)
             {
                 return;

@@ -20,10 +20,15 @@ namespace WedChecker.Common
 {
     public enum TaskSortingType
     {
-        ByName,
-        ByNameReversed,
-        OldestFirst,
-        NewestFirst
+        Name,
+        DateCreated,
+        DateModified
+    }
+
+    public enum TaskSortingOrder
+    {
+        Ascending,
+        Descending
     }
 
     public static partial class TaskData

@@ -85,7 +85,7 @@
 							FontFamily="Segoe MDL2 Assets" BorderThickness="0" />
 
                     <ListView Name="optionsListView" SelectionChanged="optionsListView_SelectionChanged"
-							  VerticalAlignment="Stretch" SelectedIndex="0">
+							  VerticalAlignment="Stretch">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="Padding" Value="0"/>

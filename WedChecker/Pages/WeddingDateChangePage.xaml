@@ -12,26 +12,50 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
+        </Grid.RowDefinitions>
 
-		<Elements:WedCheckerTitleBar x:Name="mainTitleBar" Grid.Row="0" />
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="spMain.HorizontalAlignment" Value="Stretch" />
+                        <Setter Target="spMain.Width" Value="Auto" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="spMain.HorizontalAlignment" Value="Left" />
+                        <Setter Target="spMain.Width" Value="500" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Elements:WedCheckerTitleBar x:Name="mainTitleBar" Grid.Row="0" />
 
 		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="10">
-			<StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical" HorizontalAlignment="Stretch"
-						VerticalAlignment="Center" Padding="20, 0">
-				<TextBlock Text="This is the currently saved wedding date"  Style="{ThemeResource WedCheckerFormTextBlockStyle}" />
+            <StackPanel Name="spMain" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" 
+                        Orientation="Vertical" HorizontalAlignment="Stretch"
+						VerticalAlignment="Top" Padding="20, 0">
+                <TextBlock Text="This is the currently saved wedding date"  Style="{ThemeResource WedCheckerHeaderTextBlockStyle}" />
 				<TextBlock Name="currentDateTextBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="19 August 2016"
-						   HorizontalAlignment="Center"/>
+						   HorizontalAlignment="Left"/>
 
 				<Border BorderThickness="1" BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}" Margin="0, 25" />
 
-				<TextBlock Text="Change the date" Style="{ThemeResource WedCheckerFormTextBlockStyle}" />
-				<StackPanel Name="dateTimePickerPanel" Orientation="Vertical" HorizontalAlignment="Center">
-					<DatePicker Name="dpWeddingDate" Width="300" HorizontalAlignment="Center"
+                <TextBlock Text="Change the date" Style="{ThemeResource WedCheckerHeaderTextBlockStyle}" />
+                <StackPanel Name="dateTimePickerPanel" Orientation="Vertical" HorizontalAlignment="Left">
+                    <DatePicker Name="dpWeddingDate" Width="300" HorizontalAlignment="Left"
                                 VerticalAlignment="Center" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontWeight="Light"
                                 BorderBrush="{ThemeResource SystemAccentColor}" BorderThickness="1" Margin="10"/>
 
-					<TimePicker Name="tpWeddingDate" Width="300" HorizontalAlignment="Center" 
+                    <TimePicker Name="tpWeddingDate" Width="300" HorizontalAlignment="Left" 
                                 VerticalAlignment="Center" Foreground="{ThemeResource ApplicationForegroundThemeBrush}" FontWeight="Light"
                                 BorderBrush="{ThemeResource SystemAccentColor}" BorderThickness="1" Margin="10"/>
 
@@ -40,10 +64,10 @@
 				</StackPanel>
 
                 <TextBlock Name="tbInfo" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="Date changed successfully!"
-                           Margin="25" TextAlignment="Center" Visibility="Collapsed"/>
+                           Margin="25" TextAlignment="Left" Visibility="Collapsed"/>
 
                 <TextBlock Name="tbError" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="Sorry, you can't set date which is already passed."
-                           Margin="25" TextAlignment="Center" Foreground="DarkRed" Visibility="Collapsed" />
+                           Margin="25" TextAlignment="Left" Foreground="DarkRed" Visibility="Collapsed" />
             </StackPanel>
 		</ScrollViewer>
 	</Grid>
