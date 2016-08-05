@@ -124,17 +124,17 @@ namespace WedChecker.UserControls
 
 		private void zoomOutButton_Click(object sender, RoutedEventArgs e)
 		{
-			locationMap.Zoom -= 1;
+			locationMap.Zoom -= 0.3;
 		}
 
 		private void zoomInButton_Click(object sender, RoutedEventArgs e)
 		{
-			locationMap.Zoom += 1;
+			locationMap.Zoom += 0.3;
 		}
 
         public string GetDataAsText()
         {
             return string.Empty;
         }
-	}
+    }
 }
