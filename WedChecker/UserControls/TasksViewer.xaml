@@ -8,16 +8,24 @@
     mc:Ignorable="d">
 
     <ScrollViewer Name="svTasks" VerticalScrollBarVisibility="Auto" Padding="10, 0" >
-        <GridView Name="gvTasks" SelectionMode="None" SizeChanged="gvTasks_SizeChanged">
-            <GridView.ItemContainerStyle>
-                <Style TargetType="GridViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-                    <Setter Property="VerticalAlignment" Value="Stretch"/>
-                    <Setter Property="Margin" Value="2" />
-                </Style>
-            </GridView.ItemContainerStyle>
-        </GridView>
+        <StackPanel>
+            <Button Name="enterSelectionMode" Click="enterSelectionMode_Click" Content="Enter selection mode"
+                    Style="{ThemeResource WedCheckerTextButtonStyle}" Background="Transparent"/>
+            <Button Name="leaveSelectionMode" Click="leaveSelectionMode_Click" Content="Leave selection mode"
+                    Style="{ThemeResource WedCheckerTextButtonStyle}" Background="Transparent"
+                    Visibility="Collapsed"/>
+
+            <GridView Name="gvTasks" SelectionMode="None" SizeChanged="gvTasks_SizeChanged">
+                <GridView.ItemContainerStyle>
+                    <Style TargetType="GridViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                        <Setter Property="VerticalAlignment" Value="Stretch"/>
+                        <Setter Property="Margin" Value="2" />
+                    </Style>
+                </GridView.ItemContainerStyle>
+            </GridView>
+        </StackPanel>
     </ScrollViewer>
 </UserControl>

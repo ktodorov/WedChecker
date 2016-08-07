@@ -47,6 +47,38 @@ namespace WedChecker.Helpers
             return true;
         }
 
+        public static async Task<bool> DeleteTasksAsync(TasksViewer tasksViewer, List<BaseTaskControl> taskControls)
+        {
+            var msgDialog = new MessageDialog("Are you sure you want to delete these tasks?", "Please confirm");
+            msgDialog.Commands.Add(new UICommand("Delete")
+            {
+                Id = 0
+            });
+            msgDialog.Commands.Add(new UICommand("Cancel")
+            {
+                Id = 1
+            });
+
+            msgDialog.DefaultCommandIndex = 0;
+            msgDialog.CancelCommandIndex = 1;
+
+            var result = await msgDialog.ShowAsync();
+
+            if ((int)result.Id == 0)
+            {
+                foreach (var taskControl in taskControls)
+                {
+                    await DeleteTask(tasksViewer, taskControl);
+                }
+            }
+            else
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         private static async Task DeleteTask(TasksViewer tasksViewer, BaseTaskControl taskControl)
         {
             if (taskControl != null)
@@ -77,10 +109,14 @@ namespace WedChecker.Helpers
         public static async void ShareAllTasks()
         {
             var allControls = await AppData.PopulateAddedControls();
+            ShareTasks(allControls);
+        }
 
+        public static void ShareTasks(List<BaseTaskControl> controls)
+        {
             var text = new StringBuilder();
 
-            foreach (var control in allControls)
+            foreach (var control in controls)
             {
                 text.AppendLine("----------------------------------------------------------");
                 var controlText = control.GetDataAsText();
@@ -96,10 +132,14 @@ namespace WedChecker.Helpers
         public static async void ExportAllTasks()
         {
             var allControls = await AppData.PopulateAddedControls();
+            ExportTasks(allControls);
+        }
 
+        public static async void ExportTasks(List<BaseTaskControl> controls)
+        {
             var text = new StringBuilder();
 
-            foreach (var control in allControls)
+            foreach (var control in controls)
             {
                 text.AppendLine("----------------------------------------------------------");
                 var controlText = control.GetDataAsText();

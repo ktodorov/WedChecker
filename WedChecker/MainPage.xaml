@@ -172,6 +172,24 @@
                 <AppBarButton Label="export all tasks" Click="ExportAppBarButton_Click"/>
             </CommandBar.SecondaryCommands>
             <AppBarButton Icon="Add" IsCompact="False" Label="Add task" Click="AddTaskButton_Click" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" />
+            <AppBarButton Name="shareAppBarButton" IsCompact="False" Label="Share selected" Click="ShareBarButton_Click" 
+                          Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" Visibility="Collapsed" >
+                <AppBarButton.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton Name="exportAppBarButton" IsCompact="False" Label="Export selected" Click="ExportBarButton_Click" 
+                          Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" Visibility="Collapsed" >
+                <AppBarButton.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8DE;"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton Name="deleteAppBarButton" IsCompact="False" Label="Delete selected" Click="DeleteBarButton_Click" 
+                          Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" Visibility="Collapsed" >
+                <AppBarButton.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE107;"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

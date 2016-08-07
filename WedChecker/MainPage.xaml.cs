@@ -255,6 +255,8 @@ namespace WedChecker
         {
             base.OnNavigatedFrom(e);
 
+            LeaveSelectionMode();
+
             AppData.InsertLocalSetting("CurrentCategory", (int)CurrentPageCategory);
         }
 
@@ -380,6 +382,7 @@ namespace WedChecker
             mainTitleBar.SetBackButtonVisible(true);
             appBar.Visibility = Visibility.Collapsed;
             HamburgerButton.Visibility = Visibility.Collapsed;
+            (CurrentContentPage as TasksViewPage).AttachedTasksViewer.LeaveSelectionMode();
         }
 
         private void AboutPageButton_Click(object sender, RoutedEventArgs e)
@@ -451,6 +454,11 @@ namespace WedChecker
             if (CurrentPageCategory == category && contentFrame != null && contentFrame.Content != null)
             {
                 return;
+            }
+
+            if (CurrentPageCategory != TaskCategories.Home)
+            {
+                (CurrentContentPage as TasksViewPage).AttachedTasksViewer.LeaveSelectionMode();
             }
 
             if (Window.Current.Bounds.Width < 1024)
@@ -605,6 +613,52 @@ namespace WedChecker
         private void ExportAppBarButton_Click(object sender, RoutedEventArgs e)
         {
             TasksOperationsHelper.ExportAllTasks();
+        }
+
+        public void EnterSelectionMode()
+        {
+            shareAppBarButton.Visibility = Visibility.Visible;
+            exportAppBarButton.Visibility = Visibility.Visible;
+            deleteAppBarButton.Visibility = Visibility.Visible;
+        }
+
+        public void LeaveSelectionMode()
+        {
+            shareAppBarButton.Visibility = Visibility.Collapsed;
+            exportAppBarButton.Visibility = Visibility.Collapsed;
+            deleteAppBarButton.Visibility = Visibility.Collapsed;
+        }
+
+        private void ShareBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            var currentPage = CurrentContentPage as TasksViewPage;
+            if (currentPage == null)
+            {
+                return;
+            }
+
+            currentPage.AttachedTasksViewer.ShareSelected();
+        }
+
+        private void ExportBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            var currentPage = CurrentContentPage as TasksViewPage;
+            if (currentPage == null)
+            {
+                return;
+            }
+
+            currentPage.AttachedTasksViewer.ExportSelected();
+        }
+        private void DeleteBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            var currentPage = CurrentContentPage as TasksViewPage;
+            if (currentPage == null)
+            {
+                return;
+            }
+
+            currentPage.AttachedTasksViewer.DeleteSelected();
         }
     }
 }
