@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using WedChecker.Common;
 using WedChecker.Extensions;
 using WedChecker.Interfaces;
@@ -10,6 +11,8 @@ using WedChecker.UserControls.Tasks;
 using WedChecker.UserControls.Tasks.Bookings;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -31,68 +34,75 @@ namespace WedChecker.UserControls
             this.InitializeComponent();
         }
 
-        public void LoadTasksData(List<BaseTaskControl> populatedTasks)
+        public async void LoadTasksData(List<BaseTaskControl> populatedTasks)
         {
-            tasks = populatedTasks;
+            await Task.Delay(TimeSpan.FromMilliseconds(100));
 
-            var purchasesCount = 0;
-            var purchasedCount = 0;
-            var bookingsCount = 0;
-            var bookedCount = 0;
-            var planningsCount = 0;
-
-            foreach (var populatedTask in populatedTasks)
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            () =>
             {
-                var taskType = populatedTask.GetType();
-                var taskCategory = Core.GetTaskCategory(taskType);
+                tasks = populatedTasks;
 
-                switch (taskCategory)
+                var purchasesCount = 0;
+                var purchasedCount = 0;
+                var bookingsCount = 0;
+                var bookedCount = 0;
+                var planningsCount = 0;
+
+                foreach (var populatedTask in populatedTasks)
                 {
-                    case TaskCategories.Booking:
-                        var bookingTask = populatedTask as ICompletableTask;
-                        if (bookingTask != null)
-                        {
-                            var booked = bookingTask.GetCompletedItems();
-                            var unbooked = bookingTask.GetUncompletedItems();
-                            bookedCount += booked;
-                            bookingsCount += booked + unbooked;
-                        }
-                        else
-                        {
-                            bookedCount++;
-                            bookingsCount++;
-                        }
-                        break;
+                    var taskType = populatedTask.GetType();
+                    var taskCategory = Core.GetTaskCategory(taskType);
 
-                    case TaskCategories.Purchase:
-                        var purchasingTask = populatedTask as ICompletableTask;
-                        if (purchasingTask != null)
-                        {
-                            var purchased = purchasingTask.GetCompletedItems();
-                            var unpurchased = purchasingTask.GetUncompletedItems();
-                            purchasedCount += purchased;
-                            purchasesCount += purchased + unpurchased;
-                        }
-                        else
-                        {
-                            purchasedCount++;
-                            purchasesCount++;
-                        }
-                        break;
+                    switch (taskCategory)
+                    {
+                        case TaskCategories.Booking:
+                            var bookingTask = populatedTask as ICompletableTask;
+                            if (bookingTask != null)
+                            {
+                                var booked = bookingTask.GetCompletedItems();
+                                var unbooked = bookingTask.GetUncompletedItems();
+                                bookedCount += booked;
+                                bookingsCount += booked + unbooked;
+                            }
+                            else
+                            {
+                                bookedCount++;
+                                bookingsCount++;
+                            }
+                            break;
 
-                    case TaskCategories.Planing:
-                        planningsCount++;
-                        break;
+                        case TaskCategories.Purchase:
+                            var purchasingTask = populatedTask as ICompletableTask;
+                            if (purchasingTask != null)
+                            {
+                                var purchased = purchasingTask.GetCompletedItems();
+                                var unpurchased = purchasingTask.GetUncompletedItems();
+                                purchasedCount += purchased;
+                                purchasesCount += purchased + unpurchased;
+                            }
+                            else
+                            {
+                                purchasedCount++;
+                                purchasesCount++;
+                            }
+                            break;
+
+                        case TaskCategories.Planing:
+                            planningsCount++;
+                            break;
+                    }
                 }
+
+                purchasedTasksCountBlock.Text = purchasedCount.ToString();
+                purchasingTasksCountBlock.Text = purchasesCount.ToString();
+                bookedTasksCountBlock.Text = bookedCount.ToString();
+                bookingTasksCountBlock.Text = bookingsCount.ToString();
+                planningTasksCountBlock.Text = planningsCount.ToString();
+
+                mainBorder.Visibility = Visibility.Visible;
             }
-
-            purchasedTasksCountBlock.Text = purchasedCount.ToString();
-            purchasingTasksCountBlock.Text = purchasesCount.ToString();
-            bookedTasksCountBlock.Text = bookedCount.ToString();
-            bookingTasksCountBlock.Text = bookingsCount.ToString();
-            planningTasksCountBlock.Text = planningsCount.ToString();
-
-            mainBorder.Visibility = Visibility.Visible;
+            );
         }
 
         public void AddNewTaskInfo(BaseTaskControl task)

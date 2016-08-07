@@ -46,13 +46,7 @@ namespace WedChecker.Pages
         {
             var controls = await AppData.PopulateAddedControls();
             UpdateTasks(controls);
-
-            //var currentTitleBar = Core.CurrentTitleBar;
-            //if (currentTitleBar != null)
-            //{
-            //    currentTitleBar.ProgressActive = false;
-            //}
-
+            
             PageLoaded?.Invoke(this, new EventArgs());
         }
 
@@ -66,6 +60,7 @@ namespace WedChecker.Pages
         {
             tbGreetUser.Text = $"Hello, {Core.GetSetting("Name")}";
             tbGreetUser.Visibility = Visibility.Visible;
+            tbCountdownTimer.Visibility = Visibility.Visible;
 
             tasksSummary.LoadTasksData(controls);
         }

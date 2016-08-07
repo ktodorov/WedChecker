@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
 using WedChecker.Common;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -19,11 +21,6 @@ namespace WedChecker.UserControls
             dispatcherTimer.Start();
         }
 
-        private void tbTimeLeft_Loaded(object sender, RoutedEventArgs e)
-        {
-            UpdateTimeLeft();
-        }
-
         void dispatcherTimer_Tick(object sender, object e)
         {
             UpdateTimeLeft();
@@ -31,37 +28,28 @@ namespace WedChecker.UserControls
 
         public void UpdateTimeLeft()
         {
-            var weddingDateString = AppData.GetRoamingSetting<string>("WeddingDate");
-            if (string.IsNullOrEmpty(weddingDateString))
-            {
-                return;
-            }
-            var weddingDate = new DateTime();
-            
-            try
-            {
-                weddingDate = Convert.ToDateTime(weddingDateString);
-            }
-            catch (FormatException)
+            if (!AppData.WeddingDate.HasValue)
             {
                 return;
             }
 
-            var days = Convert.ToInt32((weddingDate - DateTime.Now).TotalDays);
-            var hours = Convert.ToInt32((weddingDate - DateTime.Now).Hours);
-            var minutes = Convert.ToInt32((weddingDate - DateTime.Now).Minutes);
-            var seconds = Convert.ToInt32((weddingDate - DateTime.Now).Seconds);
+            var weddingDate = AppData.WeddingDate.Value;
+            var dateNow = DateTime.Now;
 
-            this.Visibility = Visibility.Visible;
-			if (days < 0 || hours < 0 || minutes < 0 || seconds < 0)
-			{
-				days = 0;
-				hours = 0;
-				minutes = 0;
-				seconds = 0;
+            var days = Convert.ToInt32((weddingDate - dateNow).TotalDays);
+            var hours = Convert.ToInt32((weddingDate - dateNow).Hours);
+            var minutes = Convert.ToInt32((weddingDate - dateNow).Minutes);
+            var seconds = Convert.ToInt32((weddingDate - dateNow).Seconds);
+
+            if (days < 0 || hours < 0 || minutes < 0 || seconds < 0)
+            {
+                days = 0;
+                hours = 0;
+                minutes = 0;
+                seconds = 0;
 
                 WeddingPassed?.Invoke(this, new EventArgs());
-			}
+            }
 
             tbDaysLeft.Text = days.ToString("00");
             tbHoursLeft.Text = hours.ToString("00");

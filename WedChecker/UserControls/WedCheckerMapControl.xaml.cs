@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using WedChecker.Interfaces;
 using Windows.Devices.Geolocation;
 using Windows.UI.Xaml;
@@ -74,7 +76,7 @@ namespace WedChecker.UserControls
 
         public bool HasPinnedLocation()
         {
-            return locationMap.PinnedPlace.Latitude != 0 || locationMap.PinnedPlace.Longitude != 0;
+            return locationMap.HasPinnedLocation();
         }
 
         private void pinAdressButton_Click(object sender, RoutedEventArgs e)
@@ -101,10 +103,7 @@ namespace WedChecker.UserControls
 
         private void centerPinButton_Click(object sender, RoutedEventArgs e)
         {
-            var basicGeoposition = new BasicGeoposition() { Latitude = locationMap.PinnedPlace.Latitude, Longitude = locationMap.PinnedPlace.Longitude };
-
-            var locationGeopoint = new Geopoint(basicGeoposition);
-            locationMap.Center = locationGeopoint;
+            locationMap.CenterOnPinnedLocation();
         }
 
         private void showMapGrid_Click(object sender, RoutedEventArgs e)

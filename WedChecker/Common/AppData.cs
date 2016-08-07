@@ -23,8 +23,6 @@ namespace WedChecker.Common
 
     public static class AppData
     {
-        private const string EOS_CONST = "$WedChecker_EndOfStream$";
-        private const string EOS_SEPARATOR = "$WedChecker_Separator$";
         public const string GLOBAL_SEPARATOR = "$WedChecker_GlobalAppDataSeparator$";
         public static string TextForShare;
 
@@ -43,10 +41,35 @@ namespace WedChecker.Common
 
         public static AddedTasks AllTasks = new AddedTasks();
 
-        public static CancellationToken CancelToken
+        private static DateTime? _weddingDate;
+        public static DateTime? WeddingDate
         {
-            get;
-            set;
+            get
+            {
+                if (_weddingDate == null)
+                {
+                    var weddingDateString = GetRoamingSetting<string>("WeddingDate");
+                    if (string.IsNullOrEmpty(weddingDateString))
+                    {
+                        return null;
+                    }
+
+                    try
+                    {
+                        _weddingDate = Convert.ToDateTime(weddingDateString);
+                    }
+                    catch (FormatException)
+                    {
+                        return null;
+                    }
+                }
+
+                return _weddingDate;
+            }
+            set
+            {
+                _weddingDate = value;
+            }
         }
 
         public static bool ControlIsAdded(string control)

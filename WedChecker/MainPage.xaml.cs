@@ -154,7 +154,7 @@ namespace WedChecker
 
             CalculateTaskSizes(Window.Current.Bounds.Width, Window.Current.Bounds.Height);
 
-            Core.CurrentTitleBar = mainTitleBar;
+            //Core.CurrentTitleBar = mainTitleBar;
         }
 
         void MainPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)

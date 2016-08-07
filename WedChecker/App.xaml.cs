@@ -94,11 +94,14 @@ namespace WedChecker
                     //TODO: Load state from previously suspended application
                 }
 
+                if (!e.PrelaunchActivated)
+                {
+                    await SetupJumpList();
+                }
+
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
             }
-
-            await SetupJumpList();
 
             if (rootFrame.Content == null)
             {

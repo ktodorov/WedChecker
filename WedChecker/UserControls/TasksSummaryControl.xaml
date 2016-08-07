@@ -9,48 +9,48 @@
 
     <Border Name="mainBorder" BorderThickness="0, 1" BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}" Padding="40, 5"
             Visibility="Collapsed">
-    <Grid HorizontalAlignment="Center">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+        <Grid HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        
-        <!-- PLANNINGS SUMMARY -->
-        <TextBlock Name="planningTasksCountBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="0" 
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!-- PLANNINGS SUMMARY -->
+            <TextBlock Name="planningTasksCountBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="0" 
                        Margin="0" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" TextAlignment="Right"/>
-        <TextBlock Style="{ThemeResource WedCheckerFormTextBlockStyle}" TextAlignment="Left"
+            <TextBlock Style="{ThemeResource WedCheckerFormTextBlockStyle}" TextAlignment="Left"
                     Margin="10, 0" Grid.Row="1" Grid.Column="2">
                 tasks planning
-        </TextBlock>
+            </TextBlock>
 
-        <!-- PURCHASINGS SUMMARY -->
-        <TextBlock Name="purchasedTasksCountBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="0" 
+            <!-- PURCHASINGS SUMMARY -->
+            <TextBlock Name="purchasedTasksCountBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="0" 
                        Margin="0" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" TextAlignment="Right"/>
-        <TextBlock Style="{ThemeResource WedCheckerFormTextBlockStyle}" TextAlignment="Left"
+            <TextBlock Style="{ThemeResource WedCheckerFormTextBlockStyle}" TextAlignment="Left"
                    Margin="10, 0" Grid.Row="2" Grid.Column="2">
                 items purchased out of
-        </TextBlock>
-        <TextBlock Name="purchasingTasksCountBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="0" 
+            </TextBlock>
+            <TextBlock Name="purchasingTasksCountBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="0" 
                        Margin="0" VerticalAlignment="Center" Grid.Row="2" Grid.Column="3" TextAlignment="Left"/>
 
-        <!-- BOOKINGS SUMMARY -->
-        <TextBlock Name="bookedTasksCountBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="0" 
+            <!-- BOOKINGS SUMMARY -->
+            <TextBlock Name="bookedTasksCountBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="0" 
                        Margin="0" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" TextAlignment="Right"/>
-        <TextBlock Style="{ThemeResource WedCheckerFormTextBlockStyle}" TextAlignment="Left"
+            <TextBlock Style="{ThemeResource WedCheckerFormTextBlockStyle}" TextAlignment="Left"
                    Margin="10, 0" Grid.Row="3" Grid.Column="2">
                 items booked out of
-        </TextBlock>
-        <TextBlock Name="bookingTasksCountBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="0" 
+            </TextBlock>
+            <TextBlock Name="bookingTasksCountBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="0" 
                        Margin="0" VerticalAlignment="Center" Grid.Row="3" Grid.Column="3" TextAlignment="Left"/>
-    </Grid>
+        </Grid>
     </Border>
 </UserControl>

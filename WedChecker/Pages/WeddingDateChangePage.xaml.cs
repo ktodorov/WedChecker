@@ -30,7 +30,7 @@ namespace WedChecker.Pages
             mainTitleBar.SetSubTitle("SETTINGS");
             mainTitleBar.SetBackButtonVisible(true);
 
-            var weddingDate = GetSavedWeddingDate();
+            var weddingDate = AppData.WeddingDate;
 
             if (weddingDate != null && weddingDate.HasValue)
             {
@@ -60,27 +60,6 @@ namespace WedChecker.Pages
             base.OnNavigatedFrom(e);
         }
 
-        private DateTime? GetSavedWeddingDate()
-        {
-            var weddingDateString = AppData.GetRoamingSetting<string>("WeddingDate");
-            if (string.IsNullOrEmpty(weddingDateString))
-            {
-                return null;
-            }
-            var weddingDate = new DateTime();
-
-            try
-            {
-                weddingDate = Convert.ToDateTime(weddingDateString);
-
-                return weddingDate;
-            }
-            catch (FormatException)
-            {
-                return null;
-            }
-        }
-
         private void submitDateButton_Click(object sender, RoutedEventArgs e)
         {
             tbError.Visibility = Visibility.Collapsed;
@@ -97,7 +76,7 @@ namespace WedChecker.Pages
                 return;
             }
 
-            var savedWeddingDate = GetSavedWeddingDate();
+            var savedWeddingDate = AppData.WeddingDate;
             if (savedWeddingDate.HasValue && savedWeddingDate == weddingDate)
             {
                 tbError.Text = "This is already the saved date";
@@ -116,6 +95,8 @@ namespace WedChecker.Pages
             AppData.InsertRoamingSetting("Days10Notified", false);
             AppData.InsertRoamingSetting("Days1Notified", false);
             AppData.InsertRoamingSetting("WeddingPassedNotified", false);
+
+            AppData.WeddingDate = null;
 
             mainTitleBar.ProgressActive = false;
 
