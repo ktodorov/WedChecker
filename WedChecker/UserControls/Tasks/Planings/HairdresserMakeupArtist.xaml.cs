@@ -2,6 +2,7 @@
 using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
+using WedChecker.Helpers;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -88,6 +89,11 @@ namespace WedChecker.UserControls.Tasks.Plannings
             {
                 writer.Write("MakeupArtist");
                 ccMakeupArtist.Serialize(writer);
+            }
+
+            if (IsNew)
+            {
+                TasksOperationsHelper.AddGuests(ccHairdresser.StoredContact, ccMakeupArtist.StoredContact);
             }
         }
 

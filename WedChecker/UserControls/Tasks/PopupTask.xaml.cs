@@ -79,7 +79,6 @@ namespace WedChecker.UserControls.Tasks
                 var header = control.GetType().GetProperty("DisplayHeader")?.GetValue(null, null).ToString();
                 tbTaskHeader.Text = header;
 
-
                 this.Loaded += PopupTask_Loaded;
 
                 InEditMode = false;

@@ -2,6 +2,7 @@
 using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
+using WedChecker.Helpers;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -61,6 +62,11 @@ namespace WedChecker.UserControls.Tasks.Plannings
         public override void Serialize(BinaryWriter writer)
         {
             ccPhotographer.Serialize(writer);
+
+            if (IsNew)
+            {
+                TasksOperationsHelper.AddGuest(ccPhotographer.StoredContact);
+            }
         }
 
         public override void Deserialize(BinaryReader reader)

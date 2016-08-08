@@ -42,6 +42,8 @@ namespace WedChecker.UserControls.Tasks
         public DateTime? CreatedOn;
         public DateTime? ModifiedOn;
 
+        public bool IsNew = false;
+
         public abstract void DisplayValues();
 
         public abstract void EditValues();
@@ -104,6 +106,7 @@ namespace WedChecker.UserControls.Tasks
             }
             catch (FileNotFoundException)
             {
+                IsNew = true;
             }
             catch (Exception ex)
             {

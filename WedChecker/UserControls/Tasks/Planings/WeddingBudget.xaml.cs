@@ -5,10 +5,11 @@ using Windows.UI.Xaml.Controls;
 using WedChecker.Common;
 using System.Threading.Tasks;
 using System.Text;
+using WedChecker.Exceptions;
 
 namespace WedChecker.UserControls.Tasks.Plannings
 {
-	public partial class WeddingBudget : BaseTaskControl
+    public partial class WeddingBudget : BaseTaskControl
     {
         private int Budget
         {
@@ -71,7 +72,15 @@ namespace WedChecker.UserControls.Tasks.Plannings
         public override void Serialize(BinaryWriter writer)
         {
             var weddingBudget = tbBudget.Text;
-            Budget = Convert.ToInt32(weddingBudget);
+            var tempBudget = 0;
+            if (!int.TryParse(weddingBudget, out tempBudget))
+            {
+                Core.ShowErrorMessage("Please enter a valid number for the budget");
+            }
+            else
+            {
+                Budget = tempBudget;
+            }
 
             writer.Write(1);
             writer.Write("Budget");

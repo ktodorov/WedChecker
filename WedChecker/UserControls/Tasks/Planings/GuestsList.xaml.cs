@@ -153,6 +153,8 @@ namespace WedChecker.UserControls.Tasks.Plannings
             {
                 guest.Serialize(writer);
             }
+
+            AppData.Guests = Guests.Select(c => c.StoredContact).ToList();
         }
 
         public override void Deserialize(BinaryReader reader)
@@ -173,6 +175,8 @@ namespace WedChecker.UserControls.Tasks.Plannings
             tbGuestsAdded.Text = string.Format("{0} guests added", Guests.Count);
 
             GroupContacts();
+
+            AppData.Guests = contactsList.Select(c => c.StoredContact).ToList();
         }
 
         private async void selectContacts_Click(object sender, RoutedEventArgs e)
@@ -238,6 +242,7 @@ namespace WedChecker.UserControls.Tasks.Plannings
 
             GroupContacts();
         }
+
         private void AddNewContacts(IList<Contact> contacts)
         {
             var addedContactControls = new List<ContactControl>();

@@ -292,5 +292,10 @@ namespace WedChecker.Infrastructure
         {
             return storedContact;
         }
+
+        public override string ToString()
+        {
+            return FullName;
+        }
     }
 }

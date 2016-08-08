@@ -8,7 +8,9 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using WedChecker.Helpers;
+using WedChecker.Infrastructure;
 using WedChecker.UserControls.Tasks;
+using WedChecker.UserControls.Tasks.Plannings;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 
@@ -69,6 +71,23 @@ namespace WedChecker.Common
             set
             {
                 _weddingDate = value;
+            }
+        }
+
+        private static List<WedCheckerContact> _guests;
+        public static List<WedCheckerContact> Guests
+        {
+            get
+            {
+                return _guests;
+            }
+            set
+            {
+                if (_guests == value)
+                {
+                    return;
+                }
+                _guests = value;
             }
         }
 
@@ -175,6 +194,22 @@ namespace WedChecker.Common
             {
                 Core.LocalSettings.Values.Remove(setting);
             }
+        }
+
+        public async static Task<List<WedCheckerContact>> DeserializeGuests(GuestsList deserializedGuestsListTask = null)
+        {
+            if (deserializedGuestsListTask == null)
+            {
+                deserializedGuestsListTask = new GuestsList();
+                await deserializedGuestsListTask.DeserializeValues();
+            }
+
+            var contacts = deserializedGuestsListTask.Guests?.Select(s => s.StoredContact)?.ToList();
+            if (contacts == null)
+            {
+                contacts = new List<WedCheckerContact>();
+            }
+            return contacts;
         }
     }
 }

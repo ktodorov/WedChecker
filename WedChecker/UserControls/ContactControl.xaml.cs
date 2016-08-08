@@ -5,11 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
+using WedChecker.Helpers;
 using WedChecker.Infrastructure;
 using WedChecker.Interfaces;
 using Windows.ApplicationModel.Contacts;
 using Windows.UI;
 using Windows.UI.Core;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
@@ -39,7 +41,7 @@ namespace WedChecker.UserControls
 			private set
 			{
 				_storedContact = value;
-                this.DataContext = StoredContact;
+                this.DataContext = this;
                 NotifyPropertyChanged("StoredContact");
             }
         }
@@ -65,6 +67,12 @@ namespace WedChecker.UserControls
 				{
 					return true;
 				}
+
+                if (StoredContact != null && StoredContact.Id == null)
+                {
+                    StoredContact.Id = Guid.NewGuid().ToString();
+                    return true;
+                }
 
 				return false;
 			}
@@ -226,6 +234,7 @@ namespace WedChecker.UserControls
 		public ContactControl()
 		{
 			this.InitializeComponent();
+            this.Loaded += ContactControl_Loaded;
 
 			IsEditable = false;
 			EditAlongWith = false;
@@ -234,11 +243,12 @@ namespace WedChecker.UserControls
 			SetBackground();
 		}
 
-		public ContactControl(bool isEditable = false, bool editAlongWith = false, bool isReplaceable = false)
+        public ContactControl(bool isEditable = false, bool editAlongWith = false, bool isReplaceable = false)
 		{
 			this.InitializeComponent();
+            this.Loaded += ContactControl_Loaded;
 
-			IsEditable = isEditable;
+            IsEditable = isEditable;
 			EditAlongWith = editAlongWith;
 			IsReplaceable = isReplaceable;
 
@@ -248,6 +258,8 @@ namespace WedChecker.UserControls
 		public ContactControl(Contact contact, string alongWith = null, bool editAlongWith = false, bool isEditable = false, bool isReplaceable = false)
 		{
 			this.InitializeComponent();
+            this.Loaded += ContactControl_Loaded;
+
             IsEditable = isEditable;
 			EditAlongWith = editAlongWith;
 			IsReplaceable = isReplaceable;
@@ -257,9 +269,14 @@ namespace WedChecker.UserControls
             StoreContact(contact);
 
             EditValues();
-		}
+        }
 
-		public void ClearContact()
+        private void ContactControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.DataContext = this;
+        }
+
+        public void ClearContact()
 		{
 			StoredContact = null;
 
@@ -578,6 +595,11 @@ namespace WedChecker.UserControls
         public override string ToString()
         {
             return StoredContact.FullName;
+        }
+
+        public async void AddContactAsGuest()
+        {
+            await TasksOperationsHelper.AddGuest(StoredContact);
         }
     }
 }

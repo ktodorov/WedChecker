@@ -171,7 +171,7 @@
                 <AppBarButton Label="share all tasks" Click="ShareAppBarButton_Click"/>
                 <AppBarButton Label="export all tasks" Click="ExportAppBarButton_Click"/>
             </CommandBar.SecondaryCommands>
-            <AppBarButton Icon="Add" IsCompact="False" Label="Add task" Click="AddTaskButton_Click" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" />
+            <AppBarButton Name="addAppBarButton" Icon="Add" IsCompact="False" Label="Add task" Click="AddTaskButton_Click" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" />
             <AppBarButton Name="shareAppBarButton" IsCompact="False" Label="Share selected" Click="ShareBarButton_Click" 
                           Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" Visibility="Collapsed" >
                 <AppBarButton.Icon>

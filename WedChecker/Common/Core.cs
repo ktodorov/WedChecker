@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using WedChecker.Extensions;
 using WedChecker.UserControls.Elements;
 using WedChecker.UserControls.Tasks;
 using Windows.Networking.Connectivity;
 using Windows.Storage;
 using Windows.UI;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
@@ -197,6 +199,17 @@ namespace WedChecker.Common
             hyperlinkText.Foreground = backColor;
 
             return hyperlinkText;
+        }
+
+        public static async void ShowErrorMessage(string message, string title = null)
+        {
+            if (string.IsNullOrEmpty(title))
+            {
+                title = "Error occured";
+            }
+
+            var dialog = new MessageDialog(message, title);
+            await dialog.ShowAsync();
         }
     }
 }

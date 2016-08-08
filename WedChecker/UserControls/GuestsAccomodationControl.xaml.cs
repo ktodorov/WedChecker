@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using WedChecker.Common;
 using WedChecker.Infrastructure;
 using WedChecker.Interfaces;
@@ -54,7 +55,7 @@ namespace WedChecker.UserControls
 
         private void InitializeStoredInfo()
         {
-            var storedGuests = AppData.GetStorage("GuestsList") as List<WedCheckerContact>;
+            var storedGuests = AppData.Guests;
             if (storedGuests == null)
             {
                 throw new Exception("No guests added. You must first add them from the Guest List planning task.");

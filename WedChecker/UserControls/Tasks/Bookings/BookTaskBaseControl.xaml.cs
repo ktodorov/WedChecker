@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using WedChecker.Common;
 using WedChecker.Exceptions;
 using WedChecker.Interfaces;

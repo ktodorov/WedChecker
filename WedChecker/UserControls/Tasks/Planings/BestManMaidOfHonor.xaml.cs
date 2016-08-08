@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
+using WedChecker.Helpers;
+using WedChecker.Infrastructure;
 using Windows.ApplicationModel.Contacts;
 using Windows.UI.Xaml;
 
@@ -15,18 +17,18 @@ namespace WedChecker.UserControls.Tasks.Plannings
     public sealed partial class BestManMaidOfHonor : BaseTaskControl
     {
 
-        private Contact BestMan
+        private WedCheckerContact BestMan
         {
             get
             {
-                return ccBestMan.StoredContact.ToContact();
+                return ccBestMan.StoredContact;
             }
         }
-        private Contact MaidOfHonor
+        private WedCheckerContact MaidOfHonor
         {
             get
             {
-                return ccMaidOfHonor.StoredContact.ToContact();
+                return ccMaidOfHonor.StoredContact;
             }
         }
 
@@ -68,20 +70,6 @@ namespace WedChecker.UserControls.Tasks.Plannings
             this.InitializeComponent();
         }
 
-        public BestManMaidOfHonor(Dictionary<string, Contact> contacts)
-        {
-            this.InitializeComponent();
-            if (contacts.ContainsKey("BestMan"))
-            {
-                ccBestMan.StoreContact(contacts["BestMan"]);
-            }
-
-            if (contacts.ContainsKey("MaidOfHonor"))
-            {
-                ccMaidOfHonor.StoreContact(contacts["MaidOfHonor"]);
-            }
-        }
-
         public override void DisplayValues()
         {
             ccBestMan.DisplayValues();
@@ -117,6 +105,11 @@ namespace WedChecker.UserControls.Tasks.Plannings
             {
                 writer.Write("MaidOfHonor");
                 ccMaidOfHonor.Serialize(writer);
+            }
+
+            if (IsNew)
+            {
+                TasksOperationsHelper.AddGuests(ccBestMan.StoredContact, ccMaidOfHonor.StoredContact);
             }
         }
 
@@ -154,6 +147,11 @@ namespace WedChecker.UserControls.Tasks.Plannings
                 var maidOfHonorAsText = ccMaidOfHonor.GetDataAsText();
                 sb.AppendLine(maidOfHonorAsText);
             }
+        }
+
+        private void StackPanel_ManipulationCompleted(object sender, Windows.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e)
+        {
+
         }
     }
 }

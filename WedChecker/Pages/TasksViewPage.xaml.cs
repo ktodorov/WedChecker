@@ -84,6 +84,7 @@ namespace WedChecker.Pages
             Params result = (Params)e.Parameter;
             tasksViewer.TasksCategory = result.Category;
             parentPage = result.CurrentPage;
+            tasksViewer.ParentPage = parentPage;
 
             base.OnNavigatedTo(e);
         }

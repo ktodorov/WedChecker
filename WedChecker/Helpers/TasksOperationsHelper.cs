@@ -5,8 +5,10 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
+using WedChecker.Infrastructure;
 using WedChecker.UserControls;
 using WedChecker.UserControls.Tasks;
+using WedChecker.UserControls.Tasks.Plannings;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -193,6 +195,137 @@ namespace WedChecker.Helpers
                 var dialog = new MessageDialog("File could not be saved", "Something happened");
                 await dialog.ShowAsync();
             }
+        }
+
+        public static async Task AddGuest(WedCheckerContact guest)
+        {
+            var msgDialog = new MessageDialog($"Do you want to add {guest.FullName} to the guests list?", "Please confirm");
+            msgDialog.Commands.Add(new UICommand("Yes")
+            {
+                Id = 0
+            });
+            msgDialog.Commands.Add(new UICommand("No")
+            {
+                Id = 1
+            });
+
+            msgDialog.DefaultCommandIndex = 0;
+            msgDialog.CancelCommandIndex = 1;
+
+            var result = await msgDialog.ShowAsync();
+
+            if ((int)result.Id != 0)
+            {
+                return;
+            }
+
+            if (guest == null)
+            {
+                return;
+            }
+
+            var newContactControl = await CreateContactControl(guest);
+            if (newContactControl == null)
+            {
+                return;
+            }
+
+            var guestsListTask = new GuestsList();
+            await guestsListTask.DeserializeValues();
+            guestsListTask.Guests.Add(newContactControl);
+            await guestsListTask.SubmitValues();
+        }
+
+        private static async Task<ContactControl> CreateContactControl(WedCheckerContact guest)
+        {
+            if (guest == null)
+            {
+                return null;
+            }
+
+            var guests = AppData.Guests;
+            if (guests == null)
+            {
+                guests = await AppData.DeserializeGuests();
+                AppData.Guests = guests;
+            }
+
+            if (guests.Any(g => g.FullName == guest.FullName))
+            {
+                var msgDialog = new MessageDialog($"There is already a guest named '{guest.FullName}'. Are you sure you want to add new guest with the same name?", "Please confirm");
+                msgDialog.Commands.Add(new UICommand("Yes")
+                {
+                    Id = 0
+                });
+                msgDialog.Commands.Add(new UICommand("No")
+                {
+                    Id = 1
+                });
+
+                msgDialog.DefaultCommandIndex = 0;
+                msgDialog.CancelCommandIndex = 1;
+
+                var result = await msgDialog.ShowAsync();
+
+                if ((int)result.Id != 0)
+                {
+                    return null;
+                }
+            }
+
+            var newContactControl = new ContactControl(guest.ToContact());
+            return newContactControl;
+        }
+
+        public static async Task AddGuests(params WedCheckerContact[] guestsToAdd)
+        {
+            var validGuests = guestsToAdd.Where(g => g != null && !string.IsNullOrEmpty(g.FullName)).ToList();
+            if (!validGuests.Any())
+            {
+                return;
+            }
+
+            var message = $"Do you want to add those {validGuests.Count()} contacts to the guests list?";
+            if (validGuests.Count == 1)
+            {
+                message = $"Do you want to add {validGuests.FirstOrDefault()?.FullName} to the guests list?";
+            }
+
+            var msgDialog = new MessageDialog(message, "Please confirm");
+            msgDialog.Commands.Add(new UICommand("Yes")
+            {
+                Id = 0
+            });
+            msgDialog.Commands.Add(new UICommand("No")
+            {
+                Id = 1
+            });
+
+            msgDialog.DefaultCommandIndex = 0;
+            msgDialog.CancelCommandIndex = 1;
+
+            var result = await msgDialog.ShowAsync();
+
+            if ((int)result.Id != 0)
+            {
+                return;
+            }
+
+            var guestsListTask = new GuestsList();
+            await guestsListTask.DeserializeValues();
+
+            foreach (var guest in validGuests)
+            {
+                var newContactControl = await CreateContactControl(guest);
+                if (newContactControl == null)
+                {
+                    return;
+                }
+
+                guestsListTask.Guests.Add(newContactControl);
+            }
+
+            await guestsListTask.SubmitValues();
         }
     }
 }

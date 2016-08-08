@@ -368,6 +368,8 @@ namespace WedChecker
             var taskCategory = addTaskDialog.TappedTaskCategory;
             await ChangeTaskCategory(taskCategory);
 
+            await Task.Delay(TimeSpan.FromMilliseconds(100));
+
             var page = CurrentContentPage as TasksViewPage;
             var created = await page.CreateTask(addTaskDialog.TappedTaskName);
             if (!created)

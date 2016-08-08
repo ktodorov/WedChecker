@@ -54,12 +54,6 @@ namespace WedChecker.UserControls
         {
             this.InitializeComponent();
         }
-        public TasksViewer(TaskCategories category)
-        {
-            this.InitializeComponent();
-
-            TasksCategory = category;
-        }
 
         public async void PopulateTasks()
         {
@@ -375,18 +369,18 @@ namespace WedChecker.UserControls
             popupTask.OnExport += onTaskExport;
             popupTask.TaskSizeChanged += PopupTask_TaskSizeChanged;
 
-            ParentPage.AppBar.Visibility = Visibility.Collapsed;
-            ParentPage.MainSplitView.Pane.Visibility = Visibility.Collapsed;
-
             var windowWidth = Window.Current.Bounds.Width;
             var windowHeight = Window.Current.Bounds.Height;
 
-            ParentPage.RectBackgroundHide.Visibility = Visibility.Visible;
-
-            ParentPage.CalculateTaskSizes(windowWidth, windowHeight);
-
-            ParentPage.TaskPopup.Child = popupTask;
-            ParentPage.TaskPopup.IsOpen = true;
+            if (ParentPage != null)
+            {
+                ParentPage.AppBar.Visibility = Visibility.Collapsed;
+                ParentPage.MainSplitView.Pane.Visibility = Visibility.Collapsed;
+                ParentPage.RectBackgroundHide.Visibility = Visibility.Visible;
+                ParentPage.CalculateTaskSizes(windowWidth, windowHeight);
+                ParentPage.TaskPopup.Child = popupTask;
+                ParentPage.TaskPopup.IsOpen = true;
+            }
 
             return popupTask;
         }

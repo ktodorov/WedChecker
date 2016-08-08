@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Common;
+using WedChecker.Helpers;
+using WedChecker.Infrastructure;
 using Windows.ApplicationModel.Contacts;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -121,6 +123,16 @@ namespace WedChecker.UserControls.Tasks.Plannings
             foreach (var groomsmanContact in groomsmenContacts)
             {
                 groomsmanContact.Serialize(writer);
+            }
+
+            if (IsNew)
+            {
+                var bridesmaids = bridesmaidContacts.Select(b => b.StoredContact).ToArray();
+                var groomsmen = groomsmenContacts.Select(g => g.StoredContact).ToArray();
+
+                var guestsArray = bridesmaids.Concat(groomsmen).ToArray();
+
+                TasksOperationsHelper.AddGuests(guestsArray);
             }
         }
 

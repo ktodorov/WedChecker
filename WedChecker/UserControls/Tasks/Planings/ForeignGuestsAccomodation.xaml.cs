@@ -55,7 +55,7 @@ namespace WedChecker.UserControls.Tasks.Plannings
             }
             catch (Exception)
             {
-                var storedGuests = AppData.GetStorage("GuestsList") as List<Contact>;
+                var storedGuests = AppData.Guests;
                 if (storedGuests == null)
                 {
                     throw new Exception("No guests added. You must first add them from the Guest List planning task.");
