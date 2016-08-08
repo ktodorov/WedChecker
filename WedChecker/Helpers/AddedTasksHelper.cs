@@ -5,7 +5,7 @@ using System.Text;
 using WedChecker.Common;
 using WedChecker.UserControls.Tasks;
 using WedChecker.UserControls.Tasks.Bookings;
-using WedChecker.UserControls.Tasks.Planings;
+using WedChecker.UserControls.Tasks.Plannings;
 using WedChecker.UserControls.Tasks.Purchases;
 
 namespace WedChecker.Helpers
@@ -34,33 +34,33 @@ namespace WedChecker.Helpers
         {
             // Plans
 
-            new WedCheckerTask(false, false, typeof(WeddingBudget), "WeddingBudget", TaskCategories.Planing),
-            new WedCheckerTask(false, false, typeof(WeddingStyle), "WeddingStyle", TaskCategories.Planing),
-            new WedCheckerTask(false, false, typeof(RegistryPlace), "RegistryPlace", TaskCategories.Planing),
-            new WedCheckerTask(false, false, typeof(ReligiousPlace), "ReligiousPlace", TaskCategories.Planing),
-            new WedCheckerTask(false, false, typeof(DocumentsRequired), "DocumentsRequired", TaskCategories.Planing),
-            new WedCheckerTask(false, false, typeof(Restaurant), "Restaurant", TaskCategories.Planing),
-            new WedCheckerTask(false, true,  typeof(RestaurantFood), "RestaurantFood", TaskCategories.Planing),
-            new WedCheckerTask(false, false, typeof(BestManMaidOfHonor), "BestManMaidOfHonor", TaskCategories.Planing),
-            new WedCheckerTask(false, false, typeof(BridesmaidsGroomsmen), "BridesmaidsGroomsmen", TaskCategories.Planing),
-            new WedCheckerTask(false, false, typeof(Decoration), "Decoration", TaskCategories.Planing),
-            new WedCheckerTask(false, false, typeof(FreshFlowers), "FreshFlowers", TaskCategories.Planing),
-            new WedCheckerTask(false, false, typeof(MusicLayout), "MusicLayout", TaskCategories.Planing),
-            new WedCheckerTask(false, false, typeof(Photographer), "Photographer", TaskCategories.Planing),
-            new WedCheckerTask(false, true,  typeof(BrideAccessories), "BrideAccessories", TaskCategories.Planing),
-            new WedCheckerTask(false, true,  typeof(BrideClothes), "BrideClothes", TaskCategories.Planing),
-            new WedCheckerTask(false, true,  typeof(GroomAccessories), "GroomAccessories", TaskCategories.Planing),
-            new WedCheckerTask(false, true,  typeof(GroomClothes), "GroomClothes", TaskCategories.Planing),
-            new WedCheckerTask(false, true,  typeof(BestManMaidOfHonorAccessories), "BestManMaidOfHonorAccessories", TaskCategories.Planing),
-            new WedCheckerTask(false, true,  typeof(BestManMaidOfHonorClothes), "BestManMaidOfHonorClothes", TaskCategories.Planing),
-            new WedCheckerTask(false, true,  typeof(BridesmaidsGroomsmenAccessories), "BridesmaidsGroomsmenAccessories", TaskCategories.Planing),
-            new WedCheckerTask(false, true,  typeof(BridesmaidsGroomsmenClothes), "BridesmaidsGroomsmenClothes", TaskCategories.Planing),
-            new WedCheckerTask(false, false, typeof(HoneymoonDestination), "HoneymoonDestination", TaskCategories.Planing),
-            new WedCheckerTask(false, true,  typeof(GuestsList), "GuestsList", TaskCategories.Planing),
-            new WedCheckerTask(false, false, typeof(ForeignGuestsAccomodation), "ForeignGuestsAccomodation", TaskCategories.Planing),
-            new WedCheckerTask(false, false, typeof(HairdresserMakeupArtist), "HairdresserMakeupArtist", TaskCategories.Planing),
-            new WedCheckerTask(false, true,  typeof(AccomodationPlaces), "AccomodationPlaces", TaskCategories.Planing),
-            new WedCheckerTask(false, false, typeof(RestaurantAccomodationPlan), "RestaurantAccomodationPlan", TaskCategories.Planing),
+            new WedCheckerTask(false, false, typeof(WeddingBudget), "WeddingBudget", TaskCategories.Planning),
+            new WedCheckerTask(false, false, typeof(WeddingStyle), "WeddingStyle", TaskCategories.Planning),
+            new WedCheckerTask(false, false, typeof(RegistryPlace), "RegistryPlace", TaskCategories.Planning),
+            new WedCheckerTask(false, false, typeof(ReligiousPlace), "ReligiousPlace", TaskCategories.Planning),
+            new WedCheckerTask(false, false, typeof(DocumentsRequired), "DocumentsRequired", TaskCategories.Planning),
+            new WedCheckerTask(false, false, typeof(Restaurant), "Restaurant", TaskCategories.Planning),
+            new WedCheckerTask(false, true,  typeof(RestaurantFood), "RestaurantFood", TaskCategories.Planning),
+            new WedCheckerTask(false, false, typeof(BestManMaidOfHonor), "BestManMaidOfHonor", TaskCategories.Planning),
+            new WedCheckerTask(false, false, typeof(BridesmaidsGroomsmen), "BridesmaidsGroomsmen", TaskCategories.Planning),
+            new WedCheckerTask(false, false, typeof(Decoration), "Decoration", TaskCategories.Planning),
+            new WedCheckerTask(false, false, typeof(FreshFlowers), "FreshFlowers", TaskCategories.Planning),
+            new WedCheckerTask(false, false, typeof(MusicLayout), "MusicLayout", TaskCategories.Planning),
+            new WedCheckerTask(false, false, typeof(Photographer), "Photographer", TaskCategories.Planning),
+            new WedCheckerTask(false, true,  typeof(BrideAccessories), "BrideAccessories", TaskCategories.Planning),
+            new WedCheckerTask(false, true,  typeof(BrideClothes), "BrideClothes", TaskCategories.Planning),
+            new WedCheckerTask(false, true,  typeof(GroomAccessories), "GroomAccessories", TaskCategories.Planning),
+            new WedCheckerTask(false, true,  typeof(GroomClothes), "GroomClothes", TaskCategories.Planning),
+            new WedCheckerTask(false, true,  typeof(BestManMaidOfHonorAccessories), "BestManMaidOfHonorAccessories", TaskCategories.Planning),
+            new WedCheckerTask(false, true,  typeof(BestManMaidOfHonorClothes), "BestManMaidOfHonorClothes", TaskCategories.Planning),
+            new WedCheckerTask(false, true,  typeof(BridesmaidsGroomsmenAccessories), "BridesmaidsGroomsmenAccessories", TaskCategories.Planning),
+            new WedCheckerTask(false, true,  typeof(BridesmaidsGroomsmenClothes), "BridesmaidsGroomsmenClothes", TaskCategories.Planning),
+            new WedCheckerTask(false, false, typeof(HoneymoonDestination), "HoneymoonDestination", TaskCategories.Planning),
+            new WedCheckerTask(false, true,  typeof(GuestsList), "GuestsList", TaskCategories.Planning),
+            new WedCheckerTask(false, false, typeof(ForeignGuestsAccomodation), "ForeignGuestsAccomodation", TaskCategories.Planning),
+            new WedCheckerTask(false, false, typeof(HairdresserMakeupArtist), "HairdresserMakeupArtist", TaskCategories.Planning),
+            new WedCheckerTask(false, true,  typeof(AccomodationPlaces), "AccomodationPlaces", TaskCategories.Planning),
+            new WedCheckerTask(false, false, typeof(RestaurantAccomodationPlan), "RestaurantAccomodationPlan", TaskCategories.Planning),
 
             // Purchase
 

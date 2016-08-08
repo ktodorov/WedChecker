@@ -123,7 +123,7 @@
                         </ListView.ItemContainerStyle>
                         <ListView.Items>
                             <Elements:MetroDesignLanguageTextButton x:Name="spHomeMenu" IconContent="&#xE80F;" Text="Home" Tag="Home" />
-                            <Elements:MetroDesignLanguageTextButton x:Name="spPlanningsMenu" IconContent="&#xE8C8;" Text="Plannings" Tag="Planing" />
+                            <Elements:MetroDesignLanguageTextButton x:Name="spPlanningsMenu" IconContent="&#xE8C8;" Text="Plannings" Tag="Planning" />
                             <Elements:MetroDesignLanguageTextButton x:Name="spPurchasesMenu" IconContent="&#xE8EC;" Text="Purchases" Tag="Purchase" />
                             <Elements:MetroDesignLanguageTextButton x:Name="spBookingsMenu" IconContent="&#xEA37;" Text="Bookings" Tag="Booking" />
                         </ListView.Items>

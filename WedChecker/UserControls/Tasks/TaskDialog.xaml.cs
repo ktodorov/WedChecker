@@ -91,7 +91,7 @@ namespace WedChecker.UserControls.Tasks
 			PlanningTaskItems = TaskData.LoadPlanningTaskItems();
 			foreach (var planItem in PlanningTaskItems)
 			{
-				AddTask(planItem.Title, planItem.TaskName, TaskCategories.Planing);
+				AddTask(planItem.Title, planItem.TaskName, TaskCategories.Planning);
 			}
 
 			PurchasingTaskItems = TaskData.LoadPurchasingTaskItems();
@@ -127,9 +127,9 @@ namespace WedChecker.UserControls.Tasks
 			{
 				TappedTaskCategory = TaskCategories.Booking;
 			}
-			else if (tile.TaskCategory == TaskCategories.Planing)
+			else if (tile.TaskCategory == TaskCategories.Planning)
 			{
-				TappedTaskCategory = TaskCategories.Planing;
+				TappedTaskCategory = TaskCategories.Planning;
 			}
 			else if (tile.TaskCategory == TaskCategories.Purchase)
 			{

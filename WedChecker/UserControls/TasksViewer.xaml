@@ -10,10 +10,11 @@
     <ScrollViewer Name="svTasks" VerticalScrollBarVisibility="Auto" Padding="10, 0" >
         <StackPanel>
             <Button Name="enterSelectionMode" Click="enterSelectionMode_Click" Content="Enter selection mode"
-                    Style="{ThemeResource WedCheckerTextButtonStyle}" Background="Transparent"/>
+                    Style="{ThemeResource WedCheckerTextButtonStyle}" Background="Transparent"
+                    FontSize="15" Margin="0, 0, 0, 10"/>
             <Button Name="leaveSelectionMode" Click="leaveSelectionMode_Click" Content="Leave selection mode"
                     Style="{ThemeResource WedCheckerTextButtonStyle}" Background="Transparent"
-                    Visibility="Collapsed"/>
+                    Visibility="Collapsed" FontSize="15" Margin="0, 0, 0, 10"/>
 
             <GridView Name="gvTasks" SelectionMode="None" SizeChanged="gvTasks_SizeChanged">
                 <GridView.ItemContainerStyle>

@@ -119,10 +119,6 @@
 									<VisualState x:Name="Normal" />
 									<VisualState x:Name="PointerOver">
 										<Storyboard>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Border"
-                                                                   Storyboard.TargetProperty="Background">
-												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonPointerOverBackgroundThemeBrush}" />
-											</ObjectAnimationUsingKeyFrames>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                                    Storyboard.TargetProperty="Foreground">
 												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonPointerOverForegroundThemeBrush}" />
@@ -131,13 +127,9 @@
 									</VisualState>
 									<VisualState x:Name="Pressed">
 										<Storyboard>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Border"
-                                                                   Storyboard.TargetProperty="Background">
-												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonPressedBackgroundThemeBrush}" />
-											</ObjectAnimationUsingKeyFrames>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                                    Storyboard.TargetProperty="Foreground">
-												<DiscreteObjectKeyFrame KeyTime="0" Value="White" />
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
 											</ObjectAnimationUsingKeyFrames>
 										</Storyboard>
 									</VisualState>

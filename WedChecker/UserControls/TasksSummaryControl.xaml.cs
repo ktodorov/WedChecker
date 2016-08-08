@@ -88,7 +88,7 @@ namespace WedChecker.UserControls
                             }
                             break;
 
-                        case TaskCategories.Planing:
+                        case TaskCategories.Planning:
                             planningsCount++;
                             break;
                     }
@@ -154,7 +154,7 @@ namespace WedChecker.UserControls
                     purchasingTasksCountBlock.Text = newPurchasing.ToString();
                     break;
 
-                case TaskCategories.Planing:
+                case TaskCategories.Planning:
                     var currentPlanning = planningTasksCountBlock.Text.ToInteger();
                     var newPlanning = currentPlanning + 1;
                     planningTasksCountBlock.Text = newPlanning.ToString();
@@ -211,7 +211,7 @@ namespace WedChecker.UserControls
                     purchasingTasksCountBlock.Text = newPurchasing.ToString();
                     break;
 
-                case TaskCategories.Planing:
+                case TaskCategories.Planning:
                     var currentPlanning = planningTasksCountBlock.Text.ToInteger();
                     var newPlanning = currentPlanning - 1;
                     planningTasksCountBlock.Text = newPlanning.ToString();

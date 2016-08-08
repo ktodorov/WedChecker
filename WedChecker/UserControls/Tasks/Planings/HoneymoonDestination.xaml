@@ -1,6 +1,6 @@
 ﻿<we:BaseTaskControl
-    x:Class="WedChecker.UserControls.Tasks.Planings.HoneymoonDestination"
-    xmlns:local="using:WedChecker.UserControls.Tasks.Planings"
+    x:Class="WedChecker.UserControls.Tasks.Plannings.HoneymoonDestination"
+    xmlns:local="using:WedChecker.UserControls.Tasks.Plannings"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"

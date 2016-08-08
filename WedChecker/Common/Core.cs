@@ -163,9 +163,9 @@ namespace WedChecker.Common
             {
                 result = TaskCategories.Booking;
             }
-            else if (taskType.FullName.StartsWith("WedChecker.UserControls.Tasks.Planings"))
+            else if (taskType.FullName.StartsWith("WedChecker.UserControls.Tasks.Plannings"))
             {
-                result = TaskCategories.Planing;
+                result = TaskCategories.Planning;
             }
             else if (taskType.FullName.StartsWith("WedChecker.UserControls.Tasks.Purchases"))
             {

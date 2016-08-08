@@ -9,7 +9,7 @@ namespace WedChecker.Common
 	public enum TaskCategories
 	{
 		Home = 0,
-		Planing = 1,
+		Planning = 1,
 		Purchase = 2,
 		Booking = 3
 	}

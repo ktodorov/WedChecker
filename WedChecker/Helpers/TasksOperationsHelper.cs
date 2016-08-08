@@ -112,8 +112,15 @@ namespace WedChecker.Helpers
             ShareTasks(allControls);
         }
 
-        public static void ShareTasks(List<BaseTaskControl> controls)
+        public async static void ShareTasks(List<BaseTaskControl> controls)
         {
+            if (controls == null || !controls.Any())
+            {
+                var dialog = new MessageDialog("Please choose a task before sharing", "Error");
+                await dialog.ShowAsync();
+                return;
+            }
+
             var text = new StringBuilder();
 
             foreach (var control in controls)
@@ -137,6 +144,13 @@ namespace WedChecker.Helpers
 
         public static async void ExportTasks(List<BaseTaskControl> controls)
         {
+            if (controls == null || !controls.Any())
+            {
+                var dialog = new MessageDialog("Please choose a task before exporting", "Error");
+                await dialog.ShowAsync();
+                return;
+            }
+
             var text = new StringBuilder();
 
             foreach (var control in controls)

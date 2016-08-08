@@ -6,7 +6,7 @@ using WedChecker.Common;
 using System.Threading.Tasks;
 using System.Text;
 
-namespace WedChecker.UserControls.Tasks.Planings
+namespace WedChecker.UserControls.Tasks.Plannings
 {
 	public partial class WeddingBudget : BaseTaskControl
     {

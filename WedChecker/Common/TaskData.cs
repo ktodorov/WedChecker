@@ -47,7 +47,7 @@ namespace WedChecker.Common
                     mainPivot.SelectedIndex = 3;
                 }
             }
-            else if (taskCategory == TaskCategories.Planing)
+            else if (taskCategory == TaskCategories.Planning)
             {
                 result = "tvPlannings";
                 if (mainPivot != null)
@@ -80,7 +80,7 @@ namespace WedChecker.Common
             type = Type.GetType($"WedChecker.UserControls.Tasks.Bookings.{taskName}");
             if (type == null)
             {
-                type = Type.GetType($"WedChecker.UserControls.Tasks.Planings.{taskName}");
+                type = Type.GetType($"WedChecker.UserControls.Tasks.Plannings.{taskName}");
             }
 
             if (type == null)

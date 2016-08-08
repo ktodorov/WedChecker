@@ -176,7 +176,7 @@ namespace WedChecker
             switch (arguments)
             {
                 case "plannings":
-                    taskCategory = TaskCategories.Planing;
+                    taskCategory = TaskCategories.Planning;
                     break;
                 case "purchases":
                     taskCategory = TaskCategories.Purchase;
@@ -382,7 +382,10 @@ namespace WedChecker
             mainTitleBar.SetBackButtonVisible(true);
             appBar.Visibility = Visibility.Collapsed;
             HamburgerButton.Visibility = Visibility.Collapsed;
-            (CurrentContentPage as TasksViewPage).AttachedTasksViewer.LeaveSelectionMode();
+            if (CurrentPageCategory != TaskCategories.Home)
+            {
+                (CurrentContentPage as TasksViewPage).AttachedTasksViewer.LeaveSelectionMode();
+            }
         }
 
         private void AboutPageButton_Click(object sender, RoutedEventArgs e)
