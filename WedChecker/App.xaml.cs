@@ -37,11 +37,11 @@ namespace WedChecker
             this.InitializeComponent();
             this.Suspending += OnSuspending;
 
-			var appTheme = Core.GetAppTheme();
-			if (appTheme != AppTheme.SystemDefault)
-			{
-				this.RequestedTheme = (ApplicationTheme)((int)appTheme);
-			}
+            var appTheme = Core.GetAppTheme();
+            if (appTheme != AppTheme.SystemDefault)
+            {
+                this.RequestedTheme = (ApplicationTheme)((int)appTheme);
+            }
         }
 
         private static async Task SetupJumpList()
@@ -72,10 +72,10 @@ namespace WedChecker
         {
 
 #if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
-            {
-                //this.DebugSettings.EnableFrameRateCounter = true;
-            }
+            //if (System.Diagnostics.Debugger.IsAttached)
+            //{
+            //    //this.DebugSettings.EnableFrameRateCounter = true;
+            //}
 #endif
 
             Frame rootFrame = Window.Current.Content as Frame;
@@ -89,8 +89,11 @@ namespace WedChecker
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated || 
+                    e.PreviousExecutionState == ApplicationExecutionState.ClosedByUser)
                 {
+                    // Remove the saved category, so the app to start on clear(from the Home page)
+                    AppData.RemoveLocalSetting("CurrentCategory");
                     //TODO: Load state from previously suspended application
                 }
 
@@ -138,6 +141,13 @@ namespace WedChecker
         /// <param name="e">Details about the suspend request.</param>
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
+            Frame rootFrame = Window.Current.Content as Frame;
+            if (rootFrame.Content != null)
+            {
+                var page = rootFrame.Content as MainPage;
+                AppData.InsertLocalSetting("CurrentCategory", (int)page.CurrentPageCategory);
+            }
+
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();

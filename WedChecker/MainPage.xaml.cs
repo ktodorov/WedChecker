@@ -173,17 +173,29 @@ namespace WedChecker
         public async void SwitchCategoryFromArguments(string givenArguments)
         {
             var taskCategory = TaskCategories.Home;
-            switch (arguments)
+            if (string.IsNullOrEmpty(arguments))
             {
-                case "plannings":
-                    taskCategory = TaskCategories.Planning;
-                    break;
-                case "purchases":
-                    taskCategory = TaskCategories.Purchase;
-                    break;
-                case "bookings":
-                    taskCategory = TaskCategories.Booking;
-                    break;
+                var category = AppData.GetLocalSetting<int?>("CurrentCategory");
+                if (category.HasValue)
+                {
+                    taskCategory = (TaskCategories)category.Value;
+                    AppData.RemoveLocalSetting("CurrentCategory");
+                }
+            }
+            else
+            {
+                switch (arguments)
+                {
+                    case "plannings":
+                        taskCategory = TaskCategories.Planning;
+                        break;
+                    case "purchases":
+                        taskCategory = TaskCategories.Purchase;
+                        break;
+                    case "bookings":
+                        taskCategory = TaskCategories.Booking;
+                        break;
+                }
             }
 
             await ChangeTaskCategory(taskCategory);
@@ -218,15 +230,12 @@ namespace WedChecker
                 HamburgerButton.Visibility = Visibility.Visible;
                 mainTitleBar.SetBackButtonVisible(false);
             }
-            else if (CurrentPageCategory != TaskCategories.Home)
+            else if (CurrentPageCategory != TaskCategories.Home && taskPopup.Child != null)
             {
-                if (taskPopup.Child != null)
+                var popupTask = taskPopup.Child as PopupTask;
+                if (popupTask != null && !popupTask.InEditMode)
                 {
-                    var popupTask = taskPopup.Child as PopupTask;
-                    if (popupTask != null && !popupTask.InEditMode)
-                    {
-                        HidePopupTask();
-                    }
+                    HidePopupTask();
                 }
             }
             else
