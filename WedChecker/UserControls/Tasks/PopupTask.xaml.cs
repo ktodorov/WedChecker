@@ -45,6 +45,7 @@ namespace WedChecker.UserControls.Tasks
         }
 
         public bool InEditMode = false;
+        private bool isNewTask = false;
 
         public PopupTask()
         {
@@ -82,6 +83,7 @@ namespace WedChecker.UserControls.Tasks
                 this.Loaded += PopupTask_Loaded;
 
                 InEditMode = false;
+                isNewTask = isNew;
             }
             catch (Exception ex)
             {
@@ -98,6 +100,11 @@ namespace WedChecker.UserControls.Tasks
 
 
             spConnectedControl.Children.Add(ConnectedTaskControl);
+
+            if (isNewTask)
+            {
+                EditConnectedTask();
+            }
 
             ProgressRingActive(false);
         }

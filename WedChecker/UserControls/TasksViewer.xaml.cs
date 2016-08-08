@@ -355,12 +355,12 @@ namespace WedChecker.UserControls
             return connectedControl;
         }
 
-        private PopupTask CreatePopupTaskFromPopulatedTask(PopulatedTask populatedTask)
+        private PopupTask CreatePopupTaskFromPopulatedTask(PopulatedTask populatedTask, bool isNew = false)
         {
             var baseTaskType = populatedTask.ConnectedTaskControl.GetType();
             var baseTaskControl = Activator.CreateInstance(baseTaskType) as BaseTaskControl;
 
-            var popupTask = new PopupTask(baseTaskControl, false);
+            var popupTask = new PopupTask(baseTaskControl, isNew);
             popupTask.SaveClick += PopupTask_SaveClick;
             popupTask.CancelClick += PopupTask_CancelClick;
             popupTask.OnDelete += onTaskDelete;
@@ -402,7 +402,10 @@ namespace WedChecker.UserControls
 
             var newPopulatedTask = GetPopulatedTaskByTaskName(taskName);
 
-            taskTapped(newPopulatedTask, new TappedRoutedEventArgs());
+            var popupTask = CreatePopupTaskFromPopulatedTask(newPopulatedTask, true);
+
+            ParentPage.TaskPopup.Child = popupTask;
+            ParentPage.TaskPopup.IsOpen = true;
 
             return true;
         }
