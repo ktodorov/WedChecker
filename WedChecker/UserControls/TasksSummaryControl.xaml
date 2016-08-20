@@ -11,6 +11,28 @@
     <Border Name="mainBorder" BorderThickness="0, 1" BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}" 
             Padding="40, 5"
             Visibility="Collapsed">
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="budgetPanel.Orientation" Value="Vertical" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="budgetPanel.Orientation" Value="Horizontal" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        
         <Grid HorizontalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -26,14 +48,13 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <!-- PLANNINGS SUMMARY -->
             <TextBlock Name="planningTasksCountBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="0" 
                        Margin="0" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" TextAlignment="Right"/>
             <TextBlock Style="{ThemeResource WedCheckerFormTextBlockStyle}" TextAlignment="Left"
-                    Margin="10, 0" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4">
+                    Margin="10, 0" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3">
                 tasks planning
             </TextBlock>
 
@@ -45,7 +66,7 @@
                 items purchased out of
             </TextBlock>
             <TextBlock Name="purchasingTasksCountBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="0" 
-                       Margin="0" VerticalAlignment="Center" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" TextAlignment="Left"/>
+                       Margin="0" VerticalAlignment="Center" Grid.Row="2" Grid.Column="3" TextAlignment="Left"/>
 
             <!-- BOOKINGS SUMMARY -->
             <TextBlock Name="bookedTasksCountBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="0" 
@@ -55,33 +76,38 @@
                 items booked out of
             </TextBlock>
             <TextBlock Name="bookingTasksCountBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="0" 
-                       Margin="0" VerticalAlignment="Center" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" TextAlignment="Left"/>
+                       Margin="0" VerticalAlignment="Center" Grid.Row="3" Grid.Column="3" TextAlignment="Left"/>
 
 
             <Border Name="subBorder" BorderThickness="0, 0.3" BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}" 
-            Margin="0, 5" Grid.Row="4" Grid.ColumnSpan="5" HorizontalAlignment="Stretch"/>
+            Margin="0, 5" Grid.Row="4" Grid.ColumnSpan="4" HorizontalAlignment="Stretch"/>
 
             <!-- BOOKINGS SUMMARY -->
-            <TextBlock Name="budgetUsedBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="0" 
-                       Margin="0" VerticalAlignment="Center" Grid.Row="5" Grid.Column="1" TextAlignment="Right"/>
-            <TextBlock Name="budgetTextBlock" Style="{ThemeResource WedCheckerFormTextBlockStyle}" TextAlignment="Left"
-                   Margin="10, 0" Grid.Row="5" Grid.Column="2">
-                used out of planned
-            </TextBlock>
-            <TextBlock Name="budgetPlannedBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="0" 
-                       Margin="0" VerticalAlignment="Center" Grid.Row="5" Grid.Column="3" TextAlignment="Left"/>
+            <StackPanel Name="budgetPanel"
+                        Grid.Row="5" Grid.ColumnSpan="4">
+                <TextBlock Name="budgetTextBlock" Style="{ThemeResource WedCheckerFormTextBlockStyle}" TextAlignment="Center">
+                Budget
+                </TextBlock>
+                <TextBlock Name="budgetUsedBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="0" 
+                       Margin="0" VerticalAlignment="Center" TextAlignment="Center" />
+                <TextBlock Style="{ThemeResource WedCheckerFormTextBlockStyle}" Margin="5, 0" TextAlignment="Center">
+                out of
+                </TextBlock>
+                <TextBlock Name="budgetPlannedBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="0" 
+                       Margin="0" VerticalAlignment="Center" TextAlignment="Center"/>
 
-            <Grid Name="budgetPassed"  Grid.Row="5" Grid.Column="4" VerticalAlignment="Center"
+                <Grid Name="budgetPassed"   VerticalAlignment="Center"
                   Margin="5, 0, 0, 0">
-            <TextBlock Name="Button" Text="&#xEA3B;" 
+                    <TextBlock Name="Button" Text="&#xEA3B;" 
                        FontFamily="Segoe MDL2 Assets" FontSize="19"
                        VerticalAlignment="Center" Foreground="DarkRed"
                        HorizontalAlignment="Center" />
-            <TextBlock Name="budgetPassedButton2" Text="&#xE8C9;" 
+                    <TextBlock Name="budgetPassedButton2" Text="&#xE8C9;" 
                        FontFamily="Segoe MDL2 Assets" FontSize="14"
                        VerticalAlignment="Center" Foreground="White" 
                        HorizontalAlignment="Center" FontWeight="Bold" />
-            </Grid>
+                </Grid>
+            </StackPanel>
         </Grid>
     </Border>
 </UserControl>

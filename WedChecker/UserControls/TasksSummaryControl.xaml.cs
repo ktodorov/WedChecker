@@ -1,26 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using WedChecker.Extensions;
 using WedChecker.Interfaces;
 using WedChecker.UserControls.Tasks;
-using WedChecker.UserControls.Tasks.Bookings;
 using WedChecker.UserControls.Tasks.Purchases;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -107,12 +96,10 @@ namespace WedChecker.UserControls
                 {
                     budgetUsedBlock.Text = budgetUsed.ToCurrency();
                     budgetPlannedBlock.Text = plannedBudget.ToCurrency();
-                    budgetUsedBlock.Visibility = Visibility.Visible;
-                    budgetPlannedBlock.Visibility = Visibility.Visible;
-                    budgetTextBlock.Visibility = Visibility.Visible;
+                    budgetPanel.Visibility = Visibility.Visible;
                     subBorder.Visibility = Visibility.Visible;
 
-                    if(plannedBudget.Value < budgetUsed)
+                    if (plannedBudget.Value < budgetUsed)
                     {
                         budgetPassed.Visibility = Visibility.Visible;
                     }
@@ -123,9 +110,7 @@ namespace WedChecker.UserControls
                 }
                 else
                 {
-                    budgetUsedBlock.Visibility = Visibility.Collapsed;
-                    budgetPlannedBlock.Visibility = Visibility.Collapsed;
-                    budgetTextBlock.Visibility = Visibility.Collapsed;
+                    budgetPanel.Visibility = Visibility.Collapsed;
                     subBorder.Visibility = Visibility.Collapsed;
                 }
 
