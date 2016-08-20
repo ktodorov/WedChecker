@@ -119,16 +119,12 @@ namespace WedChecker.UserControls
         {
             mainToggle.Serialize(writer);
 
-            //var purchaseValueText = PurchaseValueAsString;
-            //int tempValue = 0;
-            //if (!int.TryParse(purchaseValueText, out tempValue))
-            //{
-            //    Core.ShowErrorMessage("Please enter a valid number for the purchase value (number and higher than zero)");
-            //}
-            //else
-            //{
-            //    PurchaseValue = tempValue;
-            //}
+            var purchaseValueText = tbPurchaseValue.Text;
+            int tempValue = 0;
+            if (!int.TryParse(purchaseValueText, out tempValue))
+            {
+                Core.ShowErrorMessage("Please enter a valid number for the purchase value (number and higher than zero)");
+            }
 
             writer.Write(1);
             writer.Write("PurchaseValue");
@@ -155,9 +151,10 @@ namespace WedChecker.UserControls
             var sb = new StringBuilder();
 
             var toggleText = mainToggle.GetDataAsText();
-            sb.AppendLine(toggleText);
+            var currency = CultureInfoHelper.GetCurrentCurrencyString();
+            var priceText = $"- for {PurchaseValue.ToString()}{currency}";
 
-            sb.AppendLine($"Purchased for: {PurchaseValue.ToString()}");
+            sb.AppendLine($"{toggleText} {priceText}");
 
             return sb.ToString();
         }

@@ -111,16 +111,16 @@ namespace WedChecker.Helpers
         public static async void ShareAllTasks()
         {
             var allControls = await AppData.PopulateAddedControls();
-            ShareTasks(allControls);
+            await ShareTasks(allControls);
         }
 
-        public async static void ShareTasks(List<BaseTaskControl> controls)
+        public async static Task<bool> ShareTasks(List<BaseTaskControl> controls)
         {
             if (controls == null || !controls.Any())
             {
                 var dialog = new MessageDialog("Please choose a task before sharing", "Error");
                 await dialog.ShowAsync();
-                return;
+                return false;
             }
 
             var text = new StringBuilder();
@@ -136,21 +136,23 @@ namespace WedChecker.Helpers
             AppData.TextForShare = text.ToString();
 
             DataTransferManager.ShowShareUI();
+
+            return true;
         }
 
         public static async void ExportAllTasks()
         {
             var allControls = await AppData.PopulateAddedControls();
-            ExportTasks(allControls);
+            await ExportTasks(allControls);
         }
 
-        public static async void ExportTasks(List<BaseTaskControl> controls)
+        public static async Task<bool> ExportTasks(List<BaseTaskControl> controls)
         {
             if (controls == null || !controls.Any())
             {
                 var dialog = new MessageDialog("Please choose a task before exporting", "Error");
                 await dialog.ShowAsync();
-                return;
+                return false;
             }
 
             var text = new StringBuilder();
@@ -171,7 +173,7 @@ namespace WedChecker.Helpers
             var file = await savePicker.PickSaveFileAsync();
             if (file == null)
             {
-                return;
+                return false;
             }
 
             // Prevent updates to the remote version of the file until
@@ -195,6 +197,8 @@ namespace WedChecker.Helpers
                 var dialog = new MessageDialog("File could not be saved", "Something happened");
                 await dialog.ShowAsync();
             }
+
+            return true;
         }
 
         public static async Task AddGuest(WedCheckerContact guest)

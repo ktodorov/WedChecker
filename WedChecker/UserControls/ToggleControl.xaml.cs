@@ -89,7 +89,7 @@ namespace WedChecker.UserControls
         {
             var sb = new StringBuilder();
             sb.Append($" - {Title} - ");
-            sb.AppendLine(Toggled ? "Yes" : "No");
+            sb.Append(Toggled ? "Yes" : "No");
 
             return sb.ToString();
         }

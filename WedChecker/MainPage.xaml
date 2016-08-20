@@ -161,7 +161,7 @@
     </Grid>
 
     <Page.BottomAppBar>
-        <CommandBar x:Name="appBar" IsOpen="False" Visibility="Collapsed"
+        <CommandBar x:Name="appBar" IsOpen="False" Visibility="Collapsed" 
                     Background="{ThemeResource AppBarBackgroundThemeBrush}" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" 
 					BorderThickness="1" BorderBrush="{ThemeResource AppBarBorderThemeBrush}">
             <CommandBar.SecondaryCommands>
@@ -171,7 +171,21 @@
                 <AppBarButton Label="share all tasks" Click="ShareAppBarButton_Click"/>
                 <AppBarButton Label="export all tasks" Click="ExportAppBarButton_Click"/>
             </CommandBar.SecondaryCommands>
-            <AppBarButton Name="addAppBarButton" Icon="Add" IsCompact="False" Label="Add task" Click="AddTaskButton_Click" Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" />
+            <AppBarButton Name="addAppBarButton" Icon="Add" IsCompact="False" Label="Add task" Click="AddTaskButton_Click" 
+                          Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" />
+            <AppBarButton Name="selectAppBarButton" IsCompact="False" Label="Select tasks" Click="selectAppBarButton_Click" 
+                          Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" Visibility="Collapsed" >
+                <AppBarButton.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE133;"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarButton Name="cancelSelectAppBarButton" IsCompact="False" Label="Cancel selection" Click="cancelSelectAppBarButton_Click" 
+                          Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" Visibility="Collapsed">
+                <AppBarButton.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8E6;"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+            <AppBarSeparator Name="cancelSelectSeparator" VerticalAlignment="Stretch" Visibility="Collapsed" />
             <AppBarButton Name="shareAppBarButton" IsCompact="False" Label="Share selected" Click="ShareBarButton_Click" 
                           Foreground="{ThemeResource AppBarItemForegroundThemeBrush}" Visibility="Collapsed" >
                 <AppBarButton.Icon>

@@ -479,30 +479,19 @@ namespace WedChecker.UserControls
             gvTasks.Items.Remove(taskToRemove);
         }
 
-        private void enterSelectionMode_Click(object sender, RoutedEventArgs e)
-        {
-            EnterSelectionMode();
-        }
-
-        private void leaveSelectionMode_Click(object sender, RoutedEventArgs e)
-        {
-            LeaveSelectionMode();
-        }
-
         public void EnterSelectionMode()
         {
             gvTasks.SelectionMode = ListViewSelectionMode.Multiple;
-            ParentPage.EnterSelectionMode();
-            enterSelectionMode.Visibility = Visibility.Collapsed;
-            leaveSelectionMode.Visibility = Visibility.Visible;
         }
 
-        public void LeaveSelectionMode()
+        public void LeaveSelectionMode(bool leaveFromParent = false)
         {
+            if (leaveFromParent)
+            {
+                ParentPage?.LeaveSelectionMode();
+            }
+
             gvTasks.SelectionMode = ListViewSelectionMode.None;
-            ParentPage.LeaveSelectionMode();
-            enterSelectionMode.Visibility = Visibility.Visible;
-            leaveSelectionMode.Visibility = Visibility.Collapsed;
         }
 
         public List<PopulatedTask> GetSelectedTasks()
@@ -511,28 +500,37 @@ namespace WedChecker.UserControls
             return selected;
         }
 
-        public void ExportSelected()
+        public async void ExportSelected()
         {
             var selected = GetSelectedTasks();
             var selectedTasks = selected.Select(pt => pt.ConnectedTaskControl).ToList();
-            TasksOperationsHelper.ExportTasks(selectedTasks);
-            LeaveSelectionMode();
+            var exported = await TasksOperationsHelper.ExportTasks(selectedTasks);
+            if (exported)
+            {
+                LeaveSelectionMode(true);
+            }
         }
 
-        public void ShareSelected()
+        public async void ShareSelected()
         {
             var selected = GetSelectedTasks();
             var selectedTasks = selected.Select(pt => pt.ConnectedTaskControl).ToList();
-            TasksOperationsHelper.ShareTasks(selectedTasks);
-            LeaveSelectionMode();
+            var shared = await TasksOperationsHelper.ShareTasks(selectedTasks);
+            if (shared)
+            {
+                LeaveSelectionMode(true);
+            }
         }
 
         public async void DeleteSelected()
         {
             var selected = GetSelectedTasks();
             var selectedTasks = selected.Select(pt => pt.ConnectedTaskControl).ToList();
-            await TasksOperationsHelper.DeleteTasksAsync(this, selectedTasks);
-            LeaveSelectionMode();
+            var deleted = await TasksOperationsHelper.DeleteTasksAsync(this, selectedTasks);
+            if (deleted)
+            {
+                LeaveSelectionMode(true);
+            }
         }
     }
 }

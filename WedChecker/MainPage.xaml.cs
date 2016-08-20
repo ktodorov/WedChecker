@@ -13,6 +13,7 @@ using WedChecker.UserControls.Elements;
 using WedChecker.UserControls.Tasks;
 using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -31,6 +32,8 @@ namespace WedChecker
     {
         private bool FirstTimeLaunched = true;
         private string arguments;
+
+        List<ICommandBarElement> secondaryCommands;
 
         public TaskCategories CurrentPageCategory
         {
@@ -472,7 +475,7 @@ namespace WedChecker
 
             if (CurrentPageCategory != TaskCategories.Home)
             {
-                (CurrentContentPage as TasksViewPage).AttachedTasksViewer.LeaveSelectionMode();
+                LeaveSelectionMode();
             }
 
             if (Window.Current.Bounds.Width < 1024)
@@ -503,6 +506,7 @@ namespace WedChecker
                             FrameContents.Add(CurrentContentPage as Page);
                         }
                         (CurrentContentPage as HomePage).PageLoaded += CurrentContentPage_PageLoaded;
+                        selectAppBarButton.Visibility = Visibility.Collapsed;
                     }
                     else
                     {
@@ -518,6 +522,7 @@ namespace WedChecker
                         }
 
                         (CurrentContentPage as TasksViewPage).PageLoaded += CurrentContentPage_PageLoaded;
+                        selectAppBarButton.Visibility = Visibility.Visible;
                     }
                 }
             );
@@ -634,6 +639,21 @@ namespace WedChecker
             shareAppBarButton.Visibility = Visibility.Visible;
             exportAppBarButton.Visibility = Visibility.Visible;
             deleteAppBarButton.Visibility = Visibility.Visible;
+            cancelSelectAppBarButton.Visibility = Visibility.Visible;
+            cancelSelectSeparator.Visibility = Visibility.Visible;
+            selectAppBarButton.Visibility = Visibility.Collapsed;
+            addAppBarButton.Visibility = Visibility.Collapsed;
+            secondaryCommands = appBar.SecondaryCommands.ToList();
+            appBar.SecondaryCommands.Clear();
+            appBar.IsSticky = true;
+            appBar.IsOpen = true;
+            var currentPage = CurrentContentPage as TasksViewPage;
+            if (currentPage == null)
+            {
+                return;
+            }
+
+            currentPage.AttachedTasksViewer?.EnterSelectionMode();
         }
 
         public void LeaveSelectionMode()
@@ -641,6 +661,27 @@ namespace WedChecker
             shareAppBarButton.Visibility = Visibility.Collapsed;
             exportAppBarButton.Visibility = Visibility.Collapsed;
             deleteAppBarButton.Visibility = Visibility.Collapsed;
+            cancelSelectAppBarButton.Visibility = Visibility.Collapsed;
+            cancelSelectSeparator.Visibility = Visibility.Collapsed;
+            selectAppBarButton.Visibility = Visibility.Visible;
+            addAppBarButton.Visibility = Visibility.Visible;
+            appBar.IsSticky = false;
+
+            if (!appBar.SecondaryCommands.Any())
+            {
+                foreach (var command in secondaryCommands)
+                {
+                    appBar.SecondaryCommands.Add(command);
+                }
+            }
+
+            var currentPage = CurrentContentPage as TasksViewPage;
+            if (currentPage == null)
+            {
+                return;
+            }
+
+            currentPage.AttachedTasksViewer?.LeaveSelectionMode();
         }
 
         private void ShareBarButton_Click(object sender, RoutedEventArgs e)
@@ -673,6 +714,16 @@ namespace WedChecker
             }
 
             currentPage.AttachedTasksViewer.DeleteSelected();
+        }
+
+        private void selectAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            EnterSelectionMode();
+        }
+
+        private void cancelSelectAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            LeaveSelectionMode();
         }
     }
 }
