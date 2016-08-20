@@ -154,6 +154,7 @@
     <Compile Include="Exceptions\WedCheckerNavigationException.cs" />
     <Compile Include="Extensions\CommonExtensions.cs" />
     <Compile Include="Extensions\CompositeExtensions.cs" />
+    <Compile Include="Extensions\DoubleExtensions.cs" />
     <Compile Include="Extensions\ExceptionExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\AddedTasksHelper.cs" />

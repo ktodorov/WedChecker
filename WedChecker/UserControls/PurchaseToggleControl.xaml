@@ -14,7 +14,7 @@
         <conv:DoubleToStringConvertor x:Key="DoubleToStringConvertor" />
     </UserControl.Resources>
     
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Padding="1">
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Padding="1">
 
         <uc:ToggleControl x:Name="mainToggle"  />
 
@@ -24,7 +24,8 @@
             <TextBlock Name="tbPrice" Style="{ThemeResource WedCheckerFormTextBlockStyle}">
                 Price
             </TextBlock>
-            <TextBox Name="tbPurchaseValue" Text="{Binding PurchaseValue, Mode=TwoWay, Converter={StaticResource DoubleToStringConvertor}}" />
+            <TextBox Name="tbPurchaseValue" Text="{Binding PurchaseValue, Mode=TwoWay, Converter={StaticResource DoubleToStringConvertor}}" 
+                     MaxLength="10" InputScope="Number"/>
             <TextBlock Name="tbPurchaseValueDisplay" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" 
                        Text="{Binding PurchaseValue, Converter={StaticResource DoubleToStringConvertor}}" Margin="0"/>
             <TextBlock Name="tbCurrency" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Margin="0"/>

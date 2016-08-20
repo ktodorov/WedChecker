@@ -66,7 +66,7 @@
                        Margin="0" VerticalAlignment="Center" Grid.Row="5" Grid.Column="1" TextAlignment="Right"/>
             <TextBlock Name="budgetTextBlock" Style="{ThemeResource WedCheckerFormTextBlockStyle}" TextAlignment="Left"
                    Margin="10, 0" Grid.Row="5" Grid.Column="2">
-                budget used out of
+                used out of planned
             </TextBlock>
             <TextBlock Name="budgetPlannedBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="0" 
                        Margin="0" VerticalAlignment="Center" Grid.Row="5" Grid.Column="3" TextAlignment="Left"/>
@@ -74,13 +74,13 @@
             <Grid Name="budgetPassed"  Grid.Row="5" Grid.Column="4" VerticalAlignment="Center"
                   Margin="5, 0, 0, 0">
             <TextBlock Name="Button" Text="&#xEA3B;" 
-                       FontFamily="Segoe MDL2 Assets" FontSize="18"
-                       VerticalAlignment="Center" Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                       FontFamily="Segoe MDL2 Assets" FontSize="19"
+                       VerticalAlignment="Center" Foreground="DarkRed"
                        HorizontalAlignment="Center" />
             <TextBlock Name="budgetPassedButton2" Text="&#xE8C9;" 
                        FontFamily="Segoe MDL2 Assets" FontSize="14"
                        VerticalAlignment="Center" Foreground="White" 
-                       HorizontalAlignment="Center"/>
+                       HorizontalAlignment="Center" FontWeight="Bold" />
             </Grid>
         </Grid>
     </Border>

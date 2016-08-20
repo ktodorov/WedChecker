@@ -369,6 +369,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
                 {
                     categoryPanel.Children.OfType<PurchaseToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).Toggled = toggle.Toggled;
                     categoryPanel.Children.OfType<PurchaseToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).PurchaseValue = toggle.PurchaseValue;
+                    categoryPanel.Children.OfType<PurchaseToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).StoredPurchaseValue = toggle.StoredPurchaseValue;
                     return;
                 }
 
@@ -382,6 +383,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
                 {
                     ItemsPanel.Children.OfType<PurchaseToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).Toggled = toggle.Toggled;
                     ItemsPanel.Children.OfType<PurchaseToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).PurchaseValue = toggle.PurchaseValue;
+                    ItemsPanel.Children.OfType<PurchaseToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).StoredPurchaseValue = toggle.StoredPurchaseValue;
                     return;
                 }
 

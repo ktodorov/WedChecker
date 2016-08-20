@@ -44,6 +44,8 @@ namespace WedChecker.UserControls
             }
         }
 
+        public double? StoredPurchaseValue;
+
         public string Title
         {
             get
@@ -111,6 +113,7 @@ namespace WedChecker.UserControls
             pricePanel.Visibility = Visibility.Visible;
             tbPurchaseValueDisplay.Visibility = Visibility.Collapsed;
             tbPurchaseValue.Visibility = Visibility.Visible;
+            tbPurchaseValue.Text = tbPurchaseValue.Text.Replace(" ", string.Empty);
             tbCurrency.Visibility = Visibility.Collapsed;
             mainToggle.EditValues();
         }
@@ -119,11 +122,11 @@ namespace WedChecker.UserControls
         {
             mainToggle.Serialize(writer);
 
-            var purchaseValueText = tbPurchaseValue.Text;
-            int tempValue = 0;
-            if (!int.TryParse(purchaseValueText, out tempValue))
+            var purchaseValueText = tbPurchaseValue.Text.Replace(",", ".");
+            if (!purchaseValueText.IsValidPrice())
             {
-                Core.ShowErrorMessage("Please enter a valid number for the purchase value (number and higher than zero)");
+                Core.ShowErrorMessage("Please enter a valid number for the purchase value (number, higher than zero and less than 2 million)");
+                PurchaseValue = StoredPurchaseValue;
             }
 
             writer.Write(1);
@@ -142,6 +145,7 @@ namespace WedChecker.UserControls
                 {
                     reader.ReadString();
                     PurchaseValue = reader.ReadDouble();
+                    StoredPurchaseValue = PurchaseValue;
                 }
             }
         }
@@ -152,7 +156,7 @@ namespace WedChecker.UserControls
 
             var toggleText = mainToggle.GetDataAsText();
             var currency = CultureInfoHelper.GetCurrentCurrencyString();
-            var priceText = $"- for {PurchaseValue.ToString()}{currency}";
+            var priceText = $"- for {PurchaseValue.RoundToString()}{currency}";
 
             sb.AppendLine($"{toggleText} {priceText}");
 

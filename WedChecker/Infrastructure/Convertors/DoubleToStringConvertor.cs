@@ -11,13 +11,16 @@ namespace WedChecker.Infrastructure.Convertors
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return value.ToString();
+            var convertedValue = string.Format("{0:# ### ###.00}", value);
+            return convertedValue;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
             var tempValue = 0.0;
-            if (double.TryParse(value.ToString(), out tempValue))
+            var convertedValue = value.ToString().Replace(",", ".");
+            convertedValue = string.Format("{0:0.00}", convertedValue);
+            if (double.TryParse(convertedValue, out tempValue))
             {
                 return tempValue;
             }

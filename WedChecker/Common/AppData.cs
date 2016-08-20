@@ -91,8 +91,8 @@ namespace WedChecker.Common
             }
         }
 
-        private static int? _plannedBudget;
-        public static int? PlannedBudget
+        private static double? _plannedBudget;
+        public static double? PlannedBudget
         {
             get
             {

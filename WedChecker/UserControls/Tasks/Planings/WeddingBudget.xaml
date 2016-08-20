@@ -5,11 +5,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:we="using:WedChecker.UserControls.Tasks"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:conv="using:WedChecker.Infrastructure.Convertors">
+
+    <UserControl.Resources>
+        <conv:DoubleToStringConvertor x:Key="DoubleToStringConvertor" />
+    </UserControl.Resources>
+
     <StackPanel VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
-        <TextBox Name="tbBudget" Margin="20,0" TextChanged="tbBudget_TextChanged"
-                 MaxLength="7" InputScope="Number" Style="{StaticResource WedCheckerDefaultTextBox}"/>
-        <TextBlock Name="tbBudgetDisplay" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" TextAlignment="Center"/>
+        <TextBox Name="tbBudget" Text="{Binding Budget, Mode=TwoWay, Converter={StaticResource DoubleToStringConvertor}}" 
+                     MaxLength="10" InputScope="Number" />
+        <TextBlock Name="tbBudgetDisplay" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" TextAlignment="Center"
+                   Text="{Binding Budget, Converter={StaticResource DoubleToStringConvertor}}" Margin="0"/>
         <TextBlock Name="tbCurrency" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Margin="0"/>
     </StackPanel>
 </we:BaseTaskControl>

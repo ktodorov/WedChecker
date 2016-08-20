@@ -105,8 +105,8 @@ namespace WedChecker.UserControls
                 var plannedBudget = AppData.PlannedBudget;
                 if (plannedBudget.HasValue)
                 {
-                    budgetUsedBlock.Text = budgetUsed.ToString();
-                    budgetPlannedBlock.Text = plannedBudget.ToString();
+                    budgetUsedBlock.Text = budgetUsed.ToCurrency();
+                    budgetPlannedBlock.Text = plannedBudget.ToCurrency();
                     budgetUsedBlock.Visibility = Visibility.Visible;
                     budgetPlannedBlock.Visibility = Visibility.Visible;
                     budgetTextBlock.Visibility = Visibility.Visible;

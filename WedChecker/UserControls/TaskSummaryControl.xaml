@@ -10,7 +10,6 @@
     <StackPanel Orientation="Horizontal">
         <StackPanel Name="purchaseValuePanel" Orientation="Horizontal" VerticalAlignment="Center">
             <TextBlock Name="tbPurchaseValue" Margin="5, 0, 2, 0" FontFamily="Segoe UI" FontWeight="Light" />
-            <TextBlock Name="tbCurrency" FontFamily="Segoe UI" FontWeight="Light" />
 
             <Border Name="subBorder" BorderThickness="0.3, 0" BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}" 
             Margin="5, 1" VerticalAlignment="Stretch"/>
