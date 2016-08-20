@@ -6,11 +6,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:we="using:WedChecker.UserControls.Tasks"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
-    <StackPanel VerticalAlignment="Center">
+    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Center">
         <TextBox Name="tbBudget" Margin="20,0" TextChanged="tbBudget_TextChanged"
                  MaxLength="7" InputScope="Number" Style="{StaticResource WedCheckerDefaultTextBox}"/>
-        <StackPanel Name="displayPanel" Visibility="Collapsed">
-            <TextBlock Name="tbBudgetDisplay" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" TextAlignment="Center"/>
-        </StackPanel>
+        <TextBlock Name="tbBudgetDisplay" Style="{StaticResource WedCheckerDisplayTextBlockStyle}" TextAlignment="Center"/>
+        <TextBlock Name="tbCurrency" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Margin="0"/>
     </StackPanel>
 </we:BaseTaskControl>

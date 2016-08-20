@@ -5,12 +5,16 @@
     xmlns:local="using:WedChecker.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:elem="using:WedChecker.UserControls.Elements"
     mc:Ignorable="d">
 
-    <Border Name="mainBorder" BorderThickness="0, 1" BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}" Padding="40, 5"
+    <Border Name="mainBorder" BorderThickness="0, 1" BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}" 
+            Padding="40, 5"
             Visibility="Collapsed">
         <Grid HorizontalAlignment="Center">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -22,13 +26,14 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <!-- PLANNINGS SUMMARY -->
             <TextBlock Name="planningTasksCountBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="0" 
                        Margin="0" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" TextAlignment="Right"/>
             <TextBlock Style="{ThemeResource WedCheckerFormTextBlockStyle}" TextAlignment="Left"
-                    Margin="10, 0" Grid.Row="1" Grid.Column="2">
+                    Margin="10, 0" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4">
                 tasks planning
             </TextBlock>
 
@@ -40,7 +45,7 @@
                 items purchased out of
             </TextBlock>
             <TextBlock Name="purchasingTasksCountBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="0" 
-                       Margin="0" VerticalAlignment="Center" Grid.Row="2" Grid.Column="3" TextAlignment="Left"/>
+                       Margin="0" VerticalAlignment="Center" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" TextAlignment="Left"/>
 
             <!-- BOOKINGS SUMMARY -->
             <TextBlock Name="bookedTasksCountBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="0" 
@@ -50,7 +55,33 @@
                 items booked out of
             </TextBlock>
             <TextBlock Name="bookingTasksCountBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="0" 
-                       Margin="0" VerticalAlignment="Center" Grid.Row="3" Grid.Column="3" TextAlignment="Left"/>
+                       Margin="0" VerticalAlignment="Center" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" TextAlignment="Left"/>
+
+
+            <Border Name="subBorder" BorderThickness="0, 0.3" BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}" 
+            Margin="0, 5" Grid.Row="4" Grid.ColumnSpan="5" HorizontalAlignment="Stretch"/>
+
+            <!-- BOOKINGS SUMMARY -->
+            <TextBlock Name="budgetUsedBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="0" 
+                       Margin="0" VerticalAlignment="Center" Grid.Row="5" Grid.Column="1" TextAlignment="Right"/>
+            <TextBlock Name="budgetTextBlock" Style="{ThemeResource WedCheckerFormTextBlockStyle}" TextAlignment="Left"
+                   Margin="10, 0" Grid.Row="5" Grid.Column="2">
+                budget used out of
+            </TextBlock>
+            <TextBlock Name="budgetPlannedBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="0" 
+                       Margin="0" VerticalAlignment="Center" Grid.Row="5" Grid.Column="3" TextAlignment="Left"/>
+
+            <Grid Name="budgetPassed"  Grid.Row="5" Grid.Column="4" VerticalAlignment="Center"
+                  Margin="5, 0, 0, 0">
+            <TextBlock Name="Button" Text="&#xEA3B;" 
+                       FontFamily="Segoe MDL2 Assets" FontSize="18"
+                       VerticalAlignment="Center" Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                       HorizontalAlignment="Center" />
+            <TextBlock Name="budgetPassedButton2" Text="&#xE8C9;" 
+                       FontFamily="Segoe MDL2 Assets" FontSize="14"
+                       VerticalAlignment="Center" Foreground="White" 
+                       HorizontalAlignment="Center"/>
+            </Grid>
         </Grid>
     </Border>
 </UserControl>

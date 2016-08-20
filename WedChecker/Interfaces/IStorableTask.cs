@@ -15,7 +15,7 @@ namespace WedChecker.Interfaces
 
         void Serialize(BinaryWriter writer);
 
-        void Deserialize(BinaryReader reader);
+        Task Deserialize(BinaryReader reader);
 
         string GetDataAsText();
     }

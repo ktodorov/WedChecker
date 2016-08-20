@@ -161,7 +161,7 @@ namespace WedChecker.UserControls
             }
         }
 
-        public void Deserialize(BinaryReader reader)
+        public async Task Deserialize(BinaryReader reader)
         {
             //Read in the number of records
             var placesCount = reader.ReadInt32();

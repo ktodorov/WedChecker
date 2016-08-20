@@ -7,17 +7,25 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel>
-        <StackPanel Name="unfinishedPanel" Orientation="Horizontal" HorizontalAlignment="Center">
+    <StackPanel Orientation="Horizontal">
+        <StackPanel Name="purchaseValuePanel" Orientation="Horizontal" VerticalAlignment="Center">
+            <TextBlock Name="tbPurchaseValue" Margin="5, 0, 2, 0" FontFamily="Segoe UI" FontWeight="Light" />
+            <TextBlock Name="tbCurrency" FontFamily="Segoe UI" FontWeight="Light" />
+
+            <Border Name="subBorder" BorderThickness="0.3, 0" BorderBrush="{ThemeResource SystemControlBackgroundBaseLowBrush}" 
+            Margin="5, 1" VerticalAlignment="Stretch"/>
+        </StackPanel>
+        
+        <StackPanel Name="unfinishedPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Name="tasksCountBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="0" 
-                       Margin="0" VerticalAlignment="Center"/>
+                       Margin="0" VerticalAlignment="Center" FontSize="18" />
 
             <StackPanel Name="allTasksPanel" Orientation="Horizontal">
-                <TextBlock Style="{ThemeResource WedCheckerFormTextBlockStyle}" Margin="5, 0">
+                <TextBlock Style="{ThemeResource WedCheckerFormTextBlockStyle}" Margin="5, 0" FontSize="18" >
                 /
                 </TextBlock>
                 <TextBlock Name="allTasksCountBlock" Style="{ThemeResource WedCheckerDisplayTextBlockStyle}" Text="0" 
-                       Margin="0" VerticalAlignment="Center" />
+                       Margin="0" VerticalAlignment="Center" FontSize="18" />
             </StackPanel>
         </StackPanel>
         <StackPanel Name="finishedPanel" HorizontalAlignment="Right" Visibility="Collapsed">

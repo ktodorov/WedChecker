@@ -94,7 +94,7 @@ namespace WedChecker.UserControls.Tasks.Plannings
             DishesChanged = false;
         }
 
-        public override void Deserialize(BinaryReader reader)
+        public override async Task Deserialize(BinaryReader reader)
         {
             Dishes = new Dictionary<int, string>();
             var size = reader.ReadInt32();

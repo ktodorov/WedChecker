@@ -100,7 +100,7 @@ namespace WedChecker.UserControls.Tasks.Plannings
             guestsPerTable.Serialize(writer);
         }
 
-        public override void Deserialize(BinaryReader reader)
+        public override async Task Deserialize(BinaryReader reader)
         {
             var objectsCount = reader.ReadInt32();
 

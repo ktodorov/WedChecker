@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using WedChecker.Common;
+using WedChecker.Helpers;
 using WedChecker.Interfaces;
 using WedChecker.UserControls.Tasks;
 using Windows.Foundation;
@@ -27,6 +28,12 @@ namespace WedChecker.UserControls
         public TaskSummaryControl()
         {
             this.InitializeComponent();
+            Loaded += TaskSummaryControl_Loaded;
+        }
+
+        private void TaskSummaryControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            tbCurrency.Text = CultureInfoHelper.GetCurrentCurrencyString();
         }
 
         public void LoadTaskData(BaseTaskControl populatedTask)
@@ -56,6 +63,20 @@ namespace WedChecker.UserControls
                     unfinishedPanel.Visibility = Visibility.Collapsed;
                     finishedPanel.Visibility = Visibility.Visible;
                 }
+
+                if (populatedTask is IPurchaseableTask)
+                {
+                    var purchaseValue = (populatedTask as IPurchaseableTask).GetPurchasedItemsValue();
+                    if (purchaseValue > 0)
+                    {
+                        tbPurchaseValue.Text = purchaseValue.ToString();
+                        purchaseValuePanel.Visibility = Visibility.Visible;
+                        return;
+                    }
+                }
+
+                purchaseValuePanel.Visibility = Visibility.Collapsed;
+                tbPurchaseValue.Text = string.Empty;
             }
             else
             {

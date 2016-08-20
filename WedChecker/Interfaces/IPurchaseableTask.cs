@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace WedChecker.Interfaces
 {
-    public interface IPurchaseableTask
+    public interface ICompletableTask
     {
-        double GetPurchasedItemsValue();
+        int GetCompletedItems();
+        int GetUncompletedItems();
     }
 }

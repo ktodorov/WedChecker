@@ -191,6 +191,10 @@ namespace WedChecker.UserControls
             {
                 result = tasks.OrderByDescending(c => c.ModifiedOn).ToList();
             }
+            else
+            {
+                result = tasks;
+            }
 
             return result;
         }
@@ -445,6 +449,10 @@ namespace WedChecker.UserControls
             currentTasks.Remove(changedTask);
             currentTasks.Add(task);
             var orderedTasks = OrderTasks(currentTasks);
+            if (!orderedTasks.Any())
+            {
+                return;
+            }
 
             var newIndex = orderedTasks.IndexOf(task);
             if (newIndex == oldIndex)

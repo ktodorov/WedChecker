@@ -105,7 +105,7 @@ namespace WedChecker.UserControls.Tasks.Plannings
             PlacesChanged = false;
         }
 
-        public override void Deserialize(BinaryReader reader)
+        public override async Task Deserialize(BinaryReader reader)
         {
             Places = new List<string>();
             var size = reader.ReadInt32();

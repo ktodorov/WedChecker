@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using WedChecker.Common;
 using WedChecker.Extensions;
+using WedChecker.Infrastructure;
+using WedChecker.Helpers;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -50,6 +53,7 @@ namespace WedChecker.Pages
 	{
 		ObservableCollection<SortingType> sortingTypes = new ObservableCollection<SortingType>();
 		ObservableCollection<SortingOrder> sortingOrderings = new ObservableCollection<SortingOrder>();
+		ObservableCollection<Currency> currencies = new ObservableCollection<Currency>();
 
         public SettingsPage()
 		{
@@ -75,6 +79,8 @@ namespace WedChecker.Pages
             Core.CurrentTitleBar = mainTitleBar;
 
             LoadSortingData();
+
+            LoadCurrencies();
         }
 
         private void LoadSortingData()
@@ -104,6 +110,21 @@ namespace WedChecker.Pages
             }
 
             cbTasksOrdering.SelectedIndex = AppData.GetRoamingSetting<int>("TaskSortOrder");
+        }
+
+        private void LoadCurrencies()
+        {
+            currencies.Clear();
+
+            var currenciesList = CultureInfoHelper.GetAllCurrencies();
+            foreach (var currency in currenciesList)
+            {
+                currencies.Add(currency);
+            }
+
+            var selectedCurrency = CultureInfoHelper.GetStoredCurrency();
+            
+            cbCurrency.SelectedValue = selectedCurrency;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -184,6 +205,15 @@ namespace WedChecker.Pages
         private void cbTasksOrdering_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             AppData.InsertRoamingSetting("TaskSortOrder", cbTasksOrdering.SelectedIndex);
+        }
+
+        private void cbCurrency_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var currencySelected = cbCurrency.SelectedValue as Currency;
+            if (currencySelected != null)
+            {
+                AppData.InsertRoamingSetting("CurrencyCulture", currencySelected.CultureString);
+            }
         }
     }
 }

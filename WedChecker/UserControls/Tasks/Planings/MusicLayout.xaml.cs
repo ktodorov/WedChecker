@@ -79,7 +79,7 @@ namespace WedChecker.UserControls.Tasks.Plannings
             writer.Write(PlannedLayout);
         }
 
-        public override void Deserialize(BinaryReader reader)
+        public override async Task Deserialize(BinaryReader reader)
         {
             PlannedLayout = reader.ReadString();
         }

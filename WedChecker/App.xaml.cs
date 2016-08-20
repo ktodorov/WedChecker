@@ -145,7 +145,10 @@ namespace WedChecker
             if (rootFrame.Content != null)
             {
                 var page = rootFrame.Content as MainPage;
-                AppData.InsertLocalSetting("CurrentCategory", (int)page.CurrentPageCategory);
+                if (page != null)
+                {
+                    AppData.InsertLocalSetting("CurrentCategory", (int)page.CurrentPageCategory);
+                }
             }
 
             var deferral = e.SuspendingOperation.GetDeferral();

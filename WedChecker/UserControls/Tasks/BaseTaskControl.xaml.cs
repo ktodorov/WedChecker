@@ -50,7 +50,7 @@ namespace WedChecker.UserControls.Tasks
 
         public abstract void Serialize(BinaryWriter writer);
 
-        public abstract void Deserialize(BinaryReader reader);
+        public abstract Task Deserialize(BinaryReader reader);
 
         protected virtual void SetLocalStorage()
         {
@@ -74,7 +74,7 @@ namespace WedChecker.UserControls.Tasks
                         var build = reader.ReadUInt16();
                         var revision = reader.ReadUInt16();
 
-                        this.Deserialize(reader);
+                        await this.Deserialize(reader);
                     }
                     // Then we have reached end of stream and failed to return before that
                     catch (EndOfStreamException)
@@ -112,6 +112,11 @@ namespace WedChecker.UserControls.Tasks
             {
                 await ex.HandleException();
             }
+        }
+
+        public virtual void PopulateAfterDeserializing()
+        {
+
         }
 
         public async Task SubmitValues()

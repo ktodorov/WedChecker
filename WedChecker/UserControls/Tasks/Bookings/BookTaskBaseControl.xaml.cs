@@ -145,7 +145,7 @@ namespace WedChecker.UserControls.Tasks.Bookings
             }
         }
 
-        public override void Deserialize(BinaryReader reader)
+        public override async Task Deserialize(BinaryReader reader)
         {
             var count = reader.ReadInt32();
 

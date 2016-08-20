@@ -464,7 +464,7 @@ namespace WedChecker.UserControls
 			}
 		}
 
-		public void Deserialize(BinaryReader reader)
+		public async Task Deserialize(BinaryReader reader)
 		{
 			StoredContact = new WedCheckerContact();
 

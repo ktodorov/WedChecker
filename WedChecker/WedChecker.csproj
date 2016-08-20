@@ -18,7 +18,7 @@
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>WedChecker_StoreKey.pfx</PackageCertificateKeyFile>
     <PackageCertificateThumbprint>744C13B91AF5E2AF33A60A6D4CC7C595944E444E</PackageCertificateThumbprint>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
   </PropertyGroup>
@@ -157,12 +157,17 @@
     <Compile Include="Extensions\ExceptionExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\AddedTasksHelper.cs" />
+    <Compile Include="Helpers\CultureInfoHelper.cs" />
     <Compile Include="Helpers\TasksOperationsHelper.cs" />
     <Compile Include="Infrastructure\Convertors\AlongWithConvertor.cs" />
     <Compile Include="Infrastructure\Convertors\EmailAddressConvertor.cs" />
+    <Compile Include="Infrastructure\Convertors\DoubleToStringConvertor.cs" />
+    <Compile Include="Infrastructure\Convertors\IntToStringConvertor.cs" />
     <Compile Include="Infrastructure\Convertors\PhoneNumberConvertor.cs" />
+    <Compile Include="Infrastructure\Currency.cs" />
     <Compile Include="Infrastructure\Params.cs" />
     <Compile Include="Infrastructure\WedCheckerContact.cs" />
+    <Compile Include="Interfaces\IPurchaseableTask.cs" />
     <Compile Include="Interfaces\ICompletableTask.cs" />
     <Compile Include="Interfaces\IStorableTask.cs" />
     <Compile Include="Interfaces\IUpdateableTasks.cs" />
@@ -211,6 +216,9 @@
       <DependentUpon>GuestsAccomodationControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MapView.cs" />
+    <Compile Include="UserControls\PurchaseToggleControl.xaml.cs">
+      <DependentUpon>PurchaseToggleControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\TasksSummaryControl.xaml.cs">
       <DependentUpon>TasksSummaryControl.xaml</DependentUpon>
     </Compile>
@@ -462,6 +470,10 @@
     <Page Include="UserControls\GuestsAccomodationControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\PurchaseToggleControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\TasksSummaryControl.xaml">
       <SubType>Designer</SubType>

@@ -75,7 +75,7 @@ namespace WedChecker.UserControls.Tasks.Plannings
             writer.Write(Style);
         }
 
-        public override void Deserialize(BinaryReader reader)
+        public override async Task Deserialize(BinaryReader reader)
         {
             Style = reader.ReadString();
         }

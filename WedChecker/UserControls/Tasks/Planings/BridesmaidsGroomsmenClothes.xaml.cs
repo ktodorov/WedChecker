@@ -142,7 +142,7 @@ namespace WedChecker.UserControls.Tasks.Plannings
             }
         }
 
-        public override void Deserialize(BinaryReader reader)
+        public override async Task Deserialize(BinaryReader reader)
         {
             BridesmaidsClothes = new Dictionary<int, string>();
             GroomsmenClothes = new Dictionary<int, string>();

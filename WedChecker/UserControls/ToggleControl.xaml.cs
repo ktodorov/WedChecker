@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using WedChecker.Interfaces;
@@ -36,6 +37,8 @@ namespace WedChecker.UserControls
                 toggleSwitch.IsChecked = value;
             }
         }
+
+        public event EventHandler Checked;
 
         public ToggleControl()
         {
@@ -76,7 +79,7 @@ namespace WedChecker.UserControls
             writer.Write(toggleSwitch.IsChecked.Value);
         }
 
-        public void Deserialize(BinaryReader reader)
+        public async Task Deserialize(BinaryReader reader)
         {
             Title = reader.ReadString();
             toggleSwitch.IsChecked = reader.ReadBoolean();
@@ -89,6 +92,11 @@ namespace WedChecker.UserControls
             sb.AppendLine(Toggled ? "Yes" : "No");
 
             return sb.ToString();
+        }
+
+        private void toggleSwitch_CheckedChanged(object sender, RoutedEventArgs e)
+        {
+            Checked?.Invoke(this, new EventArgs());
         }
     }
 }

@@ -9,8 +9,10 @@ using WedChecker.Common;
 using WedChecker.Exceptions;
 using WedChecker.Extensions;
 using WedChecker.Interfaces;
+using WedChecker.UserControls;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -23,7 +25,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace WedChecker.UserControls.Tasks.Purchases
 {
-    public abstract partial class PurchaseTaskBaseControl : BaseTaskControl, ICompletableTask
+    public abstract partial class PurchaseTaskBaseControl : BaseTaskControl, ICompletableTask, IPurchaseableTask
     {
         public override string TaskName
         {
@@ -132,34 +134,34 @@ namespace WedChecker.UserControls.Tasks.Purchases
             }
         }
 
-        public List<ToggleControl> Toggles
+        public List<PurchaseToggleControl> Toggles
         {
             get
             {
-                var toggles = new List<ToggleControl>();
+                var toggles = new List<PurchaseToggleControl>();
                 if (hasCategories)
                 {
                     var categoryPanels = ItemsPanel.Children.OfType<StackPanel>().ToList();
 
                     foreach (var categoryPanel in categoryPanels)
                     {
-                        toggles.AddRange(categoryPanel.Children.OfType<ToggleControl>().ToList());
+                        toggles.AddRange(categoryPanel.Children.OfType<PurchaseToggleControl>().ToList());
                     }
                 }
                 else
                 {
-                    toggles = ItemsPanel.Children.OfType<ToggleControl>().ToList();
+                    toggles = ItemsPanel.Children.OfType<PurchaseToggleControl>().ToList();
                 }
 
                 return toggles;
             }
         }
 
-        public Dictionary<string, List<ToggleControl>> TogglesByCategories
+        public Dictionary<string, List<PurchaseToggleControl>> TogglesByCategories
         {
             get
             {
-                var result = new Dictionary<string, List<ToggleControl>>();
+                var result = new Dictionary<string, List<PurchaseToggleControl>>();
                 if (hasCategories)
                 {
                     var categoryPanels = ItemsPanel.Children.OfType<StackPanel>().ToList();
@@ -168,7 +170,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
                     {
                         var categoryNameBlock = categoryPanel.Children.OfType<TextBlock>().FirstOrDefault();
                         var categoryName = categoryNameBlock.Text;
-                        var toggles = categoryPanel.Children.OfType<ToggleControl>().ToList();
+                        var toggles = categoryPanel.Children.OfType<PurchaseToggleControl>().ToList();
                         if (!result.ContainsKey(categoryName))
                         {
                             result.Add(categoryName, toggles);
@@ -181,7 +183,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
                 }
                 else
                 {
-                    var toggles = ItemsPanel.Children.OfType<ToggleControl>().ToList();
+                    var toggles = ItemsPanel.Children.OfType<PurchaseToggleControl>().ToList();
                     result.Add(string.Empty, toggles);
                 }
 
@@ -192,6 +194,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
         public PurchaseTaskBaseControl()
         {
             this.InitializeComponent();
+            this.DataContext = this;
 
             var category = -1;
             foreach (var itemsList in StoredItems)
@@ -212,7 +215,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
 
                 foreach (var item in itemsList)
                 {
-                    var toggle = new ToggleControl();
+                    var toggle = new PurchaseToggleControl();
                     toggle.Title = item;
                     AddToggle(toggle, categoryPosition);
                 }
@@ -256,7 +259,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
                         writer.Write("Category");
                     }
 
-                    var toggles = categoryPanel.Children.OfType<ToggleControl>().ToList();
+                    var toggles = categoryPanel.Children.OfType<PurchaseToggleControl>().ToList();
                     writer.Write(toggles.Count);
                     foreach (var toggle in toggles)
                     {
@@ -266,7 +269,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
             }
             else
             {
-                var toggles = ItemsPanel.Children.OfType<ToggleControl>();
+                var toggles = ItemsPanel.Children.OfType<PurchaseToggleControl>();
                 writer.Write(toggles.Count());
                 foreach (var toggle in toggles)
                 {
@@ -275,7 +278,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
             }
         }
 
-        public override void Deserialize(BinaryReader reader)
+        public override async Task Deserialize(BinaryReader reader)
         {
             if (hasCategories)
             {
@@ -287,9 +290,8 @@ namespace WedChecker.UserControls.Tasks.Purchases
 
                     for (var j = 0; j < count; j++)
                     {
-                        var toggle = new ToggleControl();
+                        var toggle = new PurchaseToggleControl();
                         toggle.Deserialize(reader);
-
                         var categoryPosition = FindIndex(type);
                         AddToggle(toggle, categoryPosition);
                     }
@@ -301,8 +303,8 @@ namespace WedChecker.UserControls.Tasks.Purchases
 
                 for (var j = 0; j < count; j++)
                 {
-                    var toggle = new ToggleControl();
-                    toggle.Deserialize(reader);
+                    var toggle = new PurchaseToggleControl();
+                        toggle.Deserialize(reader);
                     AddToggle(toggle);
                 }
             }
@@ -345,7 +347,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
             ItemsPanel.Children.Add(categoryPanel);
         }
 
-        protected void AddToggle(ToggleControl toggle, int? category = null)
+        protected void AddToggle(PurchaseToggleControl toggle, int? category = null)
         {
             if (!StoredItems.Any(il => il.Contains(toggle.Title)))
             {
@@ -361,11 +363,12 @@ namespace WedChecker.UserControls.Tasks.Purchases
                 }
 
                 var categoryPanel = allPanels.ElementAt(category.Value);
-                var allToggles = categoryPanel.Children.OfType<ToggleControl>();
+                var allToggles = categoryPanel.Children.OfType<PurchaseToggleControl>();
 
                 if (allToggles.Any(t => t.Title == toggle.Title))
                 {
-                    categoryPanel.Children.OfType<ToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).Toggled = toggle.Toggled;
+                    categoryPanel.Children.OfType<PurchaseToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).Toggled = toggle.Toggled;
+                    categoryPanel.Children.OfType<PurchaseToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).PurchaseValue = toggle.PurchaseValue;
                     return;
                 }
 
@@ -373,11 +376,12 @@ namespace WedChecker.UserControls.Tasks.Purchases
             }
             else
             {
-                var allToggles = ItemsPanel.Children.OfType<ToggleControl>();
+                var allToggles = ItemsPanel.Children.OfType<PurchaseToggleControl>();
 
                 if (allToggles.Any(t => t.Title == toggle.Title))
                 {
-                    ItemsPanel.Children.OfType<ToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).Toggled = toggle.Toggled;
+                    ItemsPanel.Children.OfType<PurchaseToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).Toggled = toggle.Toggled;
+                    ItemsPanel.Children.OfType<PurchaseToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).PurchaseValue = toggle.PurchaseValue;
                     return;
                 }
 
@@ -402,6 +406,12 @@ namespace WedChecker.UserControls.Tasks.Purchases
                     sb.Append(toggleText);
                 }
             }
+        }
+
+        public double GetPurchasedItemsValue()
+        {
+            var purchaseValue = Toggles.Where(t => t.Toggled && t.PurchaseValue.HasValue).Sum(t => t.PurchaseValue.Value);
+            return purchaseValue;
         }
     }
 }

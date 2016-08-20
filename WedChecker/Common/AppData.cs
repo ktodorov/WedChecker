@@ -91,6 +91,23 @@ namespace WedChecker.Common
             }
         }
 
+        private static int? _plannedBudget;
+        public static int? PlannedBudget
+        {
+            get
+            {
+                return _plannedBudget;
+            }
+            set
+            {
+                if (_plannedBudget == value)
+                {
+                    return;
+                }
+                _plannedBudget = value;
+            }
+        }
+
         public static bool ControlIsAdded(string control)
         {
             var populatedControls = AllTasks.GetAllTasks();

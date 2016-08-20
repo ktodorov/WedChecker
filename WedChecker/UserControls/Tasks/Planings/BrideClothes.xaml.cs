@@ -95,7 +95,7 @@ namespace WedChecker.UserControls.Tasks.Plannings
             ClothesChanged = false;
         }
 
-        public override void Deserialize(BinaryReader reader)
+        public override async Task Deserialize(BinaryReader reader)
         {
             Clothes = new Dictionary<int, string>();
             var size = reader.ReadInt32();

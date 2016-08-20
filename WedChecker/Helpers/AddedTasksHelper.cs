@@ -34,7 +34,7 @@ namespace WedChecker.Helpers
         {
             // Plans
 
-            new WedCheckerTask(false, false, typeof(WeddingBudget), "WeddingBudget", TaskCategories.Planning),
+            new WedCheckerTask(false, true, typeof(WeddingBudget), "WeddingBudget", TaskCategories.Planning),
             new WedCheckerTask(false, false, typeof(WeddingStyle), "WeddingStyle", TaskCategories.Planning),
             new WedCheckerTask(false, false, typeof(RegistryPlace), "RegistryPlace", TaskCategories.Planning),
             new WedCheckerTask(false, false, typeof(ReligiousPlace), "ReligiousPlace", TaskCategories.Planning),

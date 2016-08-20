@@ -9,6 +9,7 @@ using WedChecker.Extensions;
 using WedChecker.Interfaces;
 using WedChecker.UserControls.Tasks;
 using WedChecker.UserControls.Tasks.Bookings;
+using WedChecker.UserControls.Tasks.Purchases;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
@@ -48,6 +49,7 @@ namespace WedChecker.UserControls
                 var bookingsCount = 0;
                 var bookedCount = 0;
                 var planningsCount = 0;
+                var budgetUsed = 0.0;
 
                 foreach (var populatedTask in populatedTasks)
                 {
@@ -73,13 +75,14 @@ namespace WedChecker.UserControls
                             break;
 
                         case TaskCategories.Purchase:
-                            var purchasingTask = populatedTask as ICompletableTask;
+                            var purchasingTask = populatedTask as PurchaseTaskBaseControl;
                             if (purchasingTask != null)
                             {
                                 var purchased = purchasingTask.GetCompletedItems();
                                 var unpurchased = purchasingTask.GetUncompletedItems();
                                 purchasedCount += purchased;
                                 purchasesCount += purchased + unpurchased;
+                                budgetUsed += purchasingTask.GetPurchasedItemsValue();
                             }
                             else
                             {
@@ -99,6 +102,32 @@ namespace WedChecker.UserControls
                 bookedTasksCountBlock.Text = bookedCount.ToString();
                 bookingTasksCountBlock.Text = bookingsCount.ToString();
                 planningTasksCountBlock.Text = planningsCount.ToString();
+                var plannedBudget = AppData.PlannedBudget;
+                if (plannedBudget.HasValue)
+                {
+                    budgetUsedBlock.Text = budgetUsed.ToString();
+                    budgetPlannedBlock.Text = plannedBudget.ToString();
+                    budgetUsedBlock.Visibility = Visibility.Visible;
+                    budgetPlannedBlock.Visibility = Visibility.Visible;
+                    budgetTextBlock.Visibility = Visibility.Visible;
+                    subBorder.Visibility = Visibility.Visible;
+
+                    if(plannedBudget.Value < budgetUsed)
+                    {
+                        budgetPassed.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        budgetPassed.Visibility = Visibility.Collapsed;
+                    }
+                }
+                else
+                {
+                    budgetUsedBlock.Visibility = Visibility.Collapsed;
+                    budgetPlannedBlock.Visibility = Visibility.Collapsed;
+                    budgetTextBlock.Visibility = Visibility.Collapsed;
+                    subBorder.Visibility = Visibility.Collapsed;
+                }
 
                 mainBorder.Visibility = Visibility.Visible;
             }

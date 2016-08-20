@@ -157,7 +157,7 @@ namespace WedChecker.UserControls.Tasks.Plannings
             AppData.Guests = Guests.Select(c => c.StoredContact).ToList();
         }
 
-        public override void Deserialize(BinaryReader reader)
+        public override async Task Deserialize(BinaryReader reader)
         {
             //Read in the number of records
             var records = reader.ReadInt32();
@@ -166,7 +166,7 @@ namespace WedChecker.UserControls.Tasks.Plannings
             {
                 var contactControl = new ContactControl(true, true, true);
 
-                contactControl.Deserialize(reader);
+                await contactControl.Deserialize(reader);
                 contactControl.OnDelete = deleteButton_Click;
 
                 contactsList.Add(contactControl);

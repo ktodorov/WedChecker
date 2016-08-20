@@ -89,7 +89,7 @@ namespace WedChecker.UserControls.Tasks.Plannings
             guestsPerHotel.Serialize(writer);
         }
 
-        public override void Deserialize(BinaryReader reader)
+        public override async Task Deserialize(BinaryReader reader)
         {
             var objectsCount = reader.ReadInt32();
 

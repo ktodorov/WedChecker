@@ -113,7 +113,7 @@ namespace WedChecker.UserControls.Tasks.Plannings
             }
         }
 
-        public override void Deserialize(BinaryReader reader)
+        public override async Task Deserialize(BinaryReader reader)
         {
             //Read in the number of records
             var records = reader.ReadInt32();

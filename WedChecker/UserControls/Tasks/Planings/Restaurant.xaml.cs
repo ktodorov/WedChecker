@@ -92,7 +92,7 @@ namespace WedChecker.UserControls.Tasks.Plannings
             writer.Write(Notes);
         }
 
-        public override void Deserialize(BinaryReader reader)
+        public override async Task Deserialize(BinaryReader reader)
         {
             RestaurantName = reader.ReadString();
             Address = reader.ReadString();

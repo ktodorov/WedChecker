@@ -97,8 +97,6 @@ namespace WedChecker.UserControls.Tasks
             await ConnectedTaskControl.DeserializeValues();
 
             FireSizeChangedEvent();
-
-
             spConnectedControl.Children.Add(ConnectedTaskControl);
 
             if (isNewTask)

@@ -6,6 +6,7 @@ using WedChecker.Common;
 using System.Threading.Tasks;
 using System.Text;
 using WedChecker.Exceptions;
+using WedChecker.Helpers;
 
 namespace WedChecker.UserControls.Tasks.Plannings
 {
@@ -52,12 +53,18 @@ namespace WedChecker.UserControls.Tasks.Plannings
         public WeddingBudget()
         {
             this.InitializeComponent();
+            Loaded += WeddingBudget_Loaded;
+        }
+
+        private void WeddingBudget_Loaded(object sender, RoutedEventArgs e)
+        {
+            tbCurrency.Text = CultureInfoHelper.GetCurrentCurrencyString();
         }
 
         public override void DisplayValues()
         {
             tbBudgetDisplay.Text = Budget.ToString();
-            displayPanel.Visibility = Visibility.Visible;
+            tbBudgetDisplay.Visibility = Visibility.Visible;
             tbBudget.Visibility = Visibility.Collapsed;
         }
 
@@ -65,7 +72,7 @@ namespace WedChecker.UserControls.Tasks.Plannings
         {
             tbBudget.Text = tbBudgetDisplay.Text;
             tbBudget.Visibility = Visibility.Visible;
-            displayPanel.Visibility = Visibility.Collapsed;
+            tbBudgetDisplay.Visibility = Visibility.Collapsed;
         }
 
 
@@ -73,7 +80,7 @@ namespace WedChecker.UserControls.Tasks.Plannings
         {
             var weddingBudget = tbBudget.Text;
             var tempBudget = 0;
-            if (!int.TryParse(weddingBudget, out tempBudget))
+            if (!int.TryParse(weddingBudget, out tempBudget) || tempBudget < 0)
             {
                 Core.ShowErrorMessage("Please enter a valid number for the budget");
             }
@@ -87,7 +94,7 @@ namespace WedChecker.UserControls.Tasks.Plannings
             writer.Write(Budget);
         }
 
-        public override void Deserialize(BinaryReader reader)
+        public override async Task Deserialize(BinaryReader reader)
         {
             var objectsCount = reader.ReadInt32();
 
@@ -98,6 +105,11 @@ namespace WedChecker.UserControls.Tasks.Plannings
                 {
                     Budget = reader.ReadInt32();
                 }
+            }
+
+            if (Budget > 0)
+            {
+                AppData.PlannedBudget = Budget;
             }
         }
 

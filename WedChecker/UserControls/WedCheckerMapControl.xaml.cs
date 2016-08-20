@@ -57,7 +57,7 @@ namespace WedChecker.UserControls
             writer.Write(locationMap.PinnedPlace.Longitude);
         }
 
-        public void Deserialize(BinaryReader reader)
+        public async Task Deserialize(BinaryReader reader)
         {
             var latitude = reader.ReadDouble();
             var longitude = reader.ReadDouble();
