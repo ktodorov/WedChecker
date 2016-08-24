@@ -1,5 +1,5 @@
-MainPackage=C:\Users\kztod\Source\Repos\WedChecker\WedChecker\bin\ARM\Release\Upload\WedChecker_2.2.0.0_ARM.appx
-SymbolPackage=C:\Users\kztod\Source\Repos\WedChecker\WedChecker\AppPackages\WedChecker_2.2.0.0\WedChecker_2.2.0.0_ARM.appxsym
+MainPackage=C:\Users\kztod\Source\Repos\WedChecker\WedChecker\bin\ARM\Release\Upload\WedChecker_2.3.0.0_ARM.appx
+SymbolPackage=C:\Users\kztod\Source\Repos\WedChecker\WedChecker\AppPackages\WedChecker_2.3.0.0\WedChecker_2.3.0.0_ARM.appxsym
 ResourcePack=C:\Users\kztod\Source\Repos\WedChecker\WedChecker\_scale-100.appx
 ResourcePack=C:\Users\kztod\Source\Repos\WedChecker\WedChecker\_scale-125.appx
 ResourcePack=C:\Users\kztod\Source\Repos\WedChecker\WedChecker\_scale-150.appx

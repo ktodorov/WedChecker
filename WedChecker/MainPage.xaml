@@ -8,6 +8,7 @@
     xmlns:UserControls="using:WedChecker.UserControls"
     xmlns:TaskUserControls="using:WedChecker.UserControls.Tasks"
     xmlns:Elements="using:WedChecker.UserControls.Elements"
+    xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
     mc:Ignorable="d"
 	SizeChanged="Page_SizeChanged"
     KeyDown="Page_KeyDown">
@@ -139,11 +140,16 @@
         <TaskUserControls:TaskDialog x:Name="addTaskDialog" TappedTile="TaskTile_Tapped" Visibility="Collapsed" 
 									 Grid.Row="1" Grid.ColumnSpan="2" Padding="15" />
 
-        <Rectangle x:Name="rectBackgroundHide" Fill="{ThemeResource SystemControlBackgroundBaseMediumBrush}" Visibility="Collapsed"
+        <!--<Rectangle x:Name="rectBackgroundHide"  Visibility="Visible"
 				   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
 				   Tapped="rectBackgroundHide_Tapped" SizeChanged="rectBackgroundHide_SizeChanged"
                    Grid.RowSpan="2" Grid.ColumnSpan="2">
-        </Rectangle>
+        </Rectangle>-->
+
+        <canvas:CanvasControl x:Name="rectBackgroundHide" VerticalAlignment="Stretch" Visibility="Collapsed"
+                              HorizontalAlignment="Stretch" Grid.RowSpan="2" Grid.ColumnSpan="2" 
+                              Tapped="rectBackgroundHide_Tapped" SizeChanged="rectBackgroundHide_SizeChanged"/>
+
 
         <Popup Name="taskPopup" IsOpen="False" Grid.RowSpan="2" Grid.ColumnSpan="2">
             <Popup.Transitions>

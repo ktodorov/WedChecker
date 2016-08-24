@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Microsoft.Graphics.Canvas.Effects;
+using Microsoft.Graphics.Canvas.UI.Xaml;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 using WedChecker.Common;
 using WedChecker.Exceptions;
@@ -16,10 +19,13 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI;
+using Windows.UI.Composition;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Shapes;
@@ -32,6 +38,7 @@ namespace WedChecker
     {
         private bool FirstTimeLaunched = true;
         private string arguments;
+        private bool inSelectionMode = false;
 
         List<ICommandBarElement> secondaryCommands;
 
@@ -97,7 +104,7 @@ namespace WedChecker
             }
         }
 
-        public Rectangle RectBackgroundHide
+        public CanvasControl RectBackgroundHide
         {
             get
             {
@@ -108,6 +115,7 @@ namespace WedChecker
         public MainPage()
         {
             this.InitializeComponent();
+            InitializeFrostedGlass();
 
             Loaded += MainPage_Loaded;
 
@@ -156,8 +164,6 @@ namespace WedChecker
             FirstTimeLaunched = false;
 
             CalculateTaskSizes(Window.Current.Bounds.Width, Window.Current.Bounds.Height);
-
-            //Core.CurrentTitleBar = mainTitleBar;
         }
 
         void MainPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
@@ -240,6 +246,10 @@ namespace WedChecker
                 {
                     HidePopupTask();
                 }
+            }
+            else if (inSelectionMode)
+            {
+                LeaveSelectionMode();
             }
             else
             {
@@ -636,6 +646,7 @@ namespace WedChecker
 
         public void EnterSelectionMode()
         {
+            inSelectionMode = true;
             shareAppBarButton.Visibility = Visibility.Visible;
             exportAppBarButton.Visibility = Visibility.Visible;
             deleteAppBarButton.Visibility = Visibility.Visible;
@@ -658,6 +669,7 @@ namespace WedChecker
 
         public void LeaveSelectionMode()
         {
+            inSelectionMode = false;
             shareAppBarButton.Visibility = Visibility.Collapsed;
             exportAppBarButton.Visibility = Visibility.Collapsed;
             deleteAppBarButton.Visibility = Visibility.Collapsed;
@@ -666,6 +678,7 @@ namespace WedChecker
             selectAppBarButton.Visibility = Visibility.Visible;
             addAppBarButton.Visibility = Visibility.Visible;
             appBar.IsSticky = false;
+            appBar.IsOpen = false;
 
             if (!appBar.SecondaryCommands.Any())
             {
@@ -725,5 +738,62 @@ namespace WedChecker
         {
             LeaveSelectionMode();
         }
+
+        private void test_Click(object sender, RoutedEventArgs e)
+        {
+            InitializeFrostedGlass();
+        }
+
+        private void InitializeFrostedGlass()
+        {
+            Visual hostVisual = ElementCompositionPreview.GetElementVisual(rectBackgroundHide);
+            Compositor compositor = hostVisual.Compositor;
+
+            // Create a glass effect, requires Win2D NuGet package
+            var glassEffect = new GaussianBlurEffect
+            {
+                BlurAmount = 15.0f,
+                BorderMode = EffectBorderMode.Hard,
+                Source = new ArithmeticCompositeEffect
+                {
+                    MultiplyAmount = 0,
+                    Source1Amount = 0.5f,
+                    Source2Amount = 0.5f,
+                    Source1 = new CompositionEffectSourceParameter("backdropBrush"),
+                    Source2 = new ColorSourceEffect
+                    {
+                        //Color = Color.FromArgb(255, 245, 245, 245)
+                        Color = Color.FromArgb(255, 25, 25, 25)
+                    }
+                }
+            };
+
+            //  Create an instance of the effect and set its source to a CompositionBackdropBrush
+            var effectFactory = compositor.CreateEffectFactory(glassEffect);
+            var backdropBrush = compositor.CreateBackdropBrush();
+            var effectBrush = effectFactory.CreateBrush();
+
+            effectBrush.SetSourceParameter("backdropBrush", backdropBrush);
+
+            // Create a Visual to contain the frosted glass effect
+            var glassVisual = compositor.CreateSpriteVisual();
+            glassVisual.Brush = effectBrush;
+
+            // Add the blur as a child of the host in the visual tree
+            ElementCompositionPreview.SetElementChildVisual(rectBackgroundHide, glassVisual);
+
+            // Make sure size of glass host and glass visual always stay in sync
+            var bindSizeAnimation = compositor.CreateExpressionAnimation("hostVisual.Size");
+            bindSizeAnimation.SetReferenceParameter("hostVisual", hostVisual);
+
+            glassVisual.StartAnimation("Size", bindSizeAnimation);
+        }
+
+        void CanvasControl_Draw(CanvasControl sender, CanvasDrawEventArgs args)
+        {
+            args.DrawingSession.DrawEllipse(155, 115, 80, 30, Colors.Black, 3);
+            args.DrawingSession.DrawText("Hello, world!", 100, 100, Colors.Yellow);
+        }
+
     }
 }
