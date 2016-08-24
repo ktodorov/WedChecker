@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace WedChecker.UserControls
 {
-    public sealed partial class PurchaseToggleControl : UserControl, IStorableTask, INotifyPropertyChanged
+    public sealed partial class PricedToggleControl : UserControl, IStorableTask, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public void RaiseProperty(string name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
@@ -70,7 +70,7 @@ namespace WedChecker.UserControls
             }
         }
 
-        public PurchaseToggleControl()
+        public PricedToggleControl()
         {
             this.InitializeComponent();
             this.DataContext = this;

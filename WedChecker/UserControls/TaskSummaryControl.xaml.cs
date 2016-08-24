@@ -59,9 +59,9 @@ namespace WedChecker.UserControls
                     finishedPanel.Visibility = Visibility.Visible;
                 }
 
-                if (populatedTask is IPurchaseableTask)
+                if (populatedTask is IPricedTask)
                 {
-                    var purchaseValue = (populatedTask as IPurchaseableTask).GetPurchasedItemsValue();
+                    var purchaseValue = (populatedTask as IPricedTask).GetPurchasedItemsValue();
                     if (purchaseValue > 0)
                     {
                         tbPurchaseValue.Text = purchaseValue.ToCurrency();

@@ -25,7 +25,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace WedChecker.UserControls.Tasks.Purchases
 {
-    public abstract partial class PurchaseTaskBaseControl : BaseTaskControl, ICompletableTask, IPurchaseableTask
+    public abstract partial class PurchaseTaskBaseControl : BaseTaskControl, ICompletableTask, IPricedTask
     {
         public override string TaskName
         {
@@ -134,34 +134,34 @@ namespace WedChecker.UserControls.Tasks.Purchases
             }
         }
 
-        public List<PurchaseToggleControl> Toggles
+        public List<PricedToggleControl> Toggles
         {
             get
             {
-                var toggles = new List<PurchaseToggleControl>();
+                var toggles = new List<PricedToggleControl>();
                 if (hasCategories)
                 {
                     var categoryPanels = ItemsPanel.Children.OfType<StackPanel>().ToList();
 
                     foreach (var categoryPanel in categoryPanels)
                     {
-                        toggles.AddRange(categoryPanel.Children.OfType<PurchaseToggleControl>().ToList());
+                        toggles.AddRange(categoryPanel.Children.OfType<PricedToggleControl>().ToList());
                     }
                 }
                 else
                 {
-                    toggles = ItemsPanel.Children.OfType<PurchaseToggleControl>().ToList();
+                    toggles = ItemsPanel.Children.OfType<PricedToggleControl>().ToList();
                 }
 
                 return toggles;
             }
         }
 
-        public Dictionary<string, List<PurchaseToggleControl>> TogglesByCategories
+        public Dictionary<string, List<PricedToggleControl>> TogglesByCategories
         {
             get
             {
-                var result = new Dictionary<string, List<PurchaseToggleControl>>();
+                var result = new Dictionary<string, List<PricedToggleControl>>();
                 if (hasCategories)
                 {
                     var categoryPanels = ItemsPanel.Children.OfType<StackPanel>().ToList();
@@ -170,7 +170,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
                     {
                         var categoryNameBlock = categoryPanel.Children.OfType<TextBlock>().FirstOrDefault();
                         var categoryName = categoryNameBlock.Text;
-                        var toggles = categoryPanel.Children.OfType<PurchaseToggleControl>().ToList();
+                        var toggles = categoryPanel.Children.OfType<PricedToggleControl>().ToList();
                         if (!result.ContainsKey(categoryName))
                         {
                             result.Add(categoryName, toggles);
@@ -183,7 +183,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
                 }
                 else
                 {
-                    var toggles = ItemsPanel.Children.OfType<PurchaseToggleControl>().ToList();
+                    var toggles = ItemsPanel.Children.OfType<PricedToggleControl>().ToList();
                     result.Add(string.Empty, toggles);
                 }
 
@@ -215,7 +215,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
 
                 foreach (var item in itemsList)
                 {
-                    var toggle = new PurchaseToggleControl();
+                    var toggle = new PricedToggleControl();
                     toggle.Title = item;
                     AddToggle(toggle, categoryPosition);
                 }
@@ -259,7 +259,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
                         writer.Write("Category");
                     }
 
-                    var toggles = categoryPanel.Children.OfType<PurchaseToggleControl>().ToList();
+                    var toggles = categoryPanel.Children.OfType<PricedToggleControl>().ToList();
                     writer.Write(toggles.Count);
                     foreach (var toggle in toggles)
                     {
@@ -269,7 +269,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
             }
             else
             {
-                var toggles = ItemsPanel.Children.OfType<PurchaseToggleControl>();
+                var toggles = ItemsPanel.Children.OfType<PricedToggleControl>();
                 writer.Write(toggles.Count());
                 foreach (var toggle in toggles)
                 {
@@ -290,8 +290,8 @@ namespace WedChecker.UserControls.Tasks.Purchases
 
                     for (var j = 0; j < count; j++)
                     {
-                        var toggle = new PurchaseToggleControl();
-                        toggle.Deserialize(reader);
+                        var toggle = new PricedToggleControl();
+                        await toggle.Deserialize(reader);
                         var categoryPosition = FindIndex(type);
                         AddToggle(toggle, categoryPosition);
                     }
@@ -303,8 +303,8 @@ namespace WedChecker.UserControls.Tasks.Purchases
 
                 for (var j = 0; j < count; j++)
                 {
-                    var toggle = new PurchaseToggleControl();
-                        toggle.Deserialize(reader);
+                    var toggle = new PricedToggleControl();
+                    await toggle.Deserialize(reader);
                     AddToggle(toggle);
                 }
             }
@@ -347,7 +347,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
             ItemsPanel.Children.Add(categoryPanel);
         }
 
-        protected void AddToggle(PurchaseToggleControl toggle, int? category = null)
+        protected void AddToggle(PricedToggleControl toggle, int? category = null)
         {
             if (!StoredItems.Any(il => il.Contains(toggle.Title)))
             {
@@ -363,13 +363,13 @@ namespace WedChecker.UserControls.Tasks.Purchases
                 }
 
                 var categoryPanel = allPanels.ElementAt(category.Value);
-                var allToggles = categoryPanel.Children.OfType<PurchaseToggleControl>();
+                var allToggles = categoryPanel.Children.OfType<PricedToggleControl>();
 
                 if (allToggles.Any(t => t.Title == toggle.Title))
                 {
-                    categoryPanel.Children.OfType<PurchaseToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).Toggled = toggle.Toggled;
-                    categoryPanel.Children.OfType<PurchaseToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).PurchaseValue = toggle.PurchaseValue;
-                    categoryPanel.Children.OfType<PurchaseToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).StoredPurchaseValue = toggle.StoredPurchaseValue;
+                    categoryPanel.Children.OfType<PricedToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).Toggled = toggle.Toggled;
+                    categoryPanel.Children.OfType<PricedToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).PurchaseValue = toggle.PurchaseValue;
+                    categoryPanel.Children.OfType<PricedToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).StoredPurchaseValue = toggle.StoredPurchaseValue;
                     return;
                 }
 
@@ -377,13 +377,13 @@ namespace WedChecker.UserControls.Tasks.Purchases
             }
             else
             {
-                var allToggles = ItemsPanel.Children.OfType<PurchaseToggleControl>();
+                var allToggles = ItemsPanel.Children.OfType<PricedToggleControl>();
 
                 if (allToggles.Any(t => t.Title == toggle.Title))
                 {
-                    ItemsPanel.Children.OfType<PurchaseToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).Toggled = toggle.Toggled;
-                    ItemsPanel.Children.OfType<PurchaseToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).PurchaseValue = toggle.PurchaseValue;
-                    ItemsPanel.Children.OfType<PurchaseToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).StoredPurchaseValue = toggle.StoredPurchaseValue;
+                    ItemsPanel.Children.OfType<PricedToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).Toggled = toggle.Toggled;
+                    ItemsPanel.Children.OfType<PricedToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).PurchaseValue = toggle.PurchaseValue;
+                    ItemsPanel.Children.OfType<PricedToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).StoredPurchaseValue = toggle.StoredPurchaseValue;
                     return;
                 }
 

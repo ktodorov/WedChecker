@@ -13,7 +13,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace WedChecker.UserControls.Tasks.Bookings
 {
-    public partial class BookTaskBaseControl : BaseTaskControl, ICompletableTask
+    public partial class BookTaskBaseControl : BaseTaskControl, ICompletableTask, IPricedTask
     {
         public override string TaskName
         {
@@ -110,7 +110,7 @@ namespace WedChecker.UserControls.Tasks.Bookings
 
             foreach (var accomodationPlace in StoredItems)
             {
-                var toggle = new ToggleControl();
+                var toggle = new PricedToggleControl();
                 toggle.Title = accomodationPlace;
                 AddToggle(toggle);
             }
@@ -119,7 +119,7 @@ namespace WedChecker.UserControls.Tasks.Bookings
 
         public override void DisplayValues()
         {
-            var toggles = ItemsPanel.Children.OfType<ToggleControl>();
+            var toggles = ItemsPanel.Children.OfType<PricedToggleControl>();
             foreach (var toggle in toggles)
             {
                 toggle.DisplayValues();
@@ -128,7 +128,7 @@ namespace WedChecker.UserControls.Tasks.Bookings
 
         public override void EditValues()
         {
-            var toggles = ItemsPanel.Children.OfType<ToggleControl>();
+            var toggles = ItemsPanel.Children.OfType<PricedToggleControl>();
             foreach (var toggle in toggles)
             {
                 toggle.EditValues();
@@ -137,7 +137,7 @@ namespace WedChecker.UserControls.Tasks.Bookings
 
         public override void Serialize(BinaryWriter writer)
         {
-            var toggles = ItemsPanel.Children.OfType<ToggleControl>();
+            var toggles = ItemsPanel.Children.OfType<PricedToggleControl>();
             writer.Write(toggles.Count());
             foreach (var toggle in toggles)
             {
@@ -151,8 +151,8 @@ namespace WedChecker.UserControls.Tasks.Bookings
 
             for (var i = 0; i < count; i++)
             {
-                var toggle = new ToggleControl();
-                toggle.Deserialize(reader);
+                var toggle = new PricedToggleControl();
+                await toggle.Deserialize(reader);
 
                 AddToggle(toggle);
             }
@@ -160,28 +160,30 @@ namespace WedChecker.UserControls.Tasks.Bookings
 
         public int GetCompletedItems()
         {
-            var completedToggles = ItemsPanel.Children.OfType<ToggleControl>().Where(t => t.Toggled);
+            var completedToggles = ItemsPanel.Children.OfType<PricedToggleControl>().Where(t => t.Toggled);
             return completedToggles.Count();
         }
 
         public int GetUncompletedItems()
         {
-            var uncompletedToggles = ItemsPanel.Children.OfType<ToggleControl>().Where(t => !t.Toggled);
+            var uncompletedToggles = ItemsPanel.Children.OfType<PricedToggleControl>().Where(t => !t.Toggled);
             return uncompletedToggles.Count();
         }
 
-        protected void AddToggle(ToggleControl toggle)
+        protected void AddToggle(PricedToggleControl toggle)
         {
             if (!StoredItems.Contains(toggle.Title))
             {
                 return;
             }
 
-            var allToggles = ItemsPanel.Children.OfType<ToggleControl>();
+            var allToggles = ItemsPanel.Children.OfType<PricedToggleControl>();
 
             if (allToggles.Any(t => t.Title == toggle.Title))
             {
-                ItemsPanel.Children.OfType<ToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).Toggled = toggle.Toggled;
+                ItemsPanel.Children.OfType<PricedToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).Toggled = toggle.Toggled;
+                ItemsPanel.Children.OfType<PricedToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).PurchaseValue = toggle.PurchaseValue;
+                ItemsPanel.Children.OfType<PricedToggleControl>().FirstOrDefault(t => t.Title == toggle.Title).StoredPurchaseValue = toggle.StoredPurchaseValue;
                 return;
             }
 
@@ -190,12 +192,19 @@ namespace WedChecker.UserControls.Tasks.Bookings
 
         protected override void LoadTaskDataAsText(StringBuilder sb)
         {
-            var toggles = ItemsPanel.Children.OfType<ToggleControl>().ToList();
+            var toggles = ItemsPanel.Children.OfType<PricedToggleControl>().ToList();
             foreach (var toggle in toggles)
             {
                 var toggleText = toggle.GetDataAsText();
                 sb.AppendLine(toggleText);
             }
+        }
+
+        public double GetPurchasedItemsValue()
+        {
+            var toggles = ItemsPanel.Children.OfType<PricedToggleControl>().ToList();
+            var purchaseValue = toggles.Where(t => t.Toggled && t.PurchaseValue.HasValue).Sum(t => t.PurchaseValue.Value);
+            return purchaseValue;
         }
     }
 }

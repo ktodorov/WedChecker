@@ -6,6 +6,7 @@ using WedChecker.Common;
 using WedChecker.Extensions;
 using WedChecker.Interfaces;
 using WedChecker.UserControls.Tasks;
+using WedChecker.UserControls.Tasks.Bookings;
 using WedChecker.UserControls.Tasks.Purchases;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -48,13 +49,14 @@ namespace WedChecker.UserControls
                     switch (taskCategory)
                     {
                         case TaskCategories.Booking:
-                            var bookingTask = populatedTask as ICompletableTask;
+                            var bookingTask = populatedTask as BookTaskBaseControl;
                             if (bookingTask != null)
                             {
                                 var booked = bookingTask.GetCompletedItems();
                                 var unbooked = bookingTask.GetUncompletedItems();
                                 bookedCount += booked;
                                 bookingsCount += booked + unbooked;
+                                budgetUsed += bookingTask.GetPurchasedItemsValue();
                             }
                             else
                             {
