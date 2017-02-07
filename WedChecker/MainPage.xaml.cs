@@ -115,7 +115,15 @@ namespace WedChecker
         public MainPage()
         {
             this.InitializeComponent();
-            InitializeFrostedGlass();
+            try
+            {
+                InitializeFrostedGlass();
+            }
+            catch
+            {
+                // If we're here, that probably means user system doesn't support aero glass effects
+                // No matter the reason, we continue without glass effects
+            }
 
             Loaded += MainPage_Loaded;
 
@@ -737,11 +745,6 @@ namespace WedChecker
         private void cancelSelectAppBarButton_Click(object sender, RoutedEventArgs e)
         {
             LeaveSelectionMode();
-        }
-
-        private void test_Click(object sender, RoutedEventArgs e)
-        {
-            InitializeFrostedGlass();
         }
 
         private void InitializeFrostedGlass()
