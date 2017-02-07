@@ -58,9 +58,12 @@ namespace WedChecker.Pages
 
         public void UpdateTasks(List<BaseTaskControl> controls)
         {
-            tbGreetUser.Text = $"Hello, {Core.GetSetting("Name")}";
+            tbGreetUser.Text = $"Hello, {AppData.GetRoamingSetting<string>("Name")}";
             tbGreetUser.Visibility = Visibility.Visible;
-            tbCountdownTimer.Visibility = Visibility.Visible;
+            if (!tbCountdownTimer.WeddingHasPassed)
+            {
+                tbCountdownTimer.Visibility = Visibility.Visible;
+            }
 
             tasksSummary.LoadTasksData(controls);
         }

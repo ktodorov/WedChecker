@@ -61,23 +61,23 @@ namespace WedChecker.Common
             }
         }
 
-        public static void SetSetting(string key, object value)
-        {
-            //LocalSettings.Values[key] = value;
-            RoamingSettings.Values[key] = value;
-        }
+        //public static void SetSetting(string key, object value)
+        //{
+        //    //LocalSettings.Values[key] = value;
+        //    RoamingSettings.Values[key] = value;
+        //}
 
-        public static object GetSetting(string key)
-        {
-            object result = null;
+        //public static object GetSetting(string key)
+        //{
+        //    object result = null;
 
-            if (RoamingSettings.Values.ContainsKey(key))
-            {
-                result = RoamingSettings.Values[key];
-            }
+        //    if (RoamingSettings.Values.ContainsKey(key))
+        //    {
+        //        result = RoamingSettings.Values[key];
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
         public static bool IsFirstLaunch()
         {
@@ -125,12 +125,12 @@ namespace WedChecker.Common
 
         public static void UpdateAppTheme(AppTheme theme)
         {
-            Core.SetSetting("AppTheme", (int)theme);
+            AppData.InsertRoamingSetting("AppTheme", (int)theme);
         }
 
         public static AppTheme GetAppTheme()
         {
-            var themeNumber = Core.GetSetting("AppTheme") as int?;
+            var themeNumber = AppData.GetRoamingSetting<int?>("AppTheme");
 
             if (themeNumber.HasValue)
             {

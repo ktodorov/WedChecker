@@ -1,1 +1,1 @@
-C:\Users\kztod\Source\Repos\WedChecker\WedChecker\AppPackages\WedChecker_2.3.0.0\WedChecker_2.3.0.0_x86_x64_arm.appxbundle
+C:\Users\kztod\Source\Repos\WedChecker\WedChecker\AppPackages\WedChecker_2.3.3.0\WedChecker_2.3.3.0_x86_x64_arm.appxbundle

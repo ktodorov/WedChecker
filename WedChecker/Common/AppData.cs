@@ -41,6 +41,8 @@ namespace WedChecker.Common
             }
         }
 
+        private static Dictionary<string, object> roamingCache = new Dictionary<string, object>();
+
         public static AddedTasks AllTasks = new AddedTasks();
 
         private static DateTime? _weddingDate;
@@ -89,7 +91,7 @@ namespace WedChecker.Common
                 }
                 _guests = value;
             }
-        }
+        }   
 
         private static double? _plannedBudget;
         public static double? PlannedBudget
@@ -167,6 +169,15 @@ namespace WedChecker.Common
             {
                 Core.RoamingSettings.Values[setting] = value;
             }
+
+            if (roamingCache.ContainsKey(setting))
+            {
+                roamingCache[setting] = value;
+            }
+            else
+            {
+                roamingCache.Add(setting, value);
+            }
         }
 
         public static void InsertLocalSetting(string setting, object value)
@@ -179,6 +190,11 @@ namespace WedChecker.Common
 
         public static T GetRoamingSetting<T>(string setting)
         {
+            if (roamingCache.ContainsKey(setting) && roamingCache[setting] is T)
+            {
+                return (T)roamingCache[setting];
+            }
+
             if (Core.RoamingSettings.Values.ContainsKey(setting) && Core.RoamingSettings.Values[setting] is T)
             {
                 return (T)Core.RoamingSettings.Values[setting];
@@ -202,6 +218,11 @@ namespace WedChecker.Common
             if (Core.RoamingSettings.Values.ContainsKey(setting))
             {
                 Core.RoamingSettings.Values.Remove(setting);
+            }
+
+            if (roamingCache.ContainsKey(setting))
+            {
+                roamingCache.Remove(setting);
             }
         }
 

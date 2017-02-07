@@ -28,7 +28,7 @@ namespace WedChecker.UserControls
                 tbError.Text = string.Empty;
             }
 
-            Core.SetSetting("Name", NameTextBox.Text);
+            AppData.InsertRoamingSetting("Name", NameTextBox.Text);
             mainPivot.IsLocked = false;
             mainPivot.SelectedIndex = 1;
 
@@ -41,7 +41,7 @@ namespace WedChecker.UserControls
             var weddingDate = new DateTime(dpWeddingDate.Date.Year, dpWeddingDate.Date.Month, dpWeddingDate.Date.Day,
                                                tpWeddingDate.Time.Hours, tpWeddingDate.Time.Minutes, 0);
 
-            Core.SetSetting("WeddingDate", weddingDate.ToString());
+            AppData.InsertRoamingSetting("WeddingDate", weddingDate.ToString());
 
             AppData.InsertRoamingSetting("FirstLaunch", false);
             AppData.InsertRoamingSetting("HighPriority", true);

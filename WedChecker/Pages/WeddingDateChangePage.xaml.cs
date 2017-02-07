@@ -85,7 +85,7 @@ namespace WedChecker.Pages
                 return;
             }
 
-            Core.SetSetting("WeddingDate", weddingDate.ToString());
+            AppData.InsertRoamingSetting("WeddingDate", weddingDate.ToString());
 
             currentDateTextBlock.Text = weddingDate.ToString("dd MMMM, yyyy, HH:mm");
 

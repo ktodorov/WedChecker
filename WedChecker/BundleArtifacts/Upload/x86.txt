@@ -1,2 +1,2 @@
-MainPackage=C:\Users\kztod\Source\Repos\WedChecker\WedChecker\bin\x86\Release\Upload\WedChecker_2.3.0.0_x86.appx
-SymbolPackage=C:\Users\kztod\Source\Repos\WedChecker\WedChecker\AppPackages\WedChecker_2.3.0.0\WedChecker_2.3.0.0_x86.appxsym
+MainPackage=C:\Users\kztod\Source\Repos\WedChecker\WedChecker\bin\x86\Release\Upload\WedChecker_2.3.3.0_x86.appx
+SymbolPackage=C:\Users\kztod\Source\Repos\WedChecker\WedChecker\AppPackages\WedChecker_2.3.3.0\WedChecker_2.3.3.0_x86.appxsym
