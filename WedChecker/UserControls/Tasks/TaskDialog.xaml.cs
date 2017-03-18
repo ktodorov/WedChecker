@@ -18,7 +18,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace WedChecker.UserControls.Tasks
 {
-	public class TileCategory
+	class TileCategory
 	{
 		public string Title { get; set; }
 		public List<TaskTileControl> Tiles { get; set; }
