@@ -7,9 +7,11 @@ This is a Windows 10 universal windows application, allowing you to plan your we
 
 ### Minimum
      - Windows 10 or Windows 10 Mobile (Version >= 10.0.10240)
+     - Architecture: ARM, x86, x64
 
 ### Recommended
     - Windows 10 or Windows 10 Mobile (Version >= 10.0.14393)
+    - Architecture: ARM, x86, x64
 
 ## Functionalities
 
@@ -43,7 +45,7 @@ Every task has unique interface. For example, the honeymoon task contains descri
 
 You can install the app from the windows store
 
-<a href="https://www.microsoft.com/store/apps/9nblggh2rnm2?ocid=badge" title='Download WedChecker'><img src="https://assets.windowsphone.com/f2f77ec7-9ba9-4850-9ebe-77e366d08adc/English_Get_it_Win_10_InvariantCulture_Default.png" alt="Get it on Windows 10" style='width: 250px;' /></a>
+<a href="https://www.microsoft.com/store/apps/9nblggh2rnm2?ocid=badge" title='Download WedChecker'><img src="https://assets.windowsphone.com/f2f77ec7-9ba9-4850-9ebe-77e366d08adc/English_Get_it_Win_10_InvariantCulture_Default.png" alt="Get it on Windows 10" style='max-width: 250px;' /></a>
 
 ## License
 
