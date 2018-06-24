@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WedChecker.Common
+namespace WedChecker.Business.Models.Enums
 {
 	public enum TaskCategories
 	{

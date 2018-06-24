@@ -1,4 +1,5 @@
-﻿using WedChecker.Common;
+﻿using WedChecker.Business.Models.Enums;
+using WedChecker.Common;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

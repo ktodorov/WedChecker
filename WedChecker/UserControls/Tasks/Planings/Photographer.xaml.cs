@@ -40,7 +40,7 @@ namespace WedChecker.UserControls.Tasks.Plannings
         {
             get
             {
-                return TaskData.Tasks.Photographer.ToString();
+                return Business.Models.Enums.Tasks.Photographer.ToString();
             }
         }
 

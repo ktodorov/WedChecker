@@ -45,7 +45,7 @@ namespace WedChecker.UserControls.Tasks.Plannings
         {
             get
             {
-                return TaskData.Tasks.RestaurantFood.ToString();
+                return Business.Models.Enums.Tasks.RestaurantFood.ToString();
             }
         }
 

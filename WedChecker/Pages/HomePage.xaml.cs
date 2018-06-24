@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using WedChecker.Business.Models.Enums;
 using WedChecker.Common;
 using WedChecker.Interfaces;
 using WedChecker.UserControls.Tasks;

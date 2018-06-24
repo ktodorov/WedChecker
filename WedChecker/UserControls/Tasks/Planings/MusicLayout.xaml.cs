@@ -41,7 +41,7 @@ namespace WedChecker.UserControls.Tasks.Plannings
         {
             get
             {
-                return TaskData.Tasks.MusicLayout.ToString();
+                return Business.Models.Enums.Tasks.MusicLayout.ToString();
             }
         }
 

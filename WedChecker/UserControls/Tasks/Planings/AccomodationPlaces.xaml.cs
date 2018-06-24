@@ -54,7 +54,7 @@ namespace WedChecker.UserControls.Tasks.Plannings
         {
             get
             {
-                return TaskData.Tasks.AccomodationPlaces.ToString();
+                return Business.Models.Enums.Tasks.AccomodationPlaces.ToString();
             }
         }
 

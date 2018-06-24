@@ -38,7 +38,7 @@ namespace WedChecker.UserControls.Tasks.Bookings
         {
             get
             {
-                return TaskData.Tasks.BookHairdresserMakeupArtistAppointments.ToString();
+                return Business.Models.Enums.Tasks.BookHairdresserMakeupArtistAppointments.ToString();
             }
         }
 

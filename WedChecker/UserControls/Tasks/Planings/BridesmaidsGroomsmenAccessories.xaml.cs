@@ -47,7 +47,7 @@ namespace WedChecker.UserControls.Tasks.Plannings
         {
             get
             {
-                return TaskData.Tasks.BridesmaidsGroomsmenAccessories.ToString();
+                return Business.Models.Enums.Tasks.BridesmaidsGroomsmenAccessories.ToString();
             }
         }
 

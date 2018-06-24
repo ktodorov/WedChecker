@@ -70,7 +70,7 @@ namespace WedChecker.UserControls.Tasks.Plannings
         {
             get
             {
-                return TaskData.Tasks.WeddingBudget.ToString();
+                return Business.Models.Enums.Tasks.WeddingBudget.ToString();
             }
         }
 

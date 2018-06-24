@@ -42,7 +42,7 @@ namespace WedChecker.UserControls.Tasks.Plannings
         {
             get
             {
-                return TaskData.Tasks.ForeignGuestsAccomodation.ToString();
+                return Business.Models.Enums.Tasks.ForeignGuestsAccomodation.ToString();
             }
         }
 

@@ -12,6 +12,7 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml.Input;
 using System.Threading.Tasks;
 using WedChecker.Pages;
+using WedChecker.Business.Models.Enums;
 
 #if WINDOWS_PHONE_APP
 using Windows.Phone.UI.Input;

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using WedChecker.Business.Models.Enums;
 using WedChecker.Common;
 using WedChecker.Helpers;
 using WedChecker.Infrastructure;

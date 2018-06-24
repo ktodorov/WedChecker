@@ -57,7 +57,7 @@ namespace WedChecker.UserControls.Tasks.Bookings
         {
             get
             {
-                return TaskData.Tasks.BookGuestsAccomodation.ToString();
+                return Business.Models.Enums.Tasks.BookGuestsAccomodation.ToString();
             }
         }
     }

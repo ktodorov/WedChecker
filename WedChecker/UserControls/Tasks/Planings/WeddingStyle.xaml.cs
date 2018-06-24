@@ -43,7 +43,7 @@ namespace WedChecker.UserControls.Tasks.Plannings
         {
             get
             {
-                return TaskData.Tasks.WeddingStyle.ToString();
+                return Business.Models.Enums.Tasks.WeddingStyle.ToString();
             }
         }
 

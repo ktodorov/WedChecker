@@ -56,7 +56,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
         {
             get
             {
-                return TaskData.Tasks.PurchaseRestaurantFood.ToString();
+                return Business.Models.Enums.Tasks.PurchaseRestaurantFood.ToString();
             }
         }
     }

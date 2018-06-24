@@ -66,16 +66,16 @@ namespace WedChecker.Common
             return parent as TType;
         }
 
-		public static FrameworkElement FindAncestorByName(this FrameworkElement element, string elementName)
-		{
-			var parent = element.Parent as FrameworkElement;
+        public static FrameworkElement FindAncestorByName(this FrameworkElement element, string elementName)
+        {
+            var parent = element.Parent as FrameworkElement;
 
-			while (parent != null && parent.Name != elementName)
-			{
-				parent = parent.Parent as FrameworkElement;
-			}
+            while (parent != null && parent.Name != elementName)
+            {
+                parent = parent.Parent as FrameworkElement;
+            }
 
-			return parent;
-		}
-	}
+            return parent;
+        }
+    }
 }

@@ -61,7 +61,7 @@ namespace WedChecker.UserControls.Tasks.Plannings
         {
             get
             {
-                return TaskData.Tasks.GuestsList.ToString();
+                return Business.Models.Enums.Tasks.GuestsList.ToString();
             }
         }
 

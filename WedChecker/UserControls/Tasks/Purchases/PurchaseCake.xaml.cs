@@ -47,7 +47,7 @@ namespace WedChecker.UserControls.Tasks.Purchases
         {
             get
             {
-                return TaskData.Tasks.PurchaseCake.ToString();
+                return Business.Models.Enums.Tasks.PurchaseCake.ToString();
             }
         }
     }

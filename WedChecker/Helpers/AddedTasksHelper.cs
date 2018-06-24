@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using WedChecker.Business.Models.Enums;
 using WedChecker.Common;
 using WedChecker.UserControls.Tasks;
 using WedChecker.UserControls.Tasks.Bookings;

@@ -39,7 +39,7 @@ namespace WedChecker.UserControls.Tasks.Bookings
         {
             get
             {
-                return TaskData.Tasks.SendInvitations.ToString();
+                return Business.Models.Enums.Tasks.SendInvitations.ToString();
             }
         }
 

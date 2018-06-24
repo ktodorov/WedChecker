@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using WedChecker.Business.Models.Enums;
 using WedChecker.Extensions;
 using WedChecker.UserControls.Elements;
 using WedChecker.UserControls.Tasks;
@@ -60,24 +61,6 @@ namespace WedChecker.Common
                 _currentTitleBar = value;
             }
         }
-
-        //public static void SetSetting(string key, object value)
-        //{
-        //    //LocalSettings.Values[key] = value;
-        //    RoamingSettings.Values[key] = value;
-        //}
-
-        //public static object GetSetting(string key)
-        //{
-        //    object result = null;
-
-        //    if (RoamingSettings.Values.ContainsKey(key))
-        //    {
-        //        result = RoamingSettings.Values[key];
-        //    }
-
-        //    return result;
-        //}
 
         public static bool IsFirstLaunch()
         {
@@ -186,16 +169,21 @@ namespace WedChecker.Common
             var currentAccentColorHex = Core.GetSystemAccentColor();
 
             // Navigate URI
-            var hyperlinkText = new Hyperlink();
-            hyperlinkText.NavigateUri = new Uri(navigateUri);
+            var hyperlinkText = new Hyperlink
+            {
+                NavigateUri = new Uri(navigateUri)
+            };
 
             // Inline text
-            var line = new Run();
-            line.Text = text;
+            var line = new Run
+            {
+                Text = text
+            };
+
             hyperlinkText.Inlines.Add(line);
 
             // Foreground
-            SolidColorBrush backColor = new SolidColorBrush(currentAccentColorHex);
+            var backColor = new SolidColorBrush(currentAccentColorHex);
             hyperlinkText.Foreground = backColor;
 
             return hyperlinkText;

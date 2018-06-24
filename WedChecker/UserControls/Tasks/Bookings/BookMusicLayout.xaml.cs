@@ -39,7 +39,7 @@ namespace WedChecker.UserControls.Tasks.Bookings
         {
             get
             {
-                return TaskData.Tasks.BookMusicLayout.ToString();
+                return Business.Models.Enums.Tasks.BookMusicLayout.ToString();
             }
         }
 

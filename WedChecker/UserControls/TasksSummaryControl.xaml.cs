@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WedChecker.Business.Models.Enums;
 using WedChecker.Common;
 using WedChecker.Extensions;
 using WedChecker.Interfaces;
